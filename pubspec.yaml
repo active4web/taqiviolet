@@ -47,7 +47,10 @@ dev_dependencies:
   fluttertoast: ^8.0.8
   easy_localization: ^3.0.0
   flutter_launcher_icons: ^0.9.1
-
+  persistent_bottom_nav_bar: any
+  smooth_page_indicator: ^1.0.0+2
+  carousel_pro: ^1.0.0
+  carousel_slider: ^4.0.0
 
 flutter_icons:
   android: "launcher_icon"
@@ -85,12 +88,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+     - family: Tajawal
+       fonts:
+         - asset: assets/fonts/Tajawal/Tajawal-Regular.ttf
+         - asset: assets/fonts/Tajawal/Tajawal-Medium.ttf
+         - asset: assets/fonts/Tajawal/Tajawal-Bold.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

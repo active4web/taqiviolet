@@ -8,7 +8,6 @@ import 'network/remote/dio_helper.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 Future<void> main() async {
-  runApp(const MyApp());
   WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = MyBlocObserver();
   DioHelper.init();
@@ -17,7 +16,7 @@ Future<void> main() async {
   runApp(
     EasyLocalization(
         supportedLocales: [Locale('en'), Locale('ar'), Locale('it')],
-        startLocale: Locale('en'),
+        startLocale: Locale('ar'),
         saveLocale: true,
         path:
             'assets/languages', // <-- change the path of the translation files
@@ -41,9 +40,7 @@ class MyApp extends StatelessWidget {
           localizationsDelegates: context.localizationDelegates,
           supportedLocales: context.supportedLocales,
           locale: context.locale,
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-          ),
+          theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Tajawal'),
           home: HomeLayout()),
     );
   }

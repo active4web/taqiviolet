@@ -1,3 +1,11 @@
 {
-
+  "Home" : "casa",
+  "OffersAndDiscounts" : "Offerte e sconti",
+  "EnjoyOffersAndDiscounts" : "Goditi le offerte e gli sconti",
+  "DiscountsAndOffers" : "Sconti e offerte",
+  "SeeOffers" : "Vedi offerte",
+  "ShopNow": "Acquistare ora",
+  "OtherServices": "Altri servizi",
+  "ServiceName": "Nome del servizio",
+  "EnjoySpecialOffers": "Goditi offerte speciali"
 }

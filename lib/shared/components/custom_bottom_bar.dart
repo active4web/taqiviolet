@@ -28,14 +28,14 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 cubit.changeNavBar(value);
               },
               items: [
-                BottomNavigationBarItem(icon: Icon(Icons.menu), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.person), label: ''),
-                BottomNavigationBarItem(icon: SizedBox(), label: ''),
-                BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.chat_bubble_2), label: ''),
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.home), label: ''),
+                BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.chat_bubble_2), label: ''),
+                BottomNavigationBarItem(icon: SizedBox(), label: ''),
+                BottomNavigationBarItem(
+                    icon: Icon(CupertinoIcons.person), label: ''),
+                BottomNavigationBarItem(icon: Icon(Icons.menu), label: ''),
               ],
             ),
           ),
