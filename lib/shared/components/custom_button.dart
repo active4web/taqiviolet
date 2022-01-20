@@ -8,10 +8,16 @@ class CustomButton extends StatelessWidget {
     Key key,
     this.text,
     this.onTap,
+    this.gradient = kBlackGradient,
+    this.height = 40,
+    this.textColor = kLightGoldColor,
   }) : super(key: key);
 
   final String text;
+  final Gradient gradient;
+  final double height;
   final Function onTap;
+  final Color textColor;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -20,15 +26,13 @@ class CustomButton extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: 40,
+              height: height,
               decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                      colors: [Color(0xff4D4D4D), Colors.black], radius: 4),
-                  borderRadius: BorderRadius.circular(20)),
+                  gradient: gradient, borderRadius: BorderRadius.circular(35)),
               child: Center(
                   child: Text(
                 text,
-                style: TextStyle(color: kLightGoldColor),
+                style: TextStyle(color: textColor, fontWeight: FontWeight.w500),
               )),
             ),
           ),

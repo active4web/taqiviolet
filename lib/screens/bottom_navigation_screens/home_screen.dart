@@ -156,14 +156,16 @@ class OffersListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.20,
+      height: MediaQuery.of(context).size.height * 0.2,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) => Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.height * 0.30,
                 padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 10, horizontal: 1),
                 decoration: BoxDecoration(
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)],
                   borderRadius: BorderRadius.circular(10),
                   color: Colors.white,
                 ),

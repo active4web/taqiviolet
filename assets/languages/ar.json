@@ -7,7 +7,29 @@
   "ShopNow": "تسوق الان",
   "OtherServices": "خدمات اخرى",
   "ServiceName": "اسم الخدمة",
-  "EnjoySpecialOffers": "استمتع بعروض مميزة"
-
+  "EnjoySpecialOffers": "استمتع بعروض مميزة",
+  "AboutUs": "من نحن",
+  "SuccessStories": "قصص النجاح",
+  "Offers": "العروض",
+  "Shops": "المتاجر",
+  "Blog": "المدونة",
+  "Language": "اللغة",
+  "TermsAndConditions": "الشروط و الأحكام",
+  "TechnicalSupport": "الدعم الفني",
+  "ContactUs" : "اتصل بنا",
+  "LogOut": "الخروج",
+  "ChooseYourLanguage": "اختر لغتك المفضلة",
+  "Login": "تسجيل الدخول",
+  "UserName": "اسم المستخدم",
+  "Password": "كلمة المرور",
+  "ForgetPassword": "نسيت كلمة المرور؟",
+  "DoNotHaveAnAccount?": "ليس لديك حساب ؟ ",
+  "HaveAnAccount?": "لديك حساب ؟ ",
+  "SignUp": "انشاء حساب",
+  "LatestArticles": "أحدث المقالات",
+  "Articles": "المقالات",
+  "RequestHelp": "طلب مساعدة",
+  "CreateRequest": "انشاء طلب",
+  "Send": "ارسال"
 
 }

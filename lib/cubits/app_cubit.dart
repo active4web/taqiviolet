@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/app_states.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -14,7 +15,7 @@ class AppCubit extends Cubit<AppStates> {
     Scaffold(),
     Scaffold(),
     Scaffold(),
-    Scaffold(),
+    MenuScreen(),
   ];
 
   int selectedIndex = 0;

@@ -50,6 +50,7 @@ dev_dependencies:
   persistent_bottom_nav_bar: any
   smooth_page_indicator: ^1.0.0+2
   carousel_pro: ^1.0.0
+  flutter_phoenix: ^1.0.0
   carousel_slider: ^4.0.0
 
 flutter_icons:
