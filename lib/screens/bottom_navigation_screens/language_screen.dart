@@ -1,5 +1,6 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -72,13 +73,13 @@ class LanguageTile extends StatelessWidget {
     return ListTile(
       title: Text(language),
       leading: Container(
-        width: 30,
+        width: 40,
         height: 30,
         decoration: BoxDecoration(
           color: Colors.grey,
-          borderRadius: BorderRadius.circular(50),
+          borderRadius: BorderRadius.circular(5),
           image: DecorationImage(
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
             image: flag,
           ),
         ),
@@ -90,9 +91,11 @@ class LanguageTile extends StatelessWidget {
                   color: Colors.green,
                 )
               : SizedBox(),
-      onTap: () {
-        EasyLocalization.of(context).setLocale(Locale(localCode));
-        print(EasyLocalization.of(context).currentLocale);
+      onTap: () async {
+        await EasyLocalization.of(context).setLocale(Locale(localCode));
+        CacheHelper.setData(key: "language", value: localCode);
+        kLanguage = CacheHelper.getData('language');
+        print(localCode);
         Phoenix.rebirth(context);
       },
     );

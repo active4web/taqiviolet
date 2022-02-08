@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "125012533288",
+    "project_id": "safsofa-477c7",
+    "storage_bucket": "safsofa-477c7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:125012533288:android:cab3dadd833a272016151d",
+        "android_client_info": {
+          "package_name": "active4web.com.safsofa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "125012533288-2b1851h4a4qvpibsi16pnabinjmjr6id.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "active4web.com.safsofa",
+            "certificate_hash": "fd7465182e00b8502a67150639b042711da16cf2"
+          }
+        },
+        {
+          "client_id": "125012533288-pftadq2295ubuvfgjq6sg7uomjl55k4n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD8gTJfXRQHb3TuODL4TAhREy7r_p9zX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "125012533288-pftadq2295ubuvfgjq6sg7uomjl55k4n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

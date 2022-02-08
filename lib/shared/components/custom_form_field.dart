@@ -23,7 +23,7 @@ class CustomFormField extends StatelessWidget {
       //width: MediaQuery.of(context).size.width,
       // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-          color: Colors.white,
+          color: Color(0xffFAFAFA),
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
@@ -34,7 +34,6 @@ class CustomFormField extends StatelessWidget {
       child: TextFormField(
         controller: controller,
         obscureText: isSecured,
-        textDirection: TextDirection.rtl,
         keyboardType: inputType,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 20),

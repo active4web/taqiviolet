@@ -1,7 +1,14 @@
-import 'package:easy_localization/src/public_ext.dart';
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
+import 'package:safsofa/cubits/app_cubit.dart';
+import 'package:safsofa/cubits/auth_cubit.dart';
+import 'package:safsofa/cubits/auth_states.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
+import 'package:safsofa/screens/register_screens/select_language_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -11,111 +18,185 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import '../home_layout.dart';
 
 class SignupScreen extends StatelessWidget {
-  const SignupScreen({Key key}) : super(key: key);
+  SignupScreen({Key key}) : super(key: key);
 
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      resizeToAvoidBottomInset: false,
-      extendBodyBehindAppBar: true,
-      backgroundColor: Colors.transparent,
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage('assets/images/background image.png'),
-          ),
-        ),
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(30),
-            child: Column(
-              children: [
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.28,
-                ),
-                Text(
-                  'SignUp'.tr(),
-                  style: TextStyle(color: kLightGoldColor, fontSize: 32),
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                CustomTextFormField(
-                  hintText: 'UserName'.tr(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomPasswordFormField(
-                  hintText: 'Password'.tr(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return BlocConsumer<AuthCubit, AuthStates>(
+      listener: (context, state) {
+        if (state is SignupSuccessState) {
+          CacheHelper.setData(
+                  key: 'token',
+                  value: state.signupSuccessModel.result.clientData[0].token)
+              .then((value) {
+            kToken = CacheHelper.getData('token');
+            AppCubit.get(context).getCache();
+            navigateAndFinish(context, HomeLayout());
+            showToast(
+                text: state.signupSuccessModel.message, color: Colors.green);
+          });
+        } else if (state is SignupErrorState) {
+          showToast(text: state.errorMessage, color: Colors.red);
+        }
+      },
+      builder: (context, state) {
+        AuthCubit cubit = AuthCubit.get(context);
+        return Scaffold(
+          extendBody: true,
+          resizeToAvoidBottomInset: true,
+          extendBodyBehindAppBar: true,
+          backgroundColor: Colors.transparent,
+          body: Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/background image.png'),
+                  fit: BoxFit.cover),
+            ),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: Column(
                   children: [
-                    LanguageCircle(
-                      flag: AssetImage('assets/images/Arabia.png'),
-                      localCode: 'ar',
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.1,
                     ),
-                    LanguageCircle(
-                      flag: AssetImage('assets/images/English.png'),
-                      localCode: 'en',
+                    Text(
+                      'SignUp'.tr(),
+                      style: TextStyle(color: kLightGoldColor, fontSize: 32),
                     ),
-                    LanguageCircle(
-                      flag: AssetImage('assets/images/Italy.png'),
-                      localCode: 'it',
+                    SizedBox(
+                      height: 30,
                     ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Language'.tr(),
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
+                          LanguageChip(),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    CustomTextFormField(
+                      hintText: 'FullName'.tr(),
+                      controller: nameController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextFormField(
+                      hintText: 'Email'.tr(),
+                      keyboardType: TextInputType.emailAddress,
+                      controller: emailController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextFormField(
+                      hintText: 'Phone'.tr(),
+                      keyboardType: TextInputType.phone,
+                      controller: phoneController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextFormField(
+                      hintText: 'Address'.tr(),
+                      controller: addressController,
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    CustomPasswordFormField(
+                      hintText: 'Password'.tr(),
+                      controller: passwordController,
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    state is SignupLoadingState
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: kLightGoldColor,
+                            ),
+                          )
+                        : CustomButton(
+                            text: 'SignUp'.tr(),
+                            height: 50,
+                            gradient: kGoldGradient,
+                            textColor: Colors.black,
+                            onTap: () {
+                              if (nameController.text == '' ||
+                                  phoneController.text == '' ||
+                                  addressController.text == '' ||
+                                  emailController.text == '') {
+                                showToast(
+                                    text: 'تأكد من ملئ البيانات بشكل كامل',
+                                    color: Colors.red);
+                              } else if (passwordController.text.length < 6) {
+                                showToast(
+                                    text: 'Password must be longer than 5',
+                                    color: Colors.red);
+                              } else {
+                                cubit.signUp(
+                                  address: addressController.text,
+                                  email: emailController.text,
+                                  fullName: nameController.text,
+                                  phone: phoneController.text,
+                                  password: passwordController.text,
+                                  language: EasyLocalization.of(context)
+                                      .currentLocale
+                                      .toString(),
+                                );
+                              }
+                            },
+                          ),
+                    SizedBox(height: 30),
+                    InkWell(
+                      onTap: () {
+                        navigateTo(context, LoginScreen());
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'HaveAnAccount?'.tr(),
+                            style: TextStyle(color: Colors.white, fontSize: 12),
+                          ),
+                          Text(
+                            'Login'.tr(),
+                            style:
+                                TextStyle(color: kLightGoldColor, fontSize: 12),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
-                SizedBox(
-                  height: 30,
-                ),
-                CustomButton(
-                  text: 'SignUp'.tr(),
-                  height: 50,
-                  gradient: kGoldGradient,
-                  textColor: Colors.black,
-                  onTap: () {
-                    navigateTo(context, LoginScreen());
-                  },
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.15,
-                ),
-                InkWell(
-                  onTap: () {
-                    navigateTo(context, LoginScreen());
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'HaveAnAccount?'.tr(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
-                      ),
-                      Text(
-                        'Login'.tr(),
-                        style: TextStyle(color: kLightGoldColor, fontSize: 12),
-                      )
-                    ],
-                  ),
-                )
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
-class LanguageCircle extends StatelessWidget {
-  const LanguageCircle({
+class LanguageChip extends StatelessWidget {
+  const LanguageChip({
     Key key,
     this.localCode,
     this.flag,
@@ -127,22 +208,25 @@ class LanguageCircle extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        EasyLocalization.of(context).setLocale(Locale(localCode));
-        print(EasyLocalization.of(context).currentLocale);
-        Phoenix.rebirth(context);
+        navigateTo(context, SelectLanguageScreen());
       },
       child: Container(
         width: 40,
         height: 30,
         decoration: BoxDecoration(
           color: Colors.grey,
-          border:
-              EasyLocalization.of(context).currentLocale.toString() == localCode
-                  ? Border.all(color: kLightGoldColor, width: 1.5)
-                  : Border.all(color: Colors.transparent),
+          borderRadius: BorderRadius.circular(5),
+          // border: Border.all(color: Colors.white, width: 1),
           image: DecorationImage(
-            fit: BoxFit.cover,
-            image: flag,
+            fit: BoxFit.fill,
+            image: EasyLocalization.of(context).currentLocale.toString() == "ar"
+                ? AssetImage('assets/images/Arabia.png')
+                : EasyLocalization.of(context).currentLocale.toString() == "en"
+                    ? AssetImage('assets/images/English.png')
+                    : EasyLocalization.of(context).currentLocale.toString() ==
+                            "it"
+                        ? AssetImage('assets/images/Italy.png')
+                        : SizedBox(),
           ),
         ),
       ),

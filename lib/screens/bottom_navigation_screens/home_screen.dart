@@ -1,149 +1,227 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:safsofa/cubits/app_cubit.dart';
+import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/screens/display_products_screen.dart';
+import 'package:safsofa/screens/notifications_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_pro/carousel_pro.dart';
+import 'package:safsofa/shared/defaults.dart';
+
+import '../contractors_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color(0xfff6f6f6),
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text("Home".tr()),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(CupertinoIcons.bell),
-            onPressed: () {},
-          )
-        ],
-      ),
-      extendBodyBehindAppBar: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color(0xfff6f6f6)),
-              child: Carousel(
-                images: [
-                  ExactAssetImage("assets/images/panner1.png"),
-                  ExactAssetImage("assets/images/panner1.png"),
-                  ExactAssetImage("assets/images/panner1.png"),
-                ],
-                dotSize: 10,
-                dotSpacing: 20.0,
-                dotColor: Color(0xffF3E184),
-                indicatorBgPadding: 5.0,
-                dotBgColor: Colors.transparent,
-                animationCurve: Curves.easeIn,
-                borderRadius: true,
-                autoplay: false,
-                dotIncreaseSize: 1.2,
-                dotIncreasedColor: kDarkGoldColor,
-                noRadiusForIndicator: true,
-              ),
-            ),
-            SizedBox(
-              height: 20,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(child: HomeCard()),
-                    ],
+    return BlocBuilder<AppCubit, AppStates>(
+      builder: (context, state) {
+        AppCubit cubit = AppCubit.get(context);
+        return Scaffold(
+          backgroundColor: Color(0xfff6f6f6),
+          appBar: AppBar(
+            elevation: 0,
+            backgroundColor: Colors.black26,
+            iconTheme: IconThemeData(color: Colors.white),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                icon: Icon(CupertinoIcons.bell),
+                onPressed: () {
+                  navigateTo(context, NotificationsScreen());
+                },
+              )
+            ],
+          ),
+          extendBodyBehindAppBar: true,
+          body: cubit.homeScreenModel == null
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
+                )
+              : SingleChildScrollView(
+                  child: Column(
                     children: [
-                      Expanded(
-                        flex: 220,
-                        child: HomeCard(),
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        width: MediaQuery.of(context).size.width,
+                        decoration: BoxDecoration(color: Color(0xfff6f6f6)),
+                        child: Carousel(
+                          images: List.generate(
+                              cubit.homeScreenModel.result.mainOffers.length,
+                              (index) => Image(
+                                    image: NetworkImage(cubit.homeScreenModel
+                                        .result.mainOffers[index].image),
+                                    fit: BoxFit.cover,
+                                  )),
+                          dotSize: 10,
+                          dotSpacing: 20.0,
+                          dotColor: kLightGoldColor,
+                          // indicatorBgPadding: 5.0,
+                          dotBgColor: Colors.transparent,
+                          animationCurve: Curves.easeIn,
+                          borderRadius: true,
+                          autoplay: true,
+                          dotIncreaseSize: 1.2,
+                          dotIncreasedColor: kDarkGoldColor,
+                          noRadiusForIndicator: true,
+                        ),
                       ),
                       SizedBox(
-                        width: 10,
+                        height: 20,
                       ),
-                      Expanded(
-                        flex: 120,
-                        child: HomeCard(),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        flex: 120,
-                        child: HomeCard(),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: HomeCard(
+                                  index: 0,
+                                  cubit: cubit,
+                                  title: cubit.homeScreenModel.result
+                                      .allCategories[0].categoryName,
+                                  image: cubit.homeScreenModel.result
+                                      .allCategories[0].categoryImage,
+                                )),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 220,
+                                  child: HomeCard(
+                                    index: 1,
+                                    cubit: cubit,
+                                    title: cubit.homeScreenModel.result
+                                        .allCategories[1].categoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allCategories[1].categoryImage,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  flex: 120,
+                                  child: HomeCard(
+                                    index: 2,
+                                    cubit: cubit,
+                                    title: cubit.homeScreenModel.result
+                                        .allCategories[2].categoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allCategories[2].categoryImage,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 120,
+                                  child: HomeCard(
+                                    index: 3,
+                                    cubit: cubit,
+                                    title: cubit.homeScreenModel.result
+                                        .allCategories[3].categoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allCategories[3].categoryImage,
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  flex: 220,
+                                  child: HomeCard(
+                                    index: 4,
+                                    cubit: cubit,
+                                    title: cubit.homeScreenModel.result
+                                        .allCategories[4].categoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allCategories[4].categoryImage,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            ShowOffersCard(
+                              cubit: cubit,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Label(
+                              text: "OffersAndDiscounts".tr(),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            OffersListView(
+                              cubit: cubit,
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Label(
+                              text: 'OtherServices'.tr(),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: HomeCard(
+                                    title: cubit.homeScreenModel.result
+                                        .allFeatures[1].featureCategoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allFeatures[1].featureCategoryImage,
+                                    isFeature: true,
+                                    onTap: () {},
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: HomeCard(
+                                    title: cubit.homeScreenModel.result
+                                        .allFeatures[0].featureCategoryName,
+                                    image: cubit.homeScreenModel.result
+                                        .allFeatures[0].featureCategoryImage,
+                                    isFeature: true,
+                                    onTap: () {
+                                      navigateTo(context, ConstructorsScreen());
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                       SizedBox(
-                        width: 10,
-                      ),
-                      Expanded(
-                        flex: 220,
-                        child: HomeCard(),
-                      ),
+                        height: MediaQuery.of(context).size.height * 0.12,
+                      )
                     ],
                   ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  ShowOffersCard(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Label(
-                    text: "OffersAndDiscounts".tr(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  OffersListView(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Label(
-                    text: 'OtherServices'.tr(),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: HomeCard(),
-                      ),
-                      SizedBox(width: 10),
-                      Expanded(
-                        child: HomeCard(),
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.12,
-            )
-          ],
-        ),
-      ),
+                ),
+        );
+      },
     );
   }
 }
@@ -151,8 +229,10 @@ class HomeScreen extends StatelessWidget {
 class OffersListView extends StatelessWidget {
   const OffersListView({
     Key key,
+    this.cubit,
   }) : super(key: key);
 
+  final AppCubit cubit;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -175,22 +255,30 @@ class OffersListView extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                             image: DecorationImage(
-                                image: AssetImage('assets/images/dacey.png'))),
+                                fit: BoxFit.cover,
+                                image: NetworkImage(cubit.homeScreenModel.result
+                                    .allOffers[index].categoryImage))),
                       ),
+                    ),
+                    SizedBox(
+                      width: 10,
                     ),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            'EnjoySpecialOffers'.tr(),
-                            style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500),
+                            cubit.homeScreenModel.result.allOffers[index]
+                                    .smallDesc ??
+                                '',
+                            style: TextStyle(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            '50%OFF',
-                            style: TextStyle(fontWeight: FontWeight.bold),
+                            cubit.homeScreenModel.result.allOffers[index]
+                                .offerName,
+                            style: TextStyle(
+                                fontSize: 12, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                           ),
                           Container(
@@ -215,7 +303,7 @@ class OffersListView extends StatelessWidget {
           separatorBuilder: (context, index) => SizedBox(
                 width: 10,
               ),
-          itemCount: 5),
+          itemCount: cubit.homeScreenModel.result.allOffers.length),
     );
   }
 }
@@ -223,8 +311,10 @@ class OffersListView extends StatelessWidget {
 class ShowOffersCard extends StatelessWidget {
   const ShowOffersCard({
     Key key,
+    this.cubit,
   }) : super(key: key);
 
+  final AppCubit cubit;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -241,8 +331,13 @@ class ShowOffersCard extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: AssetImage('assets/images/chair1.png'))),
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                          cubit.homeScreenModel.result.mainOffer))),
             ),
+          ),
+          SizedBox(
+            width: 10,
           ),
           Expanded(
             flex: 3,
@@ -251,6 +346,7 @@ class ShowOffersCard extends StatelessWidget {
               children: [
                 Text(
                   'EnjoyOffersAndDiscounts'.tr(),
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                       color: kDarkGoldColor,
                       fontSize: 13,
@@ -278,22 +374,75 @@ class ShowOffersCard extends StatelessWidget {
 class HomeCard extends StatelessWidget {
   const HomeCard({
     Key key,
+    this.onTap,
+    this.title,
+    this.image,
+    this.index,
+    this.cubit,
+    this.isFeature = false,
   }) : super(key: key);
+
+  final Function onTap;
+  final String title;
+  final String image;
+  final int index;
+  final AppCubit cubit;
+  final bool isFeature;
+
+  Future<void> onPress(BuildContext context) async {
+    if (cubit.homeScreenModel.result.allCategories[index].totalDepartment > 0) {
+      cubit.getAllDepartments(
+          catId: cubit.homeScreenModel.result.allCategories[index].catId);
+      navigateTo(
+          context,
+          DisplayProductsScreen(
+            hasDepartments: true,
+            categoryName:
+                cubit.homeScreenModel.result.allCategories[index].categoryName,
+          ));
+    } else {
+      print(cubit.homeScreenModel.result.allCategories[index].catId);
+      cubit.getProducts(
+        catId: cubit.homeScreenModel.result.allCategories[index].catId,
+      );
+      navigateTo(
+          context,
+          DisplayProductsScreen(
+            hasDepartments: false,
+            categoryName:
+                cubit.homeScreenModel.result.allCategories[index].categoryName,
+          ));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height * 0.2,
-      padding: EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          color: Colors.black87, borderRadius: BorderRadius.circular(20)),
-      child: Column(
-        children: [
-          Text(
-            'ServiceName'.tr(),
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-        ],
+    return GestureDetector(
+      onTap: isFeature
+          ? onTap
+          : () {
+              onPress(context);
+            },
+      child: Container(
+        height: MediaQuery.of(context).size.height * 0.2,
+        padding: EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: Colors.black87,
+            image: DecorationImage(
+                fit: BoxFit.cover,
+                image: NetworkImage(
+                  image ?? 'https://bit.ly/34h4E7D',
+                )),
+            borderRadius: BorderRadius.circular(20)),
+        child: Column(
+          children: [
+            Text(
+              title,
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }

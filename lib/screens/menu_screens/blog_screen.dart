@@ -1,7 +1,9 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:safsofa/screens/blog_details_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 class BlogScreen extends StatelessWidget {
   const BlogScreen({Key key}) : super(key: key);
@@ -65,51 +67,57 @@ class ArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          decoration: BoxDecoration(
-              color: Colors.grey.shade300,
-              borderRadius: BorderRadius.circular(10)),
-        ),
-        Positioned(
-          bottom: 0,
-          right: 0,
-          left: 0,
-          child: Container(
-            padding: EdgeInsets.all(10),
+    return GestureDetector(
+      onTap: () {
+        navigateTo(context, BlogDetailsScreen());
+      },
+      child: Stack(
+        children: [
+          Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
-              color: Colors.black45,
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'عنوان المقالة ',
-                        style: TextStyle(color: Colors.white, fontSize: 11),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 5,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      '15-11-2021',
-                      style: TextStyle(color: Colors.white, fontSize: 8),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(10)),
           ),
-        )
-      ],
+          Positioned(
+            bottom: 0,
+            right: 0,
+            left: 0,
+            child: Container(
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(10)),
+                color: Colors.black45,
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'عنوان المقالة ',
+                          style: TextStyle(color: Colors.white, fontSize: 11),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        '15-11-2021',
+                        style: TextStyle(color: Colors.white, fontSize: 8),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }

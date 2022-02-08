@@ -10,32 +10,23 @@ class DescriptionTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5),
-      child: Container(
-        decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 0.5,
-              )
-            ]),
-        child: TextFormField(
-          textDirection: TextDirection.rtl,
-          controller: controller,
-          minLines: 3,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            hintTextDirection: TextDirection.rtl,
-            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            hintText: hintText,
-            isDense: true,
-            suffixIcon: suffixIcon,
-            // hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
-            border: InputBorder.none,
-          ),
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: Colors.grey)),
+      child: TextFormField(
+        controller: controller,
+        minLines: 4,
+        maxLines: maxLines,
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+          hintText: hintText,
+          hintStyle: TextStyle(fontSize: 13),
+          isDense: true,
+          suffixIcon: suffixIcon,
+          // hintStyle: TextStyle(fontSize: 12, color: Colors.grey),
+          border: InputBorder.none,
         ),
       ),
     );

@@ -17,11 +17,10 @@ class DioHelper {
     @required String url,
     Map<String, dynamic> query,
   }) async {
-    return await dio.get(url,
-        queryParameters: query,
-        options: Options(headers: {
-          'Authorization': 'bearer ${CacheHelper.getData('token')}'
-        }));
+    return await dio.get(
+      url,
+      queryParameters: query,
+    );
   }
 
   static Future<Response> postData({
@@ -32,9 +31,7 @@ class DioHelper {
     return dio.post(
       url,
       queryParameters: query,
-      data: data,
-      options: Options(
-          headers: {'Authorization': 'bearer ${CacheHelper.getData('token')}'}),
+      data: FormData.fromMap(data),
     );
   }
 }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
-const String kBaseURL = '';
+const String kBaseURL = 'https://safsfurniture.com/';
+String kToken = '';
+String kLanguage = 'ar';
 
 const Color kDarkGoldColor = Color(0xffBA8B31);
 const Color kLightGoldColor = Color(0xffF3E184);
+const Color kBGColor = Color(0xfff4f4f4);
 const Gradient kBlackGradient =
     RadialGradient(colors: [Color(0xff4D4D4D), Colors.black], radius: 4);
 const Gradient kGoldGradient =

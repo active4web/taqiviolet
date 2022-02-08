@@ -9,30 +9,30 @@ class CustomTextFormField extends StatelessWidget {
     Key key,
     this.hintText,
     this.icon,
-    this.isPass = false,
     this.controller,
+    this.keyboardType = TextInputType.text,
   }) : super(key: key);
 
   final String hintText;
   final IconData icon;
-  final bool isPass;
   final TextEditingController controller;
-
+  final TextInputType keyboardType;
   @override
   Widget build(BuildContext context) {
     return Container(
       //height: 50,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: TextFormField(
-        obscureText: isPass,
+        keyboardType: keyboardType,
         controller: controller,
         style: TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
+        cursorColor: Colors.white,
         decoration: InputDecoration(
           hintText: hintText,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(34)),
-          hintStyle: TextStyle(color: Colors.white, fontSize: 14),
+          hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
           filled: true,
           fillColor: Colors.white.withOpacity(0.4),
           isDense: true,
@@ -71,11 +71,13 @@ class CustomPasswordFormField extends StatelessWidget {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
             child: TextFormField(
               controller: controller,
+              cursorColor: Colors.white,
+              keyboardType: TextInputType.visiblePassword,
               obscureText: cubit.showPassword,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: TextStyle(color: Colors.white, fontSize: 14),
+                hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
                 suffixIcon: IconButton(
                   icon: Icon(
                     cubit.passwordIcon,

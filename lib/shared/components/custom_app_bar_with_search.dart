@@ -9,9 +9,11 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBarWithSearch({
     Key key,
     this.title,
+    this.withFilter = false,
   }) : super(key: key);
 
   final String title;
+  final bool withFilter;
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
@@ -33,19 +35,21 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Row(
               children: [
-                Container(
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                      color: kDarkGoldColor,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Icon(
-                    CupertinoIcons.line_horizontal_3_decrease,
-                    color: Colors.white,
-                  ),
-                ),
+                withFilter
+                    ? Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                            color: kDarkGoldColor,
+                            borderRadius: BorderRadius.circular(10)),
+                        child: Icon(
+                          CupertinoIcons.line_horizontal_3_decrease,
+                          color: Colors.white,
+                        ),
+                      )
+                    : SizedBox(),
                 SizedBox(
-                  width: 10,
+                  width: withFilter ? 10 : 0,
                 ),
                 Expanded(child: CustomSearchBar()),
               ],

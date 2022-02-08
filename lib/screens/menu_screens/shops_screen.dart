@@ -13,6 +13,7 @@ class ShopsScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBarWithSearch(
         title: 'Shops'.tr(),
+        withFilter: true,
       ),
       body: SingleChildScrollView(
         child: Padding(
