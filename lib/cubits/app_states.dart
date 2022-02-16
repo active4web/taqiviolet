@@ -54,8 +54,26 @@ class ChangeIconColor extends AppStates {}
 
 class AddReviewLoadingState extends AppStates {}
 
-class AddReviewSuccessState extends AppStates {}
+class AddReviewSuccessState extends AppStates {
+  AddReviewSuccessState({this.message});
+  final String message;
+}
 
-class AddReviewErrorState extends AppStates {}
+class AddReviewErrorState extends AppStates {
+  AddReviewErrorState({this.message});
+  final String message;
+}
 
 class PickImageSuccessState extends AppStates {}
+
+class GetProductReviewsLoadingState extends AppStates {}
+
+class GetProductReviewsSuccessState extends AppStates {}
+
+class GetProductReviewsErrorState extends AppStates {}
+
+class GetAllNotificationsLoadingState extends AppStates {}
+
+class GetAllNotificationsSuccessState extends AppStates {}
+
+class GetAllNotificationsErrorState extends AppStates {}

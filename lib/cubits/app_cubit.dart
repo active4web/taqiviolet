@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,7 +9,9 @@ import 'package:safsofa/cubits/app_states.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favourites_products_model.dart';
 import 'package:safsofa/models/home_screen_model.dart';
+import 'package:safsofa/models/notifications_list_model.dart';
 import 'package:safsofa/models/product_details_model.dart';
+import 'package:safsofa/models/product_reviews_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
@@ -91,6 +94,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  Map<int, bool> favourites = {};
   ProductsModel productsModel;
   void getProducts({int catId}) {
     emit(GetProductsLoadingState());
@@ -103,6 +107,10 @@ class AppCubit extends Cubit<AppStates> {
       "page_number": 0
     }).then((value) {
       productsModel = ProductsModel.fromJson(value.data);
+      productsModel.result.allProducts.forEach((element) {
+        favourites.addAll({element.prodId: element.isFav});
+      });
+      print(favourites.toString());
       // print(value.data["result"]["all_products"]);
       if (value.data["status"] == true) {
         emit(GetProductsSuccessState());
@@ -134,6 +142,10 @@ class AppCubit extends Cubit<AppStates> {
         moreProducts = ProductsModel.fromJson(value.data);
         productsModel.result.allProducts
             .addAll(moreProducts.result.allProducts);
+        productsModel.result.allProducts.forEach((element) {
+          favourites.addAll({element.prodId: element.isFav});
+        });
+        print(favourites.toString());
         emit(LoadMoreSuccessState());
       } else if (productsModel.total ==
           productsModel.result.allProducts.length) {
@@ -158,6 +170,9 @@ class AppCubit extends Cubit<AppStates> {
       "page_number": 0
     }).then((value) {
       favouritesModel = FavouritesProductsModel.fromJson(value.data);
+      favouritesModel.result.allFavourites.forEach((element) {
+        favourites.addAll({element.prodId: element.isFav});
+      });
       if (value.data["status"] == true) {
         emit(GetFavouritesSuccessState());
       } else if (value.data["status"] == false) {
@@ -169,7 +184,28 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  // Icon favIcon = Icon(
+  //   Icons.favorite_border_rounded,
+  //   color: Colors.grey,
+  // );
+  // void changeFavIcon({bool isFavourite}) {
+  //   bool isFav = isFavourite;
+  //   isFav = !isFav;
+  //   favIcon = isFav
+  //       ? Icon(
+  //           Icons.favorite_rounded,
+  //           color: Color(0xffFE9C8F),
+  //         )
+  //       : Icon(
+  //           Icons.favorite_border_rounded,
+  //           color: Colors.grey,
+  //         );
+  //   emit(ChangeIconColor());
+  // }
+
   void updateFavourite({bool isFav, int prodId}) {
+    favourites[prodId] = !favourites[prodId];
+    emit(UpdateFavouriteSuccessState());
     print(prodId);
     print(isFav ? 1 : 2);
     DioHelper.postData(url: 'user_api/update_myfavorite', data: {
@@ -184,6 +220,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(UpdateFavouriteSuccessState());
         getFavouritesProducts();
       } else if (value.data["status"] == false) {
+        favourites[prodId] = !favourites[prodId];
         emit(UpdateFavouriteErrorState());
       }
     }).catchError((error) {
@@ -213,13 +250,13 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void addReview(
+  Future<void> addReview(
       {int productId,
       int rating,
       String comment,
       File image1,
       File image2,
-      File image3}) {
+      File image3}) async {
     emit(AddReviewLoadingState());
     DioHelper.postData(url: 'user_api/add_review', data: {
       "key": 1234567890,
@@ -228,16 +265,72 @@ class AppCubit extends Cubit<AppStates> {
       "prod_id": productId,
       "rating": rating,
       "comment": comment,
-      "img1": image1,
-      "img2": image2,
-      "img3": image3,
+      "img1": image1 != null
+          ? await MultipartFile.fromFile(image1.path,
+              filename: image1.path.split('/').last)
+          : null,
+      "img2": image2 != null
+          ? await MultipartFile.fromFile(image2.path,
+              filename: image2.path.split('/').last)
+          : null,
+      "img3": image3 != null
+          ? await MultipartFile.fromFile(image3.path,
+              filename: image3.path.split('/').last)
+          : null,
     }).then((value) {
+      print(value.data);
       if (value.data["status"] == true) {
-        emit(AddReviewSuccessState());
+        emit(AddReviewSuccessState(message: value.data["message"]));
       } else
-        emit(AddReviewErrorState());
+        emit(AddReviewErrorState(message: value.data["message"]));
     }).catchError((error) {
-      emit(AddReviewErrorState());
+      emit(AddReviewErrorState(message: error.toString()));
+      print(error);
+    });
+  }
+
+  ProductReviewsModel productReviewsModel;
+  void getProductReviews({int productId}) {
+    emit(GetProductReviewsLoadingState());
+    DioHelper.postData(url: 'user_api/get_all_rate', data: {
+      "key": 1234567890,
+      "lang": kLanguage,
+      "token_id": kToken,
+      "prod_id": productId,
+      "limit": 0,
+      "page_number": 0
+    }).then((value) {
+      print(value.data);
+      productReviewsModel = ProductReviewsModel.fromJson(value.data);
+      if (value.data["status"] == true) {
+        productReviewsModel = ProductReviewsModel.fromJson(value.data);
+        emit(GetProductReviewsSuccessState());
+      } else
+        emit(GetProductReviewsErrorState());
+    }).catchError((error) {
+      emit(GetProductReviewsErrorState());
+      print(error);
+    });
+  }
+
+  NotificationsListModel notificationsListModel;
+  void getAllNotifications() {
+    emit(GetAllNotificationsLoadingState());
+    DioHelper.postData(url: 'pages/get_list_notifications', data: {
+      "key": 1234567890,
+      "lang": kLanguage,
+      "token_id": kToken,
+      "limit": 0,
+      "page_number": 0
+    }).then((value) {
+      print(value.data);
+      if (value.data["status"] == true) {
+        notificationsListModel = NotificationsListModel.fromJson(value.data);
+        emit(GetAllNotificationsSuccessState());
+      } else
+        emit(GetAllNotificationsErrorState());
+    }).catchError((error) {
+      emit(GetAllNotificationsErrorState());
       print(error);
     });
   }
@@ -245,8 +338,15 @@ class AppCubit extends Cubit<AppStates> {
   void fetchData() async {
     getCache();
     getHomeScreen();
+    getAllNotifications();
     getFavouritesProducts();
   }
+
+  File file1;
+
+  File file2;
+
+  File file3;
 
   Future<XFile> pickImage(file) async {
     final ImagePicker _picker = ImagePicker();

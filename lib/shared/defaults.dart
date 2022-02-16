@@ -1,11 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:safsofa/shared/constants.dart';
+
+import 'components/custom_button.dart';
 
 void navigateTo(BuildContext context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -41,46 +41,55 @@ Future<bool> showToast({
       fontSize: 16.0);
 }
 
-// void showAlertDialogWithAction(
-//     {BuildContext context,
-//     String message,
-//     Color messageColor = kLightGoldColor,
-//     String imagePath,
-//     String buttonText,
-//     Function action}) {
-//   showDialog(
-//     context: context,
-//     builder: (context) => AlertDialog(
-//       backgroundColor: Color(0xffF8F8F8),
-//       contentPadding: EdgeInsets.all(40),
-//       content: Container(
-//         height: MediaQuery.of(context).size.height * 0.5,
-//         child: Column(
-//           mainAxisSize: MainAxisSize.min,
-//           mainAxisAlignment: MainAxisAlignment.spaceAround,
-//           children: [
-//             Image(image: AssetImage(imagePath)),
-//             SizedBox(
-//               height: 20,
-//             ),
-//             Text(
-//               message,
-//               style: TextStyle(fontSize: 18, color: messageColor),
-//               textDirection: TextDirection.rtl,
-//             ),
-//             SizedBox(
-//               height: 20,
-//             ),
-//             CustomButton(
-//               onTab: action,
-//               label: buttonText,
-//             )
-//           ],
-//         ),
-//       ),
-//     ),
-//   );
-// }
+void showAlertDialogWithAction(
+    {BuildContext context,
+    String message,
+    Color messageColor = kLightGoldColor,
+    String imagePath,
+    String buttonText,
+    Function action}) {
+  showDialog(
+    context: context,
+    builder: (context) => AlertDialog(
+      backgroundColor: Color(0xffF8F8F8),
+      contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      content: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Text(
+              message,
+              style: TextStyle(
+                  fontSize: 20,
+                  color: messageColor,
+                  fontWeight: FontWeight.w500),
+              textDirection: TextDirection.rtl,
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.12,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(imagePath),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: 40,
+            ),
+            CustomButton(
+              onTap: action,
+              text: buttonText,
+            )
+          ],
+        ),
+      ),
+    ),
+  );
+}
 
 Future<dynamic> showCustomBottomSheet({BuildContext context, Widget content}) {
   return showModalBottomSheet(

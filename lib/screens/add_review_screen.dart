@@ -9,23 +9,39 @@ import 'package:safsofa/cubits/app_states.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_image_picker.dart';
 import 'package:safsofa/shared/components/description_text_field.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 import '../cubits/app_cubit.dart';
 import '../shared/components/custom_button.dart';
 import '../shared/components/custom_label.dart';
 
-class AddReviewScreen extends StatelessWidget {
-  const AddReviewScreen({Key key}) : super(key: key);
+class AddReviewScreen extends StatefulWidget {
+  AddReviewScreen({Key key, this.prodId}) : super(key: key);
+
+  final int prodId;
+  @override
+  State<AddReviewScreen> createState() => _AddReviewScreenState();
+}
+
+class _AddReviewScreenState extends State<AddReviewScreen> {
+  XFile xFile1;
+
+  XFile xFile2;
+
+  XFile xFile3;
+
+  XFile imageFile1;
+
+  XFile imageFile2;
+
+  XFile imageFile3;
+
+  TextEditingController commentController = new TextEditingController();
+
+  double rating = 0;
 
   @override
   Widget build(BuildContext context) {
-    XFile xFile1;
-    XFile xFile2;
-    XFile imageFile1;
-    XFile imageFile2;
-    File file1;
-    File file2;
-    double rating = 0;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
@@ -33,14 +49,36 @@ class AddReviewScreen extends StatelessWidget {
       ),
       body: BlocConsumer<AppCubit, AppStates>(
         listener: (context, state) {
-          // TODO: implement listener
+          AppCubit cubit = AppCubit.get(context);
+          if (state is AddReviewSuccessState) {
+            cubit.file1 = null;
+            cubit.file2 = null;
+            cubit.file3 = null;
+            cubit.getProductReviews(productId: widget.prodId);
+            showAlertDialogWithAction(
+                message: state.message,
+                context: context,
+                imagePath: 'assets/images/AddReview.png',
+                messageColor: Colors.black,
+                buttonText: "Done".tr(),
+                action: () {
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                });
+          } else if (state is AddReviewErrorState) {
+            showToast(text: state.message, color: Colors.red);
+          }
         },
         builder: (context, state) {
+          AppCubit cubit = AppCubit.get(context);
           if (imageFile1 != null) {
-            file1 = File(imageFile1.path);
+            cubit.file1 = File(imageFile1.path);
           }
           if (imageFile2 != null) {
-            file2 = File(imageFile2.path);
+            cubit.file2 = File(imageFile2.path);
+          }
+          if (imageFile3 != null) {
+            cubit.file3 = File(imageFile3.path);
           }
           return SingleChildScrollView(
             child: Padding(
@@ -56,26 +94,24 @@ class AddReviewScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  StatefulBuilder(
-                    builder: (context, setState) => RatingBar.builder(
-                      initialRating: rating,
-                      minRating: 1,
-                      itemSize: 40,
-                      direction: Axis.horizontal,
-                      allowHalfRating: false,
-                      itemCount: 5,
-                      glowColor: Color(0xffF3E184),
-                      unratedColor: Color(0xffCFD8DC),
-                      itemPadding:
-                          EdgeInsets.symmetric(horizontal: 1, vertical: 5),
-                      onRatingUpdate: (value) {
-                        rating = value;
-                        setState(() {});
-                      },
-                      itemBuilder: (context, _) => Icon(
-                        Icons.star_rate_rounded,
-                        color: Color(0xffF3E184),
-                      ),
+                  RatingBar.builder(
+                    initialRating: rating,
+                    minRating: 1,
+                    itemSize: 40,
+                    direction: Axis.horizontal,
+                    allowHalfRating: false,
+                    itemCount: 5,
+                    glowColor: Color(0xffF3E184),
+                    unratedColor: Color(0xffCFD8DC),
+                    itemPadding:
+                        EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+                    onRatingUpdate: (value) {
+                      rating = value;
+                      setState(() {});
+                    },
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star_rate_rounded,
+                      color: Color(0xffF3E184),
                     ),
                   ),
                   SizedBox(
@@ -89,6 +125,7 @@ class AddReviewScreen extends StatelessWidget {
                   ),
                   DescriptionTextField(
                     hintText: "Write your comment on the product".tr(),
+                    controller: commentController,
                   ),
                   SizedBox(
                     height: 30,
@@ -102,19 +139,63 @@ class AddReviewScreen extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      CustomImagePicker(),
-                      CustomImagePicker(),
-                      CustomImagePicker(),
+                      CustomImagePicker(
+                        onTab: () async {
+                          await cubit.pickImage(cubit.file1).then((value) {
+                            setState(() {
+                              imageFile1 = value;
+                            });
+                          });
+                        },
+                        imageFile: imageFile1,
+                      ),
+                      CustomImagePicker(
+                        onTab: () async {
+                          await cubit.pickImage(cubit.file2).then((value) {
+                            setState(() {
+                              imageFile2 = value;
+                            });
+                          });
+                        },
+                        imageFile: imageFile2,
+                      ),
+                      CustomImagePicker(
+                        onTab: () async {
+                          await cubit.pickImage(cubit.file3).then((value) {
+                            setState(() {
+                              imageFile3 = value;
+                            });
+                          });
+                        },
+                        imageFile: imageFile3,
+                      ),
                     ],
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
-                  CustomButton(
-                    height: 50,
-                    text: 'AddReview'.tr(),
-                    onTap: () {},
-                  ),
+                  state is AddReviewLoadingState
+                      ? Center(
+                          child: CircularProgressIndicator(color: Colors.black),
+                        )
+                      : CustomButton(
+                          height: 50,
+                          text: 'AddReview'.tr(),
+                          onTap: () {
+                            // print(cubit.file1.path ?? '');
+                            // print(cubit.file2.path ?? '');
+                            // print(cubit.file3.path ?? '');
+                            cubit.addReview(
+                              comment: commentController.text,
+                              rating: rating.toInt(),
+                              productId: cubit.productDetailsModel.result
+                                  .serviceDetails[0].id,
+                              image1: cubit.file1,
+                              image2: cubit.file2,
+                              image3: cubit.file3,
+                            );
+                          },
+                        ),
                 ],
               ),
             ),

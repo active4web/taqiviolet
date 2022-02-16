@@ -1,8 +1,8 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/app_cubit.dart';
 import 'package:safsofa/cubits/app_states.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 
@@ -42,8 +42,8 @@ class FavouritesScreen extends StatelessWidget {
                                   crossAxisSpacing: 10),
                           itemBuilder: (context, index) => VerticalProductCard(
                             cubit: cubit,
-                            isFavourite: cubit.favouritesModel.result
-                                .allFavourites[index].isFav,
+                            isFavourite: cubit.favourites[cubit.favouritesModel
+                                .result.allFavourites[index].prodId],
                             totalRate: cubit.favouritesModel.result
                                 .allFavourites[index].totalRate,
                             image: cubit.favouritesModel.result

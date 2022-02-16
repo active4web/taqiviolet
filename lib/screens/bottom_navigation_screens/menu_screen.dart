@@ -7,12 +7,11 @@ import 'package:safsofa/screens/menu_screens/about_screen.dart';
 import 'package:safsofa/screens/menu_screens/blog_screen.dart';
 import 'package:safsofa/screens/menu_screens/contact_us_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
-import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
-import 'package:safsofa/screens/menu_screens/terms_and_conditions_screen.dart';
 import 'package:safsofa/screens/menu_screens/shops_screen.dart';
 import 'package:safsofa/screens/menu_screens/success_stories_screen.dart';
+import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
+import 'package:safsofa/screens/menu_screens/terms_and_conditions_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
-import 'package:safsofa/screens/register_screens/signup_screen.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -173,6 +172,7 @@ class MenuScreen extends StatelessWidget {
                       image: AssetImage('assets/images/log out.png'),
                       onTap: () {
                         CacheHelper.clearCache();
+                        kToken = null;
                         navigateAndFinish(context, LoginScreen());
                       },
                     ),

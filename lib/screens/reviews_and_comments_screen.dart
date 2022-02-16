@@ -15,13 +15,12 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: 'ReviewsAndComments'.tr(),
       ),
       body: BlocConsumer<AppCubit, AppStates>(
-        listener: (context, state) {
-          // TODO: implement listener
-        },
+        listener: (context, state) {},
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
           return SingleChildScrollView(
@@ -76,82 +75,118 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
                     height: 50,
                     text: 'AddReview'.tr(),
                     onTap: () {
-                      navigateTo(context, AddReviewScreen());
+                      navigateTo(
+                          context,
+                          AddReviewScreen(
+                            prodId: cubit.productDetailsModel.result
+                                .serviceDetails[0].id,
+                          ));
                     },
                   ),
                   SizedBox(
-                    height: 30,
+                    height: 40,
                   ),
-                  ListView.separated(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Column(
-                            children: [
-                              Row(
+                  cubit.productReviewsModel == null ||
+                          state is GetProductsLoadingState
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: Colors.black,
+                          ),
+                        )
+                      : ListView.separated(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => Column(
                                 children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        cubit.productReviewsModel.result
+                                            .allRates[index].username,
+                                        style: TextStyle(fontSize: 17),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      CustomRatingBar(
+                                        itemSize: 20,
+                                        rating: double.parse(cubit
+                                            .productReviewsModel
+                                            .result
+                                            .allRates[index]
+                                            .rateValue),
+                                      ),
+                                      Text(
+                                        cubit.productReviewsModel.result
+                                            .allRates[index].createdAt
+                                            .toString()
+                                            .substring(0, 10),
+                                        style: TextStyle(color: Colors.grey),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
                                   Text(
-                                    cubit.productDetailsModel.result
-                                        .allRate[index].username,
-                                    style: TextStyle(fontSize: 17),
+                                    // 'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق'
+                                    cubit.productReviewsModel.result
+                                        .allRates[index].comments,
+
+                                    style: TextStyle(
+                                        color: Colors.black87, fontSize: 15),
+                                  ),
+                                  SizedBox(
+                                    height: 20,
+                                  ),
+                                  GridView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    gridDelegate:
+                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 3,
+                                            crossAxisSpacing: 5,
+                                            mainAxisSpacing: 10,
+                                            childAspectRatio: 9 / 8),
+                                    itemBuilder: (context, ndx) => Container(
+                                      margin: EdgeInsets.symmetric(
+                                          vertical: 5, horizontal: 5),
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          boxShadow: [
+                                            BoxShadow(
+                                                color: Colors.black26,
+                                                blurRadius: 0.5)
+                                          ],
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: NetworkImage(cubit
+                                                  .productReviewsModel
+                                                  .result
+                                                  .allRates[index]
+                                                  .allSlider[ndx]
+                                                  .image)),
+                                          color: Colors.grey.shade400),
+                                    ),
+                                    itemCount: cubit.productReviewsModel.result
+                                        .allRates[index].allSlider.length,
                                   )
                                 ],
                               ),
-                              SizedBox(
-                                height: 5,
+                          separatorBuilder: (context, index) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                child: Divider(),
                               ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomRatingBar(
-                                    itemSize: 20,
-                                    rating: double.parse(cubit
-                                        .productDetailsModel
-                                        .result
-                                        .allRate[index]
-                                        .userrate),
-                                  ),
-                                  Text(
-                                    '22-06-2018',
-                                    style: TextStyle(color: Colors.grey),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                cubit.productDetailsModel.result.allRate[index]
-                                    .usercomment,
-                                style: TextStyle(
-                                    color: Colors.black54, fontSize: 17),
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
-                              GridView.builder(
-                                shrinkWrap: true,
-                                physics: NeverScrollableScrollPhysics(),
-                                gridDelegate:
-                                    SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 4,
-                                        crossAxisSpacing: 10,
-                                        mainAxisSpacing: 10,
-                                        childAspectRatio: 8 / 7),
-                                itemBuilder: (context, index) => Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.grey.shade400),
-                                ),
-                                itemCount: 4,
-                              )
-                            ],
-                          ),
-                      separatorBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 20),
-                            child: Divider(),
-                          ),
-                      itemCount:
-                          cubit.productDetailsModel.result.allRate.length)
+                          itemCount:
+                              cubit.productReviewsModel.result.allRates.length)
                 ],
               ),
             ),

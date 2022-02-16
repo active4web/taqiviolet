@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/app_cubit.dart';
 import 'package:safsofa/cubits/app_states.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:safsofa/shared/defaults.dart';
 
 class DisplayProductsScreen extends StatefulWidget {
   const DisplayProductsScreen({Key key, this.categoryName, this.hasDepartments})
@@ -176,8 +174,8 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                             itemBuilder: (context, index) =>
                                 VerticalProductCard(
                               cubit: cubit,
-                              isFavourite: cubit.productsModel.result
-                                  .allProducts[index].isFav,
+                              isFavourite: cubit.favourites[cubit.productsModel
+                                  .result.allProducts[index].prodId],
                               totalRate: cubit.productsModel.result
                                   .allProducts[index].totalRate,
                               image: cubit.productsModel.result
