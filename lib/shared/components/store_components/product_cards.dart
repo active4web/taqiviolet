@@ -47,8 +47,9 @@ class VerticalProductCard extends StatelessWidget {
                   child: Container(
                 decoration: BoxDecoration(
                   color: kBGColor,
-                  // image: DecorationImage(image: NetworkImage(image)),
-                  // borderRadius: BorderRadius.circular(10),
+
+                  image: DecorationImage(image: NetworkImage(image)),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               )),
               SizedBox(

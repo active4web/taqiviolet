@@ -24,13 +24,13 @@ class NotificationsScreen extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      // TextButton(
-                      //   child: Text(
-                      //     'DeleteAll'.tr(),
-                      //     style: TextStyle(color: Color(0xffD0021B)),
-                      //   ),
-                      //   onPressed: () {},
-                      // )
+                      TextButton(
+                        child: Text(
+                          'DeleteAll'.tr(),
+                          style: TextStyle(color: Color(0xffD0021B)),
+                        ),
+                        onPressed: () {},
+                      )
                     ],
                   ),
                   SizedBox(
