@@ -1,30 +1,39 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
-import 'package:safsofa/models/register_success_model.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/screens/favourites_screen.dart';
 import 'package:safsofa/screens/my_orders_screen.dart';
 import 'package:safsofa/screens/my_profile_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
-import 'package:safsofa/shared/components/custom_rating_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyAccountScreen extends StatelessWidget {
+class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({Key key}) : super(key: key);
+
+  @override
+  State<MyAccountScreen> createState() => _MyAccountScreenState();
+}
+
+class _MyAccountScreenState extends State<MyAccountScreen> {
+  @override
+  void initState() {
+    AppCubit.get(context).getCache();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        // ClientDatum userInfo = cubit.userInfo.result.clientData[0];
+        print("Data:${cubit.userInfo.data.name}");
         return kToken == null
             ? MoveToLoginScreen()
             : Scaffold(
@@ -46,13 +55,7 @@ class MyAccountScreen extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.2,
                         child: SizedBox(
                           height: MediaQuery.of(context).size.height * 0.05,
-                          child: cubit.userInfo == null
-                              ? Center(
-                                  child: CircularProgressIndicator(
-                                    color: Colors.white,
-                                  ),
-                                )
-                              : Row(
+                          child:  Row(
                                   children: [
                                     Container(
                                       // width: 50,
@@ -79,8 +82,7 @@ class MyAccountScreen extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: [
                                         Text(
-                                          cubit.userInfo.result.clientData[0]
-                                              .fullname,
+                                          cubit.userInfo.data.name,
                                           style: TextStyle(
                                               color: kLightGoldColor,
                                               fontSize: 17),
@@ -91,9 +93,7 @@ class MyAccountScreen extends StatelessWidget {
                                         Row(
                                           children: [
                                             Text(
-                                              cubit.userInfo.result
-                                                      .clientData[0].email ??
-                                                  '',
+                                              cubit.userInfo.data.email ?? '',
                                               style: TextStyle(
                                                   color: kLightGoldColor,
                                                   fontSize: 12),
@@ -102,8 +102,7 @@ class MyAccountScreen extends StatelessWidget {
                                               width: 30,
                                             ),
                                             Text(
-                                              cubit.userInfo.result
-                                                  .clientData[0].phone,
+                                              cubit.userInfo.data.phone,
                                               style: TextStyle(
                                                   color: kLightGoldColor,
                                                   fontSize: 12),
@@ -291,7 +290,7 @@ class MyAccountScreen extends StatelessWidget {
                         SizedBox(
                           height: 10,
                         ),
-                        showProductsGrid(count: 4, isFavourite: false),
+                        showProductsGrid(4, false),
                         SizedBox(
                           height: 20,
                         )
@@ -422,6 +421,7 @@ class TextChip extends StatelessWidget {
 
   final String text;
   final Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

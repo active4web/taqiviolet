@@ -1,8 +1,8 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/auth_cubit.dart';
-import 'package:safsofa/cubits/auth_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
+import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/register_screens/signup_screen.dart';
@@ -25,13 +25,13 @@ class LoginScreen extends StatelessWidget {
         if (state is LoginSuccessState) {
           CacheHelper.setData(
                   key: 'token',
-                  value: state.loginSuccessModel.result.clientData[0].token)
+                  value: state.loginSuccessModel.data.token)
               .then((value) {
             kToken = CacheHelper.getData('token');
             AppCubit.get(context).getCache();
             navigateAndFinish(context, HomeLayout());
             showToast(
-                text: state.loginSuccessModel.message, color: Colors.green);
+                text: state.loginSuccessModel.msg, color: Colors.green);
           });
         } else if (state is LoginErrorState) {
           showToast(text: state.errorMessage, color: Colors.red);
@@ -50,6 +50,7 @@ class LoginScreen extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/images/background image.png'),
+                fit: BoxFit.cover,
               ),
             ),
             child: SingleChildScrollView(

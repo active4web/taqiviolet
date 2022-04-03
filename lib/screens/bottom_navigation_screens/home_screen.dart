@@ -1,9 +1,11 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:flutter/services.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/screens/display_products_screen.dart';
+import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/notifications_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -13,6 +15,7 @@ import 'package:carousel_pro/carousel_pro.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../contractors_screen.dart';
+import '../searchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
@@ -22,24 +25,58 @@ class HomeScreen extends StatelessWidget {
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
+        state is AppInitial ?? cubit.fetchData();
         return Scaffold(
           backgroundColor: Color(0xfff6f6f6),
           appBar: AppBar(
+            systemOverlayStyle: SystemUiOverlayStyle(
+                statusBarColor: Colors.transparent,
+                statusBarIconBrightness: Brightness.dark),
             elevation: 0,
-            backgroundColor: Colors.black26,
+            backgroundColor: Colors.transparent,
             iconTheme: IconThemeData(color: Colors.white),
             centerTitle: true,
             actions: [
-              IconButton(
-                icon: Icon(CupertinoIcons.bell),
-                onPressed: () {
-                  navigateTo(context, NotificationsScreen());
-                },
-              )
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Container(
+                  height: 20,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: IconButton(
+                    icon: Icon(CupertinoIcons.search),
+                    onPressed: () {
+                      navigateTo(context, SearchScreen());
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: Container(
+                  height: 20,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: IconButton(
+                    icon: Icon(CupertinoIcons.bell),
+                    onPressed: () {
+                      navigateTo(context, NotificationsScreen());
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
           extendBodyBehindAppBar: true,
-          body: cubit.homeScreenModel == null
+          body: cubit.homeScreenMainCatModel == null ||
+                  cubit.homeScreenMainCatBannerModel == null ||
+                  cubit.offerModel == null
               ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
@@ -54,10 +91,10 @@ class HomeScreen extends StatelessWidget {
                         decoration: BoxDecoration(color: Color(0xfff6f6f6)),
                         child: Carousel(
                           images: List.generate(
-                              cubit.homeScreenModel.result.mainOffers.length,
+                              cubit.homeBannersList.length,
                               (index) => Image(
-                                    image: NetworkImage(cubit.homeScreenModel
-                                        .result.mainOffers[index].image),
+                                    image: NetworkImage(
+                                        cubit.homeBannersList[index].image),
                                     fit: BoxFit.cover,
                                   )),
                           dotSize: 10,
@@ -86,10 +123,8 @@ class HomeScreen extends StatelessWidget {
                                     child: HomeCard(
                                   index: 0,
                                   cubit: cubit,
-                                  title: cubit.homeScreenModel.result
-                                      .allCategories[0].categoryName,
-                                  image: cubit.homeScreenModel.result
-                                      .allCategories[0].categoryImage,
+                                  title: cubit.homeMainCatList[0].name,
+                                  image: cubit.homeMainCatList[0].image,
                                 )),
                               ],
                             ),
@@ -103,10 +138,9 @@ class HomeScreen extends StatelessWidget {
                                   child: HomeCard(
                                     index: 1,
                                     cubit: cubit,
-                                    title: cubit.homeScreenModel.result
-                                        .allCategories[1].categoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allCategories[1].categoryImage,
+                                    title: cubit.homeMainCatList[1].name,
+                                    //cubit.homeMainCatList[1].name.ar,
+                                    image: cubit.homeMainCatList[1].image,
                                   ),
                                 ),
                                 SizedBox(
@@ -117,10 +151,9 @@ class HomeScreen extends StatelessWidget {
                                   child: HomeCard(
                                     index: 2,
                                     cubit: cubit,
-                                    title: cubit.homeScreenModel.result
-                                        .allCategories[2].categoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allCategories[2].categoryImage,
+                                    title: cubit.homeMainCatList[2].name,
+                                    //cubit.homeMainCatList[1].name.ar,
+                                    image: cubit.homeMainCatList[2].image,
                                   ),
                                 ),
                               ],
@@ -135,10 +168,9 @@ class HomeScreen extends StatelessWidget {
                                   child: HomeCard(
                                     index: 3,
                                     cubit: cubit,
-                                    title: cubit.homeScreenModel.result
-                                        .allCategories[3].categoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allCategories[3].categoryImage,
+                                    title: cubit.homeMainCatList[3].name,
+                                    //cubit.homeMainCatList[1].name.ar,
+                                    image: cubit.homeMainCatList[3].image,
                                   ),
                                 ),
                                 SizedBox(
@@ -149,10 +181,9 @@ class HomeScreen extends StatelessWidget {
                                   child: HomeCard(
                                     index: 4,
                                     cubit: cubit,
-                                    title: cubit.homeScreenModel.result
-                                        .allCategories[4].categoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allCategories[4].categoryImage,
+                                    title: cubit.homeMainCatList[4].name,
+                                    //cubit.homeMainCatList[1].name.ar,
+                                    image: cubit.homeMainCatList[4].image,
                                   ),
                                 ),
                               ],
@@ -160,9 +191,7 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            ShowOffersCard(
-                              cubit: cubit,
-                            ),
+                            ShowOffersCard(),
                             SizedBox(
                               height: 20,
                             ),
@@ -184,33 +213,33 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: HomeCard(
-                                    title: cubit.homeScreenModel.result
-                                        .allFeatures[1].featureCategoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allFeatures[1].featureCategoryImage,
-                                    isFeature: true,
-                                    onTap: () {},
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Expanded(
-                                  child: HomeCard(
-                                    title: cubit.homeScreenModel.result
-                                        .allFeatures[0].featureCategoryName,
-                                    image: cubit.homeScreenModel.result
-                                        .allFeatures[0].featureCategoryImage,
-                                    isFeature: true,
-                                    onTap: () {
-                                      navigateTo(context, ConstructorsScreen());
-                                    },
-                                  ),
-                                ),
-                              ],
-                            )
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: HomeCard2(
+                            //         title: cubit.homeScreenModel.result
+                            //             .allFeatures[1].featureCategoryName,
+                            //         image: cubit.homeScreenModel.result
+                            //             .allFeatures[1].featureCategoryImage,
+                            //         isFeature: true,
+                            //         onTap: () {},
+                            //       ),
+                            //     ),
+                            //     SizedBox(width: 10),
+                            //     Expanded(
+                            //       child: HomeCard2(
+                            //         title: cubit.homeScreenModel.result
+                            //             .allFeatures[0].featureCategoryName,
+                            //         image: cubit.homeScreenModel.result
+                            //             .allFeatures[0].featureCategoryImage,
+                            //         isFeature: true,
+                            //         onTap: () {
+                            //           navigateTo(context, ConstructorsScreen());
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ],
+                            // )
                           ],
                         ),
                       ),
@@ -233,6 +262,7 @@ class OffersListView extends StatelessWidget {
   }) : super(key: key);
 
   final AppCubit cubit;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -256,8 +286,8 @@ class OffersListView extends StatelessWidget {
                         decoration: BoxDecoration(
                             image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: NetworkImage(cubit.homeScreenModel.result
-                                    .allOffers[index].categoryImage))),
+                                image: NetworkImage(
+                                    cubit.offerDataList[index].Image))),
                       ),
                     ),
                     SizedBox(
@@ -268,15 +298,12 @@ class OffersListView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            cubit.homeScreenModel.result.allOffers[index]
-                                    .smallDesc ??
-                                '',
+                            cubit.offerDataList[index].Title ?? '',
                             style: TextStyle(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            cubit.homeScreenModel.result.allOffers[index]
-                                .offerName,
+                            cubit.offerDataList[index].Content,
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
@@ -303,7 +330,7 @@ class OffersListView extends StatelessWidget {
           separatorBuilder: (context, index) => SizedBox(
                 width: 10,
               ),
-          itemCount: cubit.homeScreenModel.result.allOffers.length),
+          itemCount: cubit.offerDataList.length),
     );
   }
 }
@@ -311,10 +338,8 @@ class OffersListView extends StatelessWidget {
 class ShowOffersCard extends StatelessWidget {
   const ShowOffersCard({
     Key key,
-    this.cubit,
   }) : super(key: key);
 
-  final AppCubit cubit;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -330,10 +355,11 @@ class ShowOffersCard extends StatelessWidget {
             flex: 2,
             child: Container(
               decoration: BoxDecoration(
-                  image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                          cubit.homeScreenModel.result.mainOffer))),
+                image: DecorationImage(
+                  fit: BoxFit.cover,
+                  image: AssetImage("assets/images/chair1.png"),
+                ),
+              ),
             ),
           ),
           SizedBox(
@@ -361,6 +387,13 @@ class ShowOffersCard extends StatelessWidget {
                 ),
                 CustomButton(
                   text: 'SeeOffers'.tr(),
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => OffersScreen(),
+                      ),
+                    );
+                  },
                 )
               ],
             ),
@@ -390,29 +423,19 @@ class HomeCard extends StatelessWidget {
   final bool isFeature;
 
   Future<void> onPress(BuildContext context) async {
-    if (cubit.homeScreenModel.result.allCategories[index].totalDepartment > 0) {
-      cubit.getAllDepartments(
-          catId: cubit.homeScreenModel.result.allCategories[index].catId);
-      navigateTo(
-          context,
-          DisplayProductsScreen(
-            hasDepartments: true,
-            categoryName:
-                cubit.homeScreenModel.result.allCategories[index].categoryName,
-          ));
-    } else {
-      print(cubit.homeScreenModel.result.allCategories[index].catId);
-      cubit.getProducts(
-        catId: cubit.homeScreenModel.result.allCategories[index].catId,
-      );
-      navigateTo(
-          context,
-          DisplayProductsScreen(
-            hasDepartments: false,
-            categoryName:
-                cubit.homeScreenModel.result.allCategories[index].categoryName,
-          ));
-    }
+    // cubit.getAllDepartments(
+    //     catId: cubit.homeScreenModel.result.allCategories[index].catId);
+    print(cubit.homeMainCatList[index].id.toString());
+    print("-" * 100);
+    navigateTo(
+      context,
+      DisplayProductsScreen(
+        hasDepartments:
+            cubit.homeMainCatList[index].hasSubCategories == 1 ? true : false,
+        categoryName: cubit.homeMainCatList[index].name,
+        category_id: cubit.homeMainCatList[index].id.toString(),
+      ),
+    );
   }
 
   @override

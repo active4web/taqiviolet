@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/auth_cubit.dart';
-import 'package:safsofa/cubits/auth_states.dart';
+import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
+import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

@@ -1,8 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/app_States.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {

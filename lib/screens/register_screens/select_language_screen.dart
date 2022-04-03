@@ -56,7 +56,7 @@ class SelectLanguageScreen extends StatelessWidget {
               height: 50,
               text: 'Next'.tr(),
               onTap: () {
-                navigateTo(context, SignupScreen());
+                Navigator.of(context).pop();
               },
             )
           ],

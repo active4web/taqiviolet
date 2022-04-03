@@ -1,9 +1,9 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/auth_cubit.dart';
-import 'package:safsofa/cubits/auth_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
+import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/screens/register_screens/select_language_screen.dart';
@@ -25,27 +25,24 @@ class SignupScreen extends StatelessWidget {
   TextEditingController phoneController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthStates>(
-      listener: (context, state) {
+      listener: (context, state) {},
+      builder: (context, state) {
+        AuthCubit cubit = AuthCubit.get(context);
         if (state is SignupSuccessState) {
-          CacheHelper.setData(
-                  key: 'token',
-                  value: state.signupSuccessModel.result.clientData[0].token)
+          CacheHelper.setData(key: 'token', value: cubit.MobToken)
               .then((value) {
             kToken = CacheHelper.getData('token');
             AppCubit.get(context).getCache();
             navigateAndFinish(context, HomeLayout());
-            showToast(
-                text: state.signupSuccessModel.message, color: Colors.green);
+            showToast(text: "تم التسجيل بنجاح", color: Colors.green);
           });
         } else if (state is SignupErrorState) {
           showToast(text: state.errorMessage, color: Colors.red);
         }
-      },
-      builder: (context, state) {
-        AuthCubit cubit = AuthCubit.get(context);
         return Scaffold(
           extendBody: true,
           resizeToAvoidBottomInset: true,
@@ -142,7 +139,8 @@ class SignupScreen extends StatelessWidget {
                               if (nameController.text == '' ||
                                   phoneController.text == '' ||
                                   addressController.text == '' ||
-                                  emailController.text == '') {
+                                  emailController.text == '' ||
+                                  !emailController.text.contains("@")) {
                                 showToast(
                                     text: 'تأكد من ملئ البيانات بشكل كامل',
                                     color: Colors.red);
@@ -151,15 +149,23 @@ class SignupScreen extends StatelessWidget {
                                     text: 'Password must be longer than 5',
                                     color: Colors.red);
                               } else {
+                                print("""
+                                ${addressController.text},
+                                ${emailController.text},
+                                ${nameController.text},
+                                ${EasyLocalization.of(context).currentLocale.toString()},
+                                    ${phoneController.text}
+                                    ${cubit.MobToken}
+                                """);
                                 cubit.signUp(
-                                  address: addressController.text,
-                                  email: emailController.text,
-                                  fullName: nameController.text,
-                                  phone: phoneController.text,
-                                  password: passwordController.text,
-                                  language: EasyLocalization.of(context)
+                                  lang: EasyLocalization.of(context)
                                       .currentLocale
                                       .toString(),
+                                  name: nameController.text,
+                                  address: addressController.text,
+                                  email: emailController.text,
+                                  phone: phoneController.text,
+                                  password: passwordController.text,
                                 );
                               }
                             },
@@ -204,6 +210,7 @@ class LanguageChip extends StatelessWidget {
 
   final String localCode;
   final ImageProvider flag;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

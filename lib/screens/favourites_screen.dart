@@ -1,8 +1,8 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 
@@ -18,7 +18,8 @@ class FavouritesScreen extends StatelessWidget {
       body: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
-          return cubit.favouritesModel == null
+          return
+            cubit.favouritesModel == null
               ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
@@ -41,7 +42,7 @@ class FavouritesScreen extends StatelessWidget {
                                   mainAxisSpacing: 20,
                                   crossAxisSpacing: 10),
                           itemBuilder: (context, index) => VerticalProductCard(
-                            cubit: cubit,
+                            // cubit: cubit,
                             isFavourite: cubit.favourites[cubit.favouritesModel
                                 .result.allFavourites[index].prodId],
                             totalRate: cubit.favouritesModel.result

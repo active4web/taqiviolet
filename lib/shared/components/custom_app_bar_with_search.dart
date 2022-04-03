@@ -6,27 +6,37 @@ import '../constants.dart';
 import 'custom_search_bar.dart';
 
 class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
-  const CustomAppBarWithSearch({
+   CustomAppBarWithSearch({
     Key key,
     this.title,
+    this.colorAB=Colors.black,
     this.withFilter = false,
   }) : super(key: key);
 
   final String title;
+  Color colorAB;
   final bool withFilter;
+
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
       child: AppBar(
         elevation: 0,
-        backgroundColor: Colors.black,
+        backgroundColor: colorAB,
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
         ),
         title: Text(
           title,
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal),
+        ),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          color: Colors.white,
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
         ),
         centerTitle: true,
         bottom: PreferredSize(
@@ -40,7 +50,7 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
                         width: 40,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: kDarkGoldColor,
+                            color:  Colors.grey,
                             borderRadius: BorderRadius.circular(10)),
                         child: Icon(
                           CupertinoIcons.line_horizontal_3_decrease,

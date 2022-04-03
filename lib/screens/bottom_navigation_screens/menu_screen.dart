@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/language_screen.dart';
 import 'package:safsofa/screens/menu_screens/about_screen.dart';
-import 'package:safsofa/screens/menu_screens/blog_screen.dart';
+import 'package:safsofa/screens/menu_screens/blog_screens/blog_screen.dart';
 import 'package:safsofa/screens/menu_screens/contact_us_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
-import 'package:safsofa/screens/menu_screens/shops_screen.dart';
+import 'package:safsofa/screens/menu_screens/shops/shops_screen.dart';
 import 'package:safsofa/screens/menu_screens/success_stories_screen.dart';
 import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
 import 'package:safsofa/screens/menu_screens/terms_and_conditions_screen.dart';
@@ -201,6 +201,7 @@ class MenuTile extends StatelessWidget {
   final String label;
   final Function onTap;
   final ImageProvider image;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -212,21 +213,23 @@ class MenuTile extends StatelessWidget {
             color: Colors.black,
             border: Border.all(color: kLightGoldColor),
             borderRadius: BorderRadius.circular(10)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.05,
-              decoration: BoxDecoration(
-                  image: DecorationImage(
-                image: image,
-              )),
-            ),
-            Text(
-              label,
-              style: TextStyle(color: kLightGoldColor),
-            )
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height * 0.05,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                  image: image,
+                )),
+              ),
+              Text(
+                label,
+                style: TextStyle(color: kLightGoldColor),
+              )
+            ],
+          ),
         ),
       ),
     );
