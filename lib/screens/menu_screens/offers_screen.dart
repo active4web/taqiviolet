@@ -1,5 +1,7 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 
@@ -8,39 +10,57 @@ class OffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Offers'.tr(),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              BigOfferCard(),
-              SizedBox(
-                height: 20,
-              ),
-              OffersListView(),
-              SizedBox(
-                height: 20,
-              ),
-              BigOfferCard(),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+    return BlocConsumer<OfferCubit, OfferState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        var cubit = OfferCubit.get(context);
+        state is OfferInitial
+            ? cubit.getOfferData()
+            : print({cubit.allOffer[0].ID});
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: 'Offers'.tr(),
           ),
-        ),
-      ),
+          body: state is! GetOfferSuccessState
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
+                  ),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: cubit.allOffer.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: BigOfferCard(
+                          title: cubit.allOffer[index].Title,
+                          discountValue: cubit.allOffer[index].Discount,
+                          OfferImage: cubit.allOffer[index].Image,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+        );
+      },
     );
   }
 }
 
 class BigOfferCard extends StatelessWidget {
-  const BigOfferCard({
-    Key key,
-  }) : super(key: key);
+  String discountValue;
+  String OfferImage;
+  String title;
+
+  BigOfferCard({
+    @required this.discountValue,
+    @required this.title,
+    @required this.OfferImage,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +79,11 @@ class BigOfferCard extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: AssetImage('assets/images/furniture.png'),
-                        fit: BoxFit.cover)),
+                        image: NetworkImage(OfferImage), fit: BoxFit.cover)),
                 child: Column(
                   children: [
                     Text(
-                      'خصومات خاصة',
+                      '$title',
                       style:
                           TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
@@ -72,7 +91,7 @@ class BigOfferCard extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      ' 50 % على الأثاث المنزلي',
+                      ' ${title} علي $discountValue ',
                     )
                   ],
                 ),
@@ -92,7 +111,7 @@ class BigOfferCard extends StatelessWidget {
               color: Colors.white,
             ),
             child: Text(
-              'احصل على 50% خصم',
+              '$discountValue احصل علي خصم ',
               style: TextStyle(fontSize: 12),
             ),
           ),

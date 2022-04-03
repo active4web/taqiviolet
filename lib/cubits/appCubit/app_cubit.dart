@@ -2,19 +2,26 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favourites_products_model.dart';
+import 'package:safsofa/models/homeModel/main_cat_model.dart';
+import 'package:safsofa/models/homeModel/main_home_banner.dart';
 import 'package:safsofa/models/home_screen_model.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
+import 'package:safsofa/models/offer_model.dart';
 import 'package:safsofa/models/product_details_model.dart';
 import 'package:safsofa/models/product_reviews_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
+import 'package:safsofa/models/subCat_home_Model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
+import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/network/remote/dio_helper.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/chats_screen.dart';
@@ -28,6 +35,8 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
+
+
   List<Widget> screens = [
     HomeScreen(),
     ChatsScreen(),
@@ -37,21 +46,93 @@ class AppCubit extends Cubit<AppStates> {
   ];
 
   int selectedIndex = 0;
+
   void changeNavBar(int value) {
     selectedIndex = value;
     emit(BottomNavState());
   }
 
   RegisterSuccessModel userInfo;
+
   void getCache() {
     if (CacheHelper.getData('userInfo') != null) {
+      print("sa");
       userInfo = RegisterSuccessModel.fromJson(
           jsonDecode(CacheHelper.getData('userInfo')));
-      emit(GetCachedUserInfoSuccess());
+    } else {
+      print("-" * 10);
     }
   }
 
+  /// Get Home Main Category Data
+  HomeScreenMainCatModel homeScreenMainCatModel;
+  List<Data> homeMainCatList;
+
+  void getHomeData() {
+    emit(HomeMainCatLoading());
+    Mhelper.getData(UrlPath: homeMainCatEndPoint).then((value) {
+      homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
+      print("/" * 100);
+      print(value.data);
+      print("*/*" * 100);
+
+      homeMainCatList = homeScreenMainCatModel.data;
+      print(homeMainCatList[0].image);
+      print("sas");
+      print(homeScreenModel.result.mainOffers.length);
+      print("sas");
+      emit(HomeMainCatSuccess());
+    }).catchError((err) {
+      emit(HomeMainCatError());
+      print("///Home Err:${err.toString()}");
+    });
+  }
+
+  ///TODO:End of Getting home data
+
+  /// Get Home Main banner Data
+  HomeScreenMainCatBannerModel homeScreenMainCatBannerModel;
+  List<DataBanner> homeBannersList;
+
+  void gethomeMainBanners() {
+    emit(HomeMainCatLoading());
+    Mhelper.getData(UrlPath: homeMainBannerEndPoint).then((value) {
+      homeScreenMainCatBannerModel =
+          HomeScreenMainCatBannerModel.fromJson(value.data);
+      print(value.data);
+      homeBannersList = homeScreenMainCatBannerModel.data;
+      print(homeBannersList[0].image);
+      emit(HomeMainCatSuccess());
+    }).catchError((err) {
+      emit(HomeMainCatError());
+      print("///Home Err:${err.toString()}");
+    });
+  }
+
+  ///TODO:End of Getting Main banners data
+
+  /// Get Home Main Offer List Data
+  OfferModel offerModel;
+  List<DataOffer> offerDataList;
+
+  void gethomeMainOfferData() {
+    emit(HomeMainCatLoading());
+    Mhelper.getData(UrlPath: offersEndpoint).then((value) {
+      offerModel = OfferModel.fromJson(value.data);
+      print(value.data);
+      offerDataList = offerModel.data;
+      print(homeBannersList[0].image);
+      emit(HomeMainCatSuccess());
+    }).catchError((err) {
+      emit(HomeMainCatError());
+      print("///Home Err:${err.toString()}");
+    });
+  }
+
+  ///TODO:End of Home Main Offer List Data
+
   HomeScreenModel homeScreenModel;
+
   void getHomeScreen() {
     emit(GetHomeScreenLoadingState());
     DioHelper.postData(
@@ -60,6 +141,7 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
       print(value.data);
       homeScreenModel = HomeScreenModel.fromJson(value.data);
+
       emit(GetHomeScreenSuccessState());
     }).catchError((error) {
       emit(GetHomeScreenErrorState());
@@ -69,6 +151,7 @@ class AppCubit extends Cubit<AppStates> {
 
   int currentDepIndex = 0;
   DepartmentsModel departmentsModel;
+
   void getAllDepartments({int catId, int pageNumber = 0}) {
     emit(GetDepartmentsLoadingState());
     DioHelper.postData(url: 'user_api/get_all_departments', data: {
@@ -94,8 +177,23 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  void getAllData() {
+    DioHelper.postData(url: 'user_api/get_all_product', data: {
+      "key": 1234567890,
+      "lang": kLanguage,
+      "token_id": kToken,
+      "cat_id": 1,
+      "limit": 10,
+      "page_number": 0
+    }).then((value) {
+      ProductsModel most = ProductsModel.fromJson(value.data);
+      print(most.result.allProducts[0].productName + "data in ///GETALLDATA");
+    });
+  }
+
   Map<int, bool> favourites = {};
   ProductsModel productsModel;
+
   void getProducts({int catId}) {
     emit(GetProductsLoadingState());
     DioHelper.postData(url: 'user_api/get_all_product', data: {
@@ -110,7 +208,8 @@ class AppCubit extends Cubit<AppStates> {
       productsModel.result.allProducts.forEach((element) {
         favourites.addAll({element.prodId: element.isFav});
       });
-      print(favourites.toString());
+      print(favourites.toString() + "mostafa there is favorite");
+      getAllData();
       // print(value.data["result"]["all_products"]);
       if (value.data["status"] == true) {
         emit(GetProductsSuccessState());
@@ -126,6 +225,7 @@ class AppCubit extends Cubit<AppStates> {
 
   ProductsModel moreProducts;
   int pageNum = 0;
+
   void fetchMore({int catId}) {
     emit(LoadMoreLoadingState());
     pageNum++;
@@ -160,6 +260,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   FavouritesProductsModel favouritesModel;
+
   void getFavouritesProducts() {
     emit(GetFavouritesLoadingState());
     DioHelper.postData(url: 'user_api/get_all_myfavorite', data: {
@@ -173,8 +274,11 @@ class AppCubit extends Cubit<AppStates> {
       favouritesModel.result.allFavourites.forEach((element) {
         favourites.addAll({element.prodId: element.isFav});
       });
+
       if (value.data["status"] == true) {
         emit(GetFavouritesSuccessState());
+        print("Get Fovrite Success State");
+        print(value.data);
       } else if (value.data["status"] == false) {
         emit(GetFavouritesErrorState());
       }
@@ -183,25 +287,6 @@ class AppCubit extends Cubit<AppStates> {
       print(error.toString());
     });
   }
-
-  // Icon favIcon = Icon(
-  //   Icons.favorite_border_rounded,
-  //   color: Colors.grey,
-  // );
-  // void changeFavIcon({bool isFavourite}) {
-  //   bool isFav = isFavourite;
-  //   isFav = !isFav;
-  //   favIcon = isFav
-  //       ? Icon(
-  //           Icons.favorite_rounded,
-  //           color: Color(0xffFE9C8F),
-  //         )
-  //       : Icon(
-  //           Icons.favorite_border_rounded,
-  //           color: Colors.grey,
-  //         );
-  //   emit(ChangeIconColor());
-  // }
 
   void updateFavourite({bool isFav, int prodId}) {
     favourites[prodId] = !favourites[prodId];
@@ -230,6 +315,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   ProductDetailsModel productDetailsModel;
+
   void getProductDetails({int productId}) {
     emit(GetProductDetailsLoadingState());
     DioHelper.postData(url: 'user_api/get_product_details', data: {
@@ -290,6 +376,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   ProductReviewsModel productReviewsModel;
+
   void getProductReviews({int productId}) {
     emit(GetProductReviewsLoadingState());
     DioHelper.postData(url: 'user_api/get_all_rate', data: {
@@ -314,6 +401,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   NotificationsListModel notificationsListModel;
+
   void getAllNotifications() {
     emit(GetAllNotificationsLoadingState());
     DioHelper.postData(url: 'pages/get_list_notifications', data: {
@@ -336,6 +424,11 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void fetchData() async {
+    //Mostafa
+    gethomeMainBanners();
+    getHomeData();
+    gethomeMainOfferData();
+    //mostafa
     getCache();
     getHomeScreen();
     getAllNotifications();

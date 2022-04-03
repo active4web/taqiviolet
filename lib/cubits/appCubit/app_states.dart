@@ -1,3 +1,6 @@
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+
 abstract class AppStates {}
 
 class AppInitial extends AppStates {}
@@ -22,11 +25,21 @@ class GetDepartmentsErrorState extends AppStates {}
 
 class GetProductsLoadingState extends AppStates {}
 
-class GetProductsSuccessState extends AppStates {}
+class GetProductsSuccessState extends AppStates {
+  printData() {
+    return print("this data completed in importing");
+  }
+}
 
 class GetProductsErrorState extends AppStates {}
 
 class GetProductDetailsLoadingState extends AppStates {}
+///States of Main Category in Home Screen
+class HomeMainCatLoading extends AppStates{}
+class HomeMainCatSuccess extends AppStates{}
+class HomeMainCatError extends AppStates{}
+
+///TODO:End of HomeCat States
 
 class GetProductDetailsSuccessState extends AppStates {}
 
@@ -56,11 +69,13 @@ class AddReviewLoadingState extends AppStates {}
 
 class AddReviewSuccessState extends AppStates {
   AddReviewSuccessState({this.message});
+
   final String message;
 }
 
 class AddReviewErrorState extends AppStates {
   AddReviewErrorState({this.message});
+
   final String message;
 }
 

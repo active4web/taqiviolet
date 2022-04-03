@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_image_picker.dart';
 import 'package:safsofa/shared/components/description_text_field.dart';
 import 'package:safsofa/shared/defaults.dart';
 
-import '../cubits/app_cubit.dart';
+import '../cubits/appCubit/app_cubit.dart';
 import '../shared/components/custom_button.dart';
 import '../shared/components/custom_label.dart';
 

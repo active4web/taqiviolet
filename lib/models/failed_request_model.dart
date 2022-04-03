@@ -1,36 +1,21 @@
-// To parse this JSON data, do
-//
-//     final failRequestModel = failRequestModelFromJson(jsonString);
-
-import 'dart:convert';
-
-FailedResponseModel failedResponseModelFromJson(String str) =>
-    FailedResponseModel.fromJson(json.decode(str));
-
-String failedResponseModelToJson(FailedResponseModel data) =>
-    json.encode(data.toJson());
-
 class FailedResponseModel {
-  FailedResponseModel({
-    this.message,
-    this.codenum,
-    this.status,
-  });
-
-  String message;
-  int codenum;
   bool status;
+  String errNum;
+  String msg;
 
-  factory FailedResponseModel.fromJson(Map<String, dynamic> json) =>
-      FailedResponseModel(
-        message: json["message"],
-        codenum: json["codenum"],
-        status: json["status"],
-      );
+  FailedResponseModel({this.status, this.errNum, this.msg});
 
-  Map<String, dynamic> toJson() => {
-        "message": message,
-        "codenum": codenum,
-        "status": status,
-      };
+  FailedResponseModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    errNum = json['errNum'];
+    msg = json['msg'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['errNum'] = this.errNum;
+    data['msg'] = this.msg;
+    return data;
+  }
 }

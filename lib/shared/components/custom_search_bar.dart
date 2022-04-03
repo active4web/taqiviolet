@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class CustomSearchBar extends StatelessWidget {
-  const CustomSearchBar({
-    Key key,
-  }) : super(key: key);
+class CustomSearchBar extends StatefulWidget {
 
+  @override
+  State<CustomSearchBar> createState() => _CustomSearchBarState();
+}
+
+class _CustomSearchBarState extends State<CustomSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Container(

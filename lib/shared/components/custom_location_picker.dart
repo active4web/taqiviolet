@@ -5,8 +5,8 @@ import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as location;
 import 'package:map_picker/map_picker.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import '../constants.dart';
 
 class LocationPickerScreen extends StatefulWidget {

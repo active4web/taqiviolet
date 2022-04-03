@@ -2,8 +2,8 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/reviews_and_comments_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
@@ -380,7 +380,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),

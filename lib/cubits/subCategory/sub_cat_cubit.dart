@@ -1,0 +1,59 @@
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
+import 'package:safsofa/models/productModel.dart';
+import 'package:safsofa/models/subCat_home_Model.dart';
+import 'package:safsofa/network/remote/dio_Mhelper.dart';
+import 'package:safsofa/shared/constants.dart';
+
+part 'sub_cat_state.dart';
+
+class SubCatCubit extends Cubit<SubCatState> {
+  SubCatCubit() : super(SubCatInitial());
+
+  static SubCatCubit get(context) => BlocProvider.of(context);
+
+  /// Get Home Main Sub category List Data
+  SubCatDataModel subCatDataModel;
+  List<DateSubCat> subCatDataList;
+
+
+  Future<void> getSubCatData({@required CatId}) async {
+    emit(HomeSubCatLoading());
+    print(CatId);
+    await Mhelper.getData(UrlPath: SubCatEndPoint + CatId).then((value) {
+      subCatDataModel = SubCatDataModel.fromJson(value.data);
+      print(value.data);
+      subCatDataList = subCatDataModel.date;
+      print(subCatDataList[0].name);
+      emit(HomeSubCatSuccess());
+    }).catchError((err) {
+      emit(HomeSubCatError());
+      print("///Home Err:${err.toString()}");
+    });
+  }
+
+  ///TODO:End of SubCategories List Data
+
+  /// Get  Product in  Sub category List Data
+  ProductFromCatModel productFromCatModel;
+  List<DataProduct> productFromCatList;
+
+  Future<void> getProductSubCatData({@required param,@required ProId}) async {
+    emit(ProductLoading());
+    await Mhelper.getData(
+        UrlPath: productEndPoint, query: {"$param": ProId}).then((value) {
+      productFromCatModel = ProductFromCatModel.fromJson(value.data);
+      print(value.data);
+      print(productFromCatModel.dataProduct);
+      productFromCatList = productFromCatModel.dataProduct;
+      print(productFromCatList);
+      emit(ProductSuccess());
+    }).catchError((err) {
+      emit(ProductError());
+      print("///Home Err:${err.toString()}");
+    });
+  }
+
+  ///TODO:End of  Product in  Sub category List Data
+}

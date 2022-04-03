@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/app_cubit.dart';
-import 'package:safsofa/cubits/app_states.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -28,16 +29,16 @@ class VerticalProductCard extends StatelessWidget {
   final totalRate;
   final oldPrice;
   final currentPrice;
-  final AppCubit cubit;
+   var cubit;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        cubit.getProductDetails(
-          productId: productId,
-        );
-        navigateTo(context, ProductDetailsScreen());
+        // cubit.getProductDetails(
+        //   productId: productId,
+        // );
+        // navigateTo(context, ProductDetailsScreen());
       },
       child: Stack(
         children: [
@@ -47,7 +48,6 @@ class VerticalProductCard extends StatelessWidget {
                   child: Container(
                 decoration: BoxDecoration(
                   color: kBGColor,
-
                   image: DecorationImage(image: NetworkImage(image)),
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -56,91 +56,93 @@ class VerticalProductCard extends StatelessWidget {
                 height: 10,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Text(
-                          productName ?? '',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 12),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          children: [
-                            CustomRatingBar(
-                              rating: double.parse(totalRate ?? 0.toString()),
-                              itemSize: 11,
-                            ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                            Text(
-                              double.parse(totalRate ?? 0.toString())
-                                  .toString(),
-                              style: TextStyle(fontSize: 11),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      oldPrice ?? '',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 9),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'ريال',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 9),
-                                    )
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      currentPrice ?? '',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'ريال',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Container(
+                  Column(
+                    children: [
+                      Text(
+                        productName ?? '',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 12),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CustomRatingBar(
+                            rating: double.parse(totalRate ?? 0.toString()),
+                            itemSize: 11,
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          Text(
+                            double.parse(totalRate ?? 0.toString())
+                                .toString(),
+                            style: TextStyle(fontSize: 11),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    oldPrice ?? '',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        decoration:
+                                            TextDecoration.lineThrough,
+                                        fontSize: 9),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'ريال',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        decoration:
+                                            TextDecoration.lineThrough,
+                                        fontSize: 9),
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                    currentPrice ?? '',
+                                    style: TextStyle(
+                                        color: Color(0xffFE9C8F),
+                                        fontSize: 12),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    'ريال',
+                                    style: TextStyle(
+                                        color: Color(0xffFE9C8F),
+                                        fontSize: 12),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Container(
                               width: 25,
                               height: 25,
                               decoration: BoxDecoration(
@@ -155,10 +157,10 @@ class VerticalProductCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ],
-                        )
-                      ],
-                    ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                 ],
               )
@@ -169,9 +171,11 @@ class VerticalProductCard extends StatelessWidget {
               left: 0,
               child: IconButton(
                 onPressed: () {
-                  isFavourite = !isFavourite;
-                  cubit.updateFavourite(isFav: isFavourite, prodId: productId);
-                  cubit.emit(ChangeIconColor());
+                  // isFavourite = !isFavourite;
+                  // print(productId.toString() + "DDDDD");
+                  // cubit.updateFavourite(
+                  //     isFav: isFavourite, prodId: productId);
+                  // cubit.emit(ChangeIconColor());
                 },
                 icon: isFavourite
                     ? Icon(
@@ -211,7 +215,7 @@ class VerticalProductCard extends StatelessWidget {
   }
 }
 
-GridView showProductsGrid({int count, bool isFavourite}) {
+GridView showProductsGrid(int count, bool isFavourite) {
   return GridView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
@@ -239,7 +243,7 @@ class HorizontalProductCard extends StatelessWidget {
         navigateTo(context, ProductDetailsScreen());
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.16,
+        height: MediaQuery.of(context).size.height * 0.20,
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 0.5)],

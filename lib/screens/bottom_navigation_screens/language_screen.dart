@@ -96,7 +96,6 @@ class LanguageTile extends StatelessWidget {
         CacheHelper.setData(key: "language", value: localCode);
         kLanguage = CacheHelper.getData('language');
         print(localCode);
-        Phoenix.rebirth(context);
       },
     );
   }

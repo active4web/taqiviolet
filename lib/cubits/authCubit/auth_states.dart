@@ -9,8 +9,7 @@ class ChangePasswordVisibilityState extends AuthStates {}
 class SignupLoadingState extends AuthStates {}
 
 class SignupSuccessState extends AuthStates {
-  SignupSuccessState(this.signupSuccessModel);
-  final RegisterSuccessModel signupSuccessModel;
+
 }
 
 class SignupErrorState extends AuthStates {
