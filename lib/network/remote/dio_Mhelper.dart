@@ -17,16 +17,19 @@ class Mhelper {
 
   static Future<Response> getData({
     @required UrlPath,
-    Map<String, dynamic> query,
+    Map<String, dynamic> query,token
   }) async {
-    return await dio.get(UrlPath, queryParameters: query);
+    dio.options.headers["authorization"] = "Bearer $token}";
+
+    return await dio.get(UrlPath, queryParameters: query, );
   }
 
   static Future<Response> postData({
     String url,
     Map<String, dynamic> query,
-    @required Map<String,dynamic> data,
+    @required Map<String,dynamic> data,token
   }) async {
+    dio.options.headers["authorization"] = "Bearer $token}";
     return dio.post(
       url,
       queryParameters: query,

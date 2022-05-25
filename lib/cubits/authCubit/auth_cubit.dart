@@ -10,12 +10,15 @@ import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
+import '../../push_notifcation.dart';
 import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial());
 
   static AuthCubit get(context) => BlocProvider.of(context);
+  PushNotificationManagger _pushNotificationManagger =
+  PushNotificationManagger();
 
   bool showPassword = true;
   IconData passwordIcon = Icons.visibility;
@@ -96,29 +99,44 @@ class AuthCubit extends Cubit<AuthStates> {
   FailedResponseModel loginFailedResponse;
   RegisterSuccessModel loginSuccessResponse;
 
-  void login({String phone, String password, String language}) {
-    emit(LoginLoadingState());
-    Mhelper.postData(url: authLogin, data: {
-      "phone": phone,
-      "lang": language,
-      "firebase_id": MobToken,
-      "password": password,
-    }).then((value) {
-      print(value.data);
-      if (value.data['status'] == true) {
-        loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
-        CacheHelper.setData(
-            key: 'userInfo',
-            value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
-        emit(LoginSuccessState(loginSuccessResponse));
-      }
-      if (value.data['status'] == false) {
-        loginFailedResponse = FailedResponseModel.fromJson(value.data);
-        emit(LoginErrorState(value.data['message']));
-      }
-    }).catchError((error) {
-      emit(LoginErrorState(error.toString()));
-      print(error);
+  void login({String phone, String password, String language})async {
+    //await getDeviceToken();
+
+
+    _pushNotificationManagger.init().then((value) {
+
+
+      print( "firebase_id                            $MobToken");
+      emit(LoginLoadingState());
+      Mhelper.postData(url: authLogin, data: {
+        "phone": phone,
+        "lang": language,
+        "firebase_id": value,
+        "password": password,
+      }).then((value) {
+        print(value.data);
+        if (value.data['status'] == true) {
+          loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
+          CacheHelper.setData(
+              key: 'id',
+              value:loginSuccessResponse.data.id);
+          CacheHelper.setData(
+              key: 'token',
+              value:loginSuccessResponse.data.token);
+          CacheHelper.setData(
+              key: 'userInfo',
+              value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+          emit(LoginSuccessState(loginSuccessResponse));
+        }
+        if (value.data['status'] == false) {
+          loginFailedResponse = FailedResponseModel.fromJson(value.data);
+          emit(LoginErrorState(value.data['message']));
+        }
+      }).catchError((error) {
+        emit(LoginErrorState(error.toString()));
+        print(error);
+      });
+
     });
   }
 }

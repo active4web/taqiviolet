@@ -6,13 +6,15 @@ import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/defaults.dart';
 
+import '../../../models/my_product_details_model.dart';
+import '../../../network/local/cache_helper.dart';
 import '../../constants.dart';
 import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
   VerticalProductCard({
     Key key,
-    this.isFavourite = false,
+    this.isFavourite = false, this.onclick,
     this.productName,
     this.productId,
     this.image,
@@ -29,29 +31,39 @@ class VerticalProductCard extends StatelessWidget {
   final totalRate;
   final oldPrice;
   final currentPrice;
-   var cubit;
+  var cubit;
+  VoidCallback onclick;
 
   @override
   Widget build(BuildContext context) {
+    print("image      $image");
+    print("image      $productId");
     return GestureDetector(
-      onTap: () {
+      onTap: //onclick
+
+          () {
+        print("i click it prodect   $productId");
+        AppCubit appCubit = AppCubit.get(context);
+        appCubit.getProductDetails(productId: productId);
         // cubit.getProductDetails(
         //   productId: productId,
         // );
-        // navigateTo(context, ProductDetailsScreen());
-      },
+        navigateTo(context, ProductDetailsScreen());
+      }
+
+      ,
       child: Stack(
         children: [
           Column(
             children: [
               Expanded(
                   child: Container(
-                decoration: BoxDecoration(
-                  color: kBGColor,
-                  image: DecorationImage(image: NetworkImage(image)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              )),
+                    decoration: BoxDecoration(
+                      color: kBGColor,
+                      image: DecorationImage(image: NetworkImage(image)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  )),
               SizedBox(
                 height: 10,
               ),
@@ -100,7 +112,7 @@ class VerticalProductCard extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         decoration:
-                                            TextDecoration.lineThrough,
+                                        TextDecoration.lineThrough,
                                         fontSize: 9),
                                   ),
                                   SizedBox(
@@ -111,7 +123,7 @@ class VerticalProductCard extends StatelessWidget {
                                     style: TextStyle(
                                         color: Colors.grey,
                                         decoration:
-                                            TextDecoration.lineThrough,
+                                        TextDecoration.lineThrough,
                                         fontSize: 9),
                                   )
                                 ],
@@ -122,7 +134,7 @@ class VerticalProductCard extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    currentPrice ?? '',
+                                    currentPrice.toString() ?? '',
                                     style: TextStyle(
                                         color: Color(0xffFE9C8F),
                                         fontSize: 12),
@@ -141,7 +153,8 @@ class VerticalProductCard extends StatelessWidget {
                             ],
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 20.0),
                             child: Container(
                               width: 25,
                               height: 25,
@@ -179,13 +192,13 @@ class VerticalProductCard extends StatelessWidget {
                 },
                 icon: isFavourite
                     ? Icon(
-                        Icons.favorite_rounded,
-                        color: Color(0xffFE9C8F),
-                      )
+                  Icons.favorite_rounded,
+                  color: Color(0xffFE9C8F),
+                )
                     : Icon(
-                        Icons.favorite_border_rounded,
-                        color: Colors.grey,
-                      ),
+                  Icons.favorite_border_rounded,
+                  color: Colors.grey,
+                ),
               )),
           Positioned(
             top: 0,
@@ -215,7 +228,7 @@ class VerticalProductCard extends StatelessWidget {
   }
 }
 
-GridView showProductsGrid(int count, bool isFavourite) {
+GridView showProductsGrid(int count, bool isFavourite,int id) {
   return GridView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
@@ -225,25 +238,36 @@ GridView showProductsGrid(int count, bool isFavourite) {
         childAspectRatio: 15 / 30,
         mainAxisSpacing: 20,
         crossAxisSpacing: 10),
-    itemBuilder: (context, index) => VerticalProductCard(
-      isFavourite: isFavourite,
-    ),
+    itemBuilder: (context, index) =>
+        VerticalProductCard(productId: id,
+           isFavourite: isFavourite
+        ),
   );
 }
 
 class HorizontalProductCard extends StatelessWidget {
-  const HorizontalProductCard({
-    Key key,
-  }) : super(key: key);
+  ProductDetails relatedProducts;
+
+
+  HorizontalProductCard({this.relatedProducts});
 
   @override
   Widget build(BuildContext context) {
+    AppCubit appCubit = AppCubit.get(context);
     return GestureDetector(
       onTap: () {
+print("99999999999999999999999999999999999999999999");
+print("99999999999999999999999999999999999999999999     ${relatedProducts.id}");
+        appCubit.getProductDetails(
+          productId:  relatedProducts.id,
+        );
         navigateTo(context, ProductDetailsScreen());
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.20,
+        height: MediaQuery
+            .of(context)
+            .size
+            .height * 0.22,
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 0.5)],
@@ -258,7 +282,7 @@ class HorizontalProductCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Color(0xfff4f4f4),
                   image: DecorationImage(
-                      image: AssetImage('assets/images/chair1.png')),
+                      image: NetworkImage(relatedProducts.images)),
                   borderRadius: BorderRadius.horizontal(
                     right: Radius.circular(10),
                   ),
@@ -272,52 +296,59 @@ class HorizontalProductCard extends StatelessWidget {
               flex: 5,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      child: Text(
-                        'كرسي ظهر دائري ',
-                        style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w500),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width * 0.45,
+                        child: Text(
+                          relatedProducts
+                              .name ,
+
+                          style: TextStyle(
+                              fontSize: 17, fontWeight: FontWeight.w500),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        Text(
-                          '144.00',
-                          style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
-                        ),
-                        SizedBox(
-                          width: 5,
-                        ),
-                        Text(
-                          'ريال',
-                          style: TextStyle(
-                            fontSize: 15,
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          Text(
+                            relatedProducts.price.toString(),
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.bold),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Row(
-                      children: [
-                        CustomRatingBar(
-                          rating: 3,
-                        ),
-                      ],
-                    ),
-                  ],
+                          SizedBox(
+                            width: 5,
+                          ),
+                          // Text(
+                          //   relatedProducts.,
+                          //   style: TextStyle(
+                          //     fontSize: 15,
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        children: [
+                          CustomRatingBar(
+                            rating: 3,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

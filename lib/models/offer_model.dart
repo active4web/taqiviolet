@@ -1,67 +1,68 @@
-import 'package:flutter/cupertino.dart';
-
 class OfferModel {
-  OfferModel({
-   @ required this.status,
-   @ required this.errNum,
-   @ required this.msg,
-   @ required this.data,
-  });
-   bool status;
- String errNum;
-   String msg;
-    List<DataOffer> data;
+  bool status;
+  String errNum;
+  String msg;
+  List<OfferModelData> data;
 
-  OfferModel.fromJson(Map<String, dynamic> json){
+  OfferModel({this.status, this.errNum, this.msg, this.data});
+
+  OfferModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data = List.from(json['data']).map((e)=>DataOffer.fromJson(e)).toList();
+    if (json['data'] != null) {
+      data = <OfferModelData>[];
+      json['data'].forEach((v) {
+        data.add(new OfferModelData.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['status'] = status;
-    _data['errNum'] = errNum;
-    _data['msg'] = msg;
-    _data['data'] = data.map((e)=>e.toJson()).toList();
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['errNum'] = this.errNum;
+    data['msg'] = this.msg;
+    if (this.data != null) {
+      data['data'] = this.data.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
-class DataOffer {
-  DataOffer({
-   @ required this.ID,
-   @ required this.Title,
-   @ required this.Content,
-   @ required this.Image,
-   @ required this.Discount,
-   @ required this.Details,
-  });
-    int ID;
-    String Title;
-    String Content;
-    String Image;
-    String Discount;
-    String Details;
+class OfferModelData {
+  int iD;
+  String title;
+  String content;
+  String image;
+  int discount;
+  String details;
 
-  DataOffer.fromJson(Map<String, dynamic> json){
-    ID = json['ID'];
-    Title = json['Title'];
-    Content = json['Content'];
-    Image = json['Image'];
-    Discount = json['Discount'];
-    Details = json['Details'];
+  OfferModelData(
+      {this.iD,
+        this.title,
+        this.content,
+        this.image,
+        this.discount,
+        this.details});
+
+  OfferModelData.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    title = json['Title'];
+    content = json['Content'];
+    image = json['Image'];
+    discount = json['Discount'];
+    details = json['Details'];
   }
 
   Map<String, dynamic> toJson() {
-    final _data = <String, dynamic>{};
-    _data['ID'] = ID;
-    _data['Title'] = Title;
-    _data['Content'] = Content;
-    _data['Image'] = Image;
-    _data['Discount'] = Discount;
-    _data['Details'] = Details;
-    return _data;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['Title'] = this.title;
+    data['Content'] = this.content;
+    data['Image'] = this.image;
+    data['Discount'] = this.discount;
+    data['Details'] = this.details;
+    return data;
   }
 }

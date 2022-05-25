@@ -15,12 +15,12 @@ class SubCatCubit extends Cubit<SubCatState> {
 
   /// Get Home Main Sub category List Data
   SubCatDataModel subCatDataModel;
-  List<DateSubCat> subCatDataList;
+  List<SubCatData> subCatDataList;
 
 
   Future<void> getSubCatData({@required CatId}) async {
     emit(HomeSubCatLoading());
-    print(CatId);
+    print("CatIdCatId  $CatId");
     await Mhelper.getData(UrlPath: SubCatEndPoint + CatId).then((value) {
       subCatDataModel = SubCatDataModel.fromJson(value.data);
       print(value.data);
@@ -42,9 +42,10 @@ class SubCatCubit extends Cubit<SubCatState> {
   Future<void> getProductSubCatData({@required param,@required ProId}) async {
     emit(ProductLoading());
     await Mhelper.getData(
-        UrlPath: productEndPoint, query: {"$param": ProId}).then((value) {
-      productFromCatModel = ProductFromCatModel.fromJson(value.data);
+        UrlPath: productEndPoint+ProId.toString(), query: {"$param": ProId}).then((value) {
       print(value.data);
+      productFromCatModel = ProductFromCatModel.fromJson(value.data);
+
       print(productFromCatModel.dataProduct);
       productFromCatList = productFromCatModel.dataProduct;
       print(productFromCatList);
@@ -56,4 +57,6 @@ class SubCatCubit extends Cubit<SubCatState> {
   }
 
   ///TODO:End of  Product in  Sub category List Data
+
+
 }

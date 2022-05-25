@@ -24,13 +24,16 @@ class CustomBottomNavigationBar extends StatelessWidget {
               currentIndex: cubit.selectedIndex,
               unselectedItemColor: Colors.grey,
               onTap: (value) {
-                cubit.changeNavBar(value);
+                cubit.changeNavBar(value, context);
               },
               items: [
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.home), label: ''),
                 BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.chat_bubble_2), label: ''),
+                    icon: ImageIcon(
+                      AssetImage('assets/images/offers.png'),
+
+                    ), label: ''),
                 BottomNavigationBarItem(icon: SizedBox(), label: ''),
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.person), label: ''),

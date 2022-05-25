@@ -22,14 +22,14 @@ class OnboardingView extends StatelessWidget {
         builder: (context, state) {
           var cubit=OnboardngCubit.get(context);
           return Scaffold(
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.white,
             body: CustomScrollView(
               slivers: [
                 SliverAppBar(
                   pinned: true,
                   systemOverlayStyle: SystemUiOverlayStyle(statusBarColor: Colors.transparent),
                   expandedHeight: sizeFromHeight(1),
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.white,
                   flexibleSpace: FlexibleSpaceBar(
                     titlePadding: EdgeInsets.zero,
                     background: Column(
@@ -69,7 +69,7 @@ class OnboardingView extends StatelessWidget {
                           padding: EdgeInsets.only(left: 15.0),
                           child: Row(
                             children: [
-                              for (int i = 0; i < 2; i++)
+                              for (int i = 0; i < 4; i++)
                                 Padding(
                                   child:
                                   _getIndicator(

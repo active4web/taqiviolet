@@ -7,6 +7,8 @@ import 'package:safsofa/shared/components/custom_rating_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../../../cubits/mobile_cubit.dart';
+
 class ShopProfileScreen extends StatefulWidget {
   int Id;
   int index;
@@ -25,10 +27,13 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
     return BlocConsumer<ShopsCubit, ShopsState>(
       listener: (context, state) {},
       builder: (context, state) {
+        MobileCubit mobileCubit=MobileCubit.get(context);
         ShopsCubit cubit = ShopsCubit.get(context);
+        print("state      $state");
         state is AllShopsInitial
             ? cubit.getDataFromAllShops(Id: widget.Id.toString())
-            : print("mostafa");
+            : print("8989797778885874598754      ========   id=${widget.Id}  ====== index=${widget.index}");
+
         return Scaffold(
           body: state is! AllShopsSuccess
               ? InkWell(

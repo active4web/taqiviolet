@@ -136,41 +136,41 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                   SizedBox(
                     height: 15,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomImagePicker(
-                        onTab: () async {
-                          await cubit.pickImage(cubit.file1).then((value) {
-                            setState(() {
-                              imageFile1 = value;
-                            });
-                          });
-                        },
-                        imageFile: imageFile1,
-                      ),
-                      CustomImagePicker(
-                        onTab: () async {
-                          await cubit.pickImage(cubit.file2).then((value) {
-                            setState(() {
-                              imageFile2 = value;
-                            });
-                          });
-                        },
-                        imageFile: imageFile2,
-                      ),
-                      CustomImagePicker(
-                        onTab: () async {
-                          await cubit.pickImage(cubit.file3).then((value) {
-                            setState(() {
-                              imageFile3 = value;
-                            });
-                          });
-                        },
-                        imageFile: imageFile3,
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     CustomImagePicker(
+                  //       onTab: () async {
+                  //         await cubit.pickImage(cubit.file1).then((value) {
+                  //           setState(() {
+                  //             imageFile1 = value;
+                  //           });
+                  //         });
+                  //       },
+                  //       imageFile: imageFile1,
+                  //     ),
+                  //     CustomImagePicker(
+                  //       onTab: () async {
+                  //         await cubit.pickImage(cubit.file2).then((value) {
+                  //           setState(() {
+                  //             imageFile2 = value;
+                  //           });
+                  //         });
+                  //       },
+                  //       imageFile: imageFile2,
+                  //     ),
+                  //     CustomImagePicker(
+                  //       onTab: () async {
+                  //         await cubit.pickImage(cubit.file3).then((value) {
+                  //           setState(() {
+                  //             imageFile3 = value;
+                  //           });
+                  //         });
+                  //       },
+                  //       imageFile: imageFile3,
+                  //     ),
+                  //   ],
+                  // ),
                   SizedBox(
                     height: 40,
                   ),
@@ -185,15 +185,14 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                             // print(cubit.file1.path ?? '');
                             // print(cubit.file2.path ?? '');
                             // print(cubit.file3.path ?? '');
-                            cubit.addReview(
-                              comment: commentController.text,
-                              rating: rating.toInt(),
-                              productId: cubit.productDetailsModel.result
-                                  .serviceDetails[0].id,
-                              image1: cubit.file1,
-                              image2: cubit.file2,
-                              image3: cubit.file3,
-                            );
+                            // cubit.addReview(
+                            //   comment: commentController.text,
+                            //   rating: rating.toInt(),
+                            //   productId: cubit.,
+                            //   // image1: cubit.file1,
+                            //   // image2: cubit.file2,
+                            //   // image3: cubit.file3,
+                            // );
                           },
                         ),
                 ],

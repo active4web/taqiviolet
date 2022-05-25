@@ -28,7 +28,7 @@ class CustomAppBarWithLogo extends StatelessWidget with PreferredSizeWidget {
             )),
           ),
         ),
-        backgroundColor: Colors.black,
+        backgroundColor:HexaColor.fromHexa("#2d2d37"),// Colors.black,
         title: Container(
             decoration: BoxDecoration(
           image: DecorationImage(

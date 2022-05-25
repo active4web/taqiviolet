@@ -16,7 +16,7 @@ class OffersScreen extends StatelessWidget {
         var cubit = OfferCubit.get(context);
         state is OfferInitial
             ? cubit.getOfferData()
-            : print({cubit.allOffer[0].ID});
+            : print("ooo");//print({cubit.allOffer[0].ID});
         return Scaffold(
           appBar: CustomAppBar(
             title: 'Offers'.tr(),
@@ -37,9 +37,9 @@ class OffersScreen extends StatelessWidget {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: BigOfferCard(
-                          title: cubit.allOffer[index].Title,
-                          discountValue: cubit.allOffer[index].Discount,
-                          OfferImage: cubit.allOffer[index].Image,
+                          title: cubit.allOffer[index].title,
+                          discountValue: cubit.allOffer[index].discount.toString(),
+                          OfferImage: cubit.allOffer[index].image,
                         ),
                       );
                     },

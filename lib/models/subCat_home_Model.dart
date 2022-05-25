@@ -2,7 +2,7 @@ class SubCatDataModel {
   bool status;
   String errNum;
   String msg;
-  List<DateSubCat> date;
+  List<SubCatData> date;
 
   SubCatDataModel({this.status, this.errNum, this.msg, this.date});
 
@@ -11,9 +11,9 @@ class SubCatDataModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['date'] != null) {
-      date = <DateSubCat>[];
+      date = <SubCatData>[];
       json['date'].forEach((v) {
-        date.add(new DateSubCat.fromJson(v));
+        date.add(new SubCatData.fromJson(v));
       });
     }
   }
@@ -30,30 +30,51 @@ class SubCatDataModel {
   }
 }
 
-class DateSubCat {
-  int iD;
+class SubCatData {
+  int id;
   String name;
   String details;
   String image;
   int categoryId;
+  int isActive;
+  int storeId;
+  String createdAt;
+  String updatedAt;
 
-  DateSubCat({this.iD, this.name, this.details, this.image, this.categoryId});
+  SubCatData(
+      {this.id,
+        this.name,
+        this.details,
+        this.image,
+        this.categoryId,
+        this.isActive,
+        this.storeId,
+        this.createdAt,
+        this.updatedAt});
 
-  DateSubCat.fromJson(Map<String, dynamic> json) {
-    iD = json['ID'];
-    name = json['Name'];
-    details = json['Details'];
-    image = json['Image'];
-    categoryId = json['Category_id'];
+  SubCatData.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    details = json['details'];
+    image = json['image'];
+    categoryId = json['category_id'];
+    isActive = json['is_active'];
+    storeId = json['store_id'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['Name'] = this.name;
-    data['Details'] = this.details;
-    data['Image'] = this.image;
-    data['Category_id'] = this.categoryId;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['details'] = this.details;
+    data['image'] = this.image;
+    data['category_id'] = this.categoryId;
+    data['is_active'] = this.isActive;
+    data['store_id'] = this.storeId;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
     return data;
   }
 }

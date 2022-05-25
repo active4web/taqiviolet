@@ -14,6 +14,9 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../cubits/listsCubit/lists_cubit.dart';
+import 'Lists.dart';
+
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({Key key}) : super(key: key);
 
@@ -24,18 +27,18 @@ class ProductDetailsScreen extends StatefulWidget {
 int quantity = 1;
 bool isFavourite = false;
 
-// Future<void> getFav(context) async {
-//   AppCubit cubit = AppCubit.get(context);
-//   isFavourite =
-//       await cubit.productDetailsModel.result.serviceDetails[0].favExit == 1
-//           ? true
-//           : false;
-// }
+Future<void> getFav(context) async {
+  AppCubit cubit = AppCubit.get(context);
+  // isFavourite =
+  //     await cubit.productDetailsModel?.data.productDetails[0]. == 1
+  //         ? true
+  //         : false;
+}
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
-    // getFav(context);
+    //getFav(context);
     // setState(() {});
     super.initState();
   }
@@ -43,12 +46,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     PageController pageController = new PageController();
+    AppCubit cubit = AppCubit.get(context);
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         // TODO: implement listener
       },
       builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
+
+        print("99999999999999999999999999999999999999999   $state");
+print(cubit.productDetailsModel);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -56,8 +62,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             iconTheme: IconThemeData(color: Colors.black),
           ),
           extendBodyBehindAppBar: true,
-          body: cubit.productDetailsModel == null ||
-                  state is GetProductDetailsLoadingState
+          body: cubit.productDetailsModel == null
               ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
@@ -88,9 +93,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       image: DecorationImage(
                                         image: NetworkImage(cubit
                                             .productDetailsModel
-                                            .result
-                                            .serviceDetails[0]
-                                            .productImage),
+                                            .data.productDetails[0]
+                                            .images),
                                       ),
                                     ),
                                   ),
@@ -126,50 +130,48 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           child: Column(
                             children: [
                               Label(
-                                text: cubit.productDetailsModel.result
-                                    .serviceDetails[0].serviceName,
+                                text: cubit.productDetailsModel.data.productDetails[0].name,
                               ),
                               SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                    'Purchased'.tr() +
-                                        ' : ' +
-                                        ' ${cubit.productDetailsModel.result.serviceDetails[0].totalSales} ' +
-                                        'Times'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.green, fontSize: 15),
-                                  )
-                                ],
-                              ),
+                              // Row(
+                              //   children: [
+                              //     Text(
+                              //       'Purchased'.tr() +
+                              //           ' : ' +
+                              //           ' ${cubit.productDetailsModel.data.productDetails[0].} ' +
+                              //           'Times'.tr(),
+                              //       style: TextStyle(
+                              //           color: Colors.green, fontSize: 15),
+                              //     )
+                              //   ],
+                              // ),
                               SizedBox(
                                 height: 10,
                               ),
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  CustomRatingBar(
-                                    itemSize: 20,
-                                    rating: double.parse(cubit
-                                        .productDetailsModel
-                                        .result
-                                        .serviceDetails[0]
-                                        .totalRate),
-                                  ),
+                                  // CustomRatingBar(
+                                  //   itemSize: 20,
+                                  //   rating: double.parse(cubit
+                                  //       .productDetailsModel
+                                  //       .productDetails
+                                  //       .productDetails[0].),
+                                  // ),
                                   SizedBox(
                                     width: 10,
                                   ),
-                                  Text(
-                                    double.parse(cubit.productDetailsModel
-                                            .result.serviceDetails[0].totalRate)
-                                        .toString(),
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 17,
-                                        color: Colors.black54),
-                                  )
+                                  // Text(
+                                  //   double.parse(cubit.productDetailsModel
+                                  //           .result.serviceDetails[0].totalRate)
+                                  //       .toString(),
+                                  //   style: TextStyle(
+                                  //       fontWeight: FontWeight.bold,
+                                  //       fontSize: 17,
+                                  //       color: Colors.black54),
+                                  // )
                                 ],
                               ),
                               SizedBox(
@@ -180,8 +182,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        cubit.productDetailsModel.result
-                                            .serviceDetails[0].price,
+                                        cubit.productDetailsModel.data.productDetails[0].price.toString(),
                                         style: TextStyle(
                                             color: Color(0xffFE9C8F),
                                             fontSize: 20),
@@ -203,8 +204,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   Row(
                                     children: [
                                       Text(
-                                        cubit.productDetailsModel.result
-                                            .serviceDetails[0].oldPrice,
+                                        cubit.productDetailsModel.data.productDetails[0]
+                                            .discount.toString()??"",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             decoration:
@@ -232,7 +233,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               CounterRow(
                                 fontSize: 20,
                                 containerSize: 36,
-                                quantity: quantity,
+                                quantity: quantity.toString(),
                                 onAdd: () {
                                   quantity++;
                                   setState(() {});
@@ -248,7 +249,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                    child: CustomButton(
+                                    child: CustomButton(onTap: (){
+
+                                      cubit.AddToCart(quantity: quantity,product_id: cubit .productDetailsModel
+                                          .data.relatedProducts[0].id);
+                                    },
                                       height: 50,
                                       text: 'AddToCart'.tr(),
                                     ),
@@ -258,21 +263,21 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                   IconButton(
                                     onPressed: () {
-                                      cubit.productDetailsModel.result
-                                              .serviceDetails[0].isFav =
-                                          !cubit.productDetailsModel.result
-                                              .serviceDetails[0].isFav;
-                                      cubit.updateFavourite(
-                                          prodId: cubit.productDetailsModel
-                                              .result.serviceDetails[0].id,
-                                          isFav: cubit.productDetailsModel
-                                              .result.serviceDetails[0].isFav);
-                                      print(cubit.productDetailsModel.result
-                                          .serviceDetails[0].isFav);
-                                      setState(() {});
+                                      // cubit.productDetailsModel.productDetails.productDetails[0].hasFavorites
+                                      //         .serviceDetails[0].isFav =
+                                      //     !cubit.productDetailsModel.result
+                                      //         .serviceDetails[0].isFav;
+                                      // cubit.updateFavourite(
+                                      //     prodId: cubit.productDetailsModel
+                                      //         .result.serviceDetails[0].id,
+                                      //     isFav: cubit.productDetailsModel
+                                      //         .result.serviceDetails[0].isFav);
+                                      // print(cubit.productDetailsModel.result
+                                      //     .serviceDetails[0].isFav);
+                                      // setState(() {});
                                     },
-                                    icon: cubit.productDetailsModel.result
-                                            .serviceDetails[0].isFav
+                                    icon: false//cubit.productDetailsModel.data.productDetails[0].hasFavorites==0
+
                                         ? Icon(
                                             CupertinoIcons.heart_fill,
                                             size: 35,
@@ -288,7 +293,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     width: 5,
                                   ),
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+
+
+                                      ListsCubit.get(context).productDetailsModel=cubit.productDetailsModel;
+
+
+                                      print("77777777777777777777777777");
+                                      print(ListsCubit.get(context).productDetailsModel==null);
+                                 navigateTo(context, MyLists());
+
+
+                                      //cubit
+                                    },
                                     icon: Icon(
                                       CupertinoIcons.share,
                                       size: 30,
@@ -307,8 +324,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 height: 10,
                               ),
                               Text(
-                                cubit.productDetailsModel.result
-                                    .serviceDetails[0].description,
+                                cubit.productDetailsModel.data.productDetails[0].details
+                              ,
                                 style: TextStyle(color: Colors.black54),
                               ),
                               SizedBox(
@@ -322,7 +339,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 onTap: () {
                                   cubit.getProductReviews(
                                       productId: cubit.productDetailsModel
-                                          .result.serviceDetails[0].id);
+                                         .data.productDetails[0].id);
                                   navigateTo(
                                       context, ReviewsAndCommentsScreen());
                                 },
@@ -331,14 +348,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Label(text: 'ReviewsAndComments'.tr()),
+
                                     IconButton(
                                         onPressed: () {
                                           cubit.getProductReviews(
                                               productId: cubit
                                                   .productDetailsModel
-                                                  .result
-                                                  .serviceDetails[0]
-                                                  .id);
+                                                  .data.productDetails[0].id);
                                           navigateTo(context,
                                               ReviewsAndCommentsScreen());
                                         },
@@ -370,12 +386,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) => SizedBox(
                                         width: 300,
-                                        child: HorizontalProductCard()),
+                                        child: HorizontalProductCard(relatedProducts: cubit.productDetailsModel.data.relatedProducts[index],)),
                                     separatorBuilder: (context, index) =>
                                         SizedBox(
                                           width: 10,
                                         ),
-                                    itemCount: 4),
+                                    itemCount:  cubit.productDetailsModel .data.relatedProducts.length),
                               )
                             ],
                           ),

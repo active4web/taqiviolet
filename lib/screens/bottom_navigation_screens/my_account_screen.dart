@@ -14,6 +14,9 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../Lists.dart';
+import '../orderReceived.dart';
+
 class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({Key key}) : super(key: key);
 
@@ -30,10 +33,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   @override
   Widget build(BuildContext context) {
+    AppCubit cubit = AppCubit.get(context);
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
-        print("Data:${cubit.userInfo.data.name}");
+
+       // print("Data:${cubit.userInfo.data.name}");
+
         return kToken == null
             ? MoveToLoginScreen()
             : Scaffold(
@@ -179,6 +184,33 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         SizedBox(
                           height: 20,
                         ),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextChip(
+                                text: 'MyLists'.tr(),
+                                onTap: () {
+                                  navigateTo(context, MyLists());
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Expanded(
+                              child: TextChip(
+                                text: "اعادة طلب شراء",onTap: (){
+
+                                navigateTo(context, OrderReceived());
+                                  print("oooooooooooooooo");
+                              },
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         Divider(),
                         SizedBox(
                           height: 16,
@@ -271,16 +303,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        ListView.separated(
-                            physics: NeverScrollableScrollPhysics(),
-                            padding: EdgeInsets.zero,
-                            shrinkWrap: true,
-                            itemBuilder: (context, index) =>
-                                HorizontalProductCard(),
-                            separatorBuilder: (context, index) => SizedBox(
-                                  height: 15,
-                                ),
-                            itemCount: 2),
+                        // ListView.separated(
+                        //     physics: NeverScrollableScrollPhysics(),
+                        //     padding: EdgeInsets.zero,
+                        //     shrinkWrap: true,
+                        //     itemBuilder: (context, index) =>
+                        //         HorizontalProductCard(),
+                        //     separatorBuilder: (context, index) => SizedBox(
+                        //           height: 15,
+                        //         ),
+                        //     itemCount: 2),
                         SizedBox(
                           height: 20,
                         ),
@@ -290,7 +322,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        showProductsGrid(4, false),
+                      //  showProductsGrid(4, false,cubit.productDetailsModel?.productDetails.productDetailsdata[0].id ),
                         SizedBox(
                           height: 20,
                         )

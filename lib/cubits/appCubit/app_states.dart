@@ -92,3 +92,9 @@ class GetAllNotificationsLoadingState extends AppStates {}
 class GetAllNotificationsSuccessState extends AppStates {}
 
 class GetAllNotificationsErrorState extends AppStates {}
+
+class AddToCartErrorState extends AppStates {}
+
+class AddToCartLoadingState extends AppStates {}
+
+class AddToCartSuccessState extends AppStates {}

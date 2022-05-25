@@ -2,22 +2,56 @@ import 'package:flutter/material.dart';
 import 'package:safsofa/shared/router.dart';
 
 const String kBaseURL = 'https://safsfurniture.com/';
-const String MBaseUrl = "https://safsoofa.amlakyeg.com/";
-
+//const String MBaseUrl = "https://safsoofa.amlakyeg.com/";
+const String MBaseUrl = "https://taqiviolet.com/";
 String kToken = '';
 String kLanguage = 'ar';
 // /*****************All End Point***********************/
 const String offersEndpoint = "/api/offers";
 const String blogEndpoint = "/api/blogs";
-const String homeMainCatEndPoint = "/api/categories?store_id=34&=";
+const String homeMainCatEndPoint = "/api/categories?store_id=34&lang=ar";
 const String homeMainBannerEndPoint = "/api/banners";
-const String SubCatEndPoint = "/api/subCategory?category_id=";
+const String SubCatEndPoint = "/api/subCategory?";
 const String productEndPoint = "/api/products?category_id=";
 const String dataFromStores="/api/stores";
+const String dataFromstories="/api/stories";
+const String dataFromcontacts="/api/contacts";
+const String dataFromabout="api/policy?type=2&lang=";
+const String datasupports="/api/supports";
 const String dataFromAllStores="/api/allStores/";
+const String dataFromallSupports="/api/allSupports";
+const String dataFromalldetailsSupport="/api/detailsSupport?message=";
 const String authRegister="api/register";
 const String authLogin="/api/login";
+const String userProfile="api/user-profile";
+const String editProfile="/api/editProfile";
+const String getallnotifications="/api/notifications?client_id=";
+const String getonenotifications="/api/DeleteNotification?id=";
+const String dellallnotifications="/api/DeleteAllNotification";
+const String productDetails="/api/productDetails?";
+const String AddToCartURL="/api/AddToCart";
+const String myCartURL="api/myCart";
+const String sumItemCartURL="/api/sumItemCart?";
+const String delItem="/api/deleteItemCart?id=";
+const String make_orderURL="api/make_order";
 
+const String myOrdersURL="api/myOrders";
+const String giftCardsURL="api/giftCards";
+const String phonesURL="api/phones";
+const String policyURL="api/policy?type=1&lang=";
+const String orderDetailsURL="/api/orderDetails";
+const String mainListURL="api/mainList";
+const String createRosterURL="api/createRoster";
+
+const String deleteRosterURL="api/deleteRoster";
+
+const String roster_idURL="api/rosterItem";
+const String deleteRosterItemURL="api/deleteRosterItem";
+const String addToRosterItemURL="api/addToRoster";
+
+
+const String reOrderURL="api/reOrder";
+const String reOrderItemURL="api/reOrderItem/";
 // /*****************************************************/
 
 const Color kDarkGoldColor = Color(0xffBA8B31);

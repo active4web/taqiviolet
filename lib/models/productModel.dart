@@ -33,14 +33,14 @@ class ProductFromCatModel {
 class DataProduct {
   int id;
   String name;
-  String price;
-  String discount;
+  int price;
+  int discount;
   String details;
   String quantity;
   int subCategoryId;
   int categoryId;
   int isActive;
-  Null storeId;
+  int storeId;
   String createdAt;
   String updatedAt;
   String images;

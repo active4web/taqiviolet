@@ -15,17 +15,17 @@ class HomeLayout extends StatelessWidget {
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
         if (state is GetHomeScreenLoadingState) {
-          Center(
-            child: Text("the data is Uploading......"),
-          );
-        }else
+         return Scaffold(body: Center(
+           child: Text("the data is Uploading......"),
+         ),);
+        }
         return Scaffold(
           extendBody: true,
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
           floatingActionButton: InkWell(
             onTap: () {
-              cubit.changeNavBar(2);
+              cubit.changeNavBar(2,context);
             },
             child: Container(
               padding: EdgeInsets.all(15),

@@ -14,9 +14,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:safsofa/shared/defaults.dart';
 
+import '../../cubits/shopsCubit/shops_cubit.dart';
+import '../../cubits/subCategory/sub_cat_cubit.dart';
 import '../contractors_screen.dart';
+import '../menu_screens/shops/ShopProfileScreen.dart';
+import '../mobile_scr.dart';
 import '../searchScreen.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key key}) : super(key: key);
 
@@ -213,33 +217,41 @@ class HomeScreen extends StatelessWidget {
                             SizedBox(
                               height: 20,
                             ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: HomeCard2(
-                            //         title: cubit.homeScreenModel.result
-                            //             .allFeatures[1].featureCategoryName,
-                            //         image: cubit.homeScreenModel.result
-                            //             .allFeatures[1].featureCategoryImage,
-                            //         isFeature: true,
-                            //         onTap: () {},
-                            //       ),
-                            //     ),
-                            //     SizedBox(width: 10),
-                            //     Expanded(
-                            //       child: HomeCard2(
-                            //         title: cubit.homeScreenModel.result
-                            //             .allFeatures[0].featureCategoryName,
-                            //         image: cubit.homeScreenModel.result
-                            //             .allFeatures[0].featureCategoryImage,
-                            //         isFeature: true,
-                            //         onTap: () {
-                            //           navigateTo(context, ConstructorsScreen());
-                            //         },
-                            //       ),
-                            //     ),
-                            //   ],
-                            // )
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: HomeCard(
+                                    title:  "متاجر",
+                                    image: "https://thumbor.forbes.com/thumbor/fit-in/900x510/https://www.forbes.com/uk/advisor/wp-content/uploads/2020/11/phones-switch-apps.jpg",
+                                    isFeature: true,
+                                    onTap: () {
+
+                                      ShopsCubit.get(context).   getDataFromShops();
+                                      ShopsCubit.get(context).emitAllShops();
+                                                                    Navigator.of(context).push(
+                                                                      MaterialPageRoute(
+                                                                        builder: (_) => ShopProfileScreen(Id: 37,index: 3,),//ShopProfileScreen(Id: cubit.storeListOfData[index].iD,index: index,),
+                                                                      ));
+                                      //                               );  navigateTo(context, ShopProfileScreen(Id: 37,index: 3,));
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: HomeCard(
+                                    title:  "مقاولات وبناء",
+                                    image: "https://image.shutterstock.com/image-photo/hand-worker-yellow-hardhat-on-260nw-1573321006.jpg",
+                                    isFeature: true,
+                                    onTap: () async{
+String url=await cubit.getconstructionLink();
+
+_launchURLBrowser(url);
+                                    //  navigateTo(context, ConstructorsScreen());
+                                    },
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -252,6 +264,14 @@ class HomeScreen extends StatelessWidget {
         );
       },
     );
+  }
+  _launchURLBrowser(url) async {
+
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }
 
@@ -287,7 +307,7 @@ class OffersListView extends StatelessWidget {
                             image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                    cubit.offerDataList[index].Image))),
+                                    cubit.offerDataList[index].image))),
                       ),
                     ),
                     SizedBox(
@@ -298,12 +318,12 @@ class OffersListView extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Text(
-                            cubit.offerDataList[index].Title ?? '',
+                            cubit.offerDataList[index].title ?? '',
                             style: TextStyle(fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            cubit.offerDataList[index].Content,
+                            cubit.offerDataList[index].content,
                             style: TextStyle(
                                 fontSize: 12, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
@@ -423,6 +443,7 @@ class HomeCard extends StatelessWidget {
   final bool isFeature;
 
   Future<void> onPress(BuildContext context) async {
+    SubCatCubit.get(context).productFromCatList?.clear();
     // cubit.getAllDepartments(
     //     catId: cubit.homeScreenModel.result.allCategories[index].catId);
     print(cubit.homeMainCatList[index].id.toString());

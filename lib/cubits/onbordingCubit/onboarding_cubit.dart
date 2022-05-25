@@ -14,6 +14,12 @@ class OnboardngCubit extends Cubit<OnboardingState> {
     emit(ChangeIndex());
   }
   List<SliderModel> list = [
+
+    SliderModel(
+      Image: "assets/images/Splash.gif",
+      title: "Onboard2".tr(),
+    ),
+
     SliderModel(
       Image: "assets/images/onboarding1.png",
       title: "Onboard1".tr(),
@@ -22,6 +28,11 @@ class OnboardngCubit extends Cubit<OnboardingState> {
       Image: "assets/images/onboarding2.png",
       title: "Onboard2".tr(),
     ),
+
+  SliderModel(
+  Image: "assets/images/onboarding2.png",
+  title: "Onboard2".tr(),
+  ),
   ];
 
 }

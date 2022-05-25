@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/screens/send_a_gift_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
@@ -12,6 +13,8 @@ import 'package:safsofa/shared/components/custom_location_picker.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
+
+import '../cubits/cartCubit/cart_cubit.dart';
 
 class CheckOutScreen extends StatelessWidget {
   const CheckOutScreen({Key key}) : super(key: key);
@@ -26,7 +29,9 @@ class CheckOutScreen extends StatelessWidget {
       },
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
-        return Scaffold(
+
+        CartCubit cartCubit = CartCubit.get(context);
+        return Scaffold(key:cartCubit.scaffoldkey ,
           appBar: CustomAppBar(
             title: 'CheckOut'.tr(),
           ),
@@ -35,6 +40,33 @@ class CheckOutScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
+                  GestureDetector(
+                    onTap: () {
+                      navigateTo(context, SendAGiftScreen());
+
+                    },
+                    child: Container(
+                      height: 50,
+                      width: double.infinity,
+                      color: Color(0xfff3f3f3),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.add_circle,
+                            color: Colors.black54,
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Text(
+                            'sendagift'.tr(),
+                            style: TextStyle(fontSize: 17),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                   Label(
                     text: 'SelectReceiveWay'.tr(),
                   ),
@@ -42,48 +74,50 @@ class CheckOutScreen extends StatelessWidget {
                     height: 10,
                   ),
                   StatefulBuilder(
-                    builder: (context, setState) => Column(
-                      children: [
-                        Row(
+                    builder: (context, setState) =>
+                        Column(
                           children: [
-                            Radio<ReceiveMethod>(
-                              value: ReceiveMethod.fromHome,
-                              groupValue: receiveMethod,
-                              onChanged: (ReceiveMethod value) {
-                                setState(() {
-                                  receiveMethod = value;
-                                });
-                              },
-                              fillColor: MaterialStateProperty.all<Color>(
-                                  kDarkGoldColor),
+                            Row(
+                              children: [
+                                Radio<ReceiveMethod>(
+                                  value: ReceiveMethod.fromHome,
+                                  groupValue: receiveMethod,
+                                  onChanged: (ReceiveMethod value) {
+                                    print(value);
+                                    setState(() {
+                                      receiveMethod = value;
+                                    });
+                                  },
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      kDarkGoldColor),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text('DeliverToHome'.tr()),
+                              ],
                             ),
-                            SizedBox(
-                              width: 16,
+                            Row(
+                              children: [
+                                Radio<ReceiveMethod>(
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      kDarkGoldColor),
+                                  value: ReceiveMethod.fromStore,
+                                  groupValue: receiveMethod,
+                                  onChanged: (ReceiveMethod value) {
+                                    setState(() {
+                                      receiveMethod = value;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text('ReceiveFromStore'.tr()),
+                              ],
                             ),
-                            Text('DeliverToHome'.tr()),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Radio<ReceiveMethod>(
-                              fillColor: MaterialStateProperty.all<Color>(
-                                  kDarkGoldColor),
-                              value: ReceiveMethod.fromStore,
-                              groupValue: receiveMethod,
-                              onChanged: (ReceiveMethod value) {
-                                setState(() {
-                                  receiveMethod = value;
-                                });
-                              },
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Text('ReceiveFromStore'.tr()),
-                          ],
-                        ),
-                      ],
-                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -96,28 +130,28 @@ class CheckOutScreen extends StatelessWidget {
                   ),
                   cubit.address != null
                       ? ListTile(
-                          tileColor: Color(0xfff3f3f3),
-                          leading: Icon(
-                            Icons.location_on_outlined,
-                            color: kDarkGoldColor,
-                            size: 25,
-                          ),
-                          title: Text(
-                            cubit.address ?? '',
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.black54),
-                          ),
-                          trailing: GestureDetector(
-                            onTap: () {
-                              cubit.address = null;
-                              cubit.emit(PickLocationSuccess());
-                            },
-                            child: Icon(
-                              Icons.remove_circle,
-                              color: Colors.black54,
-                            ),
-                          ),
-                        )
+                    tileColor: Color(0xfff3f3f3),
+                    leading: Icon(
+                      Icons.location_on_outlined,
+                      color: kDarkGoldColor,
+                      size: 25,
+                    ),
+                    title: Text(
+                      cubit.address ?? '',
+                      style:
+                      TextStyle(fontSize: 15, color: Colors.black54),
+                    ),
+                    trailing: GestureDetector(
+                      onTap: () {
+                        cubit.address = null;
+                        cubit.emit(PickLocationSuccess());
+                      },
+                      child: Icon(
+                        Icons.remove_circle,
+                        color: Colors.black54,
+                      ),
+                    ),
+                  )
                       : SizedBox(),
                   SizedBox(
                     height: 10,
@@ -162,48 +196,49 @@ class CheckOutScreen extends StatelessWidget {
                     height: 10,
                   ),
                   StatefulBuilder(
-                    builder: (context, setState) => Column(
-                      children: [
-                        Row(
+                    builder: (context, setState) =>
+                        Column(
                           children: [
-                            Radio<PaymentMethod>(
-                              value: PaymentMethod.offlinePayment,
-                              groupValue: paymentMethod,
-                              onChanged: (PaymentMethod value) {
-                                setState(() {
-                                  paymentMethod = value;
-                                });
-                              },
-                              fillColor: MaterialStateProperty.all<Color>(
-                                  kDarkGoldColor),
+                            Row(
+                              children: [
+                                Radio<PaymentMethod>(
+                                  value: PaymentMethod.offlinePayment,
+                                  groupValue: paymentMethod,
+                                  onChanged: (PaymentMethod value) {
+                                    setState(() {
+                                      paymentMethod = value;
+                                    });
+                                  },
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      kDarkGoldColor),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text('PayWhenReceive'.tr()),
+                              ],
                             ),
-                            SizedBox(
-                              width: 16,
+                            Row(
+                              children: [
+                                Radio<PaymentMethod>(
+                                  value: PaymentMethod.onlinePayment,
+                                  groupValue: paymentMethod,
+                                  onChanged: (PaymentMethod value) {
+                                    setState(() {
+                                      paymentMethod = value;
+                                    });
+                                  },
+                                  fillColor: MaterialStateProperty.all<Color>(
+                                      kDarkGoldColor),
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Text('PayOnline'.tr()),
+                              ],
                             ),
-                            Text('PayWhenReceive'.tr()),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Radio<PaymentMethod>(
-                              value: PaymentMethod.onlinePayment,
-                              groupValue: paymentMethod,
-                              onChanged: (PaymentMethod value) {
-                                setState(() {
-                                  paymentMethod = value;
-                                });
-                              },
-                              fillColor: MaterialStateProperty.all<Color>(
-                                  kDarkGoldColor),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Text('PayOnline'.tr()),
-                          ],
-                        ),
-                      ],
-                    ),
                   ),
                   SizedBox(
                     height: 10,
@@ -227,7 +262,7 @@ class CheckOutScreen extends StatelessWidget {
                         text: 'Total'.tr(),
                       ),
                       Text(
-                        '150.00 ريال',
+                        cartCubit.total.toString(),
                         style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18,
@@ -238,7 +273,14 @@ class CheckOutScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  CustomButton(
+                  CustomButton(onTap: () {
+                    cartCubit.make_order(address_id:1, address_save:0,
+                        payment_status: paymentMethod ==
+                            PaymentMethod.offlinePayment ? 1 : 0,
+                        payment_type: receiveMethod ==
+                            ReceiveMethod.fromHome ? 1 : 0,
+                        sub_total: cartCubit.total,context: context);
+                  },
                     height: 50,
                     text: 'CheckOut'.tr(),
                   ),

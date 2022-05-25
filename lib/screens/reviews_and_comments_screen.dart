@@ -34,8 +34,7 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          double.parse(cubit.productDetailsModel.result
-                                  .serviceDetails[0].totalRate)
+                          double.parse(cubit.productDetailsModel.data.productDetails[0].name)
                               .toString(),
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
@@ -45,26 +44,26 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
                         SizedBox(
                           width: 40,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomRatingBar(
-                              itemSize: 30,
-                              rating: double.parse(cubit.productDetailsModel
-                                  .result.serviceDetails[0].totalRate),
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text(
-                              cubit.productDetailsModel.result.allRate.length
-                                      .toString() +
-                                  'Review'.tr(),
-                              style: TextStyle(
-                                  color: Colors.black38, fontSize: 15),
-                            )
-                          ],
-                        ),
+                        // Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.start,
+                        //   children: [
+                        //     CustomRatingBar(
+                        //       itemSize: 30,
+                        //       rating: double.parse(cubit.productDetailsModel
+                        //           .result.serviceDetails[0].totalRate),
+                        //     ),
+                        //     SizedBox(
+                        //       height: 5,
+                        //     ),
+                        //     Text(
+                        //       cubit.productDetailsModel.result.allRate.length
+                        //               .toString() +
+                        //           'Review'.tr(),
+                        //       style: TextStyle(
+                        //           color: Colors.black38, fontSize: 15),
+                        //     )
+                        //   ],
+                        // ),
                       ],
                     ),
                   ),
@@ -78,8 +77,7 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
                       navigateTo(
                           context,
                           AddReviewScreen(
-                            prodId: cubit.productDetailsModel.result
-                                .serviceDetails[0].id,
+                            prodId: cubit.productDetailsModel.data.productDetails[0].id,
                           ));
                     },
                   ),

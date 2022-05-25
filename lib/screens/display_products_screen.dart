@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
+import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
+
+import '../cubits/appCubit/app_cubit.dart';
+import '../shared/defaults.dart';
 
 class DisplayProductsScreen extends StatefulWidget {
   DisplayProductsScreen({
@@ -36,7 +40,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
 
   @override
   void dispose() {
-    print("sasa");
+
     _scrollController.dispose();
     super.dispose();
   }
@@ -44,13 +48,18 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SubCatCubit, SubCatState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        print("get dataحخهحخهعخهحخهخخحهحخ");
+      },
       builder: (context, state) {
         SubCatCubit cubit = SubCatCubit.get(context);
+        AppCubit appCubit = AppCubit.get(context);
+        print( cubit.productFromCatList == null );
+        print( cubit.subCatDataList == null );
         return Scaffold(
             backgroundColor: Colors.white,
-            appBar: CustomAppBarWithSearch(
-              title: widget.categoryName,
+            appBar: CustomAppBarWithSearch(colorIcon: Colors.black,
+              title: widget.categoryName,colorAB: Colors.white
             ),
             body:
                 cubit.productFromCatList == null && cubit.subCatDataList == null
@@ -82,13 +91,22 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                         GestureDetector(
                                                           onTap: () {
                                                             setState(() {});
+
+                                                            print(cubit
+                                                                .subCatDataList[
+                                                            index]
+                                                                .id);
                                                             cubit.getProductSubCatData(
                                                                 param:
-                                                                    "sub_category_id",
-                                                                ProId: cubit
-                                                                    .subCatDataList[
-                                                                        index]
-                                                                    .iD);
+                                                                    "category_id",
+                                                                ProId:2
+
+                                                                // cubit
+                                                                //     .subCatDataList[
+                                                                //         index]
+                                                                //     .id
+
+                                                            )  ;
                                                             ProductFromSubCat =
                                                                 false;
 
@@ -111,7 +129,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                 decoration: BoxDecoration(
                                                                     color: kBGColor,
                                                                     borderRadius: BorderRadius.circular(10),
-                                                                    image: DecorationImage(image: NetworkImage(cubit.subCatDataList[index].image), fit: BoxFit.cover),
+                                                                 image: DecorationImage(image: NetworkImage(cubit.subCatDataList[index].image), fit: BoxFit.cover),
                                                                     border:
                                                                         // cubit
                                                                         //             .currentDepIndex ==
@@ -143,7 +161,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                         //     ? FontWeight
                                                                         //     .bold
                                                                         //     :
-                                                                        FontWeight.normal),
+                                                                        FontWeight.bold),
                                                               )
                                                             ],
                                                           ),
@@ -184,7 +202,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                   .images,
                                               currentPrice: cubit
                                                   .productFromCatList[index]
-                                                  .price,
+                                                  .price.toString(),
                                               // oldPrice: cubit
                                               //     .productsModel.result.allProducts[index].oldPrice,
                                               productName: cubit
@@ -214,7 +232,17 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                     mainAxisSpacing: 20,
                                                     crossAxisSpacing: 10),
                                             itemBuilder: (context, index) =>
-                                                VerticalProductCard(
+                                                VerticalProductCard(onclick: (){
+print("000000000000000000000000");
+print("000000000000000000000000     ${cubit
+    .productFromCatList[index].id}");
+                                                    appCubit.getProductDetails(
+                                                      productId: cubit
+                                                          .productFromCatList[index].id,
+                                                    );
+                                                    navigateTo(context, ProductDetailsScreen());
+
+                                                },
                                               cubit: cubit,
                                               // isFavourite: cubit.favourites[cubit
                                               //     .productsModel.result.allProducts[index].prodId],

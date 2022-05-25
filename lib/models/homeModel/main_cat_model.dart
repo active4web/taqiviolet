@@ -42,16 +42,15 @@ class Data {
   int hasSubCategories;
 
   Data(
-      {
-        this.hasSubCategories,
-        this.id,
+      {this.id,
         this.name,
         this.image,
         this.description,
         this.isActive,
         this.createdAt,
         this.updatedAt,
-        this.storeId});
+        this.storeId,
+        this.hasSubCategories});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,7 +61,7 @@ class Data {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     storeId = json['store_id'];
-    hasSubCategories=json["hasSubCategories"];
+    hasSubCategories = json['hasSubCategories'];
   }
 
   Map<String, dynamic> toJson() {
@@ -75,7 +74,7 @@ class Data {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['store_id'] = this.storeId;
-    data["hasSubCategories"]=this.hasSubCategories;
+    data['hasSubCategories'] = this.hasSubCategories;
     return data;
   }
 }

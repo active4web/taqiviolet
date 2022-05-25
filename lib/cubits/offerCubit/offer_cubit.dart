@@ -14,13 +14,14 @@ class OfferCubit extends Cubit<OfferState> {
 
   ///TODO:Get Offer Data
   OfferModel offerModel;
-  List allOffer;
+  List <OfferModelData>allOffer;
   void getOfferData() {
     emit(GetOfferLoadingState());
     Mhelper.getData(
       UrlPath: offersEndpoint,
     ).then((value) {
-      print(value.data);
+
+      print("the offer ${value.data}");
       offerModel = OfferModel.fromJson(value.data);
       allOffer=offerModel.data;
       print("${allOffer}");

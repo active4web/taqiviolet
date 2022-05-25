@@ -6,6 +6,9 @@ import 'package:safsofa/models/shopsModel/shops_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../../models/phones_model.dart';
+import '../../network/local/cache_helper.dart';
+
 part 'shops_state.dart';
 
 class ShopsCubit extends Cubit<ShopsState> {
@@ -72,5 +75,31 @@ int SubCatindex=1;
       emit(AllShopsError());
       print("err:$err");
     });
+  }
+
+
+  PhonesModel phonesModel;
+  void getData( ) {
+    emit(ShopsLoading());
+
+
+    Mhelper.getData(token: CacheHelper.getData("token"),
+      UrlPath: phonesURL,
+    ).then((value) {
+
+      phonesModel = PhonesModel.fromJson(value.data);
+      //  print(getdataprofileModel.toJson());
+      // allOffer=offerModel.data;
+      // print("${allOffer}");
+      emit(ShopsSuccess());
+    }).catchError(
+            (error) {
+          emit(ShopsError());
+          print(error.toString());
+        }
+    );
+
+
+
   }
 }
