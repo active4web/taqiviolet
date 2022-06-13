@@ -180,16 +180,16 @@ class HomeScreen extends StatelessWidget {
                                 SizedBox(
                                   width: 10,
                                 ),
-                                Expanded(
-                                  flex: 220,
-                                  child: HomeCard(
-                                    index: 4,
-                                    cubit: cubit,
-                                    title: cubit.homeMainCatList[4].name,
-                                    //cubit.homeMainCatList[1].name.ar,
-                                    image: cubit.homeMainCatList[4].image,
-                                  ),
-                                ),
+                                // Expanded(
+                                //   flex: 220,
+                                //   child: HomeCard(
+                                //     index: 4,
+                                //     cubit: cubit,
+                                //     title: cubit.homeMainCatList[4].name,
+                                //     //cubit.homeMainCatList[1].name.ar,
+                                //     image: cubit.homeMainCatList[4].image,
+                                //   ),
+                                // ),
                               ],
                             ),
                             SizedBox(

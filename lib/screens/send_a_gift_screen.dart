@@ -15,6 +15,7 @@ import '../shared/components/custom_app_bar.dart';
 import '../shared/components/custom_button.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 class SendAGiftScreen extends StatefulWidget {
   const SendAGiftScreen({Key key}) : super(key: key);
 
@@ -158,7 +159,8 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
             ),actions: [
             CustomButton(
               onTap: ()async {
-
+                await Permission.storage.request();
+                await Permission.manageExternalStorage.request();
              cartCubit.sendgiftCards(phone: phone.text,address: addres.text,context: context,link: vido.text,message: massge.text,receiver: name.text,type: addname==true?1:0 );
              screenshotController.capture().then((Uint8List image)async {
                //Capture Done
@@ -166,6 +168,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                  final directory = await getApplicationDocumentsDirectory();
                  final imagePath = await File('${directory.path}/image.png').create();
                  await imagePath.writeAsBytes(image);
+
                  for(int i=0;i<2;i++ ){
 
                    Navigator.pop(context);

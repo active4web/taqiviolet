@@ -67,6 +67,7 @@ dev_dependencies:
   url_launcher: ^6.0.9
   screenshot: ^1.2.3
   path_provider: ^2.0.11
+  permission_handler: any
 
 flutter_icons:
   android: "launcher_icon"
