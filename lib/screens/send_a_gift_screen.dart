@@ -137,7 +137,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                   child: Text("gift card"),
                 ),
                 Container(width: 200, height: 200,
-                    child: QrImage(data: "qrcodedata", version: QrVersions.auto, size: 180)
+                    child: QrImage(data: vido.text, version: QrVersions.auto, size: 180)
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -172,8 +172,9 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
         });
   }
    Future _generateBarCode(String inputCode,qrImage) async {
-  final qrCode = QrCode(4, QrErrorCorrectLevel.L)
-    ..addData('Hello, world in QR form!');
- //   qrImage = QrImage(qrCode);
+  // final qrCode = QrCode(4, QrErrorCorrectLevel.L)
+  //   ..addData(inputCode);
+   qrImage = await QrImage(data: inputCode, );
+
   }
 }
