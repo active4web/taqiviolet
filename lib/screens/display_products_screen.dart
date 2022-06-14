@@ -40,7 +40,6 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
 
   @override
   void dispose() {
-
     _scrollController.dispose();
     super.dispose();
   }
@@ -54,13 +53,14 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
       builder: (context, state) {
         SubCatCubit cubit = SubCatCubit.get(context);
         AppCubit appCubit = AppCubit.get(context);
-        print( cubit.productFromCatList == null );
-        print( cubit.subCatDataList == null );
+        print(cubit.productFromCatList == null);
+        print(cubit.subCatDataList == null);
         return Scaffold(
             backgroundColor: Colors.white,
-            appBar: CustomAppBarWithSearch(colorIcon: Colors.black,
-              title: widget.categoryName,colorAB: Colors.white
-            ),
+            appBar: CustomAppBarWithSearch(
+                colorIcon: kDarkGoldColor,
+                title: widget.categoryName,
+                colorAB: Colors.white),
             body:
                 cubit.productFromCatList == null && cubit.subCatDataList == null
                     ? Center(
@@ -74,7 +74,9 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                   children: [
                                     cubit.subCatDataList == null
                                         ? Center(
-                                            child: CircularProgressIndicator(),
+                                            child: CircularProgressIndicator(
+                                              color: kDarkGoldColor,
+                                            ),
                                           )
                                         : SizedBox(
                                             height: MediaQuery.of(context)
@@ -94,19 +96,19 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
 
                                                             print(cubit
                                                                 .subCatDataList[
-                                                            index]
+                                                                    index]
                                                                 .id);
                                                             cubit.getProductSubCatData(
                                                                 param:
                                                                     "category_id",
-                                                                ProId:2
+                                                                ProId: 2
 
                                                                 // cubit
                                                                 //     .subCatDataList[
                                                                 //         index]
                                                                 //     .id
 
-                                                            )  ;
+                                                                );
                                                             ProductFromSubCat =
                                                                 false;
 
@@ -129,7 +131,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                 decoration: BoxDecoration(
                                                                     color: kBGColor,
                                                                     borderRadius: BorderRadius.circular(10),
-                                                                 image: DecorationImage(image: NetworkImage(cubit.subCatDataList[index].image), fit: BoxFit.cover),
+                                                                    image: DecorationImage(image: NetworkImage(cubit.subCatDataList[index].image), fit: BoxFit.cover),
                                                                     border:
                                                                         // cubit
                                                                         //             .currentDepIndex ==
@@ -200,9 +202,12 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                               image: cubit
                                                   .productFromCatList[index]
                                                   .images,
-                                              currentPrice: cubit
+                                              discount: cubit
                                                   .productFromCatList[index]
-                                                  .price.toString(),
+                                                  .discount,
+                                              price: cubit
+                                                  .productFromCatList[index]
+                                                  .price,
                                               // oldPrice: cubit
                                               //     .productsModel.result.allProducts[index].oldPrice,
                                               productName: cubit
@@ -218,7 +223,9 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                   children: [
                                     cubit.productFromCatList == null
                                         ? Center(
-                                            child: CircularProgressIndicator())
+                                            child: CircularProgressIndicator(
+                                            color: kDarkGoldColor,
+                                          ))
                                         : GridView.builder(
                                             shrinkWrap: true,
                                             physics:
@@ -232,17 +239,20 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                     mainAxisSpacing: 20,
                                                     crossAxisSpacing: 10),
                                             itemBuilder: (context, index) =>
-                                                VerticalProductCard(onclick: (){
-print("000000000000000000000000");
-print("000000000000000000000000     ${cubit
-    .productFromCatList[index].id}");
-                                                    appCubit.getProductDetails(
-                                                      productId: cubit
-                                                          .productFromCatList[index].id,
-                                                    );
-                                                    navigateTo(context, ProductDetailsScreen());
-
-                                                },
+                                                VerticalProductCard(
+                                              onclick: () {
+                                                print(
+                                                    "000000000000000000000000");
+                                                print(
+                                                    "000000000000000000000000     ${cubit.productFromCatList[index].id}");
+                                                appCubit.getProductDetails(
+                                                  productId: cubit
+                                                      .productFromCatList[index]
+                                                      .id,
+                                                );
+                                                navigateTo(context,
+                                                    ProductDetailsScreen());
+                                              },
                                               cubit: cubit,
                                               // isFavourite: cubit.favourites[cubit
                                               //     .productsModel.result.allProducts[index].prodId],
@@ -251,7 +261,10 @@ print("000000000000000000000000     ${cubit
                                               image: cubit
                                                   .productFromCatList[index]
                                                   .images,
-                                              currentPrice: cubit
+                                              discount: cubit
+                                                  .productFromCatList[index]
+                                                  .discount,
+                                              price: cubit
                                                   .productFromCatList[index]
                                                   .price,
                                               // oldPrice: cubit

@@ -1,6 +1,5 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 
 class ChatsScreen extends StatelessWidget {
@@ -10,6 +9,7 @@ class ChatsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBarWithSearch(
+        colorIcon: Colors.white,
         title: 'Chats'.tr(),
       ),
       body: SingleChildScrollView(

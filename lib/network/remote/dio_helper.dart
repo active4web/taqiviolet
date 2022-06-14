@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class DioHelper {

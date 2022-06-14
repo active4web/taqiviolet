@@ -3,12 +3,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/language_screen.dart';
+import 'package:safsofa/screens/display_inspiration_products.dart';
 import 'package:safsofa/screens/menu_screens/about_screen.dart';
-import 'package:safsofa/screens/menu_screens/blog_screens/blog_screen.dart';
+import 'package:safsofa/screens/menu_screens/blog_screens/policies_screen.dart';
 import 'package:safsofa/screens/menu_screens/contact_us_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
-import 'package:safsofa/screens/menu_screens/shops/shops_screen.dart';
-import 'package:safsofa/screens/menu_screens/success_stories_screen.dart';
+import 'package:safsofa/screens/menu_screens/privacy_policy_screen.dart';
 import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
 import 'package:safsofa/screens/menu_screens/terms_and_conditions_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
@@ -45,7 +45,7 @@ class MenuScreen extends StatelessWidget {
                   Expanded(
                     flex: 3,
                     child: MenuTile(
-                      label: 'AboutUs'.tr(),
+                      label: "This is Taqi Violet".tr(),
                       image: AssetImage('assets/images/logo.png'),
                       onTap: () {
                         navigateTo(context, AboutScreen());
@@ -58,10 +58,10 @@ class MenuScreen extends StatelessWidget {
                   Expanded(
                     flex: 5,
                     child: MenuTile(
-                      label: 'SuccessStories'.tr(),
+                      label: 'privacy policy'.tr(),
                       image: AssetImage('assets/images/crown.png'),
                       onTap: () {
-                        navigateTo(context, SuccessStoriesScreen());
+                        navigateTo(context, PrivacyPolicyScreen());
                       },
                     ),
                   )
@@ -86,35 +86,6 @@ class MenuScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: MenuTile(
-                      label: 'Shops'.tr(),
-                      image: AssetImage('assets/images/shop.png'),
-                      onTap: () {
-                        navigateTo(context, ShopsScreen());
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: MenuTile(
-                      label: 'Blog'.tr(),
-                      image: AssetImage('assets/images/blog.png'),
-                      onTap: () {
-                        navigateTo(context, BlogScreen());
-                      },
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: MenuTile(
                       label: 'Language'.tr(),
                       image: AssetImage('assets/images/language.png'),
                       onTap: () {
@@ -126,7 +97,38 @@ class MenuScreen extends StatelessWidget {
                     width: 10,
                   ),
                   Expanded(
-                    flex: 5,
+                    child: MenuTile(
+                      label: 'Policies'.tr(),
+                      image: AssetImage('assets/images/blog.png'),
+                      onTap: () {
+                        navigateTo(context, PoliciesScreen());
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: MenuTile(
+                      label: 'Inspiration and creativity'.tr(),
+                      image: AssetImage('assets/images/shop.png'),
+                      onTap: () {
+                        navigateTo(
+                            context,
+                            DisplayInspirationProducts(
+                              categoryName: 'Inspiration and creativity'.tr(),
+                            ));
+                      },
+                    ),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Expanded(
                     child: MenuTile(
                       label: 'TermsAndConditions'.tr(),
                       image: AssetImage('assets/images/privacy.png'),
@@ -218,14 +220,18 @@ class MenuTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: MediaQuery.of(context).size.height * 0.04,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: image,
                 )),
               ),
+              SizedBox(
+                height: 5,
+              ),
               Text(
                 label,
+                textAlign: TextAlign.center,
                 style: TextStyle(color: kLightGoldColor),
               )
             ],

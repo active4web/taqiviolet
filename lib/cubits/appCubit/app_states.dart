@@ -1,6 +1,3 @@
-import 'package:safsofa/cubits/appCubit/app_cubit.dart';
-import 'package:safsofa/cubits/appCubit/app_cubit.dart';
-
 abstract class AppStates {}
 
 class AppInitial extends AppStates {}
@@ -34,10 +31,13 @@ class GetProductsSuccessState extends AppStates {
 class GetProductsErrorState extends AppStates {}
 
 class GetProductDetailsLoadingState extends AppStates {}
+
 ///States of Main Category in Home Screen
-class HomeMainCatLoading extends AppStates{}
-class HomeMainCatSuccess extends AppStates{}
-class HomeMainCatError extends AppStates{}
+class HomeMainCatLoading extends AppStates {}
+
+class HomeMainCatSuccess extends AppStates {}
+
+class HomeMainCatError extends AppStates {}
 
 ///TODO:End of HomeCat States
 
@@ -98,3 +98,11 @@ class AddToCartErrorState extends AppStates {}
 class AddToCartLoadingState extends AppStates {}
 
 class AddToCartSuccessState extends AppStates {}
+
+class ChangeVideoSoundState extends AppStates {}
+
+class GetConstructionLoadingState extends AppStates {}
+
+class GetConstructionSuccessState extends AppStates {}
+
+class GetConstructionErrorState extends AppStates {}

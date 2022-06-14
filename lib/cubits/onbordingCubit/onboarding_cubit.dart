@@ -7,19 +7,14 @@ part 'onboarding_state.dart';
 
 class OnboardngCubit extends Cubit<OnboardingState> {
   OnboardngCubit() : super(OnboardingInitial());
-  static OnboardngCubit get(context)=>BlocProvider.of(context);
+  static OnboardngCubit get(context) => BlocProvider.of(context);
   emit(OnboardingInitial);
-  int currentIndex=0;
-  Future <void> changeIndex(int index)async{
+  int currentIndex = 0;
+  Future<void> changeIndex(int index) async {
     emit(ChangeIndex());
   }
+
   List<SliderModel> list = [
-
-    SliderModel(
-      Image: "assets/images/Splash.gif",
-      title: "Onboard2".tr(),
-    ),
-
     SliderModel(
       Image: "assets/images/onboarding1.png",
       title: "Onboard1".tr(),
@@ -28,11 +23,5 @@ class OnboardngCubit extends Cubit<OnboardingState> {
       Image: "assets/images/onboarding2.png",
       title: "Onboard2".tr(),
     ),
-
-  SliderModel(
-  Image: "assets/images/onboarding2.png",
-  title: "Onboard2".tr(),
-  ),
   ];
-
 }

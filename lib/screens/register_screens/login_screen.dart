@@ -1,17 +1,17 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/register_screens/signup_screen.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -24,14 +24,12 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is LoginSuccessState) {
           CacheHelper.setData(
-                  key: 'token',
-                  value: state.loginSuccessModel.data.token)
+                  key: 'token', value: state.loginSuccessModel.data.token)
               .then((value) {
             kToken = CacheHelper.getData('token');
             AppCubit.get(context).getCache();
             navigateAndFinish(context, HomeLayout());
-            showToast(
-                text: state.loginSuccessModel.msg, color: Colors.green);
+            showToast(text: state.loginSuccessModel.msg, color: Colors.green);
           });
         } else if (state is LoginErrorState) {
           showToast(text: state.errorMessage, color: Colors.red);
@@ -69,7 +67,7 @@ class LoginScreen extends StatelessWidget {
                       height: 30,
                     ),
                     CustomTextFormField(
-                      hintText: 'Phone'.tr(),
+                      hintText: "phoneOrEmail".tr(),
                       controller: phoneController,
                     ),
                     SizedBox(

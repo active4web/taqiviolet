@@ -1,3 +1,4 @@
+import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,16 +29,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
               },
               items: [
                 BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.home), label: ''),
+                    icon: Icon(CupertinoIcons.home), label: "Home".tr()),
                 BottomNavigationBarItem(
                     icon: ImageIcon(
                       AssetImage('assets/images/offers.png'),
-
-                    ), label: ''),
+                    ),
+                    label: 'Offers'.tr()),
                 BottomNavigationBarItem(icon: SizedBox(), label: ''),
                 BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.person), label: ''),
-                BottomNavigationBarItem(icon: Icon(Icons.menu), label: ''),
+                    icon: Icon(CupertinoIcons.person), label: 'Account'.tr()),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.menu), label: 'More'.tr()),
               ],
             ),
           ),

@@ -1,26 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
-import 'package:safsofa/cubits/appCubit/app_states.dart';
-import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../../models/my_product_details_model.dart';
-import '../../../network/local/cache_helper.dart';
 import '../../constants.dart';
 import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
   VerticalProductCard({
     Key key,
-    this.isFavourite = false, this.onclick,
+    this.isFavourite = false,
+    this.onclick,
     this.productName,
     this.productId,
     this.image,
     this.totalRate,
-    this.oldPrice,
-    this.currentPrice,
+    this.price,
+    this.discount,
     this.cubit,
   }) : super(key: key);
 
@@ -29,8 +27,8 @@ class VerticalProductCard extends StatelessWidget {
   final int productId;
   final String image;
   final totalRate;
-  final oldPrice;
-  final currentPrice;
+  final price;
+  final discount;
   var cubit;
   VoidCallback onclick;
 
@@ -38,6 +36,8 @@ class VerticalProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     print("image      $image");
     print("image      $productId");
+    print("price      $price");
+    print("discount      $discount");
     return GestureDetector(
       onTap: //onclick
 
@@ -49,21 +49,19 @@ class VerticalProductCard extends StatelessWidget {
         //   productId: productId,
         // );
         navigateTo(context, ProductDetailsScreen());
-      }
-
-      ,
+      },
       child: Stack(
         children: [
           Column(
             children: [
               Expanded(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: kBGColor,
-                      image: DecorationImage(image: NetworkImage(image)),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  )),
+                decoration: BoxDecoration(
+                  color: kBGColor,
+                  image: DecorationImage(image: NetworkImage(image)),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              )),
               SizedBox(
                 height: 10,
               ),
@@ -91,8 +89,7 @@ class VerticalProductCard extends StatelessWidget {
                             width: 20,
                           ),
                           Text(
-                            double.parse(totalRate ?? 0.toString())
-                                .toString(),
+                            double.parse(totalRate ?? 0.toString()).toString(),
                             style: TextStyle(fontSize: 11),
                           ),
                         ],
@@ -103,58 +100,84 @@ class VerticalProductCard extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    oldPrice ?? '',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        decoration:
-                                        TextDecoration.lineThrough,
-                                        fontSize: 9),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'ريال',
-                                    style: TextStyle(
-                                        color: Colors.grey,
-                                        decoration:
-                                        TextDecoration.lineThrough,
-                                        fontSize: 9),
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 5,
-                              ),
-                              Row(
-                                children: [
-                                  Text(
-                                    currentPrice.toString() ?? '',
-                                    style: TextStyle(
-                                        color: Color(0xffFE9C8F),
-                                        fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'ريال',
-                                    style: TextStyle(
-                                        color: Color(0xffFE9C8F),
-                                        fontSize: 12),
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
+                          if (price != null && discount != null)
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      price.toString() ?? '',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          fontSize: 9),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'ريال',
+                                      style: TextStyle(
+                                          color: Colors.grey,
+                                          decoration:
+                                              TextDecoration.lineThrough,
+                                          fontSize: 9),
+                                    )
+                                  ],
+                                ),
+                                // if (discount != null)
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      discount.toString() ?? '',
+                                      style: TextStyle(
+                                          color: Color(0xffFE9C8F),
+                                          fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'ريال',
+                                      style: TextStyle(
+                                          color: Color(0xffFE9C8F),
+                                          fontSize: 12),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          if (price != null && discount == null)
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      price.toString() ?? '',
+                                      style: TextStyle(
+                                          color: Color(0xffFE9C8F),
+                                          fontSize: 12),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'ريال',
+                                      style: TextStyle(
+                                          color: Color(0xffFE9C8F),
+                                          fontSize: 12),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
                             child: Container(
                               width: 25,
                               height: 25,
@@ -192,43 +215,43 @@ class VerticalProductCard extends StatelessWidget {
                 },
                 icon: isFavourite
                     ? Icon(
-                  Icons.favorite_rounded,
-                  color: Color(0xffFE9C8F),
-                )
+                        Icons.favorite_rounded,
+                        color: Color(0xffFE9C8F),
+                      )
                     : Icon(
-                  Icons.favorite_border_rounded,
-                  color: Colors.grey,
-                ),
+                        Icons.favorite_border_rounded,
+                        color: Colors.grey,
+                      ),
               )),
-          Positioned(
-            top: 0,
-            right: 0,
-            child: Container(
-              width: 35,
-              height: 35,
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Center(
-                child: Text(
-                  '30%',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 11,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 0,
+          //   right: 0,
+          //   child: Container(
+          //     width: 35,
+          //     height: 35,
+          //     margin: EdgeInsets.all(10),
+          //     decoration: BoxDecoration(
+          //       color: Colors.black,
+          //       borderRadius: BorderRadius.circular(50),
+          //     ),
+          //     child: Center(
+          //       child: Text(
+          //         '30%',
+          //         style: TextStyle(
+          //             color: Colors.white,
+          //             fontSize: 11,
+          //             fontWeight: FontWeight.bold),
+          //       ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );
   }
 }
 
-GridView showProductsGrid(int count, bool isFavourite,int id) {
+GridView showProductsGrid(int count, bool isFavourite, int id) {
   return GridView.builder(
     shrinkWrap: true,
     physics: NeverScrollableScrollPhysics(),
@@ -239,15 +262,12 @@ GridView showProductsGrid(int count, bool isFavourite,int id) {
         mainAxisSpacing: 20,
         crossAxisSpacing: 10),
     itemBuilder: (context, index) =>
-        VerticalProductCard(productId: id,
-           isFavourite: isFavourite
-        ),
+        VerticalProductCard(productId: id, isFavourite: isFavourite),
   );
 }
 
 class HorizontalProductCard extends StatelessWidget {
   ProductDetails relatedProducts;
-
 
   HorizontalProductCard({this.relatedProducts});
 
@@ -256,18 +276,16 @@ class HorizontalProductCard extends StatelessWidget {
     AppCubit appCubit = AppCubit.get(context);
     return GestureDetector(
       onTap: () {
-print("99999999999999999999999999999999999999999999");
-print("99999999999999999999999999999999999999999999     ${relatedProducts.id}");
+        print("99999999999999999999999999999999999999999999");
+        print(
+            "99999999999999999999999999999999999999999999     ${relatedProducts.id}");
         appCubit.getProductDetails(
-          productId:  relatedProducts.id,
+          productId: relatedProducts.id,
         );
         navigateTo(context, ProductDetailsScreen());
       },
       child: Container(
-        height: MediaQuery
-            .of(context)
-            .size
-            .height * 0.22,
+        height: MediaQuery.of(context).size.height * 0.22,
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 0.5)],
@@ -302,14 +320,9 @@ print("99999999999999999999999999999999999999999999     ${relatedProducts.id}");
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width * 0.45,
+                        width: MediaQuery.of(context).size.width * 0.45,
                         child: Text(
-                          relatedProducts
-                              .name ,
-
+                          relatedProducts.name,
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w500),
                           maxLines: 2,

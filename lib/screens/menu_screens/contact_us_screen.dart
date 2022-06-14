@@ -1,27 +1,21 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
-import 'package:safsofa/shared/components/custom_label.dart';
-import 'package:safsofa/shared/components/custom_text_form_field.dart';
-import 'package:safsofa/shared/components/description_text_field.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../cubits/contactUsCubit/contact_us_cubit.dart';
 import '../../cubits/contactUsCubit/contact_us_state.dart';
-import '../../models/register_success_model.dart';
-import '../../network/local/cache_helper.dart';
 
 class ContactUsScreen extends StatelessWidget {
   ContactUsScreen({Key key}) : super(key: key);
-  TextEditingController name = TextEditingController();
-  TextEditingController phone = TextEditingController();
-  TextEditingController message = TextEditingController();
+  TextEditingController email = TextEditingController();
+  // TextEditingController phone = TextEditingController();
+  // TextEditingController message = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     // RegisterSuccessModel user=   CacheHelper.getData(
     //       'userInfo'
     //  );
@@ -38,29 +32,102 @@ class ContactUsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
-                   CustomFormField(controller:name,inputType: TextInputType.text,label: "FullName".tr()),
-                  SizedBox(
-                    height: 10,
+                  Text(
+                    "Get the latest exclusive offers from Tagy Violet via email"
+                        .tr(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
                   ),
-                  CustomFormField(controller:phone,inputType: TextInputType.phone, label: "Phone".tr()),
                   SizedBox(
-                    height: 10,
+                    height: 25,
                   ),
-                  DescriptionTextField(controller:message,hintText: "Comment".tr(), ),
+                  // Container(
+                  //   //height: 50,
+                  //   //width: MediaQuery.of(context).size.width,
+                  //   // padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                  //   decoration: BoxDecoration(
+                  //       color: Color(0xffFAFAFA),
+                  //       borderRadius: BorderRadius.circular(30),
+                  //       boxShadow: [
+                  //         BoxShadow(
+                  //           color: Colors.grey,
+                  //           blurRadius: 0.5,
+                  //         )
+                  //       ]),
+                  //   child: Form(
+                  //     key: cubit.formKey,
+                  //     child: TextFormField(
+                  //       controller: email,
+                  //       keyboardType: TextInputType.emailAddress,
+                  //       autovalidateMode: AutovalidateMode.onUserInteraction,
+                  //       validator: (value) {
+                  //         if (value.isEmpty) {
+                  //           return "Email should not be empty".tr();
+                  //         } else if ((RegExp(
+                  //                     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  //                 .hasMatch(value)) ==
+                  //             false) {
+                  //           return 'Please! enter valid e-mail'.tr();
+                  //         } else {
+                  //           return null;
+                  //         }
+                  //       },
+                  //       decoration: InputDecoration(
+                  //           contentPadding:
+                  //               EdgeInsets.symmetric(horizontal: 20),
+                  //           border: InputBorder.none,
+                  //           hintText: "Email".tr(),
+                  //           hintTextDirection: TextDirection.rtl),
+                  //       style: TextStyle(color: Colors.black),
+                  //     ),
+                  //   ),
+                  // ),
+                  CustomFormField(
+                    controller: email,
+                    inputType: TextInputType.emailAddress,
+                    label: "Email".tr(),
+                  ),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // CustomFormField(
+                  //     controller: phone,
+                  //     inputType: TextInputType.phone,
+                  //     label: "Phone".tr()),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
+                  // DescriptionTextField(
+                  //   controller: message,
+                  //   hintText: "Comment".tr(),
+                  // ),
                   SizedBox(
                     height: 20,
                   ),
                   state is PostContactUsState
                       ? CircularProgressIndicator()
-                      : CustomButton(onTap: () {
-                    cubit.query["name"] =name.text;
-                    cubit.query["phone"] =phone.text;
-                    cubit.query["message"] =message.text;
-                    cubit.postContactUs();
-                  },
-                    height: 50,
-                    text: 'Send'.tr(),
-                  )
+                      : CustomButton(
+                          onTap: () {
+                            // cubit.query["name"] = name.text;
+                            // cubit.query["phone"] = phone.text;
+                            // cubit.query["message"] = message.text;
+                            cubit.query["email"] = email.text;
+                            cubit.postContactUs();
+                            // if (cubit.formKey.currentState.validate()) {
+                            //
+                            //   // if (cubit.subscribeModel.msg
+                            //   //         .allMatches('success') !=
+                            //   //     null) {
+                            //   //   email.clear();
+                            //   // }
+                            // }
+                          },
+                          height: 50,
+                          text: 'subscribe'.tr(),
+                        )
                 ],
               ),
             ),

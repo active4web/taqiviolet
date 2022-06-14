@@ -18,8 +18,7 @@ class FavouritesScreen extends StatelessWidget {
       body: BlocBuilder<AppCubit, AppStates>(
         builder: (context, state) {
           AppCubit cubit = AppCubit.get(context);
-          return
-            cubit.favouritesModel == null
+          return cubit.favouritesModel == null
               ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
@@ -49,9 +48,9 @@ class FavouritesScreen extends StatelessWidget {
                                 .allFavourites[index].totalRate,
                             image: cubit.favouritesModel.result
                                 .allFavourites[index].productImage,
-                            currentPrice: cubit.favouritesModel.result
+                            discount: cubit.favouritesModel.result
                                 .allFavourites[index].price,
-                            oldPrice: cubit.favouritesModel.result
+                            price: cubit.favouritesModel.result
                                 .allFavourites[index].oldPrice,
                             productName: cubit.favouritesModel.result
                                 .allFavourites[index].serviceName,

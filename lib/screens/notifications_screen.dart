@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
-
-import 'bottom_navigation_screens/my_account_screen.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({Key key}) : super(key: key);
@@ -14,10 +13,10 @@ class NotificationsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
-   cubit.getAllNotifications();
+    cubit.getAllNotifications();
 
     return kToken == null
-        ? MoveToLoginScreen()
+        ? LoginScreen()
         : Scaffold(
             appBar: CustomAppBar(
               title: 'Notifications'.tr(),
@@ -26,15 +25,15 @@ class NotificationsScreen extends StatelessWidget {
               builder: (context, state) {
                 print(state);
 
+                return state is GetAllNotificationsLoadingState
+                    ?
 
-                return  state is  GetAllNotificationsLoadingState?
-
-               //  cubit.notificationsListModel == null
-                     Center(
-                       child: CircularProgressIndicator(
-                  color: Colors.black,
-                ),
-                     )
+                    //  cubit.notificationsListModel == null
+                    Center(
+                        child: CircularProgressIndicator(
+                          color: Colors.black,
+                        ),
+                      )
                     : SingleChildScrollView(
                         child: Padding(
                           padding: const EdgeInsets.all(22),
@@ -49,8 +48,7 @@ class NotificationsScreen extends StatelessWidget {
                                           TextStyle(color: Color(0xffD0021B)),
                                     ),
                                     onPressed: () {
-
-cubit.delAllNotifications();
+                                      cubit.delAllNotifications();
                                     },
                                   )
                                 ],
@@ -58,21 +56,20 @@ cubit.delAllNotifications();
                               SizedBox(
                                 height: 20,
                               ),
-                              cubit.notificationsListModel.data
-                                       .length ==
-                                      0
+                              cubit.notificationsListModel.data.length == 0
                                   ? Text("لا يوجد اشعارات").tr()
                                   : ListView.separated(
-                                      itemCount: cubit.notificationsListModel
-                                          .data .length,
+                                      itemCount: cubit
+                                          .notificationsListModel.data.length,
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => InkWell(onLongPress: (){
-                                   cubit.deloneNotifications(cubit
-                                       .notificationsListModel
-                                       .data
-                                   [index].id);
-                                      },
+                                      itemBuilder: (context, index) => InkWell(
+                                        onLongPress: () {
+                                          cubit.deloneNotifications(cubit
+                                              .notificationsListModel
+                                              .data[index]
+                                              .id);
+                                        },
                                         child: ListTile(
                                           // leading: Container(
                                           //   height: 50,
@@ -90,18 +87,16 @@ cubit.delAllNotifications();
                                           // ),
                                           title: Text(cubit
                                               .notificationsListModel
-                                              .data
-                                          [index]
+                                              .data[index]
                                               .title),
-                                          contentPadding:
-                                              EdgeInsets.symmetric(vertical: 10),
+                                          contentPadding: EdgeInsets.symmetric(
+                                              vertical: 10),
                                           subtitle: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: Text(cubit
                                                 .notificationsListModel
-                                                .data
-                                                 [index]
+                                                .data[index]
                                                 .createdAt
                                                 .toString()
                                                 .substring(0, 10)),

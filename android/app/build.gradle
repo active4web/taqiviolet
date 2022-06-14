@@ -47,6 +47,7 @@ android {
         applicationId "active4web.com.safsofa"
         minSdkVersion 20
         targetSdkVersion 29
+        multiDexEnabled = true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
@@ -68,4 +69,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
     implementation 'com.google.firebase:firebase-analytics'
+    implementation("androidx.multidex:multidex:2.0.1")
 }

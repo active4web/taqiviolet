@@ -8,6 +8,7 @@ class CustomFormField extends StatelessWidget {
     this.isSecured = false,
     this.prefix,
     this.inputType = TextInputType.text,
+    this.minLines = 1,
   }) : super(key: key);
 
   final String label;
@@ -15,6 +16,7 @@ class CustomFormField extends StatelessWidget {
   final bool isSecured;
   final Widget prefix;
   final TextInputType inputType;
+  final int minLines;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +37,8 @@ class CustomFormField extends StatelessWidget {
         controller: controller,
         obscureText: isSecured,
         keyboardType: inputType,
+        minLines: minLines,
+        maxLines: minLines != 1 ? null : 1,
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 20),
             prefix: prefix,

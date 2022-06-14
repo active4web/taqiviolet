@@ -3,9 +3,9 @@
     <uses-permission android:name="android.permission.INTERNET" />
    <application
        android:usesCleartextTraffic="true"
-        android:label="safsofa"
+        android:label="Taqi Violet"
         android:name="${applicationName}"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
             android:exported="true"

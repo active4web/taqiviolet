@@ -1,19 +1,19 @@
-class SuccessStoriesModel {
+class PrivacyPolicyModel {
   bool status;
   String errNum;
   String msg;
-  List<SuccessStoriesData> data;
+  List<PrivacyPolicyData> data;
 
-  SuccessStoriesModel({this.status, this.errNum, this.msg, this.data});
+  PrivacyPolicyModel({this.status, this.errNum, this.msg, this.data});
 
-  SuccessStoriesModel.fromJson(Map<String, dynamic> json) {
+  PrivacyPolicyModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = <SuccessStoriesData>[];
+      data = <PrivacyPolicyData>[];
       json['data'].forEach((v) {
-        data.add(new SuccessStoriesData.fromJson(v));
+        data.add(new PrivacyPolicyData.fromJson(v));
       });
     }
   }
@@ -30,27 +30,30 @@ class SuccessStoriesModel {
   }
 }
 
-class SuccessStoriesData {
+class PrivacyPolicyData {
   int id;
   String content;
   String title;
-  List<String> image;
+  String image;
+  int type;
   String createdAt;
   String updatedAt;
 
-  SuccessStoriesData(
+  PrivacyPolicyData(
       {this.id,
-        this.content,
-        this.title,
-        this.image,
-        this.createdAt,
-        this.updatedAt});
+      this.content,
+      this.title,
+      this.image,
+      this.type,
+      this.createdAt,
+      this.updatedAt});
 
-  SuccessStoriesData.fromJson(Map<String, dynamic> json) {
+  PrivacyPolicyData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     content = json['content'];
     title = json['title'];
-    image = json['image'].cast<String>();
+    image = json['image'];
+    type = json['type'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -61,6 +64,7 @@ class SuccessStoriesData {
     data['content'] = this.content;
     data['title'] = this.title;
     data['image'] = this.image;
+    data['type'] = this.type;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;

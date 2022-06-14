@@ -1,8 +1,6 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/shopsCubit/shops_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/cubits/shopsCubit/shops_cubit.dart';
 import 'package:safsofa/shared/components/custom_rating_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -27,12 +25,13 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
     return BlocConsumer<ShopsCubit, ShopsState>(
       listener: (context, state) {},
       builder: (context, state) {
-        MobileCubit mobileCubit=MobileCubit.get(context);
+        MobileCubit mobileCubit = MobileCubit.get(context);
         ShopsCubit cubit = ShopsCubit.get(context);
         print("state      $state");
         state is AllShopsInitial
             ? cubit.getDataFromAllShops(Id: widget.Id.toString())
-            : print("8989797778885874598754      ========   id=${widget.Id}  ====== index=${widget.index}");
+            : print(
+                "8989797778885874598754      ========   id=${widget.Id}  ====== index=${widget.index}");
 
         return Scaffold(
           body: state is! AllShopsSuccess
@@ -154,7 +153,6 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
                         ),
                       ),
                     ),
-
                     SliverToBoxAdapter(
                       child: Container(
                         height: 50,
@@ -163,7 +161,8 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
                             cubit.AllCat.length,
                             (int index) {
                               return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
                                 child: ChoiceChip(
                                   label: Text('${cubit.AllCat[index].name}'),
                                   selected: _value == index,
@@ -173,7 +172,8 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
                                     setState(() {
                                       if (selected) {
                                         cubit.SubCatindex = index;
-                                        cubit.getDataFromAllShops(Id: widget.Id.toString());
+                                        cubit.getDataFromAllShops(
+                                            Id: widget.Id.toString());
                                         _value = index;
                                       } else {
                                         _value = null;
@@ -187,36 +187,40 @@ class _ShopProfileScreenState extends State<ShopProfileScreen> {
                         ),
                       ),
                     ),
-                    cubit.DetectedProduct.length==0||cubit.DetectedProduct.length==null?
-                    SliverToBoxAdapter(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height*0.3,
-                        child:Center(child: Text("No Data"),),
-                      ),
-                    ):
-                    SliverGrid(
-                      delegate: SliverChildBuilderDelegate(
-                        (context, index) => VerticalProductCard(
-                          cubit: cubit,
-                          // isFavourite: cubit.favourites[cubit
-                          //     .productsModel.result.allProducts[index].prodId],
-                          // totalRate: cubit
-                          //     .productsModel.result.allProducts[index].totalRate,
-                          image: cubit.DetectedProduct[index].images,
-                          currentPrice: cubit.DetectedProduct[index].price,
-                          // oldPrice: cubit
-                          //     .productsModel.result.allProducts[index].oldPrice,
-                          productName: cubit.DetectedProduct[index].name,
-                          productId: cubit.DetectedProduct[index].id,
-                        ),
-                        childCount: cubit.DetectedProduct.length,
-                      ),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          childAspectRatio: 15 / 30,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 10),
-                    ),
+                    cubit.DetectedProduct.length == 0 ||
+                            cubit.DetectedProduct.length == null
+                        ? SliverToBoxAdapter(
+                            child: Container(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: Center(
+                                child: Text("No Data"),
+                              ),
+                            ),
+                          )
+                        : SliverGrid(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) => VerticalProductCard(
+                                cubit: cubit,
+                                // isFavourite: cubit.favourites[cubit
+                                //     .productsModel.result.allProducts[index].prodId],
+                                // totalRate: cubit
+                                //     .productsModel.result.allProducts[index].totalRate,
+                                image: cubit.DetectedProduct[index].images,
+                                discount: cubit.DetectedProduct[index].price,
+                                // oldPrice: cubit
+                                //     .productsModel.result.allProducts[index].oldPrice,
+                                productName: cubit.DetectedProduct[index].name,
+                                productId: cubit.DetectedProduct[index].id,
+                              ),
+                              childCount: cubit.DetectedProduct.length,
+                            ),
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: 15 / 30,
+                                    mainAxisSpacing: 20,
+                                    crossAxisSpacing: 10),
+                          ),
                   ],
                 ),
         );

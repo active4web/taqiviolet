@@ -1,38 +1,31 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:math';
 
-import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
-import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
+import 'package:safsofa/models/construction_link_model.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favourites_products_model.dart';
 import 'package:safsofa/models/homeModel/main_cat_model.dart';
 import 'package:safsofa/models/homeModel/main_home_banner.dart';
-import 'package:safsofa/models/home_screen_model.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
 import 'package:safsofa/models/offer_model.dart';
-
 import 'package:safsofa/models/product_reviews_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
-import 'package:safsofa/models/subCat_home_Model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/network/remote/dio_helper.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
-import 'package:safsofa/screens/bottom_navigation_screens/chats_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../models/my_product_details_model.dart';
-import '../../models/product_details_model.dart';
 import '../../screens/menu_screens/offers_screen.dart';
 import '../cartCubit/cart_cubit.dart';
 
@@ -41,25 +34,23 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-
   MYProductDetailsModel productDetailsModel;
   List<Widget> screens = [
     HomeScreen(),
-    OffersScreen(),// ChatsScreen(),
+    OffersScreen(), // ChatsScreen(),
     CartScreen(),
     MyAccountScreen(),
     MenuScreen(),
   ];
 
   int selectedIndex = 0;
-addtolist(product_id){
-  Mhelper.postData( url: "/api/addToRoster",data: {
-    "product_id":product_id
-  });
-}
-  void changeNavBar(int value,context) {
+  addtolist(product_id) {
+    Mhelper.postData(url: "/api/addToRoster", data: {"product_id": product_id});
+  }
+
+  void changeNavBar(int value, context) {
     selectedIndex = value;
-    if(value==2){
+    if (value == 2) {
       print("get myyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
       CartCubit.get(context).getCartData();
     }
@@ -78,10 +69,52 @@ addtolist(product_id){
     }
   }
 
+  YoutubePlayerController videoController;
+  ConstructionLinkModel constructionLink = ConstructionLinkModel();
+  void getConstructionData() {
+    emit(GetConstructionLoadingState());
+    Mhelper.getData(UrlPath: '/api/construction_link', query: {
+      'lang': CacheHelper.getData('language'),
+    }).then((value) {
+      constructionLink = ConstructionLinkModel.fromJson(value.data);
+      videoController = YoutubePlayerController(
+        initialVideoId: constructionLink.data.videoLink,
+        flags: YoutubePlayerFlags(
+          autoPlay: true,
+          loop: true,
+          hideThumbnail: true,
+          mute: true,
+        ),
+      );
+      emit(GetConstructionSuccessState());
+    }).then((error) {
+      emit(GetConstructionErrorState());
+    });
+  }
+
   /// Get Home Main Category Data
   HomeScreenMainCatModel homeScreenMainCatModel;
   List<Data> homeMainCatList;
+  IconData videoSound = Icons.music_note;
+  void muteUnmuteVideo(YoutubePlayerController videoController) {
+    if (videoSound == Icons.music_note) {
+      videoSound = Icons.music_off;
+      videoController.mute();
+    } else {
+      videoSound = Icons.music_note;
+      videoController.unMute();
+    }
+    emit(ChangeVideoSoundState());
+  }
 
+  // YoutubePlayerController videoController = YoutubePlayerController(
+  //   initialVideoId: 'uoWKnBlnYH0',
+  //   flags: YoutubePlayerFlags(
+  //     autoPlay: true,
+  //     loop: true,
+  //     hideThumbnail: true,
+  //   ),
+  // );
   // void getHomeData() {
   //   emit(HomeMainCatLoading());
   //   Mhelper.getData(UrlPath: homeMainCatEndPoint).then((value) {
@@ -153,17 +186,18 @@ addtolist(product_id){
   void getHomeScreen() {
     emit(GetHomeScreenLoadingState());
     DioHelper.getData(
-            url: 'https://taqiviolet.com/api/categories?store_id=34&lang=ar',
-          )
-        .then((value) {
+      url:
+          'https://taqiviolet.com/api/categories?store_id=34&lang=${CacheHelper.getData('language')}',
+    ).then((value) {
       print("the data of ${value.data}");
       homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
       homeMainCatList = homeScreenMainCatModel.data;
-      print( "000000000000000000000000000000000000000000000000");
+      print("000000000000000000000000000000000000000000000000");
       emit(GetHomeScreenSuccessState());
     }).catchError((error) {
       emit(GetHomeScreenErrorState());
-      print( "8888888888888888888888888888888888888888888888888888888888    $error");
+      print(
+          "8888888888888888888888888888888888888888888888888888888888    $error");
       print(error);
     });
   }
@@ -195,17 +229,19 @@ addtolist(product_id){
       print(error);
     });
   }
-  getCartData(){
-    print("getDatagetDatagetDatagetData");
-   // emit(CartLoadingState());
-    Mhelper.getData(UrlPath: myCartURL,token: CacheHelper.getData("token")).then((value) {
 
-    //  print(value.data);
-    //  emit(CartStateSuccessState());
-    }).catchError((e){
+  getCartData() {
+    print("getDatagetDatagetDatagetData");
+    // emit(CartLoadingState());
+    Mhelper.getData(UrlPath: myCartURL, token: CacheHelper.getData("token"))
+        .then((value) {
+      //  print(value.data);
+      //  emit(CartStateSuccessState());
+    }).catchError((e) {
       //emit(CartStateErrorState());
     });
   }
+
   void getAllData() {
     DioHelper.postData(url: 'user_api/get_all_product', data: {
       "key": 1234567890,
@@ -216,7 +252,7 @@ addtolist(product_id){
       "page_number": 0
     }).then((value) {
       ProductsModel most = ProductsModel.fromJson(value.data);
-     // print(most.result.allProducts[0].productName + "data in ///GETALLDATA");
+      // print(most.result.allProducts[0].productName + "data in ///GETALLDATA");
     });
   }
 
@@ -237,7 +273,7 @@ addtolist(product_id){
       productsModel.result.allProducts.forEach((element) {
         favourites.addAll({element.prodId: element.isFav});
       });
-     // print(favourites.toString() + "mostafa there is favorite");
+      // print(favourites.toString() + "mostafa there is favorite");
       getAllData();
       // print(value.data["result"]["all_products"]);
       if (value.data["status"] == true) {
@@ -258,7 +294,7 @@ addtolist(product_id){
   void fetchMore({int catId}) {
     emit(LoadMoreLoadingState());
     pageNum++;
-   // print('loading page ${pageNum}');
+    // print('loading page ${pageNum}');
     DioHelper.postData(url: 'user_api/get_all_product', data: {
       "key": 1234567890,
       "lang": kLanguage,
@@ -274,13 +310,13 @@ addtolist(product_id){
         productsModel.result.allProducts.forEach((element) {
           favourites.addAll({element.prodId: element.isFav});
         });
-       // print(favourites.toString());
+        // print(favourites.toString());
         emit(LoadMoreSuccessState());
       } else if (productsModel.total ==
           productsModel.result.allProducts.length) {
         emit(LoadMoreEndState());
       }
-    //  print(value.data["result"]["all_products"]);
+      //  print(value.data["result"]["all_products"]);
     }).catchError((e) {
       emit(LoadMoreErrorState());
       print('there is error');
@@ -306,8 +342,8 @@ addtolist(product_id){
 
       if (value.data["status"] == true) {
         emit(GetFavouritesSuccessState());
-      //  print("Get Fovrite Success State");
-     //   print(value.data);
+        //  print("Get Fovrite Success State");
+        //   print(value.data);
       } else if (value.data["status"] == false) {
         emit(GetFavouritesErrorState());
       }
@@ -329,7 +365,7 @@ addtolist(product_id){
       "id_key": isFav ? 1 : 2,
       "prod_id": prodId
     }).then((value) {
-    //  print(value.data);
+      //  print(value.data);
       if (value.data["status"] == true) {
         emit(UpdateFavouriteSuccessState());
         getFavouritesProducts();
@@ -343,38 +379,38 @@ addtolist(product_id){
     });
   }
 
+  // Future<String> getconstructionLink() async {
+  //   String url = "";
+  //   await DioHelper.getData(url: "api/construction_link").then((value) {
+  //     url = value.data["data"][0];
+  //   });
+  //   return url;
+  // }
 
-Future<String>getconstructionLink()async{
-  String url="";
- await DioHelper.getData(url:  "api/construction_link").then((value) {
-url=value.data["data"][0];
-  });
- return url;
-}
   void getProductDetails({int productId}) {
     emit(GetProductDetailsLoadingState());
-    print( CacheHelper.getData("token"));//product_id=$productId&lang=${ CacheHelper.getData("lan") }
-    Mhelper.getData( UrlPath:  'api/productDetails?',token: CacheHelper.getData("token")
-    //     , data: {
-    //   "key": 1234567890,
-    //   "lang": CacheHelper.getData("lan"),
-    //   "token_id": CacheHelper.getData("token"),
-    //   "prod_id": productId
-    // }
-    ,  query: {
-
-      "product_id":productId
-        }
-    ).then((value) {
-print(value.realUri);
-print(value.statusCode);
-print("dddddddddddddd   ${value.data}");
-productDetailsModel = MYProductDetailsModel.fromJson(value.data);
-print("4444   ${productDetailsModel}");
+    print(CacheHelper.getData(
+        "token")); //product_id=$productId&lang=${ CacheHelper.getData("lan") }
+    Mhelper.getData(
+        UrlPath: 'api/productDetails?',
+        token: CacheHelper.getData("token")
+        //     , data: {
+        //   "key": 1234567890,
+        //   "lang": CacheHelper.getData("lan"),
+        //   "token_id": CacheHelper.getData("token"),
+        //   "prod_id": productId
+        // }
+        ,
+        query: {"product_id": productId}).then((value) {
+      print(value.realUri);
+      print(value.statusCode);
+      print("dddddddddddddd   ${value.data}");
+      productDetailsModel = MYProductDetailsModel.fromJson(value.data);
+      print("4444   ${productDetailsModel}");
       // if (value.data["status"] == true) {
       //
       //
-     emit(GetProductDetailsSuccessState());
+      emit(GetProductDetailsSuccessState());
       // } else
       //   emit(GetProductDetailsErrorState());
     }).catchError((error) {
@@ -412,7 +448,7 @@ print("4444   ${productDetailsModel}");
       //         filename: image3.path.split('/').last)
       //     : null,
     }).then((value) {
-     // print(value.data);
+      // print(value.data);
       if (value.data["status"] == true) {
         emit(AddReviewSuccessState(message: value.data["message"]));
       } else
@@ -435,7 +471,7 @@ print("4444   ${productDetailsModel}");
       "limit": 0,
       "page_number": 0
     }).then((value) {
-   //   print(value.data);
+      //   print(value.data);
       productReviewsModel = ProductReviewsModel.fromJson(value.data);
       if (value.data["status"] == true) {
         productReviewsModel = ProductReviewsModel.fromJson(value.data);
@@ -452,11 +488,12 @@ print("4444   ${productDetailsModel}");
 
   void getAllNotifications() {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.getData(url: getallnotifications+CacheHelper.getData('id').toString() ).then((value) {
-
+    DioHelper.getData(
+            url: getallnotifications + CacheHelper.getData('id').toString())
+        .then((value) {
       if (value.data["status"] == true) {
         notificationsListModel = NotificationsListModel.fromJson(value.data);
-       // print(notificationsListModel.toJson());
+        // print(notificationsListModel.toJson());
         emit(GetAllNotificationsSuccessState());
       } else
         emit(GetAllNotificationsErrorState());
@@ -465,15 +502,16 @@ print("4444   ${productDetailsModel}");
       print(error);
     });
   }
+
   void delAllNotifications() {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.postData(url: dellallnotifications ,data: {
-      "client_id":CacheHelper.getData('id'),
+    DioHelper.postData(url: dellallnotifications, data: {
+      "client_id": CacheHelper.getData('id'),
     }).then((value) {
-    //  print(value.data);
+      //  print(value.data);
       if (value.data["status"] == true) {
         getAllNotifications();
-       // emit(GetAllNotificationsSuccessState());
+        // emit(GetAllNotificationsSuccessState());
       } else
         emit(GetAllNotificationsErrorState());
     }).catchError((error) {
@@ -481,15 +519,16 @@ print("4444   ${productDetailsModel}");
       print(error);
     });
   }
+
   void deloneNotifications(id) {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.postData(url: getonenotifications+id.toString() ,data: {
-      "id":id,
+    DioHelper.postData(url: getonenotifications + id.toString(), data: {
+      "id": id,
     }).then((value) {
-     // print(value.data);
+      // print(value.data);
       if (value.data["status"] == true) {
         getAllNotifications();
-     //   emit(GetAllNotificationsSuccessState());
+        //   emit(GetAllNotificationsSuccessState());
       } else
         emit(GetAllNotificationsErrorState());
     }).catchError((error) {
@@ -498,15 +537,14 @@ print("4444   ${productDetailsModel}");
     });
   }
 
-
-
-  void AddToCart({product_id,quantity}) {
+  void AddToCart({product_id, quantity}) {
     emit(AddToCartLoadingState());
-    Mhelper.postData(url: AddToCartURL ,data: {
-      "product_id":product_id,
-      "quantity":quantity
-    },token: CacheHelper.getData("token") ).then((value) {
-     // print(value.data);
+    Mhelper.postData(
+            url: AddToCartURL,
+            data: {"product_id": product_id, "quantity": quantity},
+            token: CacheHelper.getData("token"))
+        .then((value) {
+      // print(value.data);
       if (value.data["status"] == true) {
         getAllNotifications();
         // emit(GetAllNotificationsSuccessState());
@@ -518,18 +556,17 @@ print("4444   ${productDetailsModel}");
     });
   }
 
-
   void fetchData() async {
     //Mostafa
     gethomeMainBanners();
-          //getHomeData();
-     gethomeMainOfferData();
-        //mostafa
+    //getHomeData();
+    gethomeMainOfferData();
+    //mostafa
     getCache();
     getHomeScreen();
-                       //  getAllNotifications();
-                      // getFavouritesProducts();
-                     // getCartData();
+    //  getAllNotifications();
+    // getFavouritesProducts();
+    // getCartData();
   }
 
   File file1;

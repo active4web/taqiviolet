@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
-import 'package:safsofa/shared/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
@@ -17,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
   final TextInputType keyboardType;
+
   @override
   Widget build(BuildContext context) {
     return Container(

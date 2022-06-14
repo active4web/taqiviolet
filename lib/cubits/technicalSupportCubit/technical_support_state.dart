@@ -1,10 +1,21 @@
-
 abstract class TechnicalSupportState {}
 
 class TechnicalSupportInitial extends TechnicalSupportState {}
 
-class GetTechnicalSupportLoadingState extends TechnicalSupportState{}
+class GetContactUsLoadingState extends TechnicalSupportState {}
 
-class GetTechnicalSupportSuccessState extends TechnicalSupportState{}
+class GetContactUsSuccessState extends TechnicalSupportState {}
 
-class GetTechnicalSupportErrorState extends TechnicalSupportState{}
+class GetContactUsErrorState extends TechnicalSupportState {}
+
+class ContactUsSendingSuccessState extends TechnicalSupportState {}
+
+class ContactUsSendingLoadingState extends TechnicalSupportState {}
+
+class ContactUsSendingErrorState extends TechnicalSupportState {}
+//
+// class GetTechnicalSupportLoadingState extends TechnicalSupportState{}
+//
+// class GetTechnicalSupportSuccessState extends TechnicalSupportState{}
+//
+// class GetTechnicalSupportErrorState extends TechnicalSupportState{}

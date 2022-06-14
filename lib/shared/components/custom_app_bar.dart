@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 
 import '../constants.dart';
@@ -16,7 +15,9 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       title: Text(title),
-      backgroundColor:HexaColor.fromHexa("#2d2d37"),///Color(),// Colors.white,
+      backgroundColor: HexaColor.fromHexa("#2d2d37"),
+
+      ///Color(),// Colors.white,
       elevation: 0,
       titleTextStyle: TextStyle(
           color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 17),
@@ -29,10 +30,8 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
       actions: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
-          child: Container(color: Colors.black,
-            child: Image(
-              image: AssetImage('assets/images/logo.png'),
-            ),
+          child: Image(
+            image: AssetImage('assets/images/logoheader.png'),
           ),
         )
       ],
@@ -41,5 +40,5 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(100);
+  Size get preferredSize => Size.fromHeight(70);
 }

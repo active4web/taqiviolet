@@ -1,41 +1,43 @@
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/SuccessStoriesCubit/success_stories_state.dart';
+import 'package:safsofa/cubits/SuccessStoriesCubit/privacy_policy_state.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
 
-import '../../models/success_stories_model.dart';
+import '../../models/privacy_policy_model.dart';
 import '../../network/remote/dio_Mhelper.dart';
 import '../../shared/constants.dart';
 
+class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
+  PrivacyPolicyCubit() : super(PrivacyPolicyInitial());
 
-class SuccessStoriesCubit extends Cubit<SuccessState> {
-  SuccessStoriesCubit() : super(SuccessInitial() );
-
-  static SuccessStoriesCubit get(context) => BlocProvider.of(context);
+  static PrivacyPolicyCubit get(context) => BlocProvider.of(context);
 
   ///Get Data From stories
-  SuccessStoriesModel storiesModel;
- List<SuccessStoriesData> storeListOfData;
+  PrivacyPolicyModel privacyPolicyModel;
+  // List<PrivacyPolicyData> storeListOfData;
 
-  void getSuccessStories() async {
-    emit(GetSuccessLoadingState());
-    await Mhelper.getData(UrlPath: dataFromstories).then((value) async {
-      print("0"*50);
+  void getPrivacyPolicy() async {
+    emit(GetPrivacyPolicyLoadingState());
+    await Mhelper.getData(
+            UrlPath: dataFromPrivacyPolicy,
+            query: {'lang': (CacheHelper.getData("language") ?? "ar")})
+        .then((value) async {
+      print("0" * 50);
       print(value.data);
-      print("0"*50);
-      storiesModel = SuccessStoriesModel.fromJson(value.data);
-      storeListOfData = storiesModel.data;
+      print("0" * 50);
+      privacyPolicyModel = PrivacyPolicyModel.fromJson(value.data);
+      // storeListOfData = storiesModel.data;
       print(value.data);
-      print(storeListOfData[0].content);
-      emit(GetSuccessSuccessState());
+      // print(storeListOfData[0].content);
+      emit(GetPrivacyPolicySuccessState());
     }).catchError((err) {
       print("Error form dio:$err");
-      emit(GetSuccessErrorState());
+      emit(GetPrivacyPolicyErrorState());
     });
   }
 
   ///End of get Store Data
- // void emitAllShops() => emit(SuccessInitial());
+  // void emitAllShops() => emit(SuccessInitial());
   //
   // SuccessStoriesModel allStoreDataModel;
   // List<Category> AllCat;

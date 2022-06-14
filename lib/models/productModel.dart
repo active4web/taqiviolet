@@ -47,18 +47,18 @@ class DataProduct {
 
   DataProduct(
       {this.id,
-        this.name,
-        this.price,
-        this.discount,
-        this.details,
-        this.quantity,
-        this.subCategoryId,
-        this.categoryId,
-        this.isActive,
-        this.storeId,
-        this.createdAt,
-        this.updatedAt,
-        this.images});
+      this.name,
+      this.price,
+      this.discount,
+      this.details,
+      this.quantity,
+      this.subCategoryId,
+      this.categoryId,
+      this.isActive,
+      this.storeId,
+      this.createdAt,
+      this.updatedAt,
+      this.images});
 
   DataProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
