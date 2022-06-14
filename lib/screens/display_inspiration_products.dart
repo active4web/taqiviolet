@@ -8,7 +8,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../cubits/inspirationCubit/inspiration_state.dart';
 import '../shared/components/custom_app_bar.dart';
-
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class DisplayInspirationProducts extends StatelessWidget {
   DisplayInspirationProducts({
     Key key,
@@ -38,33 +38,58 @@ class DisplayInspirationProducts extends StatelessWidget {
                 builder: (context) => SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(20),
-                    child: GridView.builder(
-                      padding: EdgeInsets.zero,
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: 15,
-                        crossAxisSpacing: 10,
-                        // childAspectRatio: ,
-                      ),
-                      itemBuilder: (context, index) => InkWell(
-                        onTap: () {
-                          _launchURLBrowser(
-                              cubit.inspirationData[index].urllink);
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(20),
-                          child: Image(
-                            image: NetworkImage(
-                              cubit.inspirationData[index].image,
+                    child:
+
+                    MasonryGridView.count(itemCount:  cubit.inspirationData.length,
+                      crossAxisCount: 2,shrinkWrap: true,
+                      mainAxisSpacing: 2,
+                      crossAxisSpacing: 4,
+                      itemBuilder: (context, index) {
+                        return     InkWell(
+                          onTap: () {
+                            _launchURLBrowser(
+                                cubit.inspirationData[index].urllink);
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Image(
+                              image: NetworkImage(
+                                cubit.inspirationData[index].image,
+                              ),
+                              fit: BoxFit.cover,
                             ),
-                            fit: BoxFit.cover,
                           ),
-                        ),
-                      ),
-                      itemCount: cubit.inspirationData.length,
-                    ),
+                        );
+                      },
+                    )
+                    // GridView.builder(
+                    //   padding: EdgeInsets.zero,
+                    //   shrinkWrap: true,
+                    //   physics: const ScrollPhysics(),
+                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    //     crossAxisCount: 2,
+                    //     mainAxisSpacing: 15,
+                    //     crossAxisSpacing: 10,
+                    //     // childAspectRatio: ,
+                    //   ),
+                    //   itemBuilder: (context, index) =>
+                    //   InkWell(
+                    //     onTap: () {
+                    //       _launchURLBrowser(
+                    //           cubit.inspirationData[index].urllink);
+                    //     },
+                    //     child: ClipRRect(
+                    //       borderRadius: BorderRadius.circular(20),
+                    //       child: Image(
+                    //         image: NetworkImage(
+                    //           cubit.inspirationData[index].image,
+                    //         ),
+                    //         fit: BoxFit.cover,
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   itemCount: cubit.inspirationData.length,
+                    // ),
                   ),
                 ),
                 fallback: (context) => Center(
