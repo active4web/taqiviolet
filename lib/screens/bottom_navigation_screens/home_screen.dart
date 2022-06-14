@@ -60,11 +60,11 @@ class HomeScreen extends StatelessWidget {
                     height: 20,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.grey.withOpacity(.4),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: IconButton(
-                      icon: Icon(CupertinoIcons.search),
+                      icon: Icon(CupertinoIcons.search,color: Colors.black),
                       onPressed: () {
                         navigateTo(context, SearchScreen());
                       },
@@ -77,11 +77,11 @@ class HomeScreen extends StatelessWidget {
                     height: 20,
                     width: 50,
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.grey.withOpacity(.4),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: IconButton(
-                      icon: Icon(CupertinoIcons.bell),
+                      icon: Icon(CupertinoIcons.bell,color: Colors.black),
                       onPressed: () {
                         navigateTo(context, NotificationsScreen());
                       },

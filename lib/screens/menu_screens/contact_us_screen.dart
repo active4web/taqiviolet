@@ -4,9 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import '../../cubits/contactUsCubit/contact_us_cubit.dart';
 import '../../cubits/contactUsCubit/contact_us_state.dart';
+import '../../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
+import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 
 class ContactUsScreen extends StatelessWidget {
   ContactUsScreen({Key key}) : super(key: key);
@@ -19,10 +21,14 @@ class ContactUsScreen extends StatelessWidget {
     // RegisterSuccessModel user=   CacheHelper.getData(
     //       'userInfo'
     //  );
+    TechnicalSupportCubit technicalSupportDetailsCubit =
+    TechnicalSupportCubit.get(context);
+    technicalSupportDetailsCubit.getContactData();
     return BlocBuilder<ContactCubit, ContactUs>(
       builder: (context, state) {
         ContactCubit cubit = ContactCubit.get(context);
         // state is AboutInitial ? cubit.getAbout():print("getdata");
+
         return Scaffold(
           appBar: CustomAppBar(
             title: 'ContactUs'.tr(),
@@ -128,6 +134,64 @@ class ContactUsScreen extends StatelessWidget {
                           height: 50,
                           text: 'subscribe'.tr(),
                         )
+
+
+
+
+         ,         Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Expanded(
+                      //   child: IconButton(
+                      //     onPressed: () async {
+                      //       await launch(
+                      //           'tel:+966${cubit.contactsData.data.phone.substring(5)}');
+                      //     },
+                      //     icon:
+                      //         Image.asset('assets/images/phoneicon.png'),
+                      //   ),
+                      // ),
+
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async {
+                            await launch(
+                                technicalSupportDetailsCubit.contactsData.data.twitterlink);
+                          },
+                          icon: Image.asset('assets/images/twitter.png'),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async {
+                            await launch(
+                                technicalSupportDetailsCubit.contactsData.data.instagramlink);
+                          },
+                          icon:
+                              Image.asset('assets/images/instagram.png'),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async {
+                            await launch(
+                                technicalSupportDetailsCubit.contactsData.data.tiktoklink);
+                          },
+                          icon: Image.asset('assets/images/TikTok.png'),
+                        ),
+                      ),
+                      Expanded(
+                        child: IconButton(
+                          onPressed: () async {
+                            await launch(
+                                technicalSupportDetailsCubit.contactsData.data.youtubelink);
+                          },
+                          icon: Image.asset('assets/images/youtube.png'),
+                        ),
+                      ),
+                    ],
+                  ),
+
                 ],
               ),
             ),

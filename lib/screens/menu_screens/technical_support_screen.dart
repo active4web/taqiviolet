@@ -123,16 +123,16 @@ class TechnicalSupportScreen extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      'tel:+966${cubit.contactsData.data.phone.substring(5)}');
-                                },
-                                icon:
-                                    Image.asset('assets/images/phoneicon.png'),
-                              ),
-                            ),
+                            // Expanded(
+                            //   child: IconButton(
+                            //     onPressed: () async {
+                            //       await launch(
+                            //           'tel:+966${cubit.contactsData.data.phone.substring(5)}');
+                            //     },
+                            //     icon:
+                            //         Image.asset('assets/images/phoneicon.png'),
+                            //   ),
+                            // ),
                             Expanded(
                               child: IconButton(
                                 onPressed: () async {
@@ -151,43 +151,43 @@ class TechnicalSupportScreen extends StatelessWidget {
                                 icon: Image.asset('assets/images/gmail.png'),
                               ),
                             ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      cubit.contactsData.data.twitterlink);
-                                },
-                                icon: Image.asset('assets/images/twitter.png'),
-                              ),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      cubit.contactsData.data.instagramlink);
-                                },
-                                icon:
-                                    Image.asset('assets/images/instagram.png'),
-                              ),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      cubit.contactsData.data.tiktoklink);
-                                },
-                                icon: Image.asset('assets/images/TikTok.png'),
-                              ),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      cubit.contactsData.data.youtubelink);
-                                },
-                                icon: Image.asset('assets/images/youtube.png'),
-                              ),
-                            ),
+                            // Expanded(
+                            //   child: IconButton(
+                            //     onPressed: () async {
+                            //       await launch(
+                            //           cubit.contactsData.data.twitterlink);
+                            //     },
+                            //     icon: Image.asset('assets/images/twitter.png'),
+                            //   ),
+                            // ),
+                            // Expanded(
+                            //   child: IconButton(
+                            //     onPressed: () async {
+                            //       await launch(
+                            //           cubit.contactsData.data.instagramlink);
+                            //     },
+                            //     icon:
+                            //         Image.asset('assets/images/instagram.png'),
+                            //   ),
+                            // ),
+                            // Expanded(
+                            //   child: IconButton(
+                            //     onPressed: () async {
+                            //       await launch(
+                            //           cubit.contactsData.data.tiktoklink);
+                            //     },
+                            //     icon: Image.asset('assets/images/TikTok.png'),
+                            //   ),
+                            // ),
+                            // Expanded(
+                            //   child: IconButton(
+                            //     onPressed: () async {
+                            //       await launch(
+                            //           cubit.contactsData.data.youtubelink);
+                            //     },
+                            //     icon: Image.asset('assets/images/youtube.png'),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ],

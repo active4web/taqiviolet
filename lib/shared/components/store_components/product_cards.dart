@@ -50,202 +50,207 @@ class VerticalProductCard extends StatelessWidget {
         // );
         navigateTo(context, ProductDetailsScreen());
       },
-      child: Stack(
-        children: [
-          Column(
+      child: Card(elevation: 8,
+        child: Container(decoration:
+          BoxDecoration(border: Border.all(color: Colors.grey[200]), ),
+          child: Stack(
             children: [
-              Expanded(
-                  child: Container(
-                decoration: BoxDecoration(
-                  color: kBGColor,
-                  image: DecorationImage(image: NetworkImage(image)),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              )),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+              Column(
                 children: [
-                  Column(
+                  Expanded(
+                      child: Container(
+                    decoration: BoxDecoration(
+                  //    color: kBGColor,
+                      image: DecorationImage(image: NetworkImage(image)),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  )),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        productName ?? '',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 12),
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
+                      Column(
                         children: [
-                          CustomRatingBar(
-                            rating: double.parse(totalRate ?? 0.toString()),
-                            itemSize: 11,
+                          Text(
+                            productName ?? '',
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 12),
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
-                            width: 20,
+                            height: 5,
                           ),
-                          Text(
-                            double.parse(totalRate ?? 0.toString()).toString(),
-                            style: TextStyle(fontSize: 11),
+                          Row(
+                            children: [
+                              CustomRatingBar(
+                                rating: double.parse(totalRate ?? 0.toString()),
+                                itemSize: 11,
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                double.parse(totalRate ?? 0.toString()).toString(),
+                                style: TextStyle(fontSize: 11),
+                              ),
+                            ],
                           ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              if (price != null && discount != null)
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          price.toString() ?? '',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontSize: 9),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'ريال',
+                                          style: TextStyle(
+                                              color: Colors.grey,
+                                              decoration:
+                                                  TextDecoration.lineThrough,
+                                              fontSize: 9),
+                                        )
+                                      ],
+                                    ),
+                                    // if (discount != null)
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          discount.toString() ?? '',
+                                          style: TextStyle(
+                                              color: Color(0xffFE9C8F),
+                                              fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'ريال',
+                                          style: TextStyle(
+                                              color: Color(0xffFE9C8F),
+                                              fontSize: 12),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              if (price != null && discount == null)
+                                Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          price.toString() ?? '',
+                                          style: TextStyle(
+                                              color: Color(0xffFE9C8F),
+                                              fontSize: 12),
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          'ريال',
+                                          style: TextStyle(
+                                              color: Color(0xffFE9C8F),
+                                              fontSize: 12),
+                                        )
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20.0),
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  decoration: BoxDecoration(
+                                    color: kDarkGoldColor,
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: Center(
+                                    child: Icon(
+                                      CupertinoIcons.cart,
+                                      color: Colors.white,
+                                      size: 15,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )
                         ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (price != null && discount != null)
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      price.toString() ?? '',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 9),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'ريال',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration:
-                                              TextDecoration.lineThrough,
-                                          fontSize: 9),
-                                    )
-                                  ],
-                                ),
-                                // if (discount != null)
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Row(
-                                  children: [
-                                    Text(
-                                      discount.toString() ?? '',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'ريال',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          if (price != null && discount == null)
-                            Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      price.toString() ?? '',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      'ريال',
-                                      style: TextStyle(
-                                          color: Color(0xffFE9C8F),
-                                          fontSize: 12),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ),
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 20.0),
-                            child: Container(
-                              width: 25,
-                              height: 25,
-                              decoration: BoxDecoration(
-                                color: kDarkGoldColor,
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: Center(
-                                child: Icon(
-                                  CupertinoIcons.cart,
-                                  color: Colors.white,
-                                  size: 15,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      )
                     ],
-                  ),
+                  )
                 ],
-              )
+              ),
+              Positioned(
+                  top: 0,
+                  left: 0,
+                  child: IconButton(
+                    onPressed: () {
+                      // isFavourite = !isFavourite;
+                      // print(productId.toString() + "DDDDD");
+                      // cubit.updateFavourite(
+                      //     isFav: isFavourite, prodId: productId);
+                      // cubit.emit(ChangeIconColor());
+                    },
+                    icon: isFavourite
+                        ? Icon(
+                            Icons.favorite_rounded,
+                            color: Color(0xffFE9C8F),
+                          )
+                        : Icon(
+                            Icons.favorite_border_rounded,
+                            color: Colors.grey,
+                          ),
+                  )),
+              // Positioned(
+              //   top: 0,
+              //   right: 0,
+              //   child: Container(
+              //     width: 35,
+              //     height: 35,
+              //     margin: EdgeInsets.all(10),
+              //     decoration: BoxDecoration(
+              //       color: Colors.black,
+              //       borderRadius: BorderRadius.circular(50),
+              //     ),
+              //     child: Center(
+              //       child: Text(
+              //         '30%',
+              //         style: TextStyle(
+              //             color: Colors.white,
+              //             fontSize: 11,
+              //             fontWeight: FontWeight.bold),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
-          Positioned(
-              top: 0,
-              left: 0,
-              child: IconButton(
-                onPressed: () {
-                  // isFavourite = !isFavourite;
-                  // print(productId.toString() + "DDDDD");
-                  // cubit.updateFavourite(
-                  //     isFav: isFavourite, prodId: productId);
-                  // cubit.emit(ChangeIconColor());
-                },
-                icon: isFavourite
-                    ? Icon(
-                        Icons.favorite_rounded,
-                        color: Color(0xffFE9C8F),
-                      )
-                    : Icon(
-                        Icons.favorite_border_rounded,
-                        color: Colors.grey,
-                      ),
-              )),
-          // Positioned(
-          //   top: 0,
-          //   right: 0,
-          //   child: Container(
-          //     width: 35,
-          //     height: 35,
-          //     margin: EdgeInsets.all(10),
-          //     decoration: BoxDecoration(
-          //       color: Colors.black,
-          //       borderRadius: BorderRadius.circular(50),
-          //     ),
-          //     child: Center(
-          //       child: Text(
-          //         '30%',
-          //         style: TextStyle(
-          //             color: Colors.white,
-          //             fontSize: 11,
-          //             fontWeight: FontWeight.bold),
-          //       ),
-          //     ),
-          //   ),
-          // ),
-        ],
+        ),
       ),
     );
   }

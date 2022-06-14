@@ -29,11 +29,11 @@ class HomeLayout extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.all(15),
               decoration:
-                  BoxDecoration(color: Colors.black, shape: BoxShape.circle),
+                  BoxDecoration(color: Colors.white, shape: BoxShape.circle),
               child: Icon(
                 CupertinoIcons.bag,
                 size: 30,
-                color: Colors.white,
+                color: Colors.black,
               ),
             ),
           ),

@@ -33,7 +33,7 @@ class MenuScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.black87,
                   image: DecorationImage(
-                    image: AssetImage('assets/images/logo.png'),
+                    image: AssetImage('assets/images/mainlogoheadericon.png'),
                   ),
                 ),
               ),
