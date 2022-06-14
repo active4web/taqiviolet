@@ -11,7 +11,8 @@ part 'getdataprofile_state.dart';
 class GetdataprofileCubit extends Cubit<GetdataprofileState> {
   GetdataprofileCubit() : super(GetdataprofileInitial());
     GetdataprofileModel getdataprofileModel;
-//-
+
+
 
   static GetdataprofileCubit get(context) => BlocProvider.of(context);
   void getdataprofileCData( ) {
