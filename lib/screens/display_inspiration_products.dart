@@ -35,62 +35,27 @@ class DisplayInspirationProducts extends StatelessWidget {
               body: ConditionalBuilder(
                 condition: cubit.inspirationData.isNotEmpty ||
                     state is GetInspirationSuccessState,
-                builder: (context) => SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child:
-
-                    MasonryGridView.count(itemCount:  cubit.inspirationData.length,
-                      crossAxisCount: 2,shrinkWrap: true,
-                      mainAxisSpacing: 2,
-                      crossAxisSpacing: 4,
-                      itemBuilder: (context, index) {
-                        return     InkWell(
-                          onTap: () {
-                            _launchURLBrowser(
-                                cubit.inspirationData[index].urllink);
-                          },
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image(
-                              image: NetworkImage(
-                                cubit.inspirationData[index].image,
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
+                builder: (context) =>     MasonryGridView.count(itemCount:  cubit.inspirationData.length,
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 2,
+                  crossAxisSpacing: 4,
+                  itemBuilder: (context, index) {
+                    return     InkWell(
+                      onTap: () {
+                        _launchURLBrowser(
+                            cubit.inspirationData[index].urllink);
                       },
-                    )
-                    // GridView.builder(
-                    //   padding: EdgeInsets.zero,
-                    //   shrinkWrap: true,
-                    //   physics: const ScrollPhysics(),
-                    //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    //     crossAxisCount: 2,
-                    //     mainAxisSpacing: 15,
-                    //     crossAxisSpacing: 10,
-                    //     // childAspectRatio: ,
-                    //   ),
-                    //   itemBuilder: (context, index) =>
-                    //   InkWell(
-                    //     onTap: () {
-                    //       _launchURLBrowser(
-                    //           cubit.inspirationData[index].urllink);
-                    //     },
-                    //     child: ClipRRect(
-                    //       borderRadius: BorderRadius.circular(20),
-                    //       child: Image(
-                    //         image: NetworkImage(
-                    //           cubit.inspirationData[index].image,
-                    //         ),
-                    //         fit: BoxFit.cover,
-                    //       ),
-                    //     ),
-                    //   ),
-                    //   itemCount: cubit.inspirationData.length,
-                    // ),
-                  ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image(
+                          image: NetworkImage(
+                            cubit.inspirationData[index].image,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  },
                 ),
                 fallback: (context) => Center(
                   child: CircularProgressIndicator(
