@@ -34,6 +34,7 @@ class Data {
   int id;
   String name;
   String image;
+  String imageMop;
   String description;
   int isActive;
   String createdAt;
@@ -45,6 +46,7 @@ class Data {
       {this.id,
         this.name,
         this.image,
+        this.imageMop,
         this.description,
         this.isActive,
         this.createdAt,
@@ -56,6 +58,7 @@ class Data {
     id = json['id'];
     name = json['name'];
     image = json['image'];
+    imageMop = json['image_mop'];
     description = json['description'];
     isActive = json['is_active'];
     createdAt = json['created_at'];
@@ -69,6 +72,7 @@ class Data {
     data['id'] = this.id;
     data['name'] = this.name;
     data['image'] = this.image;
+    data['image_mop'] = this.imageMop;
     data['description'] = this.description;
     data['is_active'] = this.isActive;
     data['created_at'] = this.createdAt;

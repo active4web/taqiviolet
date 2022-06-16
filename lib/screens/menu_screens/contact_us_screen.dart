@@ -156,7 +156,7 @@ class ContactUsScreen extends StatelessWidget {
                         child: IconButton(
                           onPressed: () async {
                             await launch(
-                                technicalSupportDetailsCubit.contactsData.data.twitterlink);
+                                technicalSupportDetailsCubit.contactsData.data.twitterLink);
                           },
                           icon: Image.asset('assets/images/twitter.png'),
                         ),
@@ -165,7 +165,7 @@ class ContactUsScreen extends StatelessWidget {
                         child: IconButton(
                           onPressed: () async {
                             await launch(
-                                technicalSupportDetailsCubit.contactsData.data.instagramlink);
+                                technicalSupportDetailsCubit.contactsData.data.instagramLink);
                           },
                           icon:
                               Image.asset('assets/images/instagram.png'),
@@ -175,7 +175,7 @@ class ContactUsScreen extends StatelessWidget {
                         child: IconButton(
                           onPressed: () async {
                             await launch(
-                                technicalSupportDetailsCubit.contactsData.data.tiktoklink);
+                                technicalSupportDetailsCubit.contactsData.data.tiktokLink);
                           },
                           icon: Image.asset('assets/images/TikTok.png'),
                         ),
@@ -184,7 +184,7 @@ class ContactUsScreen extends StatelessWidget {
                         child: IconButton(
                           onPressed: () async {
                             await launch(
-                                technicalSupportDetailsCubit.contactsData.data.youtubelink);
+                                technicalSupportDetailsCubit.contactsData.data.youtubeLink);
                           },
                           icon: Image.asset('assets/images/youtube.png'),
                         ),

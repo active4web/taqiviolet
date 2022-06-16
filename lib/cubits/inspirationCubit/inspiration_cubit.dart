@@ -16,7 +16,7 @@ class InspirationCubit extends Cubit<InspirationStates> {
     await Mhelper.getData(UrlPath: inspiration).then((value) async {
       _inspirationModel = InspirationModel.fromJson(value.data);
       inspirationData = _inspirationModel.data;
-      print(inspirationData[0].urllink);
+      print(inspirationData[0].urlLink);
       emit(GetInspirationSuccessState());
     }).catchError((error) {
       print('=' * 10 + 'error in inspiration' + '=' * 10);

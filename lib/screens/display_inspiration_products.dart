@@ -43,7 +43,7 @@ class DisplayInspirationProducts extends StatelessWidget {
                     return     InkWell(
                       onTap: () {
                         _launchURLBrowser(
-                            cubit.inspirationData[index].urllink);
+                            cubit.inspirationData[index].urlLink);
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),

@@ -18,7 +18,9 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../cubits/contactsCubit/contacts_cubit.dart';
 import '../../cubits/subCategory/sub_cat_cubit.dart';
+import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 import '../searchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -26,6 +28,8 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TechnicalSupportCubit contactsCubit=TechnicalSupportCubit.get(context);
+    contactsCubit.getContactData();
     AppCubit.get(context).getConstructionData();
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
@@ -211,8 +215,12 @@ class HomeScreen extends StatelessWidget {
                                             ));
                                       },
                                       //cubit.homeMainCatList[1].name.ar,
+                                    //  jhdudhfiurhfirci
                                       image:
-                                          'https://taqiviolet.com/public/images/inspiration/47hFDvRXrgNpYoenB4H8TazwQISSnSpE1ZORkBuN.jpeg',
+                                      contactsCubit.contactsData.data.image
+
+                                    //  cubit.homeMainCatList[2].image
+                                      //'https://taqiviolet.com/public/images/inspiration/47hFDvRXrgNpYoenB4H8TazwQISSnSpE1ZORkBuN.jpeg',
                                     ),
                                   ),
                                 ],

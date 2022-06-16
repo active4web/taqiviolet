@@ -1,73 +1,71 @@
 class ContactUs {
-  ContactUs({
-    this.status,
-    this.errNum,
-    this.msg,
-    this.data,
-  });
-
-  ContactUs.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    errNum = json['errNum'];
-    msg = json['msg'];
-    data = json['data'] != null
-        ? Data.fromJson(Map<String, dynamic>.from(json['data']))
-        : null;
-  }
   bool status;
   String errNum;
   String msg;
   Data data;
 
+  ContactUs({this.status, this.errNum, this.msg, this.data});
+
+  ContactUs.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    errNum = json['errNum'];
+    msg = json['msg'];
+    data =   new Data.fromJson(json['data'])  ;
+  }
+
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    map['errNum'] = errNum;
-    map['msg'] = msg;
-    if (data != null) {
-      map['data'] = data.toJson();
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['errNum'] = this.errNum;
+    data['msg'] = this.msg;
+    if (this.data != null) {
+      data['data'] = this.data.toJson();
     }
-    return map;
+    return data;
   }
 }
 
 class Data {
-  Data({
-    this.id,
-    this.youtubelink,
-    this.tiktoklink,
-    this.instagramlink,
-    this.twitterlink,
-    this.phone,
-    this.mail,
-  });
-
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['ID'];
-    youtubelink = json['youtube-link'];
-    tiktoklink = json['tiktok-link'];
-    instagramlink = json['Instagram-link'];
-    twitterlink = json['Twitter-link'];
-    phone = json['Phone'];
-    mail = json['Mail'];
-  }
-  int id;
-  String youtubelink;
-  String tiktoklink;
-  String instagramlink;
-  String twitterlink;
+  int iD;
+  String youtubeLink;
+  String tiktokLink;
+  String instagramLink;
+  String twitterLink;
   String phone;
   String mail;
+  String image;
+
+  Data(
+      {this.iD,
+        this.youtubeLink,
+        this.tiktokLink,
+        this.instagramLink,
+        this.twitterLink,
+        this.phone,
+        this.mail,
+        this.image});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    iD = json['ID'];
+    youtubeLink = json['youtube-link'];
+    tiktokLink = json['tiktok-link'];
+    instagramLink = json['Instagram-link'];
+    twitterLink = json['Twitter-link'];
+    phone = json['Phone'];
+    mail = json['Mail'];
+    image = json['Image'];
+  }
 
   Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['ID'] = id;
-    map['youtube-link'] = youtubelink;
-    map['tiktok-link'] = tiktoklink;
-    map['Instagram-link'] = instagramlink;
-    map['Twitter-link'] = twitterlink;
-    map['Phone'] = phone;
-    map['Mail'] = mail;
-    return map;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.iD;
+    data['youtube-link'] = this.youtubeLink;
+    data['tiktok-link'] = this.tiktokLink;
+    data['Instagram-link'] = this.instagramLink;
+    data['Twitter-link'] = this.twitterLink;
+    data['Phone'] = this.phone;
+    data['Mail'] = this.mail;
+    data['Image'] = this.image;
+    return data;
   }
 }
