@@ -3,12 +3,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/inspirationCubit/inspiration_cubit.dart';
+import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../cubits/appCubit/app_cubit.dart';
 import '../cubits/inspirationCubit/inspiration_state.dart';
 import '../shared/components/custom_app_bar.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import '../shared/defaults.dart';
 class DisplayInspirationProducts extends StatelessWidget {
   DisplayInspirationProducts({
     Key key,
@@ -42,8 +46,13 @@ class DisplayInspirationProducts extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return     InkWell(
                       onTap: () {
-                        _launchURLBrowser(
-                            cubit.inspirationData[index].urlLink);
+
+                        AppCubit appCubit = AppCubit.get(context);
+                        appCubit.getProductDetails(productId:  cubit.inspirationData[index].iD);
+                        navigateTo(context, ProductDetailsScreen());
+
+                        // _launchURLBrowser(
+                        //     cubit.inspirationData[index].urlLink);
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(20),
