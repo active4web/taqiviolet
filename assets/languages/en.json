@@ -119,5 +119,6 @@
   "price": "price",
   "productName": "product name",
   "PleaseChooseTheDepartment": "Please Choose The Department",
-  "YouMustChooseTheDepartment": "You must choose the department"
+  "YouMustChooseTheDepartment": "You must choose the department",
+  "ProductFeatures": "Product feature"
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:meta/meta.dart';
-import 'package:safsofa/models/productModel.dart';
 import 'package:safsofa/models/subCat_home_Model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
+
+import '../../models/ProductModel.dart';
 
 part 'sub_cat_state.dart';
 
@@ -50,8 +51,8 @@ class SubCatCubit extends Cubit<SubCatState> {
       print(value.data);
       productFromCatModel = ProductFromCatModel.fromJson(value.data);
 
-      print(productFromCatModel.dataProduct);
-      productFromCatList = productFromCatModel.dataProduct;
+      print(productFromCatModel.data);
+      productFromCatList = productFromCatModel.data;
       print(productFromCatList);
       emit(ProductSuccess());
     }).catchError((err) {

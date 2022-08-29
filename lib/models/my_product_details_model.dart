@@ -468,7 +468,6 @@
 //   }
 // }
 
-
 class MYProductDetailsModel {
   bool status;
   String errNum;
@@ -481,7 +480,7 @@ class MYProductDetailsModel {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data =   MYProductDetailsData.fromJson(json['Data']) ;
+    data = MYProductDetailsData.fromJson(json['Data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -500,13 +499,15 @@ class MYProductDetailsData {
   int numberOfTimesToBuy;
   List<ProductDetails> productDetails;
   List<ProductDetails> relatedProducts;
+  List<ProductFeatures> productFeatures;
   String productUrl;
 
   MYProductDetailsData(
       {this.numberOfTimesToBuy,
-        this.productDetails,
-        this.relatedProducts,
-        this.productUrl});
+      this.productDetails,
+      this.relatedProducts,
+      this.productFeatures,
+      this.productUrl});
 
   MYProductDetailsData.fromJson(Map<String, dynamic> json) {
     numberOfTimesToBuy = json['Number-of-times-to-buy'];
@@ -520,6 +521,12 @@ class MYProductDetailsData {
       relatedProducts = <ProductDetails>[];
       json['Related Products'].forEach((v) {
         relatedProducts.add(new ProductDetails.fromJson(v));
+      });
+    }
+    if (json['Product Features'] != null) {
+      productFeatures = <ProductFeatures>[];
+      json['Product Features'].forEach((v) {
+        productFeatures.add(ProductFeatures.fromJson(v));
       });
     }
     productUrl = json['productUrl'];
@@ -554,22 +561,24 @@ class ProductDetails {
   int storeId;
   String createdAt;
   String updatedAt;
+  String image;
   String images;
 
   ProductDetails(
       {this.id,
-        this.name,
-        this.price,
-        this.discount,
-        this.details,
-        this.quantity,
-        this.subCategoryId,
-        this.categoryId,
-        this.isActive,
-        this.storeId,
-        this.createdAt,
-        this.updatedAt,
-        this.images});
+      this.name,
+      this.price,
+      this.discount,
+      this.details,
+      this.quantity,
+      this.subCategoryId,
+      this.categoryId,
+      this.isActive,
+      this.storeId,
+      this.createdAt,
+      this.updatedAt,
+      this.image,
+      this.images});
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -584,6 +593,7 @@ class ProductDetails {
     storeId = json['store_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    image = json['image'];
     images = json['images'];
   }
 
@@ -601,7 +611,30 @@ class ProductDetails {
     data['store_id'] = this.storeId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['image'] = this.image;
     data['images'] = this.images;
+    return data;
+  }
+}
+
+class ProductFeatures {
+  int id;
+  String name;
+  String description;
+
+  ProductFeatures({this.id, this.description, this.name});
+
+  ProductFeatures.fromJson(Map<String, dynamic> json) {
+    id = json['ID'];
+    name = json['name'];
+    description = json['description'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['ID'] = this.id;
+    data['name'] = this.name;
+    data['description'] = this.description;
     return data;
   }
 }

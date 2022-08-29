@@ -34,13 +34,15 @@ class Data {
   int iD;
   String image;
   int urlLink;
+  String productName;
 
-  Data({this.iD, this.image, this.urlLink});
+  Data({this.iD, this.image, this.urlLink, this.productName});
 
   Data.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     image = json['Image'];
     urlLink = json['url-link'];
+    productName = json['product-name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +50,7 @@ class Data {
     data['ID'] = this.iD;
     data['Image'] = this.image;
     data['url-link'] = this.urlLink;
+    data['product-name'] = this.productName;
     return data;
   }
 }

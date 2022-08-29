@@ -13,7 +13,8 @@ class InspirationCubit extends Cubit<InspirationStates> {
 
   void getInspirationData() async {
     emit(GetInspirationLoadingState());
-    await Mhelper.getData(UrlPath: inspiration).then((value) async {
+    await Mhelper.getData(UrlPath: inspiration, query: {'lang': kLanguage})
+        .then((value) async {
       _inspirationModel = InspirationModel.fromJson(value.data);
       inspirationData = _inspirationModel.data;
       print(inspirationData[0].urlLink);
@@ -24,4 +25,14 @@ class InspirationCubit extends Cubit<InspirationStates> {
       emit(GetInspirationErrorState());
     });
   }
+
+  // void searchInspirationData({String searchQuery}) {
+  //   inspirationData.forEach((element) {
+  //     if (element.iD == int.parse(searchQuery)) {
+  //       inspirationSearchResult.add(element);
+  //       print(element.image);
+  //     }
+  //   });
+  //   emit(SearchInspirationSuccessState());
+  // }
 }

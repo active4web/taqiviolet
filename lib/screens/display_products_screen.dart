@@ -68,7 +68,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                       )
                     : SingleChildScrollView(
                         child: Padding(
-                          padding: const EdgeInsets.all(20),
+                          padding: const EdgeInsets.all(8),
                           child: widget.hasDepartments
                               ? Column(
                                   children: [
@@ -201,7 +201,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                               //     .productsModel.result.allProducts[index].totalRate,
                                               image: cubit
                                                   .productFromCatList[index]
-                                                  .images,
+                                                  .image,
                                               discount: cubit
                                                   .productFromCatList[index]
                                                   .discount,
@@ -236,8 +236,8 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                 SliverGridDelegateWithFixedCrossAxisCount(
                                                     crossAxisCount: 2,
                                                     childAspectRatio: 15 / 30,
-                                                    mainAxisSpacing: 20,
-                                                    crossAxisSpacing: 10),
+                                                    mainAxisSpacing: 15,
+                                                    crossAxisSpacing: 1),
                                             itemBuilder: (context, index) =>
                                                 VerticalProductCard(
                                               onclick: () {
@@ -260,7 +260,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                               //     .productsModel.result.allProducts[index].totalRate,
                                               image: cubit
                                                   .productFromCatList[index]
-                                                  .images,
+                                                  .image,
                                               discount: cubit
                                                   .productFromCatList[index]
                                                   .discount,

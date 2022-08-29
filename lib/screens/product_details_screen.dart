@@ -8,7 +8,6 @@ import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/reviews_and_comments_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
-import 'package:safsofa/shared/components/custom_rating_bar.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -52,9 +51,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         // TODO: implement listener
       },
       builder: (context, state) {
-
         print("99999999999999999999999999999999999999999   $state");
-print(cubit.productDetailsModel);
+        print(cubit.productDetailsModel);
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.transparent,
@@ -93,7 +91,8 @@ print(cubit.productDetailsModel);
                                       image: DecorationImage(
                                         image: NetworkImage(cubit
                                             .productDetailsModel
-                                            .data.productDetails[0]
+                                            .data
+                                            .productDetails[0]
                                             .images),
                                       ),
                                     ),
@@ -129,9 +128,21 @@ print(cubit.productDetailsModel);
                               horizontal: 20, vertical: 30),
                           child: Column(
                             children: [
-                              Label(
-                                text: cubit.productDetailsModel.data.productDetails[0].name,
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      cubit.productDetailsModel.data
+                                          .productDetails[0].name,
+                                      maxLines: null,
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 18),
+                                    ),
+                                  ),
+                                ],
                               ),
+
                               SizedBox(
                                 height: 10,
                               ),
@@ -150,39 +161,41 @@ print(cubit.productDetailsModel);
                               SizedBox(
                                 height: 10,
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  // CustomRatingBar(
-                                  //   itemSize: 20,
-                                  //   rating: double.parse(cubit
-                                  //       .productDetailsModel
-                                  //       .productDetails
-                                  //       .productDetails[0].),
-                                  // ),
-                                  SizedBox(
-                                    width: 10,
-                                  ),
-                                  // Text(
-                                  //   double.parse(cubit.productDetailsModel
-                                  //           .result.serviceDetails[0].totalRate)
-                                  //       .toString(),
-                                  //   style: TextStyle(
-                                  //       fontWeight: FontWeight.bold,
-                                  //       fontSize: 17,
-                                  //       color: Colors.black54),
-                                  // )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              // Row(
+                              //   crossAxisAlignment: CrossAxisAlignment.end,
+                              //   children: [
+                              //     // CustomRatingBar(
+                              //     //   itemSize: 20,
+                              //     //   rating: double.parse(cubit
+                              //     //       .productDetailsModel
+                              //     //       .productDetails
+                              //     //       .productDetails[0].),
+                              //     // ),
+                              //     SizedBox(
+                              //       width: 10,
+                              //     ),
+                              //     // Text(
+                              //     //   double.parse(cubit.productDetailsModel
+                              //     //           .result.serviceDetails[0].totalRate)
+                              //     //       .toString(),
+                              //     //   style: TextStyle(
+                              //     //       fontWeight: FontWeight.bold,
+                              //     //       fontSize: 17,
+                              //     //       color: Colors.black54),
+                              //     // )
+                              //   ],
+                              // ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
                               Row(
                                 children: [
                                   Row(
                                     children: [
                                       Text(
-                                        cubit.productDetailsModel.data.productDetails[0].price.toString(),
+                                        cubit.productDetailsModel.data
+                                            .productDetails[0].price
+                                            .toString(),
                                         style: TextStyle(
                                             color: Color(0xffFE9C8F),
                                             fontSize: 20),
@@ -204,8 +217,10 @@ print(cubit.productDetailsModel);
                                   Row(
                                     children: [
                                       Text(
-                                        cubit.productDetailsModel.data.productDetails[0]
-                                            .discount.toString()??"",
+                                        cubit.productDetailsModel.data
+                                                .productDetails[0].discount
+                                                .toString() ??
+                                            "",
                                         style: TextStyle(
                                             color: Colors.grey,
                                             decoration:
@@ -249,11 +264,16 @@ print(cubit.productDetailsModel);
                               Row(
                                 children: [
                                   Expanded(
-                                    child: CustomButton(onTap: (){
-
-                                      cubit.AddToCart(quantity: quantity,product_id: cubit .productDetailsModel
-                                          .data.relatedProducts[0].id);
-                                    },
+                                    child: CustomButton(
+                                      onTap: () {
+                                        cubit.AddToCart(
+                                            quantity: quantity,
+                                            product_id: cubit
+                                                .productDetailsModel
+                                                .data
+                                                .relatedProducts[0]
+                                                .id);
+                                      },
                                       height: 50,
                                       text: 'AddToCart'.tr(),
                                     ),
@@ -276,33 +296,34 @@ print(cubit.productDetailsModel);
                                       //     .serviceDetails[0].isFav);
                                       // setState(() {});
                                     },
-                                    icon: false//cubit.productDetailsModel.data.productDetails[0].hasFavorites==0
+                                    icon:
+                                        false //cubit.productDetailsModel.data.productDetails[0].hasFavorites==0
 
-                                        ? Icon(
-                                            CupertinoIcons.heart_fill,
-                                            size: 35,
-                                            color: Color(0xffFE9C8F),
-                                          )
-                                        : Icon(
-                                            CupertinoIcons.heart,
-                                            size: 35,
-                                            color: Colors.black26,
-                                          ),
+                                            ? Icon(
+                                                CupertinoIcons.heart_fill,
+                                                size: 35,
+                                                color: Color(0xffFE9C8F),
+                                              )
+                                            : Icon(
+                                                CupertinoIcons.heart,
+                                                size: 35,
+                                                color: Colors.black26,
+                                              ),
                                   ),
                                   SizedBox(
                                     width: 5,
                                   ),
                                   IconButton(
                                     onPressed: () {
-
-
-                                      ListsCubit.get(context).productDetailsModel=cubit.productDetailsModel;
-
+                                      ListsCubit.get(context)
+                                              .productDetailsModel =
+                                          cubit.productDetailsModel;
 
                                       print("77777777777777777777777777");
-                                      print(ListsCubit.get(context).productDetailsModel==null);
-                                 navigateTo(context, MyLists());
-
+                                      print(ListsCubit.get(context)
+                                              .productDetailsModel ==
+                                          null);
+                                      navigateTo(context, MyLists());
 
                                       //cubit
                                     },
@@ -324,13 +345,58 @@ print(cubit.productDetailsModel);
                                 height: 10,
                               ),
                               Text(
-                                cubit.productDetailsModel.data.productDetails[0].details
-                              ,
+                                cubit.productDetailsModel.data.productDetails[0]
+                                    .details,
                                 style: TextStyle(color: Colors.black54),
                               ),
                               SizedBox(
                                 height: 10,
                               ),
+                              if (cubit.productDetailsModel.data.productFeatures
+                                  .isNotEmpty)
+                                Label(
+                                  text: 'ProductFeatures'.tr(),
+                                ),
+                              if (cubit.productDetailsModel.data.productFeatures
+                                  .isNotEmpty)
+                                SizedBox(
+                                  height: 10,
+                                ),
+                              if (cubit.productDetailsModel.data.productFeatures
+                                  .isNotEmpty)
+                                ListView.separated(
+                                    padding: EdgeInsets.zero,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) => Row(
+                                          children: [
+                                            Text(
+                                              '${cubit.productDetailsModel.data.productFeatures[index].name}: ',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black,
+                                              ),
+                                            ),
+                                            Text(
+                                              '${cubit.productDetailsModel.data.productFeatures[index].description}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(
+                                          height: 10,
+                                        ),
+                                    itemCount: cubit.productDetailsModel.data
+                                        .productFeatures.length),
+                              if (cubit.productDetailsModel.data.productFeatures
+                                  .isNotEmpty)
+                                SizedBox(
+                                  height: 10,
+                                ),
                               Divider(),
                               SizedBox(
                                 height: 10,
@@ -338,8 +404,8 @@ print(cubit.productDetailsModel);
                               GestureDetector(
                                 onTap: () {
                                   cubit.getProductReviews(
-                                      productId: cubit.productDetailsModel
-                                         .data.productDetails[0].id);
+                                      productId: cubit.productDetailsModel.data
+                                          .productDetails[0].id);
                                   navigateTo(
                                       context, ReviewsAndCommentsScreen());
                                 },
@@ -348,13 +414,14 @@ print(cubit.productDetailsModel);
                                       MainAxisAlignment.spaceBetween,
                                   children: [
                                     Label(text: 'ReviewsAndComments'.tr()),
-
                                     IconButton(
                                         onPressed: () {
                                           cubit.getProductReviews(
                                               productId: cubit
                                                   .productDetailsModel
-                                                  .data.productDetails[0].id);
+                                                  .data
+                                                  .productDetails[0]
+                                                  .id);
                                           navigateTo(context,
                                               ReviewsAndCommentsScreen());
                                         },
@@ -386,12 +453,18 @@ print(cubit.productDetailsModel);
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context, index) => SizedBox(
                                         width: 300,
-                                        child: HorizontalProductCard(relatedProducts: cubit.productDetailsModel.data.relatedProducts[index],)),
+                                        child: HorizontalProductCard(
+                                          relatedProducts: cubit
+                                              .productDetailsModel
+                                              .data
+                                              .relatedProducts[index],
+                                        )),
                                     separatorBuilder: (context, index) =>
                                         SizedBox(
                                           width: 10,
                                         ),
-                                    itemCount:  cubit.productDetailsModel .data.relatedProducts.length),
+                                    itemCount: cubit.productDetailsModel.data
+                                        .relatedProducts.length),
                               )
                             ],
                           ),

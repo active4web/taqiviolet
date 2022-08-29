@@ -33,7 +33,7 @@ class MenuScreen extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.black87,
                   image: DecorationImage(
-                    image: AssetImage('assets/images/mainlogoheadericon.png'),
+                    image: AssetImage('assets/images/logo.png'),
                   ),
                 ),
               ),
@@ -46,7 +46,7 @@ class MenuScreen extends StatelessWidget {
                     flex: 3,
                     child: MenuTile(
                       label: "This is Taqi Violet".tr(),
-                      image: AssetImage('assets/images/logo.png'),
+                      image: AssetImage('assets/images/mainlogoheadericon.png'),
                       onTap: () {
                         navigateTo(context, AboutScreen());
                       },

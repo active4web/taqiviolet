@@ -10,13 +10,17 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
       this.title,
       this.colorAB = Colors.white,
       this.withFilter = false,
-      this.colorIcon = Colors.white})
+      this.colorIcon = Colors.white,
+      @required this.controller,
+      @required this.onChange})
       : super(key: key);
 
   final String title;
   Color colorAB;
   final bool withFilter;
   Color colorIcon;
+  TextEditingController controller;
+  void Function(String) onChange;
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
@@ -69,7 +73,12 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
                 SizedBox(
                   width: withFilter ? 10 : 0,
                 ),
-                Expanded(child: CustomSearchBar(colorIcon)),
+                Expanded(
+                    child: CustomSearchBar(
+                  border: colorIcon,
+                  controller: controller,
+                  onChange: onChange,
+                )),
               ],
             ),
           ),

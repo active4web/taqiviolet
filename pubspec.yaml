@@ -31,12 +31,13 @@ dependencies:
     sdk: flutter
 
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  flutter_local_notifications: ^9.4.0
+  flutter_local_notifications:
   firebase_core: ^1.12.0
-  firebase_messaging: ^11.2.6
+  firebase_messaging: ^12.0.3
   image_picker: ^0.8.4+7
 
 dev_dependencies:
@@ -47,13 +48,13 @@ dev_dependencies:
   flutter_bloc: ^8.0.1
   dio: ^4.0.0
   flutter_spinkit: ^5.1.0
-  nil: ^1.1.1
+  nil:
   fluttertoast: ^8.0.8
   easy_localization: ^3.0.0
-  flutter_launcher_icons: ^0.9.1
+  flutter_launcher_icons: ^0.10.0
   persistent_bottom_nav_bar: any
   smooth_page_indicator: ^1.0.0+2
-  carousel_pro: ^1.0.0
+  carousel_pro:
   flutter_phoenix: ^1.0.0
   flutter_rating_bar: ^4.0.0
   carousel_slider: ^4.0.0
@@ -62,7 +63,7 @@ dev_dependencies:
   geocoding: ^2.0.1
   location: ^4.2.0
   map_pin_picker: any
-  devicelocale: ^0.5.0
+  devicelocale: ^0.5.4
   qr_flutter: ^4.0.0
   url_launcher: ^6.0.9
   conditional_builder: ^1.0.2
@@ -72,10 +73,11 @@ dev_dependencies:
 
 
 
+
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/logoheader.png"
+  image_path: "assets/images/launcher_ic.png"
 
 
 

@@ -56,8 +56,14 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(30),
                 child: Column(
                   children: [
+                    Image(
+                      image: AssetImage('assets/images/logo.png'),
+                      height: MediaQuery.of(context).size.width / 2,
+                      width: MediaQuery.of(context).size.width / 2,
+                      fit: BoxFit.cover,
+                    ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.28,
+                      height: MediaQuery.of(context).size.height / 40,
                     ),
                     Text(
                       'Login'.tr(),
@@ -115,7 +121,7 @@ class LoginScreen extends StatelessWidget {
                             },
                           ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.2,
+                      height: MediaQuery.of(context).size.height / 30,
                     ),
                     InkWell(
                       onTap: () {

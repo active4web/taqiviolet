@@ -2,9 +2,8 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:safsofa/cubits/shopsCubit/shops_cubit.dart';
-import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/cubits/shopsCubit/shops_cubit.dart';
 
 import '../../../shared/components/custom_search_bar.dart';
 import '../../../shared/defaults.dart';
@@ -26,8 +25,8 @@ class ShopsScreen extends StatelessWidget {
         state is ShopsInitial ? cubit.getDataFromShops() : print("mostafa");
 
         return Scaffold(
-          appBar:
-          AppBar(title: Text('Shops'.tr()),
+          appBar: AppBar(
+            title: Text('Shops'.tr()),
             systemOverlayStyle: SystemUiOverlayStyle(
                 statusBarColor: Colors.transparent,
                 statusBarIconBrightness: Brightness.dark),
@@ -74,29 +73,32 @@ class ShopsScreen extends StatelessWidget {
             bottom: PreferredSize(
               preferredSize: Size.fromHeight(50),
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Row(
                   children: [
-                   Container(
+                    Container(
                       width: 40,
                       height: 40,
                       decoration: BoxDecoration(
-                          color:  Colors.black,//Colors.grey,
+                          color: Colors.black, //Colors.grey,
                           borderRadius: BorderRadius.circular(10)),
-                      child: Icon(
-                          CupertinoIcons.line_horizontal_3_decrease,
-                          color:Colors.white// Colors.white,
-                      ),
-                    )
-                    ,
-                    SizedBox(
-                      width:  10  ,
+                      child: Icon(CupertinoIcons.line_horizontal_3_decrease,
+                          color: Colors.white // Colors.white,
+                          ),
                     ),
-                    Expanded(child: CustomSearchBar(Colors.black)),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                        child: CustomSearchBar(
+                      border: Colors.black,
+                    )),
                   ],
                 ),
               ),
-            ),  ),
+            ),
+          ),
           // CustomAppBarWithSearch(colorIcon: Colors.black,
           //     title: 'Shops'.tr(),colorAB: Colors.white
           // ),
@@ -104,15 +106,13 @@ class ShopsScreen extends StatelessWidget {
           //   title: 'Shops'.tr(),
           //   withFilter: true,
           // ),
-          body:
-          cubit.storeListOfData == null
+          body: cubit.storeListOfData == null
               ? Center(
                   child: CircularProgressIndicator(
                     color: Colors.black,
                   ),
                 )
-              :
-          Padding(
+              : Padding(
                   padding: const EdgeInsets.all(20),
                   child: GridView.builder(
                     shrinkWrap: true,
@@ -124,7 +124,7 @@ class ShopsScreen extends StatelessWidget {
                         mainAxisSpacing: 10,
                         crossAxisSpacing: 10),
                     itemBuilder: (context, index) => Container(
-                     // height: MediaQuery.of(context).size.height * 0.45,
+                      // height: MediaQuery.of(context).size.height * 0.45,
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: Column(
                         children: [
@@ -133,7 +133,10 @@ class ShopsScreen extends StatelessWidget {
                               cubit.emitAllShops();
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (_) =>  ShopProfileScreen(Id: cubit.storeListOfData[index].iD,index: index,),
+                                  builder: (_) => ShopProfileScreen(
+                                    Id: cubit.storeListOfData[index].iD,
+                                    index: index,
+                                  ),
                                 ),
                               );
                             },

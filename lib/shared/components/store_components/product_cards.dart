@@ -50,9 +50,9 @@ class VerticalProductCard extends StatelessWidget {
         // );
         navigateTo(context, ProductDetailsScreen());
       },
-      child: Card(elevation: 8,
-        child: Container(decoration:
-          BoxDecoration(border: Border.all(color: Colors.grey[200]), ),
+      child: Card(
+        elevation: 0,
+        child: Container(
           child: Stack(
             children: [
               Column(
@@ -60,7 +60,7 @@ class VerticalProductCard extends StatelessWidget {
                   Expanded(
                       child: Container(
                     decoration: BoxDecoration(
-                  //    color: kBGColor,
+                      //    color: kBGColor,
                       image: DecorationImage(image: NetworkImage(image)),
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -71,135 +71,139 @@ class VerticalProductCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        children: [
-                          Text(
-                            productName ?? '',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 12),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            children: [
-                              CustomRatingBar(
-                                rating: double.parse(totalRate ?? 0.toString()),
-                                itemSize: 11,
-                              ),
-                              SizedBox(
-                                width: 20,
-                              ),
-                              Text(
-                                double.parse(totalRate ?? 0.toString()).toString(),
-                                style: TextStyle(fontSize: 11),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              if (price != null && discount != null)
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          price.toString() ?? '',
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: 9),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'ريال',
-                                          style: TextStyle(
-                                              color: Colors.grey,
-                                              decoration:
-                                                  TextDecoration.lineThrough,
-                                              fontSize: 9),
-                                        )
-                                      ],
-                                    ),
-                                    // if (discount != null)
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          discount.toString() ?? '',
-                                          style: TextStyle(
-                                              color: Color(0xffFE9C8F),
-                                              fontSize: 12),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'ريال',
-                                          style: TextStyle(
-                                              color: Color(0xffFE9C8F),
-                                              fontSize: 12),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text(
+                              productName ?? '',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 12),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              children: [
+                                CustomRatingBar(
+                                  rating:
+                                      double.parse(totalRate ?? 0.toString()),
+                                  itemSize: 11,
                                 ),
-                              if (price != null && discount == null)
-                                Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          price.toString() ?? '',
-                                          style: TextStyle(
-                                              color: Color(0xffFE9C8F),
-                                              fontSize: 12),
-                                        ),
-                                        SizedBox(
-                                          width: 5,
-                                        ),
-                                        Text(
-                                          'ريال',
-                                          style: TextStyle(
-                                              color: Color(0xffFE9C8F),
-                                              fontSize: 12),
-                                        )
-                                      ],
-                                    ),
-                                  ],
+                                SizedBox(
+                                  width: 20,
                                 ),
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 20.0),
-                                child: Container(
-                                  width: 25,
-                                  height: 25,
-                                  decoration: BoxDecoration(
-                                    color: kDarkGoldColor,
-                                    borderRadius: BorderRadius.circular(50),
+                                Text(
+                                  double.parse(totalRate ?? 0.toString())
+                                      .toString(),
+                                  style: TextStyle(fontSize: 11),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (price != null && discount != null)
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            price.toString() ?? '',
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: 9),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'ريال',
+                                            style: TextStyle(
+                                                color: Colors.grey,
+                                                decoration:
+                                                    TextDecoration.lineThrough,
+                                                fontSize: 9),
+                                          )
+                                        ],
+                                      ),
+                                      // if (discount != null)
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            discount.toString() ?? '',
+                                            style: TextStyle(
+                                                color: Color(0xffFE9C8F),
+                                                fontSize: 12),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'ريال',
+                                            style: TextStyle(
+                                                color: Color(0xffFE9C8F),
+                                                fontSize: 12),
+                                          )
+                                        ],
+                                      ),
+                                    ],
                                   ),
-                                  child: Center(
-                                    child: Icon(
-                                      CupertinoIcons.cart,
-                                      color: Colors.white,
-                                      size: 15,
+                                if (price != null && discount == null)
+                                  Column(
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            price.toString() ?? '',
+                                            style: TextStyle(
+                                                color: Color(0xffFE9C8F),
+                                                fontSize: 12),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Text(
+                                            'ريال',
+                                            style: TextStyle(
+                                                color: Color(0xffFE9C8F),
+                                                fontSize: 12),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                                  child: Container(
+                                    width: 25,
+                                    height: 25,
+                                    decoration: BoxDecoration(
+                                      color: kDarkGoldColor,
+                                      borderRadius: BorderRadius.circular(50),
+                                    ),
+                                    child: Center(
+                                      child: Icon(
+                                        CupertinoIcons.cart,
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          )
-                        ],
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ],
                   )
@@ -305,7 +309,7 @@ class HorizontalProductCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Color(0xfff4f4f4),
                   image: DecorationImage(
-                      image: NetworkImage(relatedProducts.images)),
+                      image: NetworkImage(relatedProducts.image)),
                   borderRadius: BorderRadius.horizontal(
                     right: Radius.circular(10),
                   ),

@@ -113,5 +113,6 @@
   "price": "prezzo",
   "productName": "nome del prodotto",
   "PleaseChooseTheDepartment": "si prega di scegliere il reparto",
-  "YouMustChooseTheDepartment": "Devi scegliere il reparto"
+  "YouMustChooseTheDepartment": "Devi scegliere il reparto",
+  "ProductFeatures": "Caratteristiche del prodotto"
 }

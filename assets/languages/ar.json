@@ -118,5 +118,6 @@
   "price": "السعر",
   "productName": "اسم المنتج",
   "PleaseChooseTheDepartment": "يرجي اختيار القسم ",
-  "YouMustChooseTheDepartment": "يجب اختيار القسم"
+  "YouMustChooseTheDepartment": "يجب اختيار القسم",
+  "ProductFeatures": "مميزات المنتج"
 }
