@@ -12,7 +12,7 @@ class HomeSubCatSuccess extends SubCatState {}
 
 class HomeSubCatError extends SubCatState {}
 
-///TODO:End of SubCat States
+///End of SubCat States
 
 ///States of SubCategory in Home Screen
 class ProductLoading extends SubCatState {}

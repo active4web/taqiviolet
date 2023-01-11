@@ -38,8 +38,8 @@ class ResultData {
   ResultData({
     this.id,
     this.name,
-    this.price,
-    this.discount,
+    this.oldPrice,
+    this.currentPrice,
     this.details,
     this.quantity,
     this.subCategoryId,
@@ -48,14 +48,16 @@ class ResultData {
     this.storeId,
     this.createdAt,
     this.updatedAt,
-    this.images,
+    this.image,
+    this.hasFavorites,
+    this.reviewRate,
   });
 
   ResultData.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
-    price = json['price'];
-    discount = json['discount'];
+    oldPrice = json['old_price'];
+    currentPrice = json['current_price'];
     details = json['details'];
     quantity = json['quantity'];
     subCategoryId = json['sub_category_id'];
@@ -64,28 +66,32 @@ class ResultData {
     storeId = json['store_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    images = json['images'];
+    image = json['image'];
+    hasFavorites = json['hasFavorites'];
+    reviewRate = json['ReviewRate'];
   }
   int id;
   String name;
-  int price;
-  dynamic discount;
+  int oldPrice;
+  int currentPrice;
   String details;
   String quantity;
-  dynamic subCategoryId;
+  int subCategoryId;
   int categoryId;
   int isActive;
   int storeId;
   String createdAt;
   String updatedAt;
-  String images;
+  String image;
+  int hasFavorites;
+  String reviewRate;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
-    map['price'] = price;
-    map['discount'] = discount;
+    map['price'] = oldPrice;
+    map['discount'] = currentPrice;
     map['details'] = details;
     map['quantity'] = quantity;
     map['sub_category_id'] = subCategoryId;
@@ -94,7 +100,9 @@ class ResultData {
     map['store_id'] = storeId;
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
-    map['images'] = images;
+    map['image'] = image;
+    map['hasFavorites'] = hasFavorites;
+    map['ReviewRate'] = reviewRate;
     return map;
   }
 }

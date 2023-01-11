@@ -1,5 +1,5 @@
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
@@ -30,7 +30,7 @@ class TechnicalSupportScreen extends StatelessWidget {
         // TechnicalSupportCubit cubit = TechnicalSupportCubit.get(context);
         // state is TechnicalSupportInitial
         //     ? cubit.getContactData()
-        //     : print("getdata");
+        //     : log("getdata");
 
         return Scaffold(
           appBar: CustomAppBar(
@@ -211,10 +211,10 @@ class TechnicalSupportScreen extends StatelessWidget {
                   //   Expanded(
                   //     child: ListView.builder(itemCount:cubit.AllSupportsListOfData.length ,itemBuilder: (context,pos){
                   //       return InkWell(onTap: (){
-                  //         print(cubit.AllSupportsListOfData[pos].id);
+                  //         log('${cubit.AllSupportsListOfData[pos].id}');
                   //         TechnicalSupportDetailsCubit.get(context).id= cubit.AllSupportsListOfData[pos].id;
                   //         TechnicalSupportDetailsCubit.get(context).getTechnicalSupport() ;
-                  //         print(TechnicalSupportDetailsCubit.get(context).id);
+                  //         log('${TechnicalSupportDetailsCubit.get(context).id}');
                   //         navigateTo(context, RequestCard());
                   //       },
                   //         child: Container(

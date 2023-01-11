@@ -1,11 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/search_cubit/search_state.dart';
 import 'package:safsofa/models/search_results_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
-import 'package:safsofa/network/remote/dio_helper.dart';
 
 import '../../models/homeModel/main_cat_model.dart';
+import '../../network/remote/dio_Mhelper.dart';
+import '../../shared/constants.dart';
 
 class SearchCubit extends Cubit<SearchStates> {
   SearchCubit() : super(SearchInitialState());
@@ -16,7 +19,7 @@ class SearchCubit extends Cubit<SearchStates> {
   var validationKey = GlobalKey<FormState>();
   void getCategories() {
     emit(SearchLoadingState());
-    DioHelper.getData(
+    Mhelper.getData(
             url: '/api/categories',
             query: {'store_id': 34, 'lang': CacheHelper.getData("language")})
         .then((value) {
@@ -44,7 +47,7 @@ class SearchCubit extends Cubit<SearchStates> {
       String endPrice,
       String productName}) {
     emit(LoadingSearchResults());
-    DioHelper.postData(url: '/api/searchByPrice', data: {
+    Mhelper.postData(url: '/api/searchByPrice', data: {
       'category_id': categoryId,
       'start_price': startPrice,
       'end_price': endPrice,
@@ -53,10 +56,36 @@ class SearchCubit extends Cubit<SearchStates> {
       'lang': CacheHelper.getData("language")
     }).then((value) {
       searchResults = SearchResultsModel.fromJson(value.data);
-      print(value.data);
+      log(value.data.toString());
       emit(SuccessSearchResults());
     }).catchError((error) {
       emit(ErrorSearchResults());
+    });
+  }
+
+  void updateFavorite({@required int prodId}) {
+    log('inside is favorite of sub_cat_cubit');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        for (int i = 0; i < searchResults.data.length; i++) {
+          if (searchResults.data[i].id == prodId) {
+            if (searchResults.data[i].hasFavorites == 0) {
+              searchResults.data[i].hasFavorites = 1;
+              emit(SuccessSearchResults());
+              break;
+            } else {
+              searchResults.data[i].hasFavorites = 0;
+              emit(SuccessSearchResults());
+              break;
+            }
+          }
+        }
+      }
     });
   }
 }

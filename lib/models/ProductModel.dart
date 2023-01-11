@@ -39,8 +39,8 @@ class DataProduct {
     this.id,
     this.name,
     this.nameSearch,
-    this.price,
-    this.discount,
+    this.oldPrice,
+    this.currentPrice,
     this.details,
     this.quantity,
     this.subCategoryId,
@@ -50,14 +50,18 @@ class DataProduct {
     this.createdAt,
     this.updatedAt,
     this.image,
+    this.hasFavorites,
+    this.hasRosters,
+    this.hasReview,
+    
   });
 
   DataProduct.fromJson(dynamic json) {
     id = json['id'];
     name = json['name'];
     nameSearch = json['name_search'];
-    price = json['price'];
-    discount = json['discount'];
+    oldPrice = json['old_price'];
+    currentPrice = json['current_price'];
     details = json['details'];
     quantity = json['quantity'];
     subCategoryId = json['sub_category_id'];
@@ -67,12 +71,16 @@ class DataProduct {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     image = json['image'];
+    hasFavorites = json['hasFavorites'];
+    hasRosters = json['hasRosters'];
+    hasReview = json['hasReviews'].toString();
+ 
   }
   num id;
   String name;
   String nameSearch;
-  num price;
-  num discount;
+  int oldPrice;
+  int currentPrice;
   String details;
   String quantity;
   num subCategoryId;
@@ -82,14 +90,18 @@ class DataProduct {
   String createdAt;
   String updatedAt;
   String image;
+  num hasFavorites;
+  num hasRosters;
+ String hasReview;
+ 
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
     map['name_search'] = nameSearch;
-    map['price'] = price;
-    map['discount'] = discount;
+    map['old_price'] = oldPrice;
+    map['current_price'] = currentPrice;
     map['details'] = details;
     map['quantity'] = quantity;
     map['sub_category_id'] = subCategoryId;
@@ -99,6 +111,10 @@ class DataProduct {
     map['created_at'] = createdAt;
     map['updated_at'] = updatedAt;
     map['image'] = image;
+    map['hasFavorites'] = hasFavorites;
+    map['hasRosters'] = hasRosters;
+    map['hasReviews'] = hasReview.toString();
+  
     return map;
   }
 }

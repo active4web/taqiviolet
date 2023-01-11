@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
-import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 
 class OffersScreen extends StatelessWidget {
@@ -10,13 +11,11 @@ class OffersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = OfferCubit.get(context);
+    cubit.getOfferData();
     return BlocConsumer<OfferCubit, OfferState>(
       listener: (context, state) {},
       builder: (context, state) {
-        var cubit = OfferCubit.get(context);
-        state is OfferInitial
-            ? cubit.getOfferData()
-            : print("ooo");//print({cubit.allOffer[0].ID});
         return Scaffold(
           appBar: CustomAppBar(
             title: 'Offers'.tr(),
@@ -38,7 +37,8 @@ class OffersScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: BigOfferCard(
                           title: cubit.allOffer[index].title,
-                          discountValue: cubit.allOffer[index].discount.toString(),
+                          discountValue:
+                              cubit.allOffer[index].discount.toString(),
                           OfferImage: cubit.allOffer[index].image,
                         ),
                       );

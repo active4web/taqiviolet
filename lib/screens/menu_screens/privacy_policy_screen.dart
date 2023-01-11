@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
@@ -15,13 +17,13 @@ class PrivacyPolicyScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<PrivacyPolicyCubit, PrivacyPolicyState>(
       listener: (context, state) {
-        // print(PrivacyPolicyCubit.get(context).storeListOfData.length);
+        // log('${PrivacyPolicyCubit.get(context).storeListOfData.length}');
       },
       builder: (context, state) {
         PrivacyPolicyCubit cubit = PrivacyPolicyCubit.get(context);
         state is PrivacyPolicyInitial
             ? cubit.getPrivacyPolicy()
-            : print("mostafa");
+            : log("mostafa");
 
         return Scaffold(
           appBar: CustomAppBar(
@@ -36,9 +38,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   child: ListView.separated(
                       itemBuilder: (context, index) {
-                        print(
-                            "imageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-                        print(cubit.privacyPolicyModel.data[index].image);
+                        log("imageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+                        log('${cubit.privacyPolicyModel.data[index].image}');
                         return Column(
                           children: [
                             Row(

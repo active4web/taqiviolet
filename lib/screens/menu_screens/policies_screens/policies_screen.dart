@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/blogCubit/policies_cubit.dart';
-import 'package:safsofa/screens/menu_screens/blog_screens/policies_details_screen.dart';
+import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
+import 'package:safsofa/screens/menu_screens/policies_screens/policies_details_screen.dart';
+
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -13,14 +15,14 @@ class PoliciesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = BlogCubit.get(context);
+    var cubit = PoliciesCubit.get(context);
     cubit.getPoliciesData();
-    return BlocConsumer<BlogCubit, PoliciesState>(
+    return BlocConsumer<PoliciesCubit, PoliciesState>(
       listener: (context, state) {},
       builder: (context, state) {
         // state is PoliciesInitial
         //     ? cubit.getPoliciesData()
-        //     : print("Blog Screen}");
+        //     : log("Blog Screen}");
         return Scaffold(
           appBar: CustomAppBar(
             title: 'Policies'.tr(),
@@ -40,9 +42,8 @@ class PoliciesScreen extends StatelessWidget {
                                   context,
                                   PoliciesDetailsScreen(
                                     title: cubit.policies[index].title,
-                                    content: cubit.policies[index].content,
+                                    id: cubit.policies[index].id,
                                   ));
-                              ;
                             },
                             child: Card(
                               color: Colors.grey.shade200,
@@ -54,13 +55,11 @@ class PoliciesScreen extends StatelessWidget {
                                   Container(
                                     decoration: BoxDecoration(
                                         color: Colors.black,
-                                        borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(20),
-                                          topRight: Radius.circular(20),
-                                        )),
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20))),
                                     child: Image(
-                                        image: AssetImage(
-                                            'assets/images/logo.png'),
+                                        image: NetworkImage(
+                                            cubit.policies[index].image),
                                         fit: BoxFit.cover),
                                   ),
                                   SizedBox(

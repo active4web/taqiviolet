@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +11,10 @@ import 'package:safsofa/screens/my_orders_screen.dart';
 import 'package:safsofa/screens/my_profile_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
+import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../Lists.dart';
 import '../orderReceived.dart';
@@ -25,7 +29,7 @@ class MyAccountScreen extends StatefulWidget {
 class _MyAccountScreenState extends State<MyAccountScreen> {
   @override
   void initState() {
-    AppCubit.get(context).getCache();
+    AppCubit.get(context).getUserAccountData();
     super.initState();
   }
 
@@ -34,297 +38,362 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     AppCubit cubit = AppCubit.get(context);
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
-        // print("Data:${cubit.userInfo.data.name}");
+        // log("Data:${cubit.userInfo.data.name}");
 
         return kToken == null
             ? LoginScreen()
-            : Scaffold(
-                appBar: PreferredSize(
-                  preferredSize:
-                      Size.fromHeight(MediaQuery.of(context).size.height * 0.2),
-                  child: AppBar(
-                    iconTheme: IconThemeData(color: kLightGoldColor),
-                    elevation: 0,
-                    shape: ContinuousRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(100),
-                      ),
-                    ),
-                    flexibleSpace: Center(
-                      child: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        height: MediaQuery.of(context).size.height * 0.2,
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          child: Row(
-                            children: [
-                              Container(
-                                // width: 50,
-                                // height: 50,
-                                decoration: BoxDecoration(
-                                  // color: Colors.white,
-                                  borderRadius: BorderRadius.circular(50),
-                                ),
-                                child: Center(
-                                  child: Icon(
-                                    CupertinoIcons.profile_circled,
-                                    color: kLightGoldColor,
-                                    size: 50,
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+            : state is GetAccountDataSuccessState
+                ? Scaffold(
+                    appBar: PreferredSize(
+                      preferredSize: Size.fromHeight(
+                          MediaQuery.of(context).size.height * 0.2),
+                      child: AppBar(
+                        iconTheme: IconThemeData(color: kLightGoldColor),
+                        elevation: 0,
+                        shape: ContinuousRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(100),
+                          ),
+                        ),
+                        flexibleSpace: Center(
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 20),
+                            height: MediaQuery.of(context).size.height * 0.2,
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                              child: Row(
                                 children: [
-                                  Text(
-                                    cubit.userInfo.data.name,
-                                    style: TextStyle(
-                                        color: kLightGoldColor, fontSize: 17),
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      height:
+                                          MediaQuery.of(context).size.width / 4,
+                                      decoration: BoxDecoration(
+                                        // color: Colors.white,
+                                        borderRadius: BorderRadius.circular(50),
+                                      ),
+                                      child: Image(
+                                        image: NetworkImage(cubit.myAccountData
+                                            .data.userProfile.image),
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Center(
+                                            child: Icon(
+                                              CupertinoIcons.profile_circled,
+                                              color: kLightGoldColor,
+                                              size: 50,
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ),
                                   SizedBox(
-                                    height: 10,
+                                    width: 10,
                                   ),
-                                  Row(
+                                  Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        cubit.userInfo.data.email ?? '',
+                                        cubit.myAccountData.data.userProfile
+                                            .name,
                                         style: TextStyle(
                                             color: kLightGoldColor,
-                                            fontSize: 12),
+                                            fontSize: 17),
                                       ),
                                       SizedBox(
-                                        width: 30,
+                                        height: 10,
                                       ),
-                                      Text(
-                                        cubit.userInfo.data.phone,
-                                        style: TextStyle(
-                                            color: kLightGoldColor,
-                                            fontSize: 12),
-                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            cubit.myAccountData.data.userProfile
+                                                    .email ??
+                                                '',
+                                            style: TextStyle(
+                                                color: kLightGoldColor,
+                                                fontSize: 12),
+                                          ),
+                                          SizedBox(
+                                            width: 30,
+                                          ),
+                                          Text(
+                                            cubit.myAccountData.data.userProfile
+                                                    .phone ??
+                                                '',
+                                            style: TextStyle(
+                                                color: kLightGoldColor,
+                                                fontSize: 12),
+                                          ),
+                                        ],
+                                      )
                                     ],
                                   )
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
                         ),
+                        backgroundColor: Colors.black,
+                        title: Container(
+                            decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/mainlogoheadericon.png'),
+                          ),
+                        )),
                       ),
                     ),
-                    backgroundColor: Colors.black,
-                    title: Container(
-                        decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/mainlogoheadericon.png'),
-                      ),
-                    )),
-                  ),
-                ),
-                body: SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(22),
-                    child: Column(
-                      children: [
-                        Row(
+                    body: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(22),
+                        child: Column(
                           children: [
-                            Expanded(
-                              child: TextChip(
-                                text: 'Orders'.tr(),
-                                onTap: () {
-                                  navigateTo(context, MyOrdersScreen());
-                                },
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextChip(
+                                    text:
+                                        '${'Orders'.tr()} (${cubit.myAccountData.data.myOrder})',
+                                    onTap: () {
+                                      navigateTo(context, MyOrdersScreen());
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                // Expanded(
+                                //   child: TextChip(
+                                //     text: 'Favourites'.tr(),
+                                //     onTap: () {
+                                //       navigateTo(context, FavouritesScreen());
+                                //     },
+                                //   ),
+                                // ),
+                                Expanded(
+                                  child: TextChip(
+                                    text:
+                                        '${'MyLists'.tr()} (${cubit.myAccountData.data.myList.length})',
+                                    onTap: () {
+                                      navigateTo(context, MyLists());
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
-                              width: 10,
+                              height: 20,
                             ),
-                            Expanded(
-                              child: TextChip(
-                                text: 'Favourites'.tr(),
-                                onTap: () {
-                                  navigateTo(context, FavouritesScreen());
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextChip(
-                                text: 'MyProfile'.tr(),
-                                onTap: () {
-                                  navigateTo(context, MyProfileScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: TextChip(
-                                text: 'ShareApp'.tr(),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: TextChip(
-                                text: 'MyLists'.tr(),
-                                onTap: () {
-                                  navigateTo(context, MyLists());
-                                },
-                              ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: TextChip(
+                                    text: 'MyProfile'.tr(),
+                                    onTap: () {
+                                      Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      MyProfileScreen()))
+                                          .then((value) {
+                                        if (value) {
+                                          cubit.getUserAccountData(loading:false);
+                                        }
+                                      });
+                                    },
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Expanded(
+                                  child: TextChip(
+                                    text: 'ShareApp'.tr(),
+                                    onTap: () {
+                                      Share.share(
+                                          'https://play.google.com/store/apps/details?id=active4web.com.safsofa');
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
                             SizedBox(
-                              width: 10,
+                              height: 20,
                             ),
-                            Expanded(
-                              child: TextChip(
-                                text: "اعادة طلب شراء",
-                                onTap: () {
-                                  navigateTo(context, OrderReceived());
-                                  print("oooooooooooooooo");
-                                },
-                              ),
+                            // Row(
+                            //   children: [
+                            //     Expanded(
+                            //       child: TextChip(
+                            //         text: 'MyLists'.tr(),
+                            //         onTap: () {
+                            //           navigateTo(context, MyLists());
+                            //         },
+                            //       ),
+                            //     ),
+                            //     SizedBox(
+                            //       width: 10,
+                            //     ),
+                            //     Expanded(
+                            //       child: TextChip(
+                            //         text: "reorderAPurchase".tr(),
+                            //         onTap: () {
+                            //           navigateTo(context, OrderReceived());
+                            //           log("oooooooooooooooo");
+                            //         },
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // SizedBox(
+                            //   height: 20,
+                            // ),
+                            Divider(),
+                            SizedBox(
+                              height: 16,
                             ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Divider(),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Label(
-                          text: 'UnderWayOrders'.tr(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        OrderInfoCard(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Divider(),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
+                            Label(
+                              text: 'UnderWayOrders'.tr(),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            OrderInfoCard(),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Divider(),
+                            SizedBox(
+                              height: 16,
+                            ),
                             Label(
                               text: 'CreditBalance'.tr(),
                             ),
-                            TextButton(
-                              onPressed: () {},
-                              child: Text(
-                                'Details'.tr(),
-                                style: TextStyle(
-                                    color: kDarkGoldColor,
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      '1,3335',
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Points'.tr(),
+                                      style: TextStyle(fontSize: 17),
+                                    )
+                                  ],
+                                ),
+                                Container(
+                                  height: 35,
+                                  width: 1,
+                                  color: Colors.black26,
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      '1,3335',
+                                      style: TextStyle(fontSize: 24),
+                                    ),
+                                    SizedBox(
+                                      width: 5,
+                                    ),
+                                    Text(
+                                      'Points'.tr(),
+                                      style: TextStyle(fontSize: 17),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                            if (cubit.myAccountData.data.suggestion.isNotEmpty)
+                              SizedBox(
+                                height: 40,
                               ),
-                            )
+                            if (cubit.myAccountData.data.suggestion.isNotEmpty)
+                              Label(
+                                text: 'Suggestions'.tr(),
+                              ),
+                            if (cubit.myAccountData.data.suggestion.isNotEmpty)
+                              SizedBox(
+                                height: 10,
+                              ),
+                            if (cubit.myAccountData.data.suggestion.isNotEmpty)
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) => SizedBox(
+                                    height: MediaQuery.of(context).size.height *
+                                        0.4,
+                                    width: MediaQuery.of(context).size.width /
+                                        1.95,
+                                    child: VerticalProductCard(
+                                      isFavourite: cubit.myAccountData.data
+                                              .suggestion[index].hasFavorites ==
+                                          1,
+                                      image: cubit.myAccountData.data
+                                          .suggestion[index].image,
+                                      productId: cubit.myAccountData.data
+                                          .suggestion[index].id,
+                                      productName: cubit.myAccountData.data
+                                          .suggestion[index].name,
+                                      oldPrice: cubit.myAccountData.data
+                                          .suggestion[index].oldPrice,
+                                      currentPrice: cubit.myAccountData.data
+                                          .suggestion[index].currentPrice,
+                                      totalRate: cubit.myAccountData.data
+                                          .suggestion[index].hasReviews,
+                                      onFavPressed: () {
+                                        if (kToken != null &&
+                                            kToken.isNotEmpty) {
+                                          AppCubit.get(context).updateFavorite(
+                                              prodId: cubit.myAccountData.data
+                                                  .suggestion[index].id);
+                                        } else {
+                                          showToast(
+                                              text: 'pleaseLoginFirst'.tr(),
+                                              color: Colors.black);
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                  separatorBuilder: (context, index) =>
+                                      SizedBox(
+                                    width: 20,
+                                  ),
+                                  itemCount: cubit
+                                      .myAccountData.data.suggestion.length,
+                                ),
+                              ),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 8,
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Text(
-                                  '1,3335',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Points'.tr(),
-                                  style: TextStyle(fontSize: 17),
-                                )
-                              ],
-                            ),
-                            Container(
-                              height: 35,
-                              width: 1,
-                              color: Colors.black26,
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '1,3335',
-                                  style: TextStyle(fontSize: 24),
-                                ),
-                                SizedBox(
-                                  width: 5,
-                                ),
-                                Text(
-                                  'Points'.tr(),
-                                  style: TextStyle(fontSize: 17),
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        Divider(),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Label(
-                          text: 'MyList'.tr(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        // ListView.separated(
-                        //     physics: NeverScrollableScrollPhysics(),
-                        //     padding: EdgeInsets.zero,
-                        //     shrinkWrap: true,
-                        //     itemBuilder: (context, index) =>
-                        //         HorizontalProductCard(),
-                        //     separatorBuilder: (context, index) => SizedBox(
-                        //           height: 15,
-                        //         ),
-                        //     itemCount: 2),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Label(
-                          text: 'Suggestions'.tr(),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //  showProductsGrid(4, false,cubit.productDetailsModel?.productDetails.productDetailsdata[0].id ),
-                        SizedBox(
-                          height: 20,
-                        )
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-              );
+                  )
+                : Scaffold(
+                    body: Center(
+                      child: CircularProgressIndicator(
+                        color: kDarkGoldColor,
+                      ),
+                    ),
+                  );
       },
     );
   }

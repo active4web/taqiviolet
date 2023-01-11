@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/search_cubit/search_cubit.dart';
@@ -7,6 +9,7 @@ import 'package:safsofa/cubits/search_cubit/search_state.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 import '../../models/homeModel/main_cat_model.dart';
 import '../shared/components/custom_app_bar.dart';
@@ -243,7 +246,7 @@ class SearchScreen extends StatelessWidget {
                                   .validationKey
                                   .currentState
                                   .validate()) {
-                                print('VALIDATED');
+                                log('VALIDATED');
                                 SearchCubit.get(context).getSearchData(
                                     categoryId: SearchCubit.get(context)
                                         .selectedValue
@@ -278,18 +281,27 @@ class SearchScreen extends StatelessWidget {
                                       itemBuilder: (context, index) =>
                                           VerticalProductCard(
                                         onclick: () {},
+                                        isFavourite: SearchCubit.get(context)
+                                                .searchResults
+                                                .data[index]
+                                                .hasFavorites ==
+                                            1,
+                                        totalRate: SearchCubit.get(context)
+                                            .searchResults
+                                            .data[index]
+                                            .reviewRate,
                                         image: SearchCubit.get(context)
                                             .searchResults
                                             .data[index]
-                                            .images,
-                                        discount: SearchCubit.get(context)
+                                            .image,
+                                        currentPrice: SearchCubit.get(context)
                                             .searchResults
                                             .data[index]
-                                            .discount,
-                                        price: SearchCubit.get(context)
+                                            .currentPrice,
+                                        oldPrice: SearchCubit.get(context)
                                             .searchResults
                                             .data[index]
-                                            .price,
+                                            .oldPrice,
                                         productName: SearchCubit.get(context)
                                             .searchResults
                                             .data[index]
@@ -298,6 +310,22 @@ class SearchScreen extends StatelessWidget {
                                             .searchResults
                                             .data[index]
                                             .id,
+                                        onFavPressed: () {
+                                          if (kToken != null &&
+                                              kToken.isNotEmpty) {
+                                            SearchCubit.get(context)
+                                                .updateFavorite(
+                                                    prodId:
+                                                        SearchCubit.get(context)
+                                                            .searchResults
+                                                            .data[index]
+                                                            .id);
+                                          } else {
+                                            showToast(
+                                                text: 'pleaseLoginFirst'.tr(),
+                                                color: Colors.black);
+                                          }
+                                        },
                                       ),
                                     )
                                   : state is! SelectItem

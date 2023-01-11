@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 abstract class AppStates {}
 
 class AppInitial extends AppStates {}
@@ -24,7 +26,7 @@ class GetProductsLoadingState extends AppStates {}
 
 class GetProductsSuccessState extends AppStates {
   printData() {
-    return print("this data completed in importing");
+    return log("this data completed in importing");
   }
 }
 
@@ -38,8 +40,6 @@ class HomeMainCatLoading extends AppStates {}
 class HomeMainCatSuccess extends AppStates {}
 
 class HomeMainCatError extends AppStates {}
-
-///TODO:End of HomeCat States
 
 class GetProductDetailsSuccessState extends AppStates {}
 
@@ -106,3 +106,7 @@ class GetConstructionLoadingState extends AppStates {}
 class GetConstructionSuccessState extends AppStates {}
 
 class GetConstructionErrorState extends AppStates {}
+ 
+class GetAccountDataLoadingState extends AppStates {}
+class GetAccountDataSuccessState extends AppStates {}
+class GetAccountDataErrorState extends AppStates {}

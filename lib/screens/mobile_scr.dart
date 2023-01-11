@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +18,7 @@ class _MobileScrState extends State<MobileScr> {
     MobileCubit mobileCubit = MobileCubit.get(context);
     mobileCubit.state is MobileInitial
         ? mobileCubit.getdataprofileCData()
-        : print("getdata");
+        : log("getdata");
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CustomAppBarWithSearch(
@@ -24,9 +26,7 @@ class _MobileScrState extends State<MobileScr> {
           colorIcon: kDarkGoldColor,
         ),
         body: BlocConsumer<MobileCubit, MobileState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             return mobileCubit.phonesModel == null
                 ? Center(

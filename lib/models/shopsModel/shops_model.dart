@@ -45,16 +45,16 @@ class DataOfStore {
 
   DataOfStore(
       {this.iD,
-        this.name,
-        this.phone,
-        this.aboutUS,
-        this.faceBookLink,
-        this.instagramLink,
-        this.twitterLink,
-        this.judgments,
-        this.replacement,
-        this.image,
-        this.categoryId});
+      this.name,
+      this.phone,
+      this.aboutUS,
+      this.faceBookLink,
+      this.instagramLink,
+      this.twitterLink,
+      this.judgments,
+      this.replacement,
+      this.image,
+      this.categoryId});
 
   DataOfStore.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -86,4 +86,3 @@ class DataOfStore {
     return data;
   }
 }
-

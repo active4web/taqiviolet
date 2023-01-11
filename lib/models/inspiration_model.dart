@@ -11,7 +11,7 @@ class InspirationModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = new List<Data>();
       json['data'].forEach((v) {
         data.add(new Data.fromJson(v));
       });
@@ -35,14 +35,17 @@ class Data {
   String image;
   int urlLink;
   String productName;
+  int hasFavorites;
 
-  Data({this.iD, this.image, this.urlLink, this.productName});
+  Data(
+      {this.iD, this.image, this.urlLink, this.productName, this.hasFavorites});
 
   Data.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     image = json['Image'];
     urlLink = json['url-link'];
     productName = json['product-name'];
+    hasFavorites = json['hasFavorites'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +54,7 @@ class Data {
     data['Image'] = this.image;
     data['url-link'] = this.urlLink;
     data['product-name'] = this.productName;
+    data['hasFavorites'] = this.hasFavorites;
     return data;
   }
 }

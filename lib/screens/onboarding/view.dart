@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -127,7 +129,7 @@ class OnboardingView extends StatelessWidget {
   }
 
   Widget _getIndicator(int index, currentIndex) {
-    print(currentIndex);
+    log('$currentIndex');
     return Container(
       height: 6,
       width: 27,

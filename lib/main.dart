@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:devicelocale/devicelocale.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,11 +10,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
-import 'package:safsofa/cubits/blogCubit/policies_cubit.dart';
+import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
 import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
-import 'package:safsofa/cubits/shopsCubit/shops_cubit.dart';
+import 'package:safsofa/cubits/storesCubit/stores_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
+import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -27,7 +32,6 @@ import 'cubits/contactUsCubit/contact_us_cubit.dart';
 import 'cubits/contactsCubit/contacts_cubit.dart';
 import 'cubits/cubit/getdataprofile_cubit.dart';
 import 'cubits/dataInList/data_in_list_cubit.dart';
-import 'cubits/inspirationCubit/inspiration_cubit.dart';
 import 'cubits/listsCubit/lists_cubit.dart';
 import 'cubits/mobile_cubit.dart';
 import 'cubits/my_orders_cubit.dart';
@@ -36,11 +40,20 @@ import 'cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
 import 'cubits/order_details_cubit.dart';
 import 'cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
+import 'models/cart_models/cart_local_model/cart_local_model.dart';
 import 'network/local/cache_helper.dart';
-import 'network/remote/dio_helper.dart';
+
+// class MyHttpOverrides extends HttpOverrides {
+//   @override
+//   HttpClient createHttpClient(SecurityContext context) {
+//     return super.createHttpClient(context)
+//       ..badCertificateCallback =
+//           (X509Certificate cert, String host, int port) => true;
+//   }
+// }
 
 Future<void> getDataInBackground(RemoteMessage message) async {
-  print("on background: ${message.data.toString()}");
+  log("on background: ${message.data.toString()}");
   showToast(text: "${message.data.toString()}", color: Colors.green);
 }
 
@@ -48,8 +61,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
 
-  print("Handling a background message: ${message.notification.title}");
-  print("Handling a background message: ${message.messageId}");
+  log("Handling a background message: ${message.notification.title}");
+  log("Handling a background message: ${message.messageId}");
 }
 
 Future<void> main() async {
@@ -57,35 +70,41 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler);
-
-  DioHelper.init();
   Mhelper.init();
   await EasyLocalization.ensureInitialized();
-  String currentLocale = await Devicelocale.currentLocale;
-  kLanguage = currentLocale;
   await CacheHelper.init();
+  if (CacheHelper.getData('localCart') != null) {
+    cartProducts =
+        CartLocalModel.fromJson(jsonDecode(CacheHelper.getData('localCart')));
+  }
+  cartCount = CacheHelper.getData('cartCount') ?? 0;
+  // HttpOverrides.global = new MyHttpOverrides();
+  String currentLocale = await Devicelocale.currentLocale;
   kToken = await CacheHelper.getData('token');
+  if (CacheHelper.getData('language') == null) {
+    kLanguage = currentLocale.substring(0, 2);
+  } else {
+    kLanguage = await CacheHelper.getData('language');
+  }
 
-  print(CacheHelper.getData('id'));
+  log('${CacheHelper.getData('id')}');
   //  FirebaseMessaging.onMessageOpenedApp.listen((event) {
-  //    print("${event.data.toString()}");
+  //    log("${event.data.toString()}");
   //    showToast(text: "On app opened:${event.data.toString()}", color: Colors.green);
   //  });
   //  FirebaseMessaging.onMessage.listen((event) {
-  //    print("on message: ${event.data.toString()}");
+  //    log("on message: ${event.data.toString()}");
   //    showToast(text: "${event.data.toString()}", color: Colors.green);
   //  });
   //
   // FirebaseMessaging.onBackgroundMessage(getDataInBackground);
-
-  print(kToken);
-  kLanguage = CacheHelper.getData('language');
+  log('$kToken');
   BlocOverrides.runZoned(
     () {
       runApp(
         EasyLocalization(
             supportedLocales: [Locale('en'), Locale('ar'), Locale('it')],
-            startLocale: Locale(currentLocale.substring(0, 2)),
+            startLocale: Locale(kLanguage),
             saveLocale: true,
             path: 'assets/languages',
             // <-- change the path of the translation files
@@ -111,7 +130,7 @@ class MyApp extends StatelessWidget {
     //   opensplash=true;
     //   CacheHelper.setData(key: 'opensplash',value:false );
     // }
-    print(KToken);
+    log('$kToken');
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -166,19 +185,19 @@ class MyApp extends StatelessWidget {
           create: (context) => OfferCubit(),
         ),
         BlocProvider(
-          create: (context) => BlogCubit(),
+          create: (context) => PoliciesCubit(),
         ),
         BlocProvider(
-          create: (context) => InspirationCubit(),
+          create: (context) => TaqiWorkCubit(),
         ),
-        BlocProvider(
-            create: (context) => AppCubit()
-              ..getConstructionData()
-              ..fetchData()),
+        // BlocProvider(
+        //   create: (context) => InspirationCubit(),
+        // ),
+        BlocProvider(create: (context) => AppCubit()..fetchData()),
         BlocProvider(create: (context) => AuthCubit()..getDeviceToken()),
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => SubCatCubit()),
-        BlocProvider(create: (context) => ShopsCubit()),
+        BlocProvider(create: (context) => StoresCubit()),
         BlocProvider(create: (context) => AllDataCatSubProCubit()),
       ],
       child: MaterialApp(

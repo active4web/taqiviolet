@@ -10,3 +10,9 @@ class GetPoliciesLoadingState extends PoliciesState {}
 class GetPoliciesSuccessState extends PoliciesState {}
 
 class GetPoliciesErrorState extends PoliciesState {}
+
+class GetPolicyDetailsLoadingState extends PoliciesState {}
+
+class GetPolicyDetailsSuccessState extends PoliciesState {}
+
+class GetPolicyDetailsErrorState extends PoliciesState {}

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +16,7 @@ class MyLists extends StatefulWidget {
 }
 
 class _MyListsState extends State<MyLists> {
-  TextEditingController _textEditingController=TextEditingController();
+  TextEditingController _textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     ListsCubit cubit = ListsCubit.get(context);
@@ -31,201 +33,284 @@ class _MyListsState extends State<MyLists> {
                   // TODO: implement listener
                 },
                 builder: (context, state) {
-                  state is ListsInitial
-                      ? cubit.getlistsData()
-                      : print("getdata");
+                  state is ListsInitial ? cubit.getlistsData() : log("getdata");
                   // if (state is ListsLoadingState) {
                   //   return Center(
                   //     child: Text("the data is Uploading......"),
                   //   );
                   // }
-                  return
-                 cubit.listsModel==null?Center(child: CircularProgressIndicator(),):   Column(
-                    children: [
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  return cubit.listsModel == null
+                      ? Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Column(
                           children: [
-                            Text("القائمة و السجل"),
-                            TextButton(
-                                onPressed: () {
-                                  showModalBottomSheet<void>(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return Container(
-                                      //  height: 200,
-                                        //color: Colors.amber,
-                                        child: Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: <Widget>[
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: const Text('انشاء قائمة جديدة'),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: TextField(controller: _textEditingController,
-                                                    decoration:
-                                                        const InputDecoration(
-                                                      border: OutlineInputBorder(
-                                                          //Outline border type for TextFeild
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      20)),
-                                                          borderSide: BorderSide(
-                                                            color: Colors.redAccent,
-                                                            width: 3,
-                                                          )),
-                                                      labelText: 'قائمة التسوق',
-                                                    ),
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("القائمة و السجل"),
+                                  TextButton(
+                                      onPressed: () {
+                                        showModalBottomSheet<void>(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return Container(
+                                              //  height: 200,
+                                              //color: Colors.amber,
+                                              child: Center(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    mainAxisSize:
+                                                        MainAxisSize.min,
+                                                    children: <Widget>[
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: const Text(
+                                                            'انشاء قائمة جديدة'),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: TextField(
+                                                          controller:
+                                                              _textEditingController,
+                                                          decoration:
+                                                              const InputDecoration(
+                                                            border:
+                                                                OutlineInputBorder(
+                                                                    //Outline border type for TextFeild
+                                                                    borderRadius:
+                                                                        BorderRadius.all(Radius.circular(
+                                                                            20)),
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                      color: Colors
+                                                                          .redAccent,
+                                                                      width: 3,
+                                                                    )),
+                                                            labelText:
+                                                                'قائمة التسوق',
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(8.0),
+                                                        child: Text(
+                                                            "استخدم القوائم لحفظ المنتجات لاحقا جميع القوائم خاصة الا اذا قمت بمشاركتها مع الاخرين"),
+                                                      ),
+                                                      ElevatedButton(
+                                                        child: const Text(
+                                                            'انشي قائمة'),
+                                                        onPressed: () {
+                                                          cubit.postlistsData(
+                                                              listName:
+                                                                  _textEditingController
+                                                                      .text);
+                                                        },
+                                                      ),
+                                                      ElevatedButton(
+                                                        child:
+                                                            const Text('غلق'),
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                context),
+                                                      )
+                                                    ],
                                                   ),
                                                 ),
-                                                Padding(
-                                                  padding: const EdgeInsets.all(8.0),
-                                                  child: Text(
-                                                      "استخدم القوائم لحفظ المنتجات لاحقا جميع القوائم خاصة الا اذا قمت بمشاركتها مع الاخرين"),
-                                                ),
-                                                ElevatedButton(
-                                                  child: const Text('انشي قائمة'),
-                                                  onPressed: () {
-                                                    cubit.postlistsData(listName: _textEditingController.text);
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: Text("+ انشاء قائمة"))
+                                ]),
+                            Container(
+                              height: 80,
+                              child: TabBar(onTap: (index) {}, tabs: [
+                                Tab(
+                                  icon: Icon(
+                                    Icons.email_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  child: Text("قوائم اصدقائك",
+                                      style: TextStyle(color: Colors.black)),
+                                  // text: "all",
+                                ),
+                                Tab(
+                                  icon: Icon(
+                                    Icons.mark_email_unread,
+                                    color: Colors.black,
+                                  ),
+                                  child: Text("قوائمك",
+                                      style: TextStyle(color: Colors.black)),
+                                  // text: "all",
+                                ),
+                              ]),
+                            ),
+                            Expanded(
+                              child: TabBarView(children: [
+                                ListView.builder(
+                                    itemCount:
+                                        cubit.listsModel.data.shareList.length,
+                                    itemBuilder: (context, pos) {
+                                      return InkWell(
+                                        onTap: () {
+                                          log('${cubit.productDetailsModel}');
+                                          log("add   " * 10);
 
+                                          DataInListCubit.get(context)
+                                              .postlistsData(
+                                                  id: cubit.listsModel.data
+                                                      .shareList[pos].id
+                                                      .toString());
 
-                                                  },
-                                                ),
-                                                ElevatedButton(
-                                                  child: const Text('غلق'),
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                )
-                                              ],
-                                            ),
+                                          if (cubit.productDetailsModel !=
+                                              null) {
+                                            ///ToDo add to list
+                                            ///
+                                            cubit.addItemToList(
+                                                id: cubit.listsModel.data
+                                                    .shareList[pos].id
+                                                    .toString());
+                                          }
+
+                                          navigateTo(context, ItemInList());
+                                        },
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Card(
+                                            elevation: 8,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(cubit
+                                                        .listsModel
+                                                        .data
+                                                        .shareList[pos]
+                                                        .clientId
+                                                        .toString()),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(cubit
+                                                        .listsModel
+                                                        .data
+                                                        .shareList[pos]
+                                                        .createdAt),
+                                                  ),
+                                                  InkWell(
+                                                      onTap: () {
+                                                        cubit.deleteRosterlistsData(
+                                                            id: cubit
+                                                                .listsModel
+                                                                .data
+                                                                .shareList[pos]
+                                                                .id
+                                                                .toString());
+                                                      },
+                                                      child: Icon(Icons.delete))
+                                                ]),
                                           ),
                                         ),
                                       );
-                                    },
-                                  );
-                                },
-                                child: Text("+ انشاء قائمة"))
-                          ]),
-                      Container(
-                        height: 80,
-                        child: TabBar(onTap: (index) {}, tabs: [
-                          Tab(
-                            icon: Icon(
-                              Icons.email_outlined,
-                              color: Colors.black,
-                            ),
-                            child: Text("قوائم اصدقائك",
-                                style: TextStyle(color: Colors.black)),
-                            // text: "all",
-                          ),
-                          Tab(
-                            icon: Icon(
-                              Icons.mark_email_unread,
-                              color: Colors.black,
-                            ),
-                            child: Text("قوائمك",
-                                style: TextStyle(color: Colors.black)),
-                            // text: "all",
-                          ),
-                        ]),
-                      ),
-                      Expanded(
-                        child: TabBarView(children: [
-                          ListView.builder(itemCount: cubit
-                              .listsModel.data.shareList.length,itemBuilder: (context, pos) {
-                            return InkWell(onTap: (){
-                              print(cubit.productDetailsModel);
-                              print("add   "*10);
+                                    }),
+                                ListView.builder(
+                                    itemCount:
+                                        cubit.listsModel.data.mainList.length,
+                                    itemBuilder: (context, pos) {
+                                      return InkWell(
+                                        onTap: () {
+                                          log("lisssss id     ${cubit.listsModel.data.mainList[pos].id}");
+                                          DataInListCubit.get(context)
+                                                  .roster_id =
+                                              cubit.listsModel.data
+                                                  .mainList[pos].id;
+                                          DataInListCubit.get(context)
+                                              .postlistsData(
+                                                  id: cubit.listsModel.data
+                                                      .mainList[pos].id
+                                                      .toString());
 
-                              DataInListCubit.get(context).postlistsData( id: cubit.listsModel.data.shareList[pos].id.toString());
+                                          if (cubit.productDetailsModel !=
+                                              null) {
+                                            ///ToDo add to list
+                                            ///
+                                            cubit.addItemToList(
+                                                id: cubit.listsModel.data
+                                                    .mainList[pos].id
+                                                    .toString());
+                                          }
 
-                              if(cubit.productDetailsModel!=null){
-
-                                ///ToDo add to list
-                                ///
-                                cubit.addItemToList(id: cubit.listsModel.data.shareList[pos].id.toString());
-                              }
-
-
-                              navigateTo(context, ItemInList());
-
-                            },
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Card(elevation: 8,
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.end,children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(cubit
-                                          .listsModel.data.shareList[pos].clientId.toString()),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Text(cubit
-                                          .listsModel.data.shareList[pos].createdAt),
-                                    ),
-                                  InkWell(onTap: (){
-                                    cubit.deleteRosterlistsData(id: cubit
-                                        .listsModel.data.shareList[pos].id.toString());
-                                  },child: Icon(Icons.delete))]),
-                                ),
-                              ),
-                            );
-                          }),
-                          ListView.builder(
-                              itemCount: cubit.listsModel.data.mainList.length,
-                              itemBuilder: (context, pos) {
-                                return InkWell(onTap: (){
-
-print("lisssss id     ${cubit.listsModel.data.mainList[pos].id}");
-DataInListCubit.get(context).roster_id= cubit.listsModel.data.mainList[pos].id;
-                                  DataInListCubit.get(context).postlistsData( id: cubit.listsModel.data.mainList[pos].id.toString());
-
-                                  if(cubit.productDetailsModel!=null){
-
-                                    ///ToDo add to list
-                                    ///
-                                    cubit.addItemToList(id: cubit.listsModel.data.mainList[pos].id.toString());
-                                  }
-
-
-                                  navigateTo(context, ItemInList());
-
-                                },
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Card(elevation: 8,
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.end,children: [
-                                        Padding(
+                                          navigateTo(context, ItemInList());
+                                        },
+                                        child: Padding(
                                           padding: const EdgeInsets.all(8.0),
-                                          child: Text(cubit
-                                              .listsModel.data.mainList[pos].name),
+                                          child: Card(
+                                            elevation: 8,
+                                            child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.end,
+                                                children: [
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(cubit
+                                                        .listsModel
+                                                        .data
+                                                        .mainList[pos]
+                                                        .name),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            8.0),
+                                                    child: Text(cubit
+                                                        .listsModel
+                                                        .data
+                                                        .mainList[pos]
+                                                        .createdAt),
+                                                  ),
+                                                  InkWell(
+                                                      onTap: () {
+                                                        log("lisssss id     ${cubit.listsModel.data.shareList[pos].id}");
+                                                        cubit.deleteRosterlistsData(
+                                                            id: cubit
+                                                                .listsModel
+                                                                .data
+                                                                .mainList[pos]
+                                                                .id
+                                                                .toString());
+                                                      },
+                                                      child: Icon(Icons.delete))
+                                                ]),
+                                          ),
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(cubit
-                                              .listsModel.data.mainList[pos].createdAt),
-                                        ),
-                                        InkWell(onTap: (){
-                                          print("lisssss id     ${cubit.listsModel.data.shareList[pos].id}");
-cubit.deleteRosterlistsData(id: cubit
-    .listsModel.data.mainList[pos].id.toString());
-                                        },child: Icon(Icons.delete))   ]),
-                                    ),
-                                  ),
-                                );
-                              })
-                        ]),
-                      )
-                    ],
-                  );
+                                      );
+                                    })
+                              ]),
+                            )
+                          ],
+                        );
                 },
               ),
             ),
@@ -236,9 +321,7 @@ cubit.deleteRosterlistsData(id: cubit
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: BlocConsumer<ListsCubit, ListsState>(
-          listener: (context, state) {
-            // TODO: implement listener
-          },
+          listener: (context, state) {},
           builder: (context, state) {
             if (state is ListsLoadingState) {
               return Center(

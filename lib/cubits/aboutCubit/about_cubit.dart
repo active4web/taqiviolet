@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/about_model.dart';
@@ -16,22 +18,26 @@ class AboutCubit extends Cubit<AboutStates> {
   List<AboutModelData> aboutData;
 
   void getAbout() async {
-    print("i get the lang     ${CacheHelper.getData("language")}");
+    log("i get the lang     ${CacheHelper.getData("language")}");
     emit(GetAboutLoadingState());
     await Mhelper.getData(
-            UrlPath: dataFromabout,
-            query: {'lang': (CacheHelper.getData("language") ?? "ar")})
-        .then((value) async {
-      print("0" * 50);
-      print(value.data);
-      print("0" * 50);
+      url: dataFromabout,
+      query: {
+        'lang': kLanguage,
+    
+      },
+      token: kToken,
+    ).then((value) async {
+      log("0" * 50);
+      log(value.data.toString());
+      log("0" * 50);
       aboutModel = AboutModel.fromJson(value.data);
       aboutData = aboutModel.data;
-      print(value.data);
-      print(aboutData[0].title);
+      log(value.data.toString());
+      log(aboutData[0].title.toString());
       emit(GetAboutSuccessState());
     }).catchError((err) {
-      print("Error form dio:$err");
+      log("Error form dio:$err");
       emit(GetAboutErrorState());
     });
   }

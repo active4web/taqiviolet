@@ -1,11 +1,18 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
+import 'package:safsofa/cubits/favorites_cubit/favorites_state.dart';
+import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../models/cart_models/cart_local_model/cart_local_model.dart';
 import 'components/custom_button.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void navigateTo(BuildContext context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -64,7 +71,7 @@ void showAlertDialogWithAction(
                   fontSize: 20,
                   color: messageColor,
                   fontWeight: FontWeight.w500),
-              textDirection: TextDirection.rtl,
+              // textDirection: TextDirection.rtl,
             ),
             SizedBox(
               height: 40,
@@ -109,12 +116,7 @@ Future<dynamic> showCustomBottomSheet({BuildContext context, Widget content}) {
           ));
 }
 
-// void logOut(context) {
-//   CacheHelper.removeData('token');
-//   CacheHelper.removeData('userType')
-//       .then((value) => navigateAndFinish(context, LoginScreen()));
-//   CacheHelper.clearCache();
-// }
+CartLocalModel cartProducts;
 
 // void ensureDeleteMessage({context, onTap, String text}) {
 //   showDialog(
@@ -183,4 +185,297 @@ void printLongString(String text) {
   pattern
       .allMatches(text)
       .forEach((RegExpMatch match) => print(match.group(0)));
+}
+
+void showFavoriteChoiceDialogue(
+    {@required BuildContext context,
+    @required GlobalKey<ScaffoldState> scaffoldKey}) {
+  TextEditingController listName = TextEditingController();
+  scaffoldKey.currentState.showBottomSheet(
+    ((context) {
+      return BlocProvider(
+        create: (context) => FavoritesCubit()..getFavListData(),
+        child: BlocConsumer<FavoritesCubit, FavoritesState>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width / 60,
+                  vertical: MediaQuery.of(context).size.height / 70),
+              child: state is FavoritesListSuccess
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional.center,
+                          child: Text(
+                            "addToOneOfYourFavoriteLists".tr(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                color: kDarkGoldColor,
+                                fontSize: 22,
+                                fontWeight: FontWeight.w600),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 35,
+                        ),
+                        SizedBox(
+                          height: 80,
+                          child: ListView(
+                            scrollDirection: Axis.horizontal,
+                            children: [
+                              if (FavoritesCubit.get(context)
+                                  .favListModel
+                                  .data
+                                  .isNotEmpty)
+                                SizedBox(
+                                  height: 80,
+                                  child: ListView.separated(
+                                    physics: NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: FavoritesCubit.get(context)
+                                        .favListModel
+                                        .data
+                                        .length,
+                                    itemBuilder: (context, index) {
+                                      return Wrap(
+                                        direction: Axis.vertical,
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 60,
+                                            height: 60,
+                                            alignment: Alignment.center,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.rectangle,
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              color: Colors.grey.shade200,
+                                            ),
+                                            child: Icon(
+                                              CupertinoIcons.heart_circle_fill,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                          ConstrainedBox(
+                                            constraints: BoxConstraints(
+                                              maxWidth: 70,
+                                            ),
+                                            child: Text(
+                                              FavoritesCubit.get(context)
+                                                  .favListModel
+                                                  .data[index]
+                                                  .name,
+                                              style: TextStyle(
+                                                color: kDarkGoldColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              textAlign: TextAlign.center,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                          60,
+                                    ),
+                                  ),
+                                ),
+                              if (FavoritesCubit.get(context)
+                                  .favListModel
+                                  .data
+                                  .isNotEmpty)
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width / 60,
+                                ),
+                              InkWell(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: BlocProvider(
+                                          create: (context) => FavoritesCubit(),
+                                          child: BlocConsumer<FavoritesCubit,
+                                              FavoritesState>(
+                                            listener: (context, state) {},
+                                            builder: (context, state) {
+                                              return Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  CustomTextFormField(
+                                                    hintText:
+                                                        "theNameOfYourFavoriteList"
+                                                            .tr(),
+                                                    controller: listName,
+                                                    fillColor: Colors.grey,
+                                                    hintColor: Colors.black87,
+                                                    textColor: kDarkGoldColor,
+                                                  ),
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height /
+                                                            50,
+                                                  ),
+                                                  Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      InkWell(
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          FavoritesCubit.get(
+                                                                  context)
+                                                              .createNewFavList(
+                                                                  listName:
+                                                                      listName
+                                                                          .text,
+                                                                  context:
+                                                                      context);
+                                                        },
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 70,
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.green,
+                                                            shape: BoxShape
+                                                                .rectangle,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        14),
+                                                          ),
+                                                          child: Text(
+                                                            "create".tr(),
+                                                            style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      InkWell(
+                                                        onTap: () =>
+                                                            Navigator.of(
+                                                                    context)
+                                                                .pop(),
+                                                        child: Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          width: 70,
+                                                          height: 40,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.grey,
+                                                            shape: BoxShape
+                                                                .rectangle,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        14),
+                                                          ),
+                                                          child: Text(
+                                                            "cancel".tr(),
+                                                            style: TextStyle(
+                                                              color: Colors.red,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      )
+                                                    ],
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Wrap(
+                                  direction: Axis.vertical,
+                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                  children: [
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.circular(16),
+                                        color: Colors.grey.shade200,
+                                      ),
+                                      child: Icon(
+                                        CupertinoIcons.add_circled,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    ConstrainedBox(
+                                      constraints: BoxConstraints(
+                                        maxWidth: 70,
+                                      ),
+                                      child: Text(
+                                        'انشأ قائمه',
+                                        style: TextStyle(
+                                          color: Colors.grey,
+                                          fontWeight: FontWeight.w400,
+                                        ),
+                                        textAlign: TextAlign.center,
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Container(
+                        //   width: 60,
+                        //   height: 60,
+                        //   alignment: Alignment.center,
+                        //   decoration: BoxDecoration(
+                        //     shape: BoxShape.rectangle,
+                        //     borderRadius: BorderRadius.circular(16),
+                        //     color: Colors.grey.shade200,
+                        //   ),
+                        //   child: Icon(
+                        //     CupertinoIcons.add_circled,
+                        //     color: Colors.black,
+                        //   ),
+                        // ),
+                      ],
+                    )
+                  : Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      ],
+                    ),
+            );
+          },
+        ),
+      );
+    }),
+  );
 }

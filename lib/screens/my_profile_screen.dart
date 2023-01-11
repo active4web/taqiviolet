@@ -1,11 +1,13 @@
 import 'package:easy_localization/src/public_ext.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
-
+import 'package:safsofa/shared/constants.dart';
+import 'dart:io';
 import '../cubits/cubit/getdataprofile_cubit.dart';
 import '../network/local/cache_helper.dart';
 
@@ -27,6 +29,11 @@ class MyProfileScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: 'MyProfile'.tr(),
+        icon: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context, true);
+            }),
       ),
       body: BlocBuilder<GetdataprofileCubit, GetdataprofileState>(
           builder: (context, state) {
@@ -40,6 +47,57 @@ class MyProfileScreen extends StatelessWidget {
               padding: const EdgeInsets.all(30),
               child: Column(
                 children: [
+                  Center(
+                    child: Stack(
+                      alignment: AlignmentDirectional.bottomEnd,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(100),
+                          child: cubit.imageFile == null
+                              ? Image(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  image: NetworkImage(
+                                      cubit.getdataprofileModel.image),
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(
+                                      CupertinoIcons.profile_circled,
+                                      color: kLightGoldColor,
+                                      size: MediaQuery.of(context).size.width /
+                                          3.5,
+                                    );
+                                  },
+                                )
+                              : Image(
+                                  height: MediaQuery.of(context).size.width / 3,
+                                  width: MediaQuery.of(context).size.width / 3,
+                                  image: FileImage(
+                                    File(cubit.imageFile.path),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        IconButton(
+                          onPressed: () => cubit.selectImage(),
+                          icon: Container(
+                            alignment: Alignment.center,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(5.0),
+                              child: Icon(CupertinoIcons.camera_fill),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Label(
                     text: 'FullName'.tr(),
                   ),

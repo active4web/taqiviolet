@@ -1,4 +1,6 @@
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
@@ -15,7 +17,7 @@ class TechnicalSupporDetailstScreen extends StatelessWidget {
     return BlocBuilder<TechnicalSupportDetailsCubit, TechnicalSupportDetailstState>(
       builder: (context, state) {
         TechnicalSupportDetailsCubit cubit = TechnicalSupportDetailsCubit.get(context);
-        state is TechnicalSupportdetailstInitial ? cubit.getTechnicalSupport():print("getdata");
+        state is TechnicalSupportdetailstInitial ? cubit.getTechnicalSupport():log("getdata");
 
         return Scaffold(
           appBar: CustomAppBar(

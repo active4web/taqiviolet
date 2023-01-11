@@ -1,48 +1,52 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/defaults.dart';
-
-import '../../../models/my_product_details_model.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../../../models/my_products_details_model.dart';
 import '../../constants.dart';
 import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
   VerticalProductCard({
     Key key,
-    this.isFavourite = false,
+    this.isFavourite,
     this.onclick,
     this.productName,
     this.productId,
     this.image,
     this.totalRate,
-    this.price,
-    this.discount,
+    this.oldPrice,
+    this.currentPrice,
     this.cubit,
+    this.onFavPressed,
   }) : super(key: key);
 
   bool isFavourite;
   final String productName;
   final int productId;
   final String image;
-  final totalRate;
-  final price;
-  final discount;
+  final String totalRate;
+  final oldPrice;
+  final currentPrice;
   var cubit;
+  void Function() onFavPressed;
   VoidCallback onclick;
 
   @override
   Widget build(BuildContext context) {
-    print("image      $image");
-    print("image      $productId");
-    print("price      $price");
-    print("discount      $discount");
+    // log("image      $image");
+    // log("image      $productId");
+    // log("price      $price");
+    // log("discount      $discount");
     return GestureDetector(
       onTap: //onclick
 
           () {
-        print("i click it prodect   $productId");
+        log("i click it prodect   $productId");
         AppCubit appCubit = AppCubit.get(context);
         appCubit.getProductDetails(productId: productId);
         // cubit.getProductDetails(
@@ -68,144 +72,148 @@ class VerticalProductCard extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              productName ?? '',
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 12),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                CustomRatingBar(
-                                  rating:
-                                      double.parse(totalRate ?? 0.toString()),
-                                  itemSize: 11,
-                                ),
-                                SizedBox(
-                                  width: 20,
-                                ),
-                                Text(
-                                  double.parse(totalRate ?? 0.toString())
-                                      .toString(),
-                                  style: TextStyle(fontSize: 11),
-                                ),
-                              ],
-                            ),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                if (price != null && discount != null)
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            price.toString() ?? '',
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                fontSize: 9),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'ريال',
-                                            style: TextStyle(
-                                                color: Colors.grey,
-                                                decoration:
-                                                    TextDecoration.lineThrough,
-                                                fontSize: 9),
-                                          )
-                                        ],
-                                      ),
-                                      // if (discount != null)
-                                      SizedBox(
-                                        height: 5,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            discount.toString() ?? '',
-                                            style: TextStyle(
-                                                color: Color(0xffFE9C8F),
-                                                fontSize: 12),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'ريال',
-                                            style: TextStyle(
-                                                color: Color(0xffFE9C8F),
-                                                fontSize: 12),
-                                          )
-                                        ],
-                                      ),
-                                    ],
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Text(
+                                productName ?? '',
+                                maxLines: 2,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 17),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  CustomRatingBar(
+                                    rating: totalRate.isNotEmpty
+                                        ? double.parse(totalRate)
+                                        : 0.0,
+                                    itemSize: 14,
                                   ),
-                                if (price != null && discount == null)
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            price.toString() ?? '',
-                                            style: TextStyle(
-                                                color: Color(0xffFE9C8F),
-                                                fontSize: 12),
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            'ريال',
-                                            style: TextStyle(
-                                                color: Color(0xffFE9C8F),
-                                                fontSize: 12),
-                                          )
-                                        ],
-                                      ),
-                                    ],
+                                  SizedBox(
+                                    width: 20,
                                   ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                                  child: Container(
-                                    width: 25,
-                                    height: 25,
-                                    decoration: BoxDecoration(
-                                      color: kDarkGoldColor,
-                                      borderRadius: BorderRadius.circular(50),
+                                  Text(
+                                    '$totalRate',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  if (oldPrice != null && oldPrice != 0)
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              currentPrice.toString() ?? '',
+                                              style: TextStyle(
+                                                  color: Color(0xffFE9C8F),
+                                                  fontSize: 16),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "SAR".tr(),
+                                              style: TextStyle(
+                                                  color: Color(0xffFE9C8F),
+                                                  fontSize: 16),
+                                            )
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          height: 5,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text(
+                                              oldPrice.toString() ?? '',
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  fontSize: 14),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "SAR".tr(),
+                                              style: TextStyle(
+                                                  color: Colors.grey,
+                                                  decoration: TextDecoration
+                                                      .lineThrough,
+                                                  fontSize: 14),
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                    child: Center(
-                                      child: Icon(
-                                        CupertinoIcons.cart,
-                                        color: Colors.white,
-                                        size: 15,
-                                      ),
+                                  if (oldPrice == null || oldPrice == 0)
+                                    Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(
+                                              currentPrice.toString() ?? '',
+                                              style: TextStyle(
+                                                  color: Color(0xffFE9C8F),
+                                                  fontSize: 16),
+                                            ),
+                                            SizedBox(
+                                              width: 5,
+                                            ),
+                                            Text(
+                                              "SAR".tr(),
+                                              style: TextStyle(
+                                                  color: Color(0xffFE9C8F),
+                                                  fontSize: 16),
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ),
-                              ],
-                            )
-                          ],
+                                  // Padding(
+                                  //   padding: const EdgeInsets.symmetric(
+                                  //       horizontal: 20.0),
+                                  //   child: Container(
+                                  //     width: 25,
+                                  //     height: 25,
+                                  //     decoration: BoxDecoration(
+                                  //       color: kDarkGoldColor,
+                                  //       borderRadius: BorderRadius.circular(50),
+                                  //     ),
+                                  //     child: Center(
+                                  //       child: Icon(
+                                  //         CupertinoIcons.cart,
+                                  //         color: Colors.white,
+                                  //         size: 15,
+                                  //       ),
+                                  //     ),
+                                  //   ),
+                                  // ),
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -213,17 +221,11 @@ class VerticalProductCard extends StatelessWidget {
                   top: 0,
                   left: 0,
                   child: IconButton(
-                    onPressed: () {
-                      // isFavourite = !isFavourite;
-                      // print(productId.toString() + "DDDDD");
-                      // cubit.updateFavourite(
-                      //     isFav: isFavourite, prodId: productId);
-                      // cubit.emit(ChangeIconColor());
-                    },
+                    onPressed: onFavPressed,
                     icon: isFavourite
                         ? Icon(
                             Icons.favorite_rounded,
-                            color: Color(0xffFE9C8F),
+                            color: kDarkGoldColor,
                           )
                         : Icon(
                             Icons.favorite_border_rounded,
@@ -276,7 +278,7 @@ GridView showProductsGrid(int count, bool isFavourite, int id) {
 }
 
 class HorizontalProductCard extends StatelessWidget {
-  ProductDetails relatedProducts;
+  RelatedProducts relatedProducts;
 
   HorizontalProductCard({this.relatedProducts});
 
@@ -285,9 +287,8 @@ class HorizontalProductCard extends StatelessWidget {
     AppCubit appCubit = AppCubit.get(context);
     return GestureDetector(
       onTap: () {
-        print("99999999999999999999999999999999999999999999");
-        print(
-            "99999999999999999999999999999999999999999999     ${relatedProducts.id}");
+        log("99999999999999999999999999999999999999999999");
+        log("99999999999999999999999999999999999999999999     ${relatedProducts.id}");
         appCubit.getProductDetails(
           productId: relatedProducts.id,
         );
@@ -344,7 +345,7 @@ class HorizontalProductCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            relatedProducts.price.toString(),
+                            relatedProducts.oldPrice.toString(),
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),
@@ -381,10 +382,31 @@ class HorizontalProductCard extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  Icon(
-                    Icons.favorite_border_rounded,
-                    color: Colors.black26,
-                  ),
+                  relatedProducts.hasFavorites == 1
+                      ? InkWell(
+                          onTap: () {
+                            if (kToken != null && kToken.isNotEmpty) {
+                              appCubit.updateRelatedProductsFavorite(
+                                  prodId: relatedProducts.id);
+                            }
+                          },
+                          child: Icon(
+                            Icons.favorite_rounded,
+                            color: kDarkGoldColor,
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () {
+                            if (kToken != null && kToken.isNotEmpty) {
+                              appCubit.updateRelatedProductsFavorite(
+                                  prodId: relatedProducts.id);
+                            }
+                          },
+                          child: Icon(
+                            Icons.favorite_border_rounded,
+                            color: Colors.black26,
+                          ),
+                        ),
                 ],
               ),
             ),

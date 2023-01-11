@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
-import 'package:safsofa/shared/components/custom_image_picker.dart';
+
 import 'package:safsofa/shared/components/description_text_field.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -182,9 +182,9 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           height: 50,
                           text: 'AddReview'.tr(),
                           onTap: () {
-                            // print(cubit.file1.path ?? '');
-                            // print(cubit.file2.path ?? '');
-                            // print(cubit.file3.path ?? '');
+                            // log(cubit.file1.path ?? '');
+                            // log(cubit.file2.path ?? '');
+                            // log(cubit.file3.path ?? '');
                             // cubit.addReview(
                             //   comment: commentController.text,
                             //   rating: rating.toInt(),

@@ -35,39 +35,28 @@ class AboutModelData {
   String title;
   String content;
   String image;
-  int type;
-  String createdAt;
-  String updatedAt;
 
   AboutModelData({
     this.id,
     this.title,
     this.content,
     this.image,
-    this.type,
-    this.createdAt,
-    this.updatedAt,
   });
 
   AboutModelData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    content = json['content'];
+    content = json['content_app'];
     image = json['image'];
-    type = json['type'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['content'] = this.content;
+    data['content_app'] = this.content;
     data['image'] = this.image;
-    data['type'] = this.type;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+
     return data;
   }
 }

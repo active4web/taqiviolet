@@ -1,7 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
-import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -10,10 +10,9 @@ import '../cubits/cubit/getdataprofile_cubit.dart';
 import '../cubits/my_orders_cubit.dart';
 import '../cubits/order_details_cubit.dart';
 import '../models/my_orders_model.dart';
-import '../models/order_details.dart';
+
 import '../shared/defaults.dart';
 import 'order_details.dart';
-
 
 class MyOrdersScreen extends StatelessWidget {
   const MyOrdersScreen({Key key}) : super(key: key);
@@ -21,89 +20,97 @@ class MyOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MyOrdersCubit cubit = MyOrdersCubit.get(context);
-    print("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
-   cubit.getmyOrders() ;
+    log("oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo");
+    cubit.getmyOrders();
 
     return Scaffold(
       appBar: CustomAppBar(
         title: 'Orders'.tr(),
       ),
       body: BlocConsumer<MyOrdersCubit, MyOrdersState>(
-  listener: (context, state) {
+        listener: (context, state) {},
+        builder: (context, state) {
+          return cubit.myOrdersModel == null
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Padding(
+                  padding: const EdgeInsets.all(22),
+                  child: Column(
+                    children: [
+                      Label(
+                        text: 'UnderWayOrders'.tr(),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      // OrderStatusCard(
+                      //   status: 1,
+                      // ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Label(
+                        text: 'PreviousOrders'.tr(),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: ListView.separated(
+                            itemBuilder: (context, index) {
+                              log("myOrdersModelmyOrdersModelmyOrdersModel ${cubit.myOrdersModel.data.length}");
 
+                              return InkWell(
+                                  onTap: () {
+                                    GetdataprofileCubit.get(context)
+                                        .getdataprofileCData();
+                                    OrderDetailsCubit.get(context)
+                                        .getOrderDetails(cubit
+                                            .myOrdersModel.data[index].id
+                                            .toString());
 
-    // TODO: implement listener
-  },
-  builder: (context, state) {
+                                    log("11111111111111111111111111111111111111111");
 
-
-    return cubit.myOrdersModel==null?Center(child: CircularProgressIndicator(),): Padding(
-      padding: const EdgeInsets.all(22),
-      child: Column(
-        children: [
-          Label(
-            text: 'UnderWayOrders'.tr(),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          // OrderStatusCard(
-          //   status: 1,
-          // ),
-          SizedBox(
-            height: 20,
-          ),
-          Label(
-            text: 'PreviousOrders'.tr(),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Expanded(flex: 1,
-            child: ListView.separated(
-
-
-                itemBuilder: (context, index) {
-print("myOrdersModelmyOrdersModelmyOrdersModel ${cubit.myOrdersModel.data.length}");
-
-                  return InkWell(onTap: (){
-                    GetdataprofileCubit.get(context).getdataprofileCData();
-                    OrderDetailsCubit.get(context).getOrderDetails(cubit.myOrdersModel.data[index].id.toString());
-
-                    print("11111111111111111111111111111111111111111");
-
-                    print(cubit.myOrdersModel.data[index].id.toString());
-                    OrderDetailsCubit.get(context).total=0;
-                    navigateTo(context, OrderDetailsSCR(cubit.myOrdersModel.data[index].id));
-
-                  },child: OrderStatusCard(myOrdersData: cubit.myOrdersModel.data[index]));
-                } ,
-                separatorBuilder: (context, index) => SizedBox(
-                      height: 4,
-                    ),
-                itemCount:  MyOrdersCubit.get(context).myOrdersModel.data.length
-            ),
-          )
-        ],
+                                    log(cubit.myOrdersModel.data[index].id
+                                        .toString());
+                                    OrderDetailsCubit.get(context).total = 0;
+                                    navigateTo(
+                                        context,
+                                        OrderDetailsSCR(cubit
+                                            .myOrdersModel.data[index].id));
+                                  },
+                                  child: OrderStatusCard(
+                                      myOrdersData:
+                                          cubit.myOrdersModel.data[index]));
+                            },
+                            separatorBuilder: (context, index) => SizedBox(
+                                  height: 4,
+                                ),
+                            itemCount: MyOrdersCubit.get(context)
+                                .myOrdersModel
+                                .data
+                                .length),
+                      )
+                    ],
+                  ),
+                );
+        },
       ),
-    );
-  },
-),
     );
   }
 }
 
 class OrderStatusCard extends StatelessWidget {
-
   OrderStatusCard({this.myOrdersData, this.status});
-  final  MyOrdersData myOrdersData;
+  final MyOrdersData myOrdersData;
   final int status;
   // 1 = underway , 2 = done , 3 = canceled
 
   @override
   Widget build(BuildContext context) {
-
-   // print(myOrdersData.toJson());
+    // log('${myOrdersData.toJson()}');
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
@@ -187,23 +194,19 @@ class OrderStatusCard extends StatelessWidget {
           ),
           Column(
             children: [
-
-                StatusChip(
-                  title:myOrdersData.status,
-                  color: kDarkGoldColor,
-                )
-              ,
+              StatusChip(
+                title: myOrdersData.status,
+                color: kDarkGoldColor,
+              ),
               SizedBox(
                 height: 10,
               ),
-
             ],
           )
         ],
       ),
     );
   }
-
 }
 
 class StatusChip extends StatelessWidget {

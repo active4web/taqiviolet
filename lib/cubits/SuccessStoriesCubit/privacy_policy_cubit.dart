@@ -1,7 +1,7 @@
-import 'package:bloc/bloc.dart';
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/SuccessStoriesCubit/privacy_policy_state.dart';
-import 'package:safsofa/network/local/cache_helper.dart';
 
 import '../../models/privacy_policy_model.dart';
 import '../../network/remote/dio_Mhelper.dart';
@@ -19,19 +19,18 @@ class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
   void getPrivacyPolicy() async {
     emit(GetPrivacyPolicyLoadingState());
     await Mhelper.getData(
-            UrlPath: dataFromPrivacyPolicy,
-            query: {'lang': (CacheHelper.getData("language") ?? "ar")})
-        .then((value) async {
-      print("0" * 50);
-      print(value.data);
-      print("0" * 50);
+        url: dataFromPrivacyPolicy,
+        query: {'lang': kLanguage}).then((value) async {
+      log("0" * 50);
+      log(value.data.toString());
+      log("0" * 50);
       privacyPolicyModel = PrivacyPolicyModel.fromJson(value.data);
       // storeListOfData = storiesModel.data;
-      print(value.data);
+      log(value.data.toString());
       // print(storeListOfData[0].content);
       emit(GetPrivacyPolicySuccessState());
     }).catchError((err) {
-      print("Error form dio:$err");
+      log("Error form dio:$err");
       emit(GetPrivacyPolicyErrorState());
     });
   }

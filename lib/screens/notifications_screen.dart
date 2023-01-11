@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +25,7 @@ class NotificationsScreen extends StatelessWidget {
             ),
             body: BlocBuilder<AppCubit, AppStates>(
               builder: (context, state) {
-                print(state);
+                log('$state');
 
                 return state is GetAllNotificationsLoadingState
                     ?

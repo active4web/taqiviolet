@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/models/cart_models/cart_local_model/cart_local_model.dart';
 import 'package:safsofa/models/construction_link_model.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favourites_products_model.dart';
@@ -15,18 +17,20 @@ import 'package:safsofa/models/offer_model.dart';
 import 'package:safsofa/models/product_reviews_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
+import 'package:safsofa/models/user_profile_data_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
-import 'package:safsofa/network/remote/dio_helper.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
-import 'package:safsofa/shared/constants.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'package:safsofa/screens/favourites_screen.dart';
 
-import '../../models/my_product_details_model.dart';
-import '../../screens/menu_screens/offers_screen.dart';
+import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
+
+import '../../models/my_products_details_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 import '../cartCubit/cart_cubit.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -34,10 +38,9 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
-  MYProductDetailsModel productDetailsModel;
   List<Widget> screens = [
     HomeScreen(),
-    OffersScreen(), // ChatsScreen(),
+    FavouritesScreen(), // StoresScreen(), // OffersScreen(), // ChatsScreen(),
     CartScreen(),
     MyAccountScreen(),
     MenuScreen(),
@@ -51,8 +54,8 @@ class AppCubit extends Cubit<AppStates> {
   void changeNavBar(int value, context) {
     selectedIndex = value;
     if (value == 2) {
-      print("get myyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
-      CartCubit.get(context).getCartData();
+      log("get myyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy");
+      CartCubit.get(context).getLocalCartData();
     }
     emit(BottomNavState());
   }
@@ -61,84 +64,160 @@ class AppCubit extends Cubit<AppStates> {
 
   void getCache() {
     if (CacheHelper.getData('userInfo') != null) {
-      print("sa");
+      log("sa");
       userInfo = RegisterSuccessModel.fromJson(
           jsonDecode(CacheHelper.getData('userInfo')));
     } else {
-      print("-" * 10);
+      log("-" * 10);
     }
   }
 
-  YoutubePlayerController videoController;
+  UserProfileDataModel myAccountData;
+  void getUserAccountData({bool loading = true}) {
+    if (loading) {
+      emit(GetAccountDataLoadingState());
+    }
+
+    Mhelper.getData(
+        url: userProfileDataURL,
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      myAccountData = UserProfileDataModel.fromJson(value.data);
+      log(value.data.toString());
+      emit(GetAccountDataSuccessState());
+    }).catchError((error) {
+      log('Error on loading account data:: ${error.toString()}');
+      emit(GetAccountDataErrorState());
+    });
+  }
+
+  // YoutubePlayerController videoController;
   ConstructionLinkModel constructionLink = ConstructionLinkModel();
   void getConstructionData() {
     emit(GetConstructionLoadingState());
-    Mhelper.getData(UrlPath: '/api/construction_link', query: {
-      'lang': CacheHelper.getData('language'),
+    Mhelper.getData(url: '/api/construction_link', query: {
+      'lang': kLanguage,
     }).then((value) {
       constructionLink = ConstructionLinkModel.fromJson(value.data);
-      videoController = YoutubePlayerController(
-        initialVideoId: constructionLink.data.videoLink,
-        flags: YoutubePlayerFlags(
-          autoPlay: true,
-          loop: true,
-          hideThumbnail: true,
-          mute: true,
-        ),
-      );
+      // videoController = YoutubePlayerController(
+      //   initialVideoId: constructionLink.data.videoLink,
+      //   flags: YoutubePlayerFlags(
+      //     autoPlay: false,
+      //     loop: true,
+      //     hideThumbnail: true,
+      //     mute: true,
+      //   ),
+      // );
+
       emit(GetConstructionSuccessState());
     }).then((error) {
       emit(GetConstructionErrorState());
     });
   }
 
+  void updateFavorite({@required int prodId}) {
+    log('inside is favorite of sub_cat_cubit');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        for (int i = 0; i < constructionLink.data.productList.length; i++) {
+          if (constructionLink.data.productList[i].id == prodId) {
+            if (constructionLink.data.productList[i].hasFavorites == 0) {
+              constructionLink.data.productList[i].hasFavorites = 1;
+              emit(GetConstructionSuccessState());
+              break;
+            } else {
+              constructionLink.data.productList[i].hasFavorites = 0;
+              emit(GetConstructionSuccessState());
+              break;
+            }
+          }
+        }
+      }
+    });
+  }
+
+  MyProductsDetailsModel productDetailsModel;
+  void getProductDetails({int productId}) {
+    emit(GetProductDetailsLoadingState());
+    log(CacheHelper.getData("token")
+        .toString()); //product_id=$productId&lang=${ CacheHelper.getData("lan") }
+    Mhelper.getData(
+        url: 'api/productDetails',
+        token: CacheHelper.getData("token"),
+        query: {"product_id": productId, 'lang': kLanguage}).then((value) {
+      log(value.realUri.toString());
+      log(value.statusCode.toString());
+      log("dddddddddddddd   ${value.data}");
+      productDetailsModel = MyProductsDetailsModel.fromJson(value.data);
+      // print("4444   ${productDetailsModel}");
+      // if (value.data["status"] == true) {
+      //
+      //
+      emit(GetProductDetailsSuccessState());
+      // } else
+      //   emit(GetProductDetailsErrorState());
+    }).catchError((error) {
+      log(error.toString());
+      emit(GetProductDetailsErrorState());
+    });
+  }
+
+  void updateProductDetailsFavorite({@required int prodId}) {
+    log('inside is favorite of updateProductDetailsFavorite');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        if (productDetailsModel.data.productDetails[0].hasFavorites == 0) {
+          productDetailsModel.data.productDetails[0].hasFavorites = 1;
+          emit(GetProductDetailsSuccessState());
+        } else {
+          productDetailsModel.data.productDetails[0].hasFavorites = 0;
+          emit(GetProductDetailsSuccessState());
+        }
+      }
+    });
+  }
+
+  void updateRelatedProductsFavorite({@required int prodId}) {
+    log('inside is favorite of updateProductDetailsFavorite');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        for (int i = 0;
+            i < productDetailsModel.data.relatedProducts.length;
+            i++) {
+          if (productDetailsModel.data.relatedProducts[i].id == prodId) {
+            if (productDetailsModel.data.relatedProducts[i].hasFavorites == 0) {
+              productDetailsModel.data.relatedProducts[i].hasFavorites = 1;
+              emit(GetProductDetailsSuccessState());
+              break;
+            } else {
+              productDetailsModel.data.relatedProducts[i].hasFavorites = 0;
+              emit(GetProductDetailsSuccessState());
+              break;
+            }
+          }
+        }
+      }
+    });
+  }
+
   /// Get Home Main Category Data
   HomeScreenMainCatModel homeScreenMainCatModel;
   List<Data> homeMainCatList;
-  IconData videoSound = Icons.music_note;
-  void muteUnmuteVideo(YoutubePlayerController videoController) {
-    if (videoSound == Icons.music_note) {
-      videoSound = Icons.music_off;
-      videoController.mute();
-    } else {
-      videoSound = Icons.music_note;
-      videoController.unMute();
-    }
-    emit(ChangeVideoSoundState());
-  }
-
-  // YoutubePlayerController videoController = YoutubePlayerController(
-  //   initialVideoId: 'uoWKnBlnYH0',
-  //   flags: YoutubePlayerFlags(
-  //     autoPlay: true,
-  //     loop: true,
-  //     hideThumbnail: true,
-  //   ),
-  // );
-  // void getHomeData() {
-  //   emit(HomeMainCatLoading());
-  //   Mhelper.getData(UrlPath: homeMainCatEndPoint).then((value) {
-  //    homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
-  //     print("/" * 100);
-  //     log(value.data);
-  //     print("*/*" * 100);
-  //
-  //    homeMainCatList = homeScreenMainCatModel.data;
-  //     // print(homeMainCatList[0].image);
-  //     print("sas");
-  //    print(value.statusCode);
-  //     print(homeScreenModel.data.length);
-  //     print("sas");
-  //
-  //     emit(HomeMainCatSuccess());
-  //   }).catchError((err) {
-  //
-  //     emit(HomeMainCatError());
-  //     print("///Home Err:${err.toString()}");
-  //   });
-  // }
-
-  ///TODO:End of Getting home data
 
   /// Get Home Main banner Data
   HomeScreenMainCatBannerModel homeScreenMainCatBannerModel;
@@ -146,59 +225,54 @@ class AppCubit extends Cubit<AppStates> {
 
   void gethomeMainBanners() {
     emit(HomeMainCatLoading());
-    Mhelper.getData(UrlPath: homeMainBannerEndPoint).then((value) {
+    Mhelper.getData(url: homeMainBannerEndPoint).then((value) {
       homeScreenMainCatBannerModel =
           HomeScreenMainCatBannerModel.fromJson(value.data);
-      print(value.data);
+      log(value.data.toString());
       homeBannersList = homeScreenMainCatBannerModel.data;
-      print(homeBannersList[0].image);
+      log(homeBannersList[0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
-      print("///Home Err:${err.toString()}");
+      log("///Home Err:${err.toString()}");
     });
   }
-
-  ///TODO:End of Getting Main banners data
 
   /// Get Home Main Offer List Data
   OfferModel offerModel;
-  List<OfferModelData> offerDataList;
+  // List<OfferModelData> offerDataList;
 
   void gethomeMainOfferData() {
     emit(HomeMainCatLoading());
-    Mhelper.getData(UrlPath: offersEndpoint).then((value) {
+    Mhelper.getData(url: offersEndpoint).then((value) {
       offerModel = OfferModel.fromJson(value.data);
-      print(value.data);
-      offerDataList = offerModel.data;
-      print(homeBannersList[0].image);
+      log(value.data.toString());
+      // offerDataList = offerModel.data;
+      log(homeBannersList[0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
-      print("///Home Err:${err.toString()}");
+      log("///Home Err:${err.toString()}");
     });
   }
-
-  ///TODO:End of Home Main Offer List Data
 
   HomeScreenMainCatModel homeScreenModel;
 
   void getHomeScreen() {
     emit(GetHomeScreenLoadingState());
-    DioHelper.getData(
+    Mhelper.getData(
       url:
-          'https://taqiviolet.com/api/categories?store_id=34&lang=${CacheHelper.getData('language')}',
+          'https://taqiviolet.com/api/categories?store_id=34&lang=${kLanguage}',
     ).then((value) {
-      print("the data of ${value.data}");
+      log("the data of ${value.data}");
       homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
       homeMainCatList = homeScreenMainCatModel.data;
-      print("000000000000000000000000000000000000000000000000");
+      log("000000000000000000000000000000000000000000000000");
       emit(GetHomeScreenSuccessState());
     }).catchError((error) {
       emit(GetHomeScreenErrorState());
-      print(
-          "8888888888888888888888888888888888888888888888888888888888    $error");
-      print(error);
+      log("8888888888888888888888888888888888888888888888888888888888    $error");
+      log(error.toString());
     });
   }
 
@@ -207,7 +281,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getAllDepartments({int catId, int pageNumber = 0}) {
     emit(GetDepartmentsLoadingState());
-    DioHelper.postData(url: 'user_api/get_all_departments', data: {
+    Mhelper.postData(url: 'user_api/get_all_departments', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -226,14 +300,14 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetDepartmentsErrorState());
     }).catchError((error) {
       emit(GetDepartmentsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
   getCartData() {
-    print("getDatagetDatagetDatagetData");
+    log("getDatagetDatagetDatagetData");
     // emit(CartLoadingState());
-    Mhelper.getData(UrlPath: myCartURL, token: CacheHelper.getData("token"))
+    Mhelper.getData(url: myCartURL, token: CacheHelper.getData("token"))
         .then((value) {
       //  print(value.data);
       //  emit(CartStateSuccessState());
@@ -243,7 +317,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void getAllData() {
-    DioHelper.postData(url: 'user_api/get_all_product', data: {
+    Mhelper.postData(url: 'user_api/get_all_product', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -261,14 +335,20 @@ class AppCubit extends Cubit<AppStates> {
 
   void getProducts({int catId}) {
     emit(GetProductsLoadingState());
-    DioHelper.postData(url: 'user_api/get_all_product', data: {
-      "key": 1234567890,
-      "lang": kLanguage,
-      "token_id": kToken,
-      "cat_id": catId,
-      "limit": 10,
-      "page_number": 0
-    }).then((value) {
+    Mhelper.postData(
+        url: 'user_api/get_all_product',
+        data: {
+          "key": 1234567890,
+          "lang": kLanguage,
+          "token_id": kToken,
+          "cat_id": catId,
+          "limit": 10,
+          "page_number": 0
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
       productsModel = ProductsModel.fromJson(value.data);
       productsModel.result.allProducts.forEach((element) {
         favourites.addAll({element.prodId: element.isFav});
@@ -284,7 +364,7 @@ class AppCubit extends Cubit<AppStates> {
       }
     }).catchError((error) {
       emit(GetProductsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
@@ -295,7 +375,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(LoadMoreLoadingState());
     pageNum++;
     // print('loading page ${pageNum}');
-    DioHelper.postData(url: 'user_api/get_all_product', data: {
+    Mhelper.postData(url: 'user_api/get_all_product', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -319,8 +399,8 @@ class AppCubit extends Cubit<AppStates> {
       //  print(value.data["result"]["all_products"]);
     }).catchError((e) {
       emit(LoadMoreErrorState());
-      print('there is error');
-      print(e);
+      log('there is error');
+      log(e.toString());
     });
   }
 
@@ -328,7 +408,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getFavouritesProducts() {
     emit(GetFavouritesLoadingState());
-    DioHelper.postData(url: 'user_api/get_all_myfavorite', data: {
+    Mhelper.postData(url: 'user_api/get_all_myfavorite', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -349,74 +429,7 @@ class AppCubit extends Cubit<AppStates> {
       }
     }).catchError((error) {
       emit(GetFavouritesErrorState());
-      print(error.toString());
-    });
-  }
-
-  void updateFavourite({bool isFav, int prodId}) {
-    favourites[prodId] = !favourites[prodId];
-    emit(UpdateFavouriteSuccessState());
-    print(prodId);
-    print(isFav ? 1 : 2);
-    DioHelper.postData(url: 'user_api/update_myfavorite', data: {
-      "key": 1234567890,
-      "lang": kLanguage,
-      "token_id": kToken,
-      "id_key": isFav ? 1 : 2,
-      "prod_id": prodId
-    }).then((value) {
-      //  print(value.data);
-      if (value.data["status"] == true) {
-        emit(UpdateFavouriteSuccessState());
-        getFavouritesProducts();
-      } else if (value.data["status"] == false) {
-        favourites[prodId] = !favourites[prodId];
-        emit(UpdateFavouriteErrorState());
-      }
-    }).catchError((error) {
-      emit(UpdateFavouriteErrorState());
-      print(error);
-    });
-  }
-
-  // Future<String> getconstructionLink() async {
-  //   String url = "";
-  //   await DioHelper.getData(url: "api/construction_link").then((value) {
-  //     url = value.data["data"][0];
-  //   });
-  //   return url;
-  // }
-
-  void getProductDetails({int productId}) {
-    emit(GetProductDetailsLoadingState());
-    print(CacheHelper.getData(
-        "token")); //product_id=$productId&lang=${ CacheHelper.getData("lan") }
-    Mhelper.getData(
-        UrlPath: 'api/productDetails?',
-        token: CacheHelper.getData("token")
-        //     , data: {
-        //   "key": 1234567890,
-        //   "lang": CacheHelper.getData("lan"),
-        //   "token_id": CacheHelper.getData("token"),
-        //   "prod_id": productId
-        // }
-        ,
-        query: {"product_id": productId}).then((value) {
-      print(value.realUri);
-      print(value.statusCode);
-      print("dddddddddddddd   ${value.data}");
-      productDetailsModel = MYProductDetailsModel.fromJson(value.data);
-      print("4444   ${productDetailsModel}");
-      // if (value.data["status"] == true) {
-      //
-      //
-      emit(GetProductDetailsSuccessState());
-      // } else
-      //   emit(GetProductDetailsErrorState());
-    }).catchError((error) {
-      print(error.toString());
-      emit(GetProductDetailsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
@@ -428,7 +441,7 @@ class AppCubit extends Cubit<AppStates> {
       File image2,
       File image3}) async {
     emit(AddReviewLoadingState());
-    DioHelper.postData(url: 'user_api/add_review', data: {
+    Mhelper.postData(url: 'user_api/add_review', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -455,7 +468,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(AddReviewErrorState(message: value.data["message"]));
     }).catchError((error) {
       emit(AddReviewErrorState(message: error.toString()));
-      print(error);
+      log(error.toString());
     });
   }
 
@@ -463,7 +476,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getProductReviews({int productId}) {
     emit(GetProductReviewsLoadingState());
-    DioHelper.postData(url: 'user_api/get_all_rate', data: {
+    Mhelper.postData(url: 'user_api/get_all_rate', data: {
       "key": 1234567890,
       "lang": kLanguage,
       "token_id": kToken,
@@ -480,7 +493,7 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetProductReviewsErrorState());
     }).catchError((error) {
       emit(GetProductReviewsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
@@ -488,7 +501,7 @@ class AppCubit extends Cubit<AppStates> {
 
   void getAllNotifications() {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.getData(
+    Mhelper.getData(
             url: getallnotifications + CacheHelper.getData('id').toString())
         .then((value) {
       if (value.data["status"] == true) {
@@ -499,13 +512,13 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetAllNotificationsErrorState());
     }).catchError((error) {
       emit(GetAllNotificationsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
   void delAllNotifications() {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.postData(url: dellallnotifications, data: {
+    Mhelper.postData(url: dellallnotifications, data: {
       "client_id": CacheHelper.getData('id'),
     }).then((value) {
       //  print(value.data);
@@ -516,13 +529,13 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetAllNotificationsErrorState());
     }).catchError((error) {
       emit(GetAllNotificationsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
   void deloneNotifications(id) {
     emit(GetAllNotificationsLoadingState());
-    DioHelper.postData(url: getonenotifications + id.toString(), data: {
+    Mhelper.postData(url: getonenotifications + id.toString(), data: {
       "id": id,
     }).then((value) {
       // print(value.data);
@@ -533,32 +546,160 @@ class AppCubit extends Cubit<AppStates> {
         emit(GetAllNotificationsErrorState());
     }).catchError((error) {
       emit(GetAllNotificationsErrorState());
-      print(error);
+      log(error.toString());
     });
   }
 
-  void AddToCart({product_id, quantity}) {
-    emit(AddToCartLoadingState());
+  void addToCartServer(
+      {@required product_id,
+      @required quantity,
+      @required int price,
+      @required String featureSize}) {
+    log('price====>$price');
+    log('features====>$featureSize');
+    // emit(AddToCartLoadingState());
     Mhelper.postData(
             url: AddToCartURL,
-            data: {"product_id": product_id, "quantity": quantity},
+            data: {
+              "product_id": product_id,
+              "quantity": quantity,
+              "price": "$price",
+              "features": featureSize,
+            },
             token: CacheHelper.getData("token"))
         .then((value) {
       // print(value.data);
+      log('Server Cart data==>${value.data}');
       if (value.data["status"] == true) {
-        getAllNotifications();
+        productDetailsModel.data.productDetails[0].hascart = 1;
+        // getAllNotifications();
         // emit(GetAllNotificationsSuccessState());
-      } else
-        emit(AddToCartSuccessState());
+        // emit(AddToCartSuccessState());
+        emit(GetProductDetailsSuccessState());
+      }
     }).catchError((error) {
       emit(AddToCartErrorState());
-      print(error);
+      log(error.toString());
+    });
+  }
+
+  void addToCartLocal({
+    @required bool withSmartFeature,
+    @required int quantity,
+    @required int price,
+    @required int smartPrice,
+    @required String productName,
+    @required String productImage,
+    @required int productId,
+    @required int isFav,
+  }) {
+    // log('${cartProducts == null} && ${cartProducts.cartProducts.length == 0}');
+    // log('Before add to cart ${cartProducts.cartProducts.length}');
+    if (cartProducts == null /*&& cartProducts.cartProducts.length == 0*/) {
+      cartProducts = CartLocalModel(cartProducts: []);
+      cartProducts.cartProducts.add(CartProducts(
+        productName: productName,
+        quantity: quantity,
+        productImage: productImage,
+        withSmartFeature: withSmartFeature,
+        smartPrice: smartPrice,
+        price: withSmartFeature ? quantity * smartPrice : quantity * price,
+        productId: productId,
+        isFav: isFav,
+      ));
+      String localCart = jsonEncode(cartProducts);
+      CacheHelper.setData(key: 'localCart', value: localCart);
+      // showToast(
+      //     text: "theProductHasBeenAddedToTheShoppingCart".tr(),
+      //     color: Colors.green);
+      log('After add to cart ${cartProducts.cartProducts.length}');
+      emit(GetProductDetailsSuccessState());
+    } else {
+      bool isExist = false;
+      for (int i = 0; i < cartProducts.cartProducts.length; i++) {
+        if (cartProducts.cartProducts[i].productId == productId) {
+          isExist = true;
+          break;
+        }
+      }
+      if (isExist) {
+        // showToast(
+        //     text: "theProductIsAlreadyInTheCart".tr(), color: Colors.black);
+        emit(GetProductDetailsSuccessState());
+      } else {
+        cartProducts.cartProducts.add(CartProducts(
+          productName: productName,
+          productId: productId,
+          productImage: productImage,
+          quantity: quantity,
+          withSmartFeature: withSmartFeature,
+          smartPrice: smartPrice,
+          price: withSmartFeature ? quantity * smartPrice : quantity * price,
+          isFav: isFav,
+        ));
+        log('After add to cart [Else statement] ${cartProducts.cartProducts.length}');
+        String localCart = jsonEncode(cartProducts);
+        CacheHelper.setData(key: 'localCart', value: localCart);
+        // showToast(
+        //     text: "theProductHasBeenAddedToTheShoppingCart".tr(),
+        //     color: Colors.green);
+        emit(GetProductDetailsSuccessState());
+      }
+    }
+    cartCount = 0;
+    cartProducts.cartProducts.forEach((element) {
+      cartCount += element.quantity;
+    });
+    CacheHelper.setData(key: 'cartCount', value: cartCount);
+    cartCountControlller.add(cartCount);
+  }
+
+  delITemFromCartLocally({int product_id}) {
+    log('$product_id');
+    log("0000000000000000000000000000");
+    Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
+    cartProducts = CartLocalModel.fromJson(json);
+    for (int i = 0; i < cartProducts.cartProducts.length; i++) {
+      if (cartProducts.cartProducts[i].productId == product_id) {
+        cartProducts.cartProducts.removeAt(i);
+        break;
+      }
+    }
+    cartCount = 0;
+    cartProducts.cartProducts.forEach((element) {
+      cartCount += element.quantity;
+    });
+    cartCountControlller.add(cartCount);
+    CacheHelper.setData(key: 'cartCount', value: cartCount);
+    String localCart = jsonEncode(cartProducts);
+    CacheHelper.setData(key: 'localCart', value: localCart);
+    emit(GetProductDetailsSuccessState());
+  }
+
+  delITemFromCartServer({product_id}) {
+    log('Will delete item $product_id');
+    print("0000000000000000000000000000");
+    Mhelper.postData(
+        data: {
+          "key": 1234567890,
+        },
+        url: delItem + "$product_id",
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        productDetailsModel.data.productDetails[0].hascart = 0;
+        emit(GetProductDetailsSuccessState());
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
     });
   }
 
   void fetchData() async {
     //Mostafa
     gethomeMainBanners();
+    getConstructionData();
     //getHomeData();
     gethomeMainOfferData();
     //mostafa
@@ -578,7 +719,7 @@ class AppCubit extends Cubit<AppStates> {
   Future<XFile> pickImage(file) async {
     final ImagePicker _picker = ImagePicker();
     file = await _picker.pickImage(source: ImageSource.gallery);
-    print(file.path);
+    log('${file.path}');
     emit(PickImageSuccessState());
     return file;
   }

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
@@ -5,7 +8,7 @@ import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../cubits/appCubit/app_cubit.dart';
 import '../shared/defaults.dart';
 
@@ -18,7 +21,7 @@ class DisplayProductsScreen extends StatefulWidget {
   }) : super(key: key);
   final String category_id;
   final String categoryName;
-  bool hasDepartments;
+  final hasDepartments;
 
   @override
   State<DisplayProductsScreen> createState() => _DisplayProductsScreenState();
@@ -28,7 +31,7 @@ bool ProductFromSubCat = false;
 
 class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
   ScrollController _scrollController = new ScrollController();
-
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   void initState() {
     widget.hasDepartments
@@ -48,13 +51,13 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
   Widget build(BuildContext context) {
     return BlocConsumer<SubCatCubit, SubCatState>(
       listener: (context, state) {
-        print("get dataحخهحخهعخهحخهخخحهحخ");
+        log("get dataحخهحخهعخهحخهخخحهحخ");
       },
       builder: (context, state) {
         SubCatCubit cubit = SubCatCubit.get(context);
         AppCubit appCubit = AppCubit.get(context);
-        print(cubit.productFromCatList == null);
-        print(cubit.subCatDataList == null);
+        log('${cubit.productFromCatList == null}');
+        log('${cubit.subCatDataList == null}');
         return Scaffold(
             backgroundColor: Colors.white,
             appBar: CustomAppBarWithSearch(
@@ -94,10 +97,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                           onTap: () {
                                                             setState(() {});
 
-                                                            print(cubit
-                                                                .subCatDataList[
-                                                                    index]
-                                                                .id);
+                                                            log('${cubit.subCatDataList[index].id}');
                                                             cubit.getProductSubCatData(
                                                                 param:
                                                                     "category_id",
@@ -112,8 +112,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                             ProductFromSubCat =
                                                                 false;
 
-                                                            print(widget
-                                                                .hasDepartments);
+                                                            log('${widget.hasDepartments}');
                                                           },
                                                           child: Column(
                                                             children: [
@@ -195,33 +194,68 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                             itemBuilder: (context, index) =>
                                                 VerticalProductCard(
                                               cubit: cubit,
-                                              // isFavourite: cubit.favourites[cubit
-                                              //     .productsModel.result.allProducts[index].prodId],
-                                              // totalRate: cubit
-                                              //     .productsModel.result.allProducts[index].totalRate,
+                                              isFavourite: cubit
+                                                      .productFromCatList[index]
+                                                      .hasFavorites ==
+                                                  1,
                                               image: cubit
                                                   .productFromCatList[index]
                                                   .image,
-                                              discount: cubit
+                                              currentPrice: cubit
                                                   .productFromCatList[index]
-                                                  .discount,
-                                              price: cubit
+                                                  .currentPrice,
+                                              oldPrice: cubit
                                                   .productFromCatList[index]
-                                                  .price,
-                                              // oldPrice: cubit
-                                              //     .productsModel.result.allProducts[index].oldPrice,
+                                                  .oldPrice,
                                               productName: cubit
                                                   .productFromCatList[index]
                                                   .name,
                                               productId: cubit
                                                   .productFromCatList[index].id,
+                                              totalRate: cubit
+                                                  .productFromCatList[index]
+                                                  .hasReview,
+                                              onFavPressed: () {
+                                                if (kToken != null &&
+                                                    kToken.isNotEmpty) {
+                                                  showModalBottomSheet(
+                                                      context: context,
+                                                      builder: ((context) {
+                                                        return Column(
+                                                          children: [
+                                                            Text(
+                                                                'Test FAvorites'),
+                                                          ],
+                                                        );
+                                                      }));
+                                                  // isFavourite = !isFavourite;
+                                                  // log(cubit
+                                                  //         .productFromCatList[
+                                                  //             index]
+                                                  //         .id
+                                                  //         .toString() +
+                                                  //     "DDDDD");
+                                                  // cubit.updateFavorite(
+                                                  //     prodId: cubit
+                                                  //         .productFromCatList[
+                                                  //             index]
+                                                  //         .id);
+
+                                                } else {
+                                                  showToast(
+                                                      text: 'pleaseLoginFirst'
+                                                          .tr(),
+                                                      color: Colors.black);
+                                                }
+                                              },
                                             ),
                                           ),
                                   ],
                                 )
                               : Column(
                                   children: [
-                                    cubit.productFromCatList == null
+                                    cubit.productFromCatList == null &&
+                                            state != ProductSuccess
                                         ? Center(
                                             child: CircularProgressIndicator(
                                             color: kDarkGoldColor,
@@ -241,10 +275,8 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                             itemBuilder: (context, index) =>
                                                 VerticalProductCard(
                                               onclick: () {
-                                                print(
-                                                    "000000000000000000000000");
-                                                print(
-                                                    "000000000000000000000000     ${cubit.productFromCatList[index].id}");
+                                                log("000000000000000000000000");
+                                                log("000000000000000000000000     ${cubit.productFromCatList[index].id}");
                                                 appCubit.getProductDetails(
                                                   productId: cubit
                                                       .productFromCatList[index]
@@ -254,19 +286,22 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                     ProductDetailsScreen());
                                               },
                                               cubit: cubit,
-                                              // isFavourite: cubit.favourites[cubit
-                                              //     .productsModel.result.allProducts[index].prodId],
-                                              // totalRate: cubit
-                                              //     .productsModel.result.allProducts[index].totalRate,
+                                              isFavourite: cubit
+                                                      .productFromCatList[index]
+                                                      .hasFavorites ==
+                                                  1,
+                                              totalRate: cubit
+                                                  .productFromCatList[index]
+                                                  .hasReview,
                                               image: cubit
                                                   .productFromCatList[index]
                                                   .image,
-                                              discount: cubit
+                                              currentPrice: cubit
                                                   .productFromCatList[index]
-                                                  .discount,
-                                              price: cubit
+                                                  .currentPrice,
+                                              oldPrice: cubit
                                                   .productFromCatList[index]
-                                                  .price,
+                                                  .oldPrice,
                                               // oldPrice: cubit
                                               //     .productsModel.result.allProducts[index].oldPrice,
                                               productName: cubit
@@ -274,6 +309,34 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                   .name,
                                               productId: cubit
                                                   .productFromCatList[index].id,
+                                              onFavPressed: () {
+                                                if (kToken != null &&
+                                                    kToken.isNotEmpty) {
+                                                  showFavoriteChoiceDialogue(
+                                                      context: context,
+                                                      scaffoldKey:
+                                                          _scaffoldKey);
+                                                  // isFavourite = !isFavourite;
+                                                  // log(cubit
+                                                  //         .productFromCatList[
+                                                  //             index]
+                                                  //         .id
+                                                  //         .toString() +
+                                                  //     "DDDDD");
+                                                  // cubit.updateFavorite(
+                                                  //     prodId: cubit
+                                                  //         .productFromCatList[
+                                                  //             index]
+                                                  //         .id);
+
+                                                  // cubit.emit(ChangeIconColor());
+                                                } else {
+                                                  showToast(
+                                                      text: 'pleaseLoginFirst'
+                                                          .tr(),
+                                                      color: Colors.black);
+                                                }
+                                              },
                                             ),
                                           ),
                                   ],

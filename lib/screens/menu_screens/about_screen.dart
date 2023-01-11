@@ -1,8 +1,9 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/aboutCubit/about_state.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../cubits/aboutCubit/about_cubit.dart';
 import '../../shared/components/custom_app_bar.dart';
@@ -19,7 +20,7 @@ class AboutScreen extends StatelessWidget {
 
     return BlocBuilder<AboutCubit, AboutStates>(
       builder: (context, state) {
-        state is AboutInitial ? cubit.getAbout() : print("getdata");
+        state is AboutInitial ? cubit.getAbout() : log("getdata");
         return Scaffold(
           appBar: CustomAppBar(title: "AboutUs".tr()),
           body: state is! GetAboutSuccessState
@@ -51,31 +52,27 @@ class AboutScreen extends StatelessWidget {
                               // Label(
                               //   text: cubit.aboutModel.data[index].title,
                               // ),
-                              SizedBox(
-                                height: 30,
-                              ),
+
                               Text(
                                 cubit.aboutModel.data[index].content,
                                 style: TextStyle(fontSize: 15, height: 2),
                               ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              if (index == cubit.aboutData.length - 1)
-                                InkWell(
-                                  onTap: () async {
-                                    await launch(
-                                        "https://taqiviolet.com/employment-Form");
-                                  },
-                                  child: Text(
-                                    "press here".tr(),
-                                    style: TextStyle(
-                                      color: Colors.lightBlue,
-                                      fontSize: 15,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ),
+
+                              // if (index == cubit.aboutData.length - 1)
+                              //   InkWell(
+                              //     onTap: () async {
+                              //       await launch(
+                              //           "https://taqiviolet.com/employment-Form");
+                              //     },
+                              //     child: Text(
+                              //       "press here".tr(),
+                              //       style: TextStyle(
+                              //         color: Colors.lightBlue,
+                              //         fontSize: 15,
+                              //         decoration: TextDecoration.underline,
+                              //       ),
+                              //     ),
+                              //   ),
                             ],
                           ),
                           separatorBuilder: (context, index) => Column(
@@ -84,7 +81,7 @@ class AboutScreen extends StatelessWidget {
                                 thickness: 1,
                               ),
                               SizedBox(
-                                height: 30,
+                                height: 10,
                               ),
                             ],
                           ),
@@ -94,7 +91,7 @@ class AboutScreen extends StatelessWidget {
                           thickness: 1,
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -118,7 +115,7 @@ class AboutScreen extends StatelessWidget {
                           thickness: 1,
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         Row(
                           children: [

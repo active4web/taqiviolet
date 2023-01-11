@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
@@ -158,9 +159,9 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                         ),
                       ),
                       onPressed: () {
-                        print(
+                        log(
                             "Location ${cameraPosition.target.latitude} ${cameraPosition.target.longitude}");
-                        print("Address: ${textController.text}");
+                        log("Address: ${textController.text}");
                         AppCubit.get(context).lat =
                             cameraPosition.target.latitude;
                         AppCubit.get(context).long =

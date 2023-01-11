@@ -1,8 +1,9 @@
-import 'package:bloc/bloc.dart';
+
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/technicalSupportCubit/technical_support_state.dart';
 import 'package:safsofa/models/send_contact_us_model.dart';
-import 'package:safsofa/network/remote/dio_helper.dart';
 
 import '../../models/contact_us.dart';
 import '../../network/remote/dio_Mhelper.dart';
@@ -14,16 +15,16 @@ class TechnicalSupportCubit extends Cubit<TechnicalSupportState> {
   static TechnicalSupportCubit get(context) => BlocProvider.of(context);
   ContactUs contactsData = ContactUs();
   void getContactData() async {
-    print('GETING CONTACT US DATA');
+    log('GETING CONTACT US DATA');
     emit(GetContactUsLoadingState());
-    await DioHelper.getData(url: dataFromcontacts).then((value) async {
+    await Mhelper.getData(url: dataFromcontacts).then((value) async {
       var _myMap = Map<String, dynamic>.from(value.data);
       contactsData = ContactUs.fromJson(_myMap);
-      print('k ' * 6 + contactsData.data.mail + ' k' * 6);
+      log('k ' * 6 + '${contactsData.data.mail}' + ' k' * 6);
       emit(GetContactUsSuccessState());
     }).catchError((error) {
-      print("X" * 10 + " error in getting contacts data " + "X" * 10);
-      print(error);
+      log("X" * 10 + " error in getting contacts data " + "X" * 10);
+      log(error.toString());
       emit(GetContactUsErrorState());
     });
   }

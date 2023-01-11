@@ -3,8 +3,6 @@ class GetdataprofileModel {
   String name;
   String email;
   String phone;
-  String countryId;
-  String cityId;
   String address;
   String firebaseId;
   String lang;
@@ -18,8 +16,6 @@ class GetdataprofileModel {
         this.name,
         this.email,
         this.phone,
-        this.countryId,
-        this.cityId,
         this.address,
         this.firebaseId,
         this.lang,
@@ -33,8 +29,6 @@ class GetdataprofileModel {
     name = json['name'];
     email = json['email'];
     phone = json['phone'];
-    countryId = json['country_id'];
-    cityId = json['city_id'];
     address = json['address'];
     firebaseId = json['firebase_id'];
     lang = json['lang'];
@@ -50,8 +44,6 @@ class GetdataprofileModel {
     data['name'] = this.name;
     data['email'] = this.email;
     data['phone'] = this.phone;
-    data['country_id'] = this.countryId;
-    data['city_id'] = this.cityId;
     data['address'] = this.address;
     data['firebase_id'] = this.firebaseId;
     data['lang'] = this.lang;

@@ -1,4 +1,3 @@
-
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/src/public_ext.dart';
@@ -8,7 +7,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../shared/components/custom_app_bar.dart';
 import '../shared/components/custom_button.dart';
-import '../shared/components/custom_text_form_field.dart';
 
 class SendAGiftScreen extends StatefulWidget {
   const SendAGiftScreen({Key key}) : super(key: key);
@@ -27,11 +25,9 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
     TextEditingController vido = TextEditingController();
     TextEditingController massge = TextEditingController();
     bool addname = false;
-    var qrImage  ;
+    // var qrImage;
     return BlocConsumer<CartCubit, CartState>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         CartCubit cartCubit = CartCubit.get(context);
         return Scaffold(
@@ -43,7 +39,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
               padding: const EdgeInsets.all(20),
               child: Column(
                 children: [
-              //    QrImage(data: "uuuuuu",size: 200,),
+                  //    QrImage(data: "uuuuuu",size: 200,),
                   SizedBox(
                     height: 10,
                   ),
@@ -87,13 +83,19 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                   ),
                   CustomButton(
                     onTap: () {
-                      _popUpMenu( context: context,phone: phone,name: name,addname: addname,addres: addres,cartCubit: cartCubit,massge: massge,vido: vido);
+                      _popUpMenu(
+                          context: context,
+                          phone: phone,
+                          name: name,
+                          addname: addname,
+                          addres: addres,
+                          cartCubit: cartCubit,
+                          massge: massge,
+                          vido: vido);
 
                       // _generateBarCode("jjjj",bytes).then((value) {
                       //
                       // });
-
-
 
                       //   cartCubit.sendgiftCards(phone: phone.text,address: addres.text,context: context,link: vido.text,message: massge.text,receiver: name.text,type: addname==true?1:0 );
                     },
@@ -120,7 +122,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
     );
   }
 
-  _popUpMenu({context, name, massge, phone, addres, vido, addname,cartCubit}) {
+  _popUpMenu({context, name, massge, phone, addres, vido, addname, cartCubit}) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -136,44 +138,57 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Text("gift card"),
                 ),
-                Container(width: 200, height: 200,
-                    child: QrImage(data: "qrcodedata", version: QrVersions.auto, size: 180)
-                ),
+                Container(
+                    width: 200,
+                    height: 200,
+                    child: QrImage(
+                        data: "qrcodedata",
+                        version: QrVersions.auto,
+                        size: 180)),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text("To : ${name.text}"),
                 ),
                 Text(" ${massge.text}"),
               ]),
-            ),actions: [
-            CustomButton(
-              onTap: () {
-
-             cartCubit.sendgiftCards(phone: phone.text,address: addres.text,context: context,link: vido.text,message: massge.text,receiver: name.text,type: addname==true?1:0 );
-
-             for(int i=0;i<2;i++ ){
-
-               Navigator.pop(context);
-             }
-
-              },
-              height: 50,
-              text: 'Send'.tr(),
-            ),SizedBox(height: 8,),
-            CustomButton(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              height: 50,
-              text: 'Modify'.tr(),
             ),
-        ],
+            actions: [
+              CustomButton(
+                onTap: () {
+                  cartCubit.sendgiftCards(
+                      phone: phone.text,
+                      address: addres.text,
+                      context: context,
+                      link: vido.text,
+                      message: massge.text,
+                      receiver: name.text,
+                      type: addname == true ? 1 : 0);
+
+                  for (int i = 0; i < 2; i++) {
+                    Navigator.pop(context);
+                  }
+                },
+                height: 50,
+                text: 'Send'.tr(),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              CustomButton(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                height: 50,
+                text: 'Modify'.tr(),
+              ),
+            ],
           );
         });
   }
-   Future _generateBarCode(String inputCode,qrImage) async {
-  final qrCode = QrCode(4, QrErrorCorrectLevel.L)
-    ..addData('Hello, world in QR form!');
- //   qrImage = QrImage(qrCode);
-  }
+
+  // Future _generateBarCode(String inputCode, qrImage) async {
+  //   final qrCode = QrCode(4, QrErrorCorrectLevel.L)
+  //     ..addData('Hello, world in QR form!');
+  //   //   qrImage = QrImage(qrCode);
+  // }
 }

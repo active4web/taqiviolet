@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,10 +19,10 @@ class ContactCubit extends Cubit<ContactUs> {
     emit(PostContactUsState());
     Mhelper.postData(url: datasupports, data: query).then((value) {
       subscribeModel == SubscribeModel.fromJson(value.data);
-      print('*' * 10 + subscribeModel.msg + '*' * 10);
+      log('*' * 10 + subscribeModel.msg + '*' * 10);
       emit(PostContactUsSuccessState());
     }).catchError((err) {
-      print("ERR:$err");
+      log("ERR:$err");
       emit(PostContactUsErrorState());
     });
   }

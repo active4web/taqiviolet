@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +12,7 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../push_notifcation.dart';
+import '../../screens/home_layout.dart';
 import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
@@ -18,7 +20,7 @@ class AuthCubit extends Cubit<AuthStates> {
 
   static AuthCubit get(context) => BlocProvider.of(context);
   PushNotificationManagger _pushNotificationManagger =
-  PushNotificationManagger();
+      PushNotificationManagger();
 
   bool showPassword = true;
   IconData passwordIcon = Icons.visibility;
@@ -31,10 +33,19 @@ class AuthCubit extends Cubit<AuthStates> {
     emit(ChangePasswordVisibilityState());
   }
 
+  double strength = 0;
+  String passStrengthHint = '';
+  void changePasswordStrength(
+      {@required double strengthVal, @required String passHint}) {
+    strength = strengthVal;
+    // passStrengthHint = passHint;
+    emit(ChangePasswordVisibilityState());
+  }
+
   String MobToken;
 
   Future<void> getDataInBackground(RemoteMessage message) async {
-    print("${message.data.toString()}");
+    log("${message.data.toString()}");
     showToast(text: "${message.data.toString()}", color: Colors.green);
   }
 
@@ -42,14 +53,14 @@ class AuthCubit extends Cubit<AuthStates> {
     String token;
     var messaging = FirebaseMessaging.instance;
     token = await messaging.getToken();
-    print("token most:${token}");
+    log("token most:${token}");
     MobToken = token;
     FirebaseMessaging.onMessageOpenedApp.listen((event) {
-      print("${event.data.toString()}");
+      log("${event.data.toString()}");
       showToast(text: "${event.data.toString()}", color: Colors.green);
     });
     FirebaseMessaging.onMessage.listen((event) {
-      print("${event.data.toString()}");
+      log("${event.data.toString()}");
       showToast(text: "${event.data.toString()}", color: Colors.green);
     });
 
@@ -57,72 +68,121 @@ class AuthCubit extends Cubit<AuthStates> {
     return token;
   }
 
-  FailedResponseModel signupFailedResponse;
-  RegisterSuccessModel signupSuccessResponse;
+  FailedResponseModel emailRegisterFailedResponse;
+  RegisterSuccessModel emailRegisterSuccessResponse;
+  FailedResponseModel phoneRegisterFailedResponse;
+  RegisterSuccessModel phoneRegisterSuccessResponse;
 
-  void signUp({
+  void registerWithEmail({
     String lang,
     String name,
-    String phone,
     String password,
     String email,
     String address,
+    //key=1 for phone register
+    //key=2 for email register
+    String key,
   }) {
-    emit(SignupLoadingState());
+    emit(EmailSignupLoadingState());
 
     Mhelper.postData(url: '/api/register', data: {
       "lang": "$lang",
       "firebase_id": "$MobToken",
       "name": "$name",
-      "email": "$email}",
+      "email": "$email",
       "password": "$password",
-      "phone": "$phone",
       "address": "$address",
+      "key": key
     }).then((value) {
-      print(value.data);
+      log(value.data.toString());
       if (value.data['status'] == true) {
-        signupSuccessResponse = RegisterSuccessModel.fromJson(value.data);
+        emailRegisterSuccessResponse =
+            RegisterSuccessModel.fromJson(value.data);
         CacheHelper.setData(
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
-        emit(SignupSuccessState());
+        //     CacheHelper.setData(key: 'token', value: emailRegisterSuccessResponse.data.token);
+        // kToken = CacheHelper.getData('token');
+        // CacheHelper.setData(
+        //     key: 'token', value: signupSuccessResponse.data.token);
+        // kToken = CacheHelper.getData('token');
+        emit(EmailSignupSuccessState(emailRegisterSuccessResponse));
       }
       if (value.data['status'] == false) {
-        signupFailedResponse = FailedResponseModel.fromJson(value.data);
-        emit(SignupErrorState(value.data['message']));
+        emailRegisterFailedResponse = FailedResponseModel.fromJson(value.data);
+        emit(EmailSignupErrorState(value.data['msg']));
       }
     }).catchError((error) {
-      print(error);
+      log(error.toString());
+    });
+  }
+
+  void registerWithPhone({
+    String lang,
+    String name,
+    String phone,
+    String password,
+    String address,
+    //key=1 for phone register
+    //key=2 for email register
+    String key,
+  }) {
+    emit(PhoneSignupLoadingState());
+
+    Mhelper.postData(url: '/api/register', data: {
+      "lang": "$lang",
+      "firebase_id": "$MobToken",
+      "name": "$name",
+      "password": "$password",
+      "phone": "$phone",
+      "address": "$address",
+      "key": key
+    }).then((value) {
+      log(value.data.toString());
+      if (value.data['status'] == true) {
+        phoneRegisterSuccessResponse =
+            RegisterSuccessModel.fromJson(value.data);
+        CacheHelper.setData(
+            key: 'userInfo',
+            value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+        //     CacheHelper.setData(key: 'token', value: phoneRegisterSuccessResponse.data.token);
+        // kToken = CacheHelper.getData('token');
+        // CacheHelper.setData(
+        //     key: 'token', value: signupSuccessResponse.data.token);
+        // kToken = CacheHelper.getData('token');
+        emit(PhoneSignupSuccessState(phoneRegisterSuccessResponse));
+      }
+      if (value.data['status'] == false) {
+        phoneRegisterFailedResponse = FailedResponseModel.fromJson(value.data);
+        emit(PhoneSignupErrorState(value.data['msg']));
+      }
+    }).catchError((error) {
+      log(error.toString());
     });
   }
 
   FailedResponseModel loginFailedResponse;
   RegisterSuccessModel loginSuccessResponse;
 
-  void login({String phone, String password, String language})async {
+  void login({String phone, String password, String language}) async {
     //await getDeviceToken();
 
-
     _pushNotificationManagger.init().then((value) {
+      log("firebase_id                            $MobToken");
 
-
-      print( "firebase_id                            $MobToken");
       emit(LoginLoadingState());
       Mhelper.postData(url: authLogin, data: {
         "phone": phone,
         "lang": language,
-        "firebase_id": value,
+        "firebase_id": MobToken,
         "password": password,
       }).then((value) {
-        print(value.data);
+        log(value.data.toString());
         if (value.data['status'] == true) {
           loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
+          CacheHelper.setData(key: 'id', value: loginSuccessResponse.data.id);
           CacheHelper.setData(
-              key: 'id',
-              value:loginSuccessResponse.data.id);
-          CacheHelper.setData(
-              key: 'token',
-              value:loginSuccessResponse.data.token);
+              key: 'token', value: loginSuccessResponse.data.token);
           CacheHelper.setData(
               key: 'userInfo',
               value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
@@ -130,13 +190,35 @@ class AuthCubit extends Cubit<AuthStates> {
         }
         if (value.data['status'] == false) {
           loginFailedResponse = FailedResponseModel.fromJson(value.data);
-          emit(LoginErrorState(value.data['message']));
+          emit(LoginErrorState(value.data['msg']));
         }
       }).catchError((error) {
         emit(LoginErrorState(error.toString()));
-        print(error);
+        log(error.toString());
       });
+    });
+  }
 
+  void logOut({@required BuildContext context}) {
+    emit(LogoutLoadingState());
+    Mhelper.postData(
+      url: authLogOut,
+      data: {
+        'token': kToken,
+      },
+      token: kToken,
+    ).then((value) {
+      log(value.statusCode.toString());
+      if (value.data['status']) {
+        CacheHelper.clearCache();
+        kToken = null;
+      }
+      log('token after logout is: $kToken');
+      emit(LogoutSuccessState());
+      navigateAndFinish(context, HomeLayout());
+    }).catchError((error) {
+      log('Logout error ==> ${error}');
+      emit(LogoutErrorState());
     });
   }
 }

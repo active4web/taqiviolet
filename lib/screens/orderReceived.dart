@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import '../cubits/OrderReceived/order_received_cubit.dart';
-import '../cubits/dataInList/data_in_list_cubit.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubits/listsCubit/lists_cubit.dart';
+
 import '../cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
 import '../shared/defaults.dart';
 import 'Orderreceived_item_in_list.dart';
@@ -20,7 +22,7 @@ class _OrderReceivedState extends State<OrderReceived> {
   @override
   Widget build(BuildContext context) {
     OrderReceivedCubit cubit=OrderReceivedCubit.get(context);
-   cubit. state is OrderReceivedInitial ?cubit.getOrderReceivedData():print("hh");
+   cubit. state is OrderReceivedInitial ?cubit.getOrderReceivedData():log("hh");
     return SafeArea(
       child: Scaffold(
         body: BlocConsumer<OrderReceivedCubit, OrderReceivedState>(

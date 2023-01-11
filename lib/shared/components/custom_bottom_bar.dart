@@ -31,10 +31,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.home), label: "Home".tr()),
                 BottomNavigationBarItem(
-                    icon: ImageIcon(
-                      AssetImage('assets/images/offers.png'),
-                    ),
-                    label: 'Offers'.tr()),
+                    icon: Icon(CupertinoIcons.heart_fill),
+                    label: "Favorites".tr()),
                 BottomNavigationBarItem(icon: SizedBox(), label: ''),
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.person), label: 'Account'.tr()),

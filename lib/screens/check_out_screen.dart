@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart ';
 import 'package:flutter/material.dart';
@@ -7,10 +9,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/screens/send_a_gift_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
-import 'package:safsofa/shared/components/custom_form_field.dart';
+
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_location_picker.dart';
-import 'package:safsofa/shared/components/custom_text_form_field.dart';
+
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -24,14 +26,13 @@ class CheckOutScreen extends StatelessWidget {
     ReceiveMethod receiveMethod = ReceiveMethod.fromHome;
     PaymentMethod paymentMethod = PaymentMethod.offlinePayment;
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {
-        // TODO: implement listener
-      },
+      listener: (context, state) {},
       builder: (context, state) {
         AppCubit cubit = AppCubit.get(context);
 
         CartCubit cartCubit = CartCubit.get(context);
-        return Scaffold(key:cartCubit.scaffoldkey ,
+        return Scaffold(
+          key: cartCubit.scaffoldkey,
           appBar: CustomAppBar(
             title: 'CheckOut'.tr(),
           ),
@@ -43,7 +44,6 @@ class CheckOutScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () {
                       navigateTo(context, SendAGiftScreen());
-
                     },
                     child: Container(
                       height: 50,
@@ -74,50 +74,49 @@ class CheckOutScreen extends StatelessWidget {
                     height: 10,
                   ),
                   StatefulBuilder(
-                    builder: (context, setState) =>
-                        Column(
+                    builder: (context, setState) => Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Radio<ReceiveMethod>(
-                                  value: ReceiveMethod.fromHome,
-                                  groupValue: receiveMethod,
-                                  onChanged: (ReceiveMethod value) {
-                                    print(value);
-                                    setState(() {
-                                      receiveMethod = value;
-                                    });
-                                  },
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      kDarkGoldColor),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Text('DeliverToHome'.tr()),
-                              ],
+                            Radio<ReceiveMethod>(
+                              value: ReceiveMethod.fromHome,
+                              groupValue: receiveMethod,
+                              onChanged: (ReceiveMethod value) {
+                                log('$value');
+                                setState(() {
+                                  receiveMethod = value;
+                                });
+                              },
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  kDarkGoldColor),
                             ),
-                            Row(
-                              children: [
-                                Radio<ReceiveMethod>(
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      kDarkGoldColor),
-                                  value: ReceiveMethod.fromStore,
-                                  groupValue: receiveMethod,
-                                  onChanged: (ReceiveMethod value) {
-                                    setState(() {
-                                      receiveMethod = value;
-                                    });
-                                  },
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Text('ReceiveFromStore'.tr()),
-                              ],
+                            SizedBox(
+                              width: 16,
                             ),
+                            Text('DeliverToHome'.tr()),
                           ],
                         ),
+                        Row(
+                          children: [
+                            Radio<ReceiveMethod>(
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  kDarkGoldColor),
+                              value: ReceiveMethod.fromStore,
+                              groupValue: receiveMethod,
+                              onChanged: (ReceiveMethod value) {
+                                setState(() {
+                                  receiveMethod = value;
+                                });
+                              },
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Text('ReceiveFromStore'.tr()),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 30,
@@ -130,28 +129,28 @@ class CheckOutScreen extends StatelessWidget {
                   ),
                   cubit.address != null
                       ? ListTile(
-                    tileColor: Color(0xfff3f3f3),
-                    leading: Icon(
-                      Icons.location_on_outlined,
-                      color: kDarkGoldColor,
-                      size: 25,
-                    ),
-                    title: Text(
-                      cubit.address ?? '',
-                      style:
-                      TextStyle(fontSize: 15, color: Colors.black54),
-                    ),
-                    trailing: GestureDetector(
-                      onTap: () {
-                        cubit.address = null;
-                        cubit.emit(PickLocationSuccess());
-                      },
-                      child: Icon(
-                        Icons.remove_circle,
-                        color: Colors.black54,
-                      ),
-                    ),
-                  )
+                          tileColor: Color(0xfff3f3f3),
+                          leading: Icon(
+                            Icons.location_on_outlined,
+                            color: kDarkGoldColor,
+                            size: 25,
+                          ),
+                          title: Text(
+                            cubit.address ?? '',
+                            style:
+                                TextStyle(fontSize: 15, color: Colors.black54),
+                          ),
+                          trailing: GestureDetector(
+                            onTap: () {
+                              cubit.address = null;
+                              cubit.emit(PickLocationSuccess());
+                            },
+                            child: Icon(
+                              Icons.remove_circle,
+                              color: Colors.black54,
+                            ),
+                          ),
+                        )
                       : SizedBox(),
                   SizedBox(
                     height: 10,
@@ -196,49 +195,48 @@ class CheckOutScreen extends StatelessWidget {
                     height: 10,
                   ),
                   StatefulBuilder(
-                    builder: (context, setState) =>
-                        Column(
+                    builder: (context, setState) => Column(
+                      children: [
+                        Row(
                           children: [
-                            Row(
-                              children: [
-                                Radio<PaymentMethod>(
-                                  value: PaymentMethod.offlinePayment,
-                                  groupValue: paymentMethod,
-                                  onChanged: (PaymentMethod value) {
-                                    setState(() {
-                                      paymentMethod = value;
-                                    });
-                                  },
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      kDarkGoldColor),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Text('PayWhenReceive'.tr()),
-                              ],
+                            Radio<PaymentMethod>(
+                              value: PaymentMethod.offlinePayment,
+                              groupValue: paymentMethod,
+                              onChanged: (PaymentMethod value) {
+                                setState(() {
+                                  paymentMethod = value;
+                                });
+                              },
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  kDarkGoldColor),
                             ),
-                            Row(
-                              children: [
-                                Radio<PaymentMethod>(
-                                  value: PaymentMethod.onlinePayment,
-                                  groupValue: paymentMethod,
-                                  onChanged: (PaymentMethod value) {
-                                    setState(() {
-                                      paymentMethod = value;
-                                    });
-                                  },
-                                  fillColor: MaterialStateProperty.all<Color>(
-                                      kDarkGoldColor),
-                                ),
-                                SizedBox(
-                                  width: 16,
-                                ),
-                                Text('PayOnline'.tr()),
-                              ],
+                            SizedBox(
+                              width: 16,
                             ),
+                            Text('PayWhenReceive'.tr()),
                           ],
                         ),
+                        Row(
+                          children: [
+                            Radio<PaymentMethod>(
+                              value: PaymentMethod.onlinePayment,
+                              groupValue: paymentMethod,
+                              onChanged: (PaymentMethod value) {
+                                setState(() {
+                                  paymentMethod = value;
+                                });
+                              },
+                              fillColor: MaterialStateProperty.all<Color>(
+                                  kDarkGoldColor),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Text('PayOnline'.tr()),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 10,
@@ -273,14 +271,20 @@ class CheckOutScreen extends StatelessWidget {
                   SizedBox(
                     height: 30,
                   ),
-                  CustomButton(onTap: () {
-                    cartCubit.make_order(address_id:1, address_save:0,
-                        payment_status: paymentMethod ==
-                            PaymentMethod.offlinePayment ? 1 : 0,
-                        payment_type: receiveMethod ==
-                            ReceiveMethod.fromHome ? 1 : 0,
-                        sub_total: cartCubit.total,context: context);
-                  },
+                  CustomButton(
+                    onTap: () {
+                      cartCubit.make_order(
+                          address_id: 1,
+                          address_save: 0,
+                          payment_status:
+                              paymentMethod == PaymentMethod.offlinePayment
+                                  ? 1
+                                  : 0,
+                          payment_type:
+                              receiveMethod == ReceiveMethod.fromHome ? 1 : 0,
+                          sub_total: cartCubit.total,
+                          context: context);
+                    },
                     height: 50,
                     text: 'CheckOut'.tr(),
                   ),
@@ -347,4 +351,5 @@ class PromoCodeTextField extends StatelessWidget {
 }
 
 enum ReceiveMethod { fromHome, fromStore }
+
 enum PaymentMethod { onlinePayment, offlinePayment }

@@ -7,7 +7,7 @@ import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../cubits/contactUsCubit/contact_us_cubit.dart';
 import '../../cubits/contactUsCubit/contact_us_state.dart';
-import '../../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
+
 import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 
 class ContactUsScreen extends StatelessWidget {
@@ -22,12 +22,12 @@ class ContactUsScreen extends StatelessWidget {
     //       'userInfo'
     //  );
     TechnicalSupportCubit technicalSupportDetailsCubit =
-    TechnicalSupportCubit.get(context);
+        TechnicalSupportCubit.get(context);
     technicalSupportDetailsCubit.getContactData();
     return BlocBuilder<ContactCubit, ContactUs>(
       builder: (context, state) {
         ContactCubit cubit = ContactCubit.get(context);
-        // state is AboutInitial ? cubit.getAbout():print("getdata");
+        // state is AboutInitial ? cubit.getAbout():log("getdata");
 
         return Scaffold(
           appBar: CustomAppBar(
@@ -133,12 +133,8 @@ class ContactUsScreen extends StatelessWidget {
                           },
                           height: 50,
                           text: 'subscribe'.tr(),
-                        )
-
-
-
-
-         ,         Row(
+                        ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Expanded(
@@ -155,8 +151,8 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(
-                                technicalSupportDetailsCubit.contactsData.data.twitterLink);
+                            await launch(technicalSupportDetailsCubit
+                                .contactsData.data.twitterLink);
                           },
                           icon: Image.asset('assets/images/twitter.png'),
                         ),
@@ -164,18 +160,17 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(
-                                technicalSupportDetailsCubit.contactsData.data.instagramLink);
+                            await launch(technicalSupportDetailsCubit
+                                .contactsData.data.instagramLink);
                           },
-                          icon:
-                              Image.asset('assets/images/instagram.png'),
+                          icon: Image.asset('assets/images/instagram.png'),
                         ),
                       ),
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(
-                                technicalSupportDetailsCubit.contactsData.data.tiktokLink);
+                            await launch(technicalSupportDetailsCubit
+                                .contactsData.data.tiktokLink);
                           },
                           icon: Image.asset('assets/images/TikTok.png'),
                         ),
@@ -183,15 +178,14 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(
-                                technicalSupportDetailsCubit.contactsData.data.youtubeLink);
+                            await launch(technicalSupportDetailsCubit
+                                .contactsData.data.youtubeLink);
                           },
                           icon: Image.asset('assets/images/youtube.png'),
                         ),
                       ),
                     ],
                   ),
-
                 ],
               ),
             ),

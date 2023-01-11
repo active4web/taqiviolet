@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 class PushNotificationManagger{
   PushNotificationManagger._();
@@ -12,7 +14,7 @@ class PushNotificationManagger{
 
       String token=await _firebaseMessaging.getToken();
 
-      print('my new token = $token');
+      log('my new token = $token');
       _initialized=true;
       return token;
     }

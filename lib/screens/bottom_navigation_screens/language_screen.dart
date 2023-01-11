@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/public_ext.dart';
+
 import 'package:flutter/material.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
@@ -94,7 +96,7 @@ class LanguageTile extends StatelessWidget {
         await EasyLocalization.of(context).setLocale(Locale(localCode));
         CacheHelper.setData(key: "language", value: localCode);
         kLanguage = CacheHelper.getData('language');
-        print(localCode);
+        log('$localCode');
       },
     );
   }

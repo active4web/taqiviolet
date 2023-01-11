@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
@@ -7,7 +6,8 @@ import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
-import 'package:safsofa/screens/register_screens/signup_screen.dart';
+import 'package:safsofa/screens/register_screens/register_choice_screen.dart';
+import 'package:safsofa/screens/register_screens/email_register_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -28,8 +28,9 @@ class LoginScreen extends StatelessWidget {
               .then((value) {
             kToken = CacheHelper.getData('token');
             AppCubit.get(context).getCache();
-            navigateAndFinish(context, HomeLayout());
             showToast(text: state.loginSuccessModel.msg, color: Colors.green);
+            navigateAndFinish(context, HomeLayout());
+            
           });
         } else if (state is LoginErrorState) {
           showToast(text: state.errorMessage, color: Colors.red);
@@ -98,7 +99,7 @@ class LoginScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     state is LoginLoadingState
                         ? Center(
@@ -123,24 +124,21 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(
                       height: MediaQuery.of(context).size.height / 30,
                     ),
-                    InkWell(
-                      onTap: () {
-                        navigateTo(context, SignupScreen());
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'DoNotHaveAnAccount?'.tr(),
-                            style: TextStyle(color: Colors.white, fontSize: 12),
-                          ),
-                          Text(
-                            'SignUp'.tr(),
-                            style:
-                                TextStyle(color: kLightGoldColor, fontSize: 12),
-                          )
-                        ],
+                    Center(
+                      child: Text(
+                        'DoNotHaveAnAccount?'.tr(),
+                        style: TextStyle(color: Colors.white, fontSize: 12),
                       ),
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height / 60,
+                    ),
+                    CustomButton(
+                      text: 'SignUp'.tr(),
+                      height: 50,
+                      gradient: kGoldGradient,
+                      textColor: Colors.black,
+                      onTap: () => navigateTo(context, RegisterChoiceScreen()),
                     )
                   ],
                 ),

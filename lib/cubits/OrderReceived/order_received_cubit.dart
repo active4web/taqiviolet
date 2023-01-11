@@ -1,12 +1,14 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+
+import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
 
 import '../../models/ReOrderModel.dart';
 import '../../network/local/cache_helper.dart';
 import '../../network/remote/dio_Mhelper.dart';
 import '../../shared/constants.dart';
+
 part 'order_received_state.dart';
 
 class OrderReceivedCubit extends Cubit<OrderReceivedState> {
@@ -15,27 +17,21 @@ class OrderReceivedCubit extends Cubit<OrderReceivedState> {
   static OrderReceivedCubit get(context) => BlocProvider.of(context);
 
   ReOrderModel reOrderModel;
-  void getOrderReceivedData( ) {
+  void getOrderReceivedData() {
     emit(OrderReceivedLoadingState());
 
-
-    Mhelper.getData(token: CacheHelper.getData("token"),
-      UrlPath: reOrderURL,
+    Mhelper.getData(
+      token: CacheHelper.getData("token"),
+      url: reOrderURL,
     ).then((value) {
-
       reOrderModel = ReOrderModel.fromJson(value.data);
-       print(reOrderModel.toJson());
+      log('${reOrderModel.toJson()}');
       // allOffer=offerModel.data;
       // print("${allOffer}");
       emit(OrderReceivedSuccessState());
-    }).catchError(
-            (error) {
-          emit(OrderReceivedErrorState());
-          print(error.toString());
-        }
-    );
-
-
-
+    }).catchError((error) {
+      emit(OrderReceivedErrorState());
+      log(error.toString());
+    });
   }
 }

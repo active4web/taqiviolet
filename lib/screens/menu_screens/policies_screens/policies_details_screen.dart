@@ -101,15 +101,19 @@
 //     );
 //   }
 // }
-import 'package:flutter/material.dart';
+import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/shared/constants.dart';
 import '../../../shared/components/custom_app_bar.dart';
 
 class PoliciesDetailsScreen extends StatelessWidget {
   final String title;
-  final String content;
-  const PoliciesDetailsScreen({Key key, this.title, this.content})
-      : super(key: key);
+  final int id;
+  const PoliciesDetailsScreen({Key key, this.title, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -117,13 +121,57 @@ class PoliciesDetailsScreen extends StatelessWidget {
       appBar: CustomAppBar(
         title: title,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: SingleChildScrollView(
-          child: Text(
-            content,
-            style: TextStyle(fontSize: 18, height: 2),
-          ),
+      body: BlocProvider(
+        create: (context) => PoliciesCubit()..getPolicyDetails(id: id),
+        child: BlocConsumer<PoliciesCubit, PoliciesState>(
+          listener: (context, state) {
+            // TODO: implement listener
+          },
+          builder: (context, state) {
+            return PoliciesCubit.get(context).policyDetails != null
+                ? ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 10),
+                    itemBuilder: (context, index) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          PoliciesCubit.get(context)
+                              .policyDetails
+                              .data[index]
+                              .title,
+                          style: TextStyle(
+                            color: kDarkGoldColor,
+                            fontSize: MediaQuery.of(context).size.width / 19,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 80,
+                        ),
+                        Text(
+                          PoliciesCubit.get(context)
+                              .policyDetails
+                              .data[index]
+                              .contentApp,
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.width / 22,
+                          ),
+                        ),
+                      ],
+                    ),
+                    separatorBuilder: (context, index) => Divider(
+                      thickness: 1.2,
+                      color: Colors.grey.shade400,
+                      height: 20,
+                    ),
+                    itemCount:
+                        PoliciesCubit.get(context).policyDetails.data.length,
+                  )
+                : Center(
+                    child: CircularProgressIndicator(color: kDarkGoldColor),
+                  );
+          },
         ),
       ),
     );

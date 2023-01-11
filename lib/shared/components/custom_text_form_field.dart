@@ -10,12 +10,20 @@ class CustomTextFormField extends StatelessWidget {
     this.icon,
     this.controller,
     this.keyboardType = TextInputType.text,
+    this.validate,
+    this.fillColor=Colors.white,
+    this.hintColor= Colors.white54,
+    this.textColor= Colors.white,
   }) : super(key: key);
 
   final String hintText;
   final IconData icon;
   final TextEditingController controller;
   final TextInputType keyboardType;
+  final String Function(String) validate;
+ final Color fillColor;
+ final Color hintColor;
+ final Color textColor;
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +33,18 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         keyboardType: keyboardType,
         controller: controller,
-        style: TextStyle(color: Colors.white, fontFamily: 'Tajawal'),
+        validator: validate,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: TextStyle(color: textColor, fontFamily: 'Tajawal'),
         cursorColor: Colors.white,
         decoration: InputDecoration(
           hintText: hintText,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(34)),
-          hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
+          hintStyle: TextStyle(color: hintColor, fontSize: 14),
           filled: true,
-          fillColor: Colors.white.withOpacity(0.4),
+          fillColor: fillColor.withOpacity(0.4),
           isDense: true,
           focusedBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
@@ -53,10 +63,14 @@ class CustomPasswordFormField extends StatelessWidget {
     Key key,
     this.controller,
     this.hintText = 'password',
+    this.validation,
+    this.errorStyle,
   }) : super(key: key);
 
   final TextEditingController controller;
   final String hintText;
+  final String Function(String) validation;
+  final TextStyle errorStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -74,9 +88,12 @@ class CustomPasswordFormField extends StatelessWidget {
               cursorColor: Colors.white,
               keyboardType: TextInputType.visiblePassword,
               obscureText: cubit.showPassword,
+              validator: validation,
+              autovalidateMode: AutovalidateMode.onUserInteraction,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
                 hintText: hintText,
+                errorStyle: errorStyle,
                 hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
                 suffixIcon: IconButton(
                   icon: Icon(

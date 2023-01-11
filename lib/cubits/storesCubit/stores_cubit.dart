@@ -1,7 +1,9 @@
-import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'dart:developer';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:safsofa/models/AllStoreDataModel.dart';
+import 'package:safsofa/models/homeModel/main_cat_model.dart';
 import 'package:safsofa/models/shopsModel/shops_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -9,12 +11,12 @@ import 'package:safsofa/shared/constants.dart';
 import '../../models/phones_model.dart';
 import '../../network/local/cache_helper.dart';
 
-part 'shops_state.dart';
+part 'store_state.dart';
 
-class ShopsCubit extends Cubit<ShopsState> {
-  ShopsCubit() : super(ShopsInitial());
+class StoresCubit extends Cubit<StoresState> {
+  StoresCubit() : super(ShopsInitial());
 
-  static ShopsCubit get(context) => BlocProvider.of(context);
+  static StoresCubit get(context) => BlocProvider.of(context);
 
   ///Get Data From stories
   StoreModel storeModel;
@@ -22,14 +24,17 @@ class ShopsCubit extends Cubit<ShopsState> {
 
   void getDataFromShops() async {
     emit(ShopsLoading());
-    await Mhelper.getData(UrlPath: dataFromStores).then((value) async {
+    await Mhelper.getData(
+        url: dataFromStores,
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) async {
       storeModel = StoreModel.fromJson(value.data);
       storeListOfData = storeModel.data;
-      print(value.data);
-      print(storeListOfData[0].name);
+      log(value.data.toString());
+      log('${storeListOfData[0].name}');
       emit(ShopsSuccess());
     }).catchError((err) {
-      print("Error form dio:$err");
+      log("Error form dio:$err");
       emit(ShopsError());
     });
   }
@@ -43,63 +48,73 @@ class ShopsCubit extends Cubit<ShopsState> {
   List<Product> AllPro;
   List<Product> DetectedProduct = List<Product>();
 
-  void getDetectedProduct({SubCatindex=0}) {
+  void getDetectedProduct({SubCatindex = 0}) {
     AllPro.forEach((element) {
       element.categoryId == AllCat[SubCatindex].id
           ? DetectedProduct.add(element)
-          : print("no");
+          : log("no");
       emit(DectectListProduct());
     });
   }
 
-int SubCatindex=1;
-  void getDataFromAllShops({Id,}) async {
+  int SubCatindex = 1;
+  void getDataFromAllShops({
+    Id,
+  }) async {
     emit(AllShopsLoading());
-    await Mhelper.getData(UrlPath: dataFromAllStores + Id).then((value) async {
-      print(value.data);
+    await Mhelper.getData(url: dataFromAllStores + Id).then((value) async {
+      log(value.data.toString());
       allStoreDataModel = AllStoreDataModel.fromJson(value.data);
       AllCat = allStoreDataModel.data.category;
       SubCat = allStoreDataModel.data.subCategory;
       AllPro = allStoreDataModel.data.product;
     }).then((v) {
-      DetectedProduct !=null?DetectedProduct.clear():print("sa");
+      DetectedProduct != null ? DetectedProduct.clear() : log("sa");
       AllPro.forEach((element) {
         element.categoryId == AllCat[SubCatindex].id
             ? DetectedProduct.add(element)
-            : print("no");
+            : log("no");
         emit(DectectListProduct());
         emit(AllShopsSuccess());
-
       });
     }).catchError((err) {
       emit(AllShopsError());
-      print("err:$err");
+      log("err:$err");
     });
   }
 
-
   PhonesModel phonesModel;
-  void getData( ) {
+  void getData() {
     emit(ShopsLoading());
 
-
-    Mhelper.getData(token: CacheHelper.getData("token"),
-      UrlPath: phonesURL,
+    Mhelper.getData(
+      token: CacheHelper.getData("token"),
+      url: phonesURL,
     ).then((value) {
-
       phonesModel = PhonesModel.fromJson(value.data);
       //  print(getdataprofileModel.toJson());
       // allOffer=offerModel.data;
       // print("${allOffer}");
       emit(ShopsSuccess());
-    }).catchError(
-            (error) {
-          emit(ShopsError());
-          print(error.toString());
-        }
-    );
+    }).catchError((error) {
+      emit(ShopsError());
+      log(error.toString());
+    });
+  }
 
-
-
+  HomeScreenMainCatModel storeCats;
+  void getStoreCategories({@required int storeId}) {
+    emit(StoreCategoryLoadingState());
+    Mhelper.getData(url: 'api/categories', token: kToken, query: {
+      'lang': kLanguage,
+      'store_id': '$storeId',
+    }).then((value) {
+      storeCats = HomeScreenMainCatModel.fromJson(value.data);
+      log(value.data.toString());
+       emit(StoreCategorySuccessState());
+    }).catchError((error) {
+      log('Error in getting store categories ${error.toString()}');
+       emit(StoreCategoryErrorState());
+    });
   }
 }

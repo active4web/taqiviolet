@@ -8,9 +8,11 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBar({
     Key key,
     this.title,
+    this.icon,
   }) : super(key: key);
 
   final String title;
+  final Widget icon;
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -35,6 +37,7 @@ class CustomAppBar extends StatelessWidget with PreferredSizeWidget {
           ),
         )
       ],
+      leading: icon,
     );
   }
 
