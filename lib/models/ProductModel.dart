@@ -53,7 +53,6 @@ class DataProduct {
     this.hasFavorites,
     this.hasRosters,
     this.hasReview,
-    
   });
 
   DataProduct.fromJson(dynamic json) {
@@ -74,13 +73,12 @@ class DataProduct {
     hasFavorites = json['hasFavorites'];
     hasRosters = json['hasRosters'];
     hasReview = json['hasReviews'].toString();
- 
   }
   num id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
+  num oldPrice;
+  num currentPrice;
   String details;
   String quantity;
   num subCategoryId;
@@ -92,8 +90,7 @@ class DataProduct {
   String image;
   num hasFavorites;
   num hasRosters;
- String hasReview;
- 
+  String hasReview;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
@@ -114,7 +111,7 @@ class DataProduct {
     map['hasFavorites'] = hasFavorites;
     map['hasRosters'] = hasRosters;
     map['hasReviews'] = hasReview.toString();
-  
+
     return map;
   }
 }

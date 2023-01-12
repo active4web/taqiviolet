@@ -421,9 +421,9 @@ class ProductDetails {
   int id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
-  int smartPrice;
+  num oldPrice;
+  num currentPrice;
+  num smartPrice;
   String details;
   String quantity;
   int subCategoryId;
@@ -561,8 +561,8 @@ class RelatedProducts {
   int id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
+  num oldPrice;
+  num currentPrice;
   String details;
   String quantity;
   int subCategoryId;

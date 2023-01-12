@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
 import 'package:safsofa/cubits/favorites_cubit/favorites_state.dart';
+import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 
@@ -188,14 +190,13 @@ void printLongString(String text) {
 }
 
 void showFavoriteChoiceDialogue(
-    {@required BuildContext context,
-    @required GlobalKey<ScaffoldState> scaffoldKey}) {
+    {@required BuildContext context, @required int productId}) {
   TextEditingController listName = TextEditingController();
-  scaffoldKey.currentState.showBottomSheet(
-    ((context) {
-      return BlocProvider(
-        create: (context) => FavoritesCubit()..getFavListData(),
-        child: BlocConsumer<FavoritesCubit, FavoritesState>(
+  showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        FavoritesCubit.get(context).getFavListData();
+        return BlocConsumer<FavoritesCubit, FavoritesState>(
           listener: (context, state) {},
           builder: (context, state) {
             return Padding(
@@ -240,45 +241,58 @@ void showFavoriteChoiceDialogue(
                                         .data
                                         .length,
                                     itemBuilder: (context, index) {
-                                      return Wrap(
-                                        direction: Axis.vertical,
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 60,
-                                            height: 60,
-                                            alignment: Alignment.center,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.rectangle,
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              color: Colors.grey.shade200,
-                                            ),
-                                            child: Icon(
-                                              CupertinoIcons.heart_circle_fill,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                          ConstrainedBox(
-                                            constraints: BoxConstraints(
-                                              maxWidth: 70,
-                                            ),
-                                            child: Text(
-                                              FavoritesCubit.get(context)
-                                                  .favListModel
-                                                  .data[index]
-                                                  .name,
-                                              style: TextStyle(
-                                                color: kDarkGoldColor,
-                                                fontWeight: FontWeight.w400,
+                                      return InkWell(
+                                        onTap: () {
+                                          FavoritesCubit.get(context)
+                                              .addFavProductToFavList(
+                                                  listId: FavoritesCubit.get(
+                                                          context)
+                                                      .favListModel
+                                                      .data[index]
+                                                      .id,
+                                                  productId: productId);
+                                        },
+                                        child: Wrap(
+                                          direction: Axis.vertical,
+                                          crossAxisAlignment:
+                                              WrapCrossAlignment.center,
+                                          children: [
+                                            Container(
+                                              width: 60,
+                                              height: 60,
+                                              alignment: Alignment.center,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.rectangle,
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                                color: Colors.grey.shade200,
                                               ),
-                                              textAlign: TextAlign.center,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
+                                              child: Icon(
+                                                CupertinoIcons
+                                                    .heart_circle_fill,
+                                                color: Colors.red,
+                                              ),
                                             ),
-                                          )
-                                        ],
+                                            ConstrainedBox(
+                                              constraints: BoxConstraints(
+                                                maxWidth: 70,
+                                              ),
+                                              child: Text(
+                                                FavoritesCubit.get(context)
+                                                    .favListModel
+                                                    .data[index]
+                                                    .name,
+                                                style: TextStyle(
+                                                  color: kDarkGoldColor,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            )
+                                          ],
+                                        ),
                                       );
                                     },
                                     separatorBuilder: (context, index) =>
@@ -301,107 +315,100 @@ void showFavoriteChoiceDialogue(
                                     context: context,
                                     builder: (context) {
                                       return AlertDialog(
-                                        content: BlocProvider(
-                                          create: (context) => FavoritesCubit(),
-                                          child: BlocConsumer<FavoritesCubit,
-                                              FavoritesState>(
-                                            listener: (context, state) {},
-                                            builder: (context, state) {
-                                              return Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  CustomTextFormField(
-                                                    hintText:
-                                                        "theNameOfYourFavoriteList"
-                                                            .tr(),
-                                                    controller: listName,
-                                                    fillColor: Colors.grey,
-                                                    hintColor: Colors.black87,
-                                                    textColor: kDarkGoldColor,
-                                                  ),
-                                                  SizedBox(
-                                                    height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .height /
-                                                            50,
-                                                  ),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(
-                                                              context);
-                                                          FavoritesCubit.get(
-                                                                  context)
-                                                              .createNewFavList(
-                                                                  listName:
-                                                                      listName
-                                                                          .text,
-                                                                  context:
-                                                                      context);
-                                                        },
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 70,
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.green,
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Text(
-                                                            "create".tr(),
-                                                            style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                            ),
+                                        content: BlocConsumer<FavoritesCubit,
+                                            FavoritesState>(
+                                          listener: (context, state) {},
+                                          builder: (context, state) {
+                                            return Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                CustomTextFormField(
+                                                  hintText:
+                                                      "theNameOfYourFavoriteList"
+                                                          .tr(),
+                                                  controller: listName,
+                                                  fillColor: Colors.grey,
+                                                  hintColor: Colors.black87,
+                                                  textColor: kDarkGoldColor,
+                                                ),
+                                                SizedBox(
+                                                  height: MediaQuery.of(context)
+                                                          .size
+                                                          .height /
+                                                      50,
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceAround,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        FavoritesCubit.get(
+                                                                context)
+                                                            .createNewFavList(
+                                                                listName:
+                                                                    listName
+                                                                        .text,
+                                                                context:
+                                                                    context,
+                                                                productId:
+                                                                    productId);
+                                                      },
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        width: 70,
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.green,
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(14),
+                                                        ),
+                                                        child: Text(
+                                                          "create".tr(),
+                                                          style: TextStyle(
+                                                            color: Colors.white,
                                                           ),
                                                         ),
                                                       ),
-                                                      InkWell(
-                                                        onTap: () =>
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop(),
-                                                        child: Container(
-                                                          alignment:
-                                                              Alignment.center,
-                                                          width: 70,
-                                                          height: 40,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: Colors.grey,
-                                                            shape: BoxShape
-                                                                .rectangle,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        14),
-                                                          ),
-                                                          child: Text(
-                                                            "cancel".tr(),
-                                                            style: TextStyle(
-                                                              color: Colors.red,
-                                                            ),
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () =>
+                                                          Navigator.of(context)
+                                                              .pop(),
+                                                      child: Container(
+                                                        alignment:
+                                                            Alignment.center,
+                                                        width: 70,
+                                                        height: 40,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: Colors.grey,
+                                                          shape: BoxShape
+                                                              .rectangle,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(14),
+                                                        ),
+                                                        child: Text(
+                                                          "cancel".tr(),
+                                                          style: TextStyle(
+                                                            color: Colors.red,
                                                           ),
                                                         ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ],
-                                              );
-                                            },
-                                          ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         ),
                                       );
                                     },
@@ -474,8 +481,6 @@ void showFavoriteChoiceDialogue(
                     ),
             );
           },
-        ),
-      );
-    }),
-  );
+        );
+      });
 }

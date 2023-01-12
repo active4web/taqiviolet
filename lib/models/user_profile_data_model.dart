@@ -10,7 +10,7 @@ class UserProfileDataModel {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data = json['data'] != null ?  AccountData.fromJson(json['data']) : null;
+    data = json['data'] != null ? AccountData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -141,9 +141,9 @@ class MyList {
   int id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
-  int smartPrice;
+  num oldPrice;
+  num currentPrice;
+  num smartPrice;
   String details;
   String quantity;
   int subCategoryId;
@@ -246,9 +246,9 @@ class Suggestion {
   int id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
-  int smartPrice;
+  num oldPrice;
+  num currentPrice;
+  num smartPrice;
   String details;
   String quantity;
   int subCategoryId;

@@ -79,11 +79,11 @@ class FavsListModel {
 
 class ListProducts {
   String name;
-  int oldPrice;
+  num oldPrice;
   int id;
   String image;
   int subCategoryId;
-  int currentPrice;
+  num currentPrice;
   int storeId;
   int smartPrice;
   String quantity;

@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
 import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
 import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
@@ -199,6 +200,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => SubCatCubit()),
         BlocProvider(create: (context) => StoresCubit()),
         BlocProvider(create: (context) => AllDataCatSubProCubit()),
+        BlocProvider(create: (context) => FavoritesCubit()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

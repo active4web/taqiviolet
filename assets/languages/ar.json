@@ -157,5 +157,7 @@
   "create": "إنشاء",
   "cancel":"إلغاء",
   "listCreatedSuccessfully": "تم إنشاء القائمه بنجاح",
-  "createNewFavoriteList": "إنشاء قائمة مفضلة جديدة"
+  "createNewFavoriteList": "إنشاء قائمة مفضلة جديدة",
+  "createList":"إنشاء قائمة",
+  "ourAvailableJobs": "الوظائف المتاحه لدينا"
 }

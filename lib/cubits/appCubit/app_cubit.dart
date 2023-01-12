@@ -9,8 +9,9 @@ import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/models/cart_models/cart_local_model/cart_local_model.dart';
 import 'package:safsofa/models/construction_link_model.dart';
 import 'package:safsofa/models/departments_model.dart';
-import 'package:safsofa/models/favourites_products_model.dart';
-import 'package:safsofa/models/homeModel/main_cat_model.dart';
+import 'package:safsofa/models/favorites_lists_model.dart';
+
+import 'package:safsofa/models/homeModel/main_cat_model.dart' as homeMainCat;
 import 'package:safsofa/models/homeModel/main_home_banner.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
 import 'package:safsofa/models/offer_model.dart';
@@ -71,7 +72,7 @@ class AppCubit extends Cubit<AppStates> {
       log("-" * 10);
     }
   }
-
+//////////////////////////////USER ACCOUNT DATA SCREEN LOGIC///////////////////////////////
   UserProfileDataModel myAccountData;
   void getUserAccountData({bool loading = true}) {
     if (loading) {
@@ -91,6 +92,93 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  void removeFavoriteSuugestion({@required int prodId, @required int index}) {
+    log('inside is favorite of sub_cat_cubit');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        myAccountData.data.suggestion[index].hasFavorites = 0;
+        emit(GetAccountDataSuccessState());
+      }
+    });
+  }
+
+  FavoritesListsModel favListModelOfSuggestion;
+
+  void getFavListDataSuggestion() {
+    emit(FavoritesListLoading());
+    Mhelper.getData(
+      url: 'api/favlist',
+      token: kToken,
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      favListModelOfSuggestion = FavoritesListsModel.fromJson(value.data);
+      log(value.data.toString());
+      emit(GetAccountDataSuccessState());
+    }).catchError((error) {
+      log('Error on loading fav list>>${error.toString()}');
+      emit(GetAccountDataSuccessState());
+    });
+  }
+
+  void addFavProductToFavListSuggestion(
+      {@required int listId,
+      @required int productId,
+      @required int index,
+      @required BuildContext context}) {
+    Mhelper.postData(
+        url: '/api/FavProduct',
+        data: {
+          'list_id': '$listId',
+          'product_id': '$productId',
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        myAccountData.data.suggestion[index].hasFavorites = 1;
+        emit(GetAccountDataSuccessState());
+        Navigator.pop(context);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  void createNewFavListSuggestion(
+      {@required String listName,
+      @required BuildContext context,
+      int productId,
+      @required int index}) {
+    Mhelper.postData(
+      url: 'api/addfavlist',
+      data: {
+        'name': listName,
+        if (productId != null) 'prod_id': '$productId',
+      },
+      token: kToken,
+      query: {'lang': kLanguage},
+    ).then((value) {
+      log('Crating new list data: ${value.data}');
+      if (value.data['status']) {
+        myAccountData.data.suggestion[index].hasFavorites = 1;
+        emit(GetAccountDataSuccessState());
+        Navigator.of(context).pop();
+      } else {
+        showToast(text: value.data['msg'], color: Colors.red);
+      }
+    });
+  }
+
+//////////////////////////////USER ACCOUNT DATA SCREEN LOGIC///////////////////////////////
   // YoutubePlayerController videoController;
   ConstructionLinkModel constructionLink = ConstructionLinkModel();
   void getConstructionData() {
@@ -115,7 +203,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void updateFavorite({@required int prodId}) {
+  void removeFavoriteHome({@required int prodId, @required int index}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -124,23 +212,84 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        for (int i = 0; i < constructionLink.data.productList.length; i++) {
-          if (constructionLink.data.productList[i].id == prodId) {
-            if (constructionLink.data.productList[i].hasFavorites == 0) {
-              constructionLink.data.productList[i].hasFavorites = 1;
-              emit(GetConstructionSuccessState());
-              break;
-            } else {
-              constructionLink.data.productList[i].hasFavorites = 0;
-              emit(GetConstructionSuccessState());
-              break;
-            }
-          }
-        }
+        constructionLink.data.productList[index].hasFavorites = 0;
+        emit(GetConstructionSuccessState());
       }
     });
   }
 
+  FavoritesListsModel favListModelOfHome;
+
+  void getFavListDataOfHome() {
+    emit(FavoritesListLoading());
+    Mhelper.getData(
+      url: 'api/favlist',
+      token: kToken,
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      favListModelOfHome = FavoritesListsModel.fromJson(value.data);
+      log(value.data.toString());
+      emit(GetConstructionSuccessState());
+    }).catchError((error) {
+      log('Error on loading fav list>>${error.toString()}');
+      emit(GetConstructionSuccessState());
+    });
+  }
+
+  void addFavProductToFavListHome(
+      {@required int listId,
+      @required int productId,
+      @required int index,
+      @required BuildContext context}) {
+    Mhelper.postData(
+        url: '/api/FavProduct',
+        data: {
+          'list_id': '$listId',
+          'product_id': '$productId',
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        constructionLink.data.productList[index].hasFavorites = 1;
+        emit(GetConstructionSuccessState());
+        Navigator.pop(context);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  void createNewFavListHome(
+      {@required String listName,
+      @required BuildContext context,
+      int productId,
+      @required int index}) {
+    Mhelper.postData(
+      url: 'api/addfavlist',
+      data: {
+        'name': listName,
+        if (productId != null) 'prod_id': '$productId',
+      },
+      token: kToken,
+      query: {'lang': kLanguage},
+    ).then((value) {
+      log('Crating new list data: ${value.data}');
+      if (value.data['status']) {
+        constructionLink.data.productList[index].hasFavorites = 1;
+        emit(GetConstructionSuccessState());
+        Navigator.of(context).pop();
+      } else {
+        showToast(text: value.data['msg'], color: Colors.red);
+      }
+    });
+  }
+
+  ///////////////////////////////////////PRODUCT DETAILS SECTION//////////////////////////////////////////
   MyProductsDetailsModel productDetailsModel;
   void getProductDetails({int productId}) {
     emit(GetProductDetailsLoadingState());
@@ -167,7 +316,9 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void updateProductDetailsFavorite({@required int prodId}) {
+  void removeProductDetailsFavorite({
+    @required int prodId,
+  }) {
     log('inside is favorite of updateProductDetailsFavorite');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -176,18 +327,13 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        if (productDetailsModel.data.productDetails[0].hasFavorites == 0) {
-          productDetailsModel.data.productDetails[0].hasFavorites = 1;
-          emit(GetProductDetailsSuccessState());
-        } else {
-          productDetailsModel.data.productDetails[0].hasFavorites = 0;
-          emit(GetProductDetailsSuccessState());
-        }
+        productDetailsModel.data.productDetails[0].hasFavorites = 0;
+        emit(GetProductDetailsSuccessState());
       }
     });
   }
 
-  void updateRelatedProductsFavorite({@required int prodId}) {
+  void removeRelatedProductsFavorite({@required int prodId}) {
     log('inside is favorite of updateProductDetailsFavorite');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -200,24 +346,89 @@ class AppCubit extends Cubit<AppStates> {
             i < productDetailsModel.data.relatedProducts.length;
             i++) {
           if (productDetailsModel.data.relatedProducts[i].id == prodId) {
-            if (productDetailsModel.data.relatedProducts[i].hasFavorites == 0) {
-              productDetailsModel.data.relatedProducts[i].hasFavorites = 1;
-              emit(GetProductDetailsSuccessState());
-              break;
-            } else {
-              productDetailsModel.data.relatedProducts[i].hasFavorites = 0;
-              emit(GetProductDetailsSuccessState());
-              break;
-            }
+            productDetailsModel.data.relatedProducts[i].hasFavorites = 0;
+            emit(GetProductDetailsSuccessState());
+            break;
           }
         }
       }
     });
   }
 
+  FavoritesListsModel favListModelOfProdDetails;
+
+  void getFavListDataOfProdDetails() {
+    emit(FavoritesListLoading());
+    Mhelper.getData(
+      url: 'api/favlist',
+      token: kToken,
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      favListModelOfProdDetails = FavoritesListsModel.fromJson(value.data);
+      log(value.data.toString());
+      emit(GetProductDetailsSuccessState());
+    }).catchError((error) {
+      log('Error on loading fav list>>${error.toString()}');
+      emit(GetProductDetailsSuccessState());
+    });
+  }
+
+  void addFavProductToFavListProdDetails(
+      {@required int listId,
+      @required int productId,
+      @required BuildContext context}) {
+    Mhelper.postData(
+        url: '/api/FavProduct',
+        data: {
+          'list_id': '$listId',
+          'product_id': '$productId',
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        productDetailsModel.data.productDetails[0].hasFavorites = 1;
+        emit(GetProductDetailsSuccessState());
+        Navigator.pop(context);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  void createNewFavListProdDetails({
+    @required String listName,
+    @required BuildContext context,
+    int productId,
+  }) {
+    Mhelper.postData(
+      url: 'api/addfavlist',
+      data: {
+        'name': listName,
+        if (productId != null) 'prod_id': '$productId',
+      },
+      token: kToken,
+      query: {'lang': kLanguage},
+    ).then((value) {
+      log('Crating new list data: ${value.data}');
+      if (value.data['status']) {
+        productDetailsModel.data.productDetails[0].hasFavorites = 1;
+        emit(GetConstructionSuccessState());
+        Navigator.of(context).pop();
+      } else {
+        showToast(text: value.data['msg'], color: Colors.red);
+      }
+    });
+  }
+///////////////////////////////////////////////END PRODUCT DETAILS SECTION////////////////////////////////////////
+
   /// Get Home Main Category Data
-  HomeScreenMainCatModel homeScreenMainCatModel;
-  List<Data> homeMainCatList;
+  homeMainCat.HomeScreenMainCatModel homeScreenMainCatModel;
+  List<homeMainCat.Data> homeMainCatList;
 
   /// Get Home Main banner Data
   HomeScreenMainCatBannerModel homeScreenMainCatBannerModel;
@@ -256,7 +467,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  HomeScreenMainCatModel homeScreenModel;
+  homeMainCat.HomeScreenMainCatModel homeScreenModel;
 
   void getHomeScreen() {
     emit(GetHomeScreenLoadingState());
@@ -265,7 +476,8 @@ class AppCubit extends Cubit<AppStates> {
           'https://taqiviolet.com/api/categories?store_id=34&lang=${kLanguage}',
     ).then((value) {
       log("the data of ${value.data}");
-      homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
+      homeScreenMainCatModel =
+          homeMainCat.HomeScreenMainCatModel.fromJson(value.data);
       homeMainCatList = homeScreenMainCatModel.data;
       log("000000000000000000000000000000000000000000000000");
       emit(GetHomeScreenSuccessState());
@@ -404,34 +616,34 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  FavouritesProductsModel favouritesModel;
+  // FavouritesProductsModel favouritesModel;
 
-  void getFavouritesProducts() {
-    emit(GetFavouritesLoadingState());
-    Mhelper.postData(url: 'user_api/get_all_myfavorite', data: {
-      "key": 1234567890,
-      "lang": kLanguage,
-      "token_id": kToken,
-      "limit": 0,
-      "page_number": 0
-    }).then((value) {
-      favouritesModel = FavouritesProductsModel.fromJson(value.data);
-      favouritesModel.result.allFavourites.forEach((element) {
-        favourites.addAll({element.prodId: element.isFav});
-      });
+  // void getFavouritesProducts() {
+  //   emit(GetFavouritesLoadingState());
+  //   Mhelper.postData(url: 'user_api/get_all_myfavorite', data: {
+  //     "key": 1234567890,
+  //     "lang": kLanguage,
+  //     "token_id": kToken,
+  //     "limit": 0,
+  //     "page_number": 0
+  //   }).then((value) {
+  //     favouritesModel = FavouritesProductsModel.fromJson(value.data);
+  //     favouritesModel.result.allFavourites.forEach((element) {
+  //       favourites.addAll({element.prodId: element.isFav});
+  //     });
 
-      if (value.data["status"] == true) {
-        emit(GetFavouritesSuccessState());
-        //  print("Get Fovrite Success State");
-        //   print(value.data);
-      } else if (value.data["status"] == false) {
-        emit(GetFavouritesErrorState());
-      }
-    }).catchError((error) {
-      emit(GetFavouritesErrorState());
-      log(error.toString());
-    });
-  }
+  //     if (value.data["status"] == true) {
+  //       emit(GetFavouritesSuccessState());
+  //       //  print("Get Fovrite Success State");
+  //       //   print(value.data);
+  //     } else if (value.data["status"] == false) {
+  //       emit(GetFavouritesErrorState());
+  //     }
+  //   }).catchError((error) {
+  //     emit(GetFavouritesErrorState());
+  //     log(error.toString());
+  //   });
+  // }
 
   Future<void> addReview(
       {int productId,

@@ -22,7 +22,7 @@ class AboutScreen extends StatelessWidget {
       builder: (context, state) {
         state is AboutInitial ? cubit.getAbout() : log("getdata");
         return Scaffold(
-          appBar: CustomAppBar(title: "AboutUs".tr()),
+          appBar: CustomAppBar(title: "This is Taqi Violet".tr()),
           body: state is! GetAboutSuccessState
               ? Center(
                   child: CircularProgressIndicator(

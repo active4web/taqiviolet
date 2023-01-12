@@ -375,41 +375,41 @@ class HorizontalProductCard extends StatelessWidget {
                 ),
               ),
             ),
-            Flexible(
-              flex: 1,
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  relatedProducts.hasFavorites == 1
-                      ? InkWell(
-                          onTap: () {
-                            if (kToken != null && kToken.isNotEmpty) {
-                              appCubit.updateRelatedProductsFavorite(
-                                  prodId: relatedProducts.id);
-                            }
-                          },
-                          child: Icon(
-                            Icons.favorite_rounded,
-                            color: kDarkGoldColor,
-                          ),
-                        )
-                      : InkWell(
-                          onTap: () {
-                            if (kToken != null && kToken.isNotEmpty) {
-                              appCubit.updateRelatedProductsFavorite(
-                                  prodId: relatedProducts.id);
-                            }
-                          },
-                          child: Icon(
-                            Icons.favorite_border_rounded,
-                            color: Colors.black26,
-                          ),
-                        ),
-                ],
-              ),
-            ),
+            // Flexible(
+            //   flex: 1,
+            //   child: Column(
+            //     children: [
+            //       SizedBox(
+            //         height: 20,
+            //       ),
+            //       relatedProducts.hasFavorites == 1
+            //           ? InkWell(
+            //               onTap: () {
+            //                 if (kToken != null && kToken.isNotEmpty) {
+            //                   appCubit.removeRelatedProductsFavorite(
+            //                       prodId: relatedProducts.id);
+            //                 }
+            //               },
+            //               child: Icon(
+            //                 Icons.favorite_rounded,
+            //                 color: kDarkGoldColor,
+            //               ),
+            //             )
+            //           : InkWell(
+            //               onTap: () {
+            //                 if (kToken != null && kToken.isNotEmpty) {
+            //                   appCubit.removeRelatedProductsFavorite(
+            //                       prodId: relatedProducts.id);
+            //                 }
+            //               },
+            //               child: Icon(
+            //                 Icons.favorite_border_rounded,
+            //                 color: Colors.black26,
+            //               ),
+            //             ),
+            //     ],
+            //   ),
+            // ),
             SizedBox()
           ],
         ),

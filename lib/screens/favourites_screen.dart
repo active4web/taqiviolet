@@ -184,6 +184,19 @@ class FavouritesScreen extends StatelessWidget {
                                               .list[mainIndex]
                                               .listProducts[index]
                                               .id,
+                                          onFavPressed: () {
+                                            FavoritesCubit.get(context)
+                                                .removeProductFromFavorites(
+                                                    listIndex: mainIndex,
+                                                    productIndex: index,
+                                                    prodId: FavoritesCubit.get(
+                                                            context)
+                                                        .allFavData
+                                                        .data
+                                                        .list[mainIndex]
+                                                        .listProducts[index]
+                                                        .id);
+                                          },
                                         ),
                                       ),
                                   ],

@@ -1,11 +1,13 @@
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:safsofa/models/favorites_lists_model.dart';
 import 'package:safsofa/models/subCat_home_Model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 import '../../models/ProductModel.dart';
 
@@ -65,7 +67,7 @@ class SubCatCubit extends Cubit<SubCatState> {
     });
   }
 
-  void updateFavorite({@required int prodId}) {
+  void removeFavorite({@required int prodId}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -104,4 +106,74 @@ class SubCatCubit extends Cubit<SubCatState> {
 
   ///End of  Product in  Sub category List Data
 
+  FavoritesListsModel favListModel;
+
+  void getFavListData() {
+    emit(FavoritesListLoading());
+    Mhelper.getData(
+      url: 'api/favlist',
+      token: kToken,
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      favListModel = FavoritesListsModel.fromJson(value.data);
+      log(value.data.toString());
+      emit(ProductSuccess());
+    }).catchError((error) {
+      log('Error on loading fav list>>${error.toString()}');
+      emit(ProductError());
+    });
+  }
+
+  void createNewFavList(
+      {@required String listName,
+      @required BuildContext context,
+      int productId,
+      @required int index}) {
+    Mhelper.postData(
+      url: 'api/addfavlist',
+      data: {
+        'name': listName,
+        if (productId != null) 'prod_id': '$productId',
+      },
+      token: kToken,
+      query: {'lang': kLanguage},
+    ).then((value) {
+      log('Crating new list data: ${value.data}');
+      if (value.data['status']) {
+        productFromCatList[index].hasFavorites = 1;
+        emit(ProductSuccess());
+        Navigator.of(context).pop();
+      } else {
+        showToast(text: value.data['msg'], color: Colors.red);
+      }
+    });
+  }
+
+  void addFavProductToFavList(
+      {@required int listId,
+      @required int productId,
+      @required int index,
+      @required BuildContext context}) {
+    Mhelper.postData(
+        url: '/api/FavProduct',
+        data: {
+          'list_id': '$listId',
+          'product_id': '$productId',
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        productFromCatList[index].hasFavorites = 1;
+        emit(ProductSuccess());
+        Navigator.pop(context);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
 }

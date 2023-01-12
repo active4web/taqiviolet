@@ -106,6 +106,7 @@ class GetConstructionLoadingState extends AppStates {}
 class GetConstructionSuccessState extends AppStates {}
 
 class GetConstructionErrorState extends AppStates {}
+class FavoritesListLoading extends AppStates {}
  
 class GetAccountDataLoadingState extends AppStates {}
 class GetAccountDataSuccessState extends AppStates {}

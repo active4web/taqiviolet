@@ -34,18 +34,22 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   }
 
   void createNewFavList(
-      {@required String listName, @required BuildContext context}) {
+      {@required String listName,
+      @required BuildContext context,
+      int productId}) {
     Mhelper.postData(
       url: 'api/addfavlist',
       data: {
         'name': listName,
+        if (productId != null) 'prod_id': '$productId',
       },
       token: kToken,
       query: {'lang': kLanguage},
     ).then((value) {
       log('Crating new list data: ${value.data}');
       if (value.data['status']) {
-        showToast(text: "listCreatedSuccessfully".tr(), color: Colors.green);
+        // showToast(text: "listCreatedSuccessfully".tr(), color: Colors.green);
+
         Navigator.of(context).pop();
       } else {
         showToast(text: value.data['msg'], color: Colors.red);
@@ -83,6 +87,43 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         emit(SuccessFavoritesAllData());
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  void addFavProductToFavList({@required int listId, @required int productId}) {
+    Mhelper.postData(
+        url: '/api/FavProduct',
+        data: {
+          'list_id': '$listId',
+          'product_id': '$productId',
+        },
+        token: kToken,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  void removeProductFromFavorites(
+      {@required int prodId,
+      @required int listIndex,
+      @required int productIndex}) {
+    log('inside is favorite of sub_cat_cubit');
+    Mhelper.postData(
+        url: 'api/FavProduct',
+        data: {"product_id": prodId},
+        token: kToken,
+        query: {'lang': kLanguage}).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        allFavData.data.list[listIndex].listProducts.removeAt(productIndex);
+        emit(SuccessFavoritesAllData());
       }
     });
   }

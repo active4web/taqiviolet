@@ -76,7 +76,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                               "https://taqiviolet.com/employment-Form");
                                         },
                                         child: Text(
-                                          "press here".tr(),
+                                          "ourAvailableJobs".tr(),
                                           style: TextStyle(
                                             color: Colors.lightBlue,
                                             fontSize: 15,
@@ -307,16 +307,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                 //   ),
                               ],
                             ),
-                            separatorBuilder: (context, index) => Column(
-                              children: [
-                                Divider(
-                                  thickness: 1,
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                              ],
-                            ),
+                            separatorBuilder: (context, index) => SizedBox(),
                             itemCount: TaqiWorkCubit.get(context)
                                 .workModel
                                 .data

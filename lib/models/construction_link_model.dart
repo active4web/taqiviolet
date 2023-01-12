@@ -102,8 +102,8 @@ class ProductList {
   int id;
   String name;
   String nameSearch;
-  int oldPrice;
-  int currentPrice;
+  num oldPrice;
+  num currentPrice;
   String details;
   String quantity;
   int subCategoryId;

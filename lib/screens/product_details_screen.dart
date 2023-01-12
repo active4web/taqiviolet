@@ -10,6 +10,7 @@ import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/reviews_and_comments_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
+import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -62,14 +63,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             iconTheme: IconThemeData(color: Colors.black),
           ),
           extendBodyBehindAppBar: true,
-          body: cubit.productDetailsModel == null ||
-                  state is! GetProductDetailsSuccessState
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                  ),
-                )
-              : SingleChildScrollView(
+          body: (cubit.productDetailsModel != null &&
+                      state is GetProductDetailsSuccessState) ||
+                  state is FavoritesListLoading
+              ? SingleChildScrollView(
                   child: Column(
                     children: [
                       Container(
@@ -559,9 +556,315 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   IconButton(
                                     onPressed: () {
                                       if (kToken != null && kToken.isNotEmpty) {
-                                        cubit.updateProductDetailsFavorite(
-                                            prodId: cubit.productDetailsModel
-                                                .data.productDetails[0].id);
+                                        if (cubit
+                                                .productDetailsModel
+                                                .data
+                                                .productDetails[0]
+                                                .hasFavorites ==
+                                            1) {
+                                          cubit.removeProductDetailsFavorite(
+                                              prodId: cubit.productDetailsModel
+                                                  .data.productDetails[0].id);
+                                        } else {
+                                          ///////////////////////////////////////////////////
+
+                                          TextEditingController listName =
+                                              TextEditingController();
+                                          showModalBottomSheet(
+                                              context: context,
+                                              builder: (context) {
+                                                cubit
+                                                    .getFavListDataOfProdDetails();
+                                                return BlocConsumer<AppCubit,
+                                                    AppStates>(
+                                                  listener: (context, state) {},
+                                                  builder: (context, state) {
+                                                    return Padding(
+                                                      padding: EdgeInsets.symmetric(
+                                                          horizontal:
+                                                              MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width /
+                                                                  60,
+                                                          vertical: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height /
+                                                              70),
+                                                      child: state
+                                                              is GetProductDetailsSuccessState
+                                                          ? Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              children: [
+                                                                Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional
+                                                                          .center,
+                                                                  child: Text(
+                                                                    "addToOneOfYourFavoriteLists"
+                                                                        .tr(),
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .center,
+                                                                    style: TextStyle(
+                                                                        color:
+                                                                            kDarkGoldColor,
+                                                                        fontSize:
+                                                                            22,
+                                                                        fontWeight:
+                                                                            FontWeight.w600),
+                                                                  ),
+                                                                ),
+                                                                SizedBox(
+                                                                  height: MediaQuery.of(
+                                                                              context)
+                                                                          .size
+                                                                          .height /
+                                                                      35,
+                                                                ),
+                                                                SizedBox(
+                                                                  height: 80,
+                                                                  child:
+                                                                      ListView(
+                                                                    scrollDirection:
+                                                                        Axis.horizontal,
+                                                                    children: [
+                                                                      if (cubit
+                                                                          .favListModelOfProdDetails
+                                                                          .data
+                                                                          .isNotEmpty)
+                                                                        SizedBox(
+                                                                          height:
+                                                                              80,
+                                                                          child:
+                                                                              ListView.separated(
+                                                                            physics:
+                                                                                NeverScrollableScrollPhysics(),
+                                                                            shrinkWrap:
+                                                                                true,
+                                                                            scrollDirection:
+                                                                                Axis.horizontal,
+                                                                            itemCount:
+                                                                                cubit.favListModelOfProdDetails.data.length,
+                                                                            itemBuilder:
+                                                                                (context, index) {
+                                                                              return InkWell(
+                                                                                onTap: () {
+                                                                                  cubit.addFavProductToFavListProdDetails(listId: cubit.favListModelOfProdDetails.data[index].id, productId: cubit.productDetailsModel.data.productDetails[0].id, context: context);
+                                                                                },
+                                                                                child: Wrap(
+                                                                                  direction: Axis.vertical,
+                                                                                  crossAxisAlignment: WrapCrossAlignment.center,
+                                                                                  children: [
+                                                                                    Container(
+                                                                                      width: 60,
+                                                                                      height: 60,
+                                                                                      alignment: Alignment.center,
+                                                                                      decoration: BoxDecoration(
+                                                                                        shape: BoxShape.rectangle,
+                                                                                        borderRadius: BorderRadius.circular(16),
+                                                                                        color: Colors.grey.shade200,
+                                                                                      ),
+                                                                                      child: Icon(
+                                                                                        CupertinoIcons.heart_circle_fill,
+                                                                                        color: Colors.red,
+                                                                                      ),
+                                                                                    ),
+                                                                                    ConstrainedBox(
+                                                                                      constraints: BoxConstraints(
+                                                                                        maxWidth: 70,
+                                                                                      ),
+                                                                                      child: Text(
+                                                                                        cubit.favListModelOfProdDetails.data[index].name,
+                                                                                        style: TextStyle(
+                                                                                          color: kDarkGoldColor,
+                                                                                          fontWeight: FontWeight.w400,
+                                                                                        ),
+                                                                                        textAlign: TextAlign.center,
+                                                                                        maxLines: 1,
+                                                                                        overflow: TextOverflow.ellipsis,
+                                                                                      ),
+                                                                                    )
+                                                                                  ],
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                            separatorBuilder: (context, index) =>
+                                                                                SizedBox(
+                                                                              width: MediaQuery.of(context).size.width / 60,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      if (cubit
+                                                                          .favListModelOfProdDetails
+                                                                          .data
+                                                                          .isNotEmpty)
+                                                                        SizedBox(
+                                                                          width:
+                                                                              MediaQuery.of(context).size.width / 60,
+                                                                        ),
+                                                                      InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          showDialog(
+                                                                            context:
+                                                                                context,
+                                                                            builder:
+                                                                                (context) {
+                                                                              return AlertDialog(
+                                                                                content: BlocConsumer<AppCubit, AppStates>(
+                                                                                  listener: (context, state) {},
+                                                                                  builder: (context, state) {
+                                                                                    return Column(
+                                                                                      mainAxisSize: MainAxisSize.min,
+                                                                                      children: [
+                                                                                        CustomTextFormField(
+                                                                                          hintText: "theNameOfYourFavoriteList".tr(),
+                                                                                          controller: listName,
+                                                                                          fillColor: Colors.grey,
+                                                                                          hintColor: Colors.black87,
+                                                                                          textColor: kDarkGoldColor,
+                                                                                        ),
+                                                                                        SizedBox(
+                                                                                          height: MediaQuery.of(context).size.height / 50,
+                                                                                        ),
+                                                                                        Row(
+                                                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                          children: [
+                                                                                            InkWell(
+                                                                                              onTap: () {
+                                                                                                Navigator.pop(context);
+                                                                                                cubit.createNewFavListProdDetails(listName: listName.text, context: context, productId: cubit.productDetailsModel.data.productDetails[0].id);
+                                                                                              },
+                                                                                              child: Container(
+                                                                                                alignment: Alignment.center,
+                                                                                                width: 70,
+                                                                                                height: 40,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  color: Colors.green,
+                                                                                                  shape: BoxShape.rectangle,
+                                                                                                  borderRadius: BorderRadius.circular(14),
+                                                                                                ),
+                                                                                                child: Text(
+                                                                                                  "create".tr(),
+                                                                                                  style: TextStyle(
+                                                                                                    color: Colors.white,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ),
+                                                                                            InkWell(
+                                                                                              onTap: () => Navigator.of(context).pop(),
+                                                                                              child: Container(
+                                                                                                alignment: Alignment.center,
+                                                                                                width: 70,
+                                                                                                height: 40,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  color: Colors.grey,
+                                                                                                  shape: BoxShape.rectangle,
+                                                                                                  borderRadius: BorderRadius.circular(14),
+                                                                                                ),
+                                                                                                child: Text(
+                                                                                                  "cancel".tr(),
+                                                                                                  style: TextStyle(
+                                                                                                    color: Colors.red,
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            )
+                                                                                          ],
+                                                                                        ),
+                                                                                      ],
+                                                                                    );
+                                                                                  },
+                                                                                ),
+                                                                              );
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                        child:
+                                                                            Wrap(
+                                                                          direction:
+                                                                              Axis.vertical,
+                                                                          crossAxisAlignment:
+                                                                              WrapCrossAlignment.center,
+                                                                          children: [
+                                                                            Container(
+                                                                              width: 60,
+                                                                              height: 60,
+                                                                              alignment: Alignment.center,
+                                                                              decoration: BoxDecoration(
+                                                                                shape: BoxShape.rectangle,
+                                                                                borderRadius: BorderRadius.circular(16),
+                                                                                color: Colors.grey.shade200,
+                                                                              ),
+                                                                              child: Icon(
+                                                                                CupertinoIcons.add_circled,
+                                                                                color: Colors.black,
+                                                                              ),
+                                                                            ),
+                                                                            ConstrainedBox(
+                                                                              constraints: BoxConstraints(
+                                                                                maxWidth: 70,
+                                                                              ),
+                                                                              child: Text(
+                                                                                "createList".tr(),
+                                                                                style: TextStyle(
+                                                                                  color: Colors.grey,
+                                                                                  fontWeight: FontWeight.w400,
+                                                                                ),
+                                                                                textAlign: TextAlign.center,
+                                                                                maxLines: 1,
+                                                                                overflow: TextOverflow.ellipsis,
+                                                                              ),
+                                                                            )
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                ),
+                                                                // Container(
+                                                                //   width: 60,
+                                                                //   height: 60,
+                                                                //   alignment: Alignment.center,
+                                                                //   decoration: BoxDecoration(
+                                                                //     shape: BoxShape.rectangle,
+                                                                //     borderRadius: BorderRadius.circular(16),
+                                                                //     color: Colors.grey.shade200,
+                                                                //   ),
+                                                                //   child: Icon(
+                                                                //     CupertinoIcons.add_circled,
+                                                                //     color: Colors.black,
+                                                                //   ),
+                                                                // ),
+                                                              ],
+                                                            )
+                                                          : Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .min,
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .center,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Center(
+                                                                  child:
+                                                                      CircularProgressIndicator(),
+                                                                ),
+                                                              ],
+                                                            ),
+                                                    );
+                                                  },
+                                                );
+                                              });
+                                        }
                                       } else {
                                         showToast(
                                             text: 'pleaseLoginFirst'.tr(),
@@ -748,6 +1051,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ),
                     ],
+                  ),
+                )
+              : Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.black,
                   ),
                 ),
           floatingActionButton: Visibility(

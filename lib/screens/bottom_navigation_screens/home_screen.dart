@@ -15,6 +15,7 @@ import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/notifications_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
+import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/dialogs.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -367,21 +368,279 @@ class HomeScreen extends StatelessWidget {
                                                 onFavPressed: () {
                                                   if (kToken != null &&
                                                       kToken.isNotEmpty) {
-                                                    AppCubit.get(context)
-                                                        .updateFavorite(
-                                                            prodId: AppCubit
-                                                                    .get(
-                                                                        context)
-                                                                .constructionLink
-                                                                .data
-                                                                .productList[
-                                                                    index]
-                                                                .id);
-                                                  } else {
-                                                    showToast(
-                                                        text: 'pleaseLoginFirst'
-                                                            .tr(),
-                                                        color: Colors.black);
+                                                    if (AppCubit.get(context)
+                                                            .constructionLink
+                                                            .data
+                                                            .productList[index]
+                                                            .hasFavorites ==
+                                                        1) {
+                                                      AppCubit.get(context)
+                                                          .removeFavoriteHome(
+                                                        prodId: AppCubit.get(
+                                                                context)
+                                                            .constructionLink
+                                                            .data
+                                                            .productList[index]
+                                                            .id,
+                                                        index: index,
+                                                      );
+                                                    } else {
+                                                      ///////////////////////////////////////////////////
+
+                                                      TextEditingController
+                                                          listName =
+                                                          TextEditingController();
+                                                      showModalBottomSheet(
+                                                          context: context,
+                                                          builder: (context) {
+                                                            cubit
+                                                                .getFavListDataOfHome();
+                                                            return BlocConsumer<
+                                                                AppCubit,
+                                                                AppStates>(
+                                                              listener:
+                                                                  (context,
+                                                                      state) {},
+                                                              builder: (context,
+                                                                  state) {
+                                                                return Padding(
+                                                                  padding: EdgeInsets.symmetric(
+                                                                      horizontal:
+                                                                          MediaQuery.of(context).size.width /
+                                                                              60,
+                                                                      vertical:
+                                                                          MediaQuery.of(context).size.height /
+                                                                              70),
+                                                                  child: state
+                                                                          is GetConstructionSuccessState
+                                                                      ? Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          children: [
+                                                                            Align(
+                                                                              alignment: AlignmentDirectional.center,
+                                                                              child: Text(
+                                                                                "addToOneOfYourFavoriteLists".tr(),
+                                                                                textAlign: TextAlign.center,
+                                                                                style: TextStyle(color: kDarkGoldColor, fontSize: 22, fontWeight: FontWeight.w600),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: MediaQuery.of(context).size.height / 35,
+                                                                            ),
+                                                                            SizedBox(
+                                                                              height: 80,
+                                                                              child: ListView(
+                                                                                scrollDirection: Axis.horizontal,
+                                                                                children: [
+                                                                                  if (cubit.favListModelOfHome.data.isNotEmpty)
+                                                                                    SizedBox(
+                                                                                      height: 80,
+                                                                                      child: ListView.separated(
+                                                                                        physics: NeverScrollableScrollPhysics(),
+                                                                                        shrinkWrap: true,
+                                                                                        scrollDirection: Axis.horizontal,
+                                                                                        itemCount: cubit.favListModelOfHome.data.length,
+                                                                                        itemBuilder: (context, listIndex) {
+                                                                                          return InkWell(
+                                                                                            onTap: () {
+                                                                                              cubit.addFavProductToFavListHome(listId: cubit.favListModelOfHome.data[listIndex].id, productId: AppCubit.get(context).constructionLink.data.productList[index].id, index: index, context: context);
+                                                                                            },
+                                                                                            child: Wrap(
+                                                                                              direction: Axis.vertical,
+                                                                                              crossAxisAlignment: WrapCrossAlignment.center,
+                                                                                              children: [
+                                                                                                Container(
+                                                                                                  width: 60,
+                                                                                                  height: 60,
+                                                                                                  alignment: Alignment.center,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    shape: BoxShape.rectangle,
+                                                                                                    borderRadius: BorderRadius.circular(16),
+                                                                                                    color: Colors.grey.shade200,
+                                                                                                  ),
+                                                                                                  child: Icon(
+                                                                                                    CupertinoIcons.heart_circle_fill,
+                                                                                                    color: Colors.red,
+                                                                                                  ),
+                                                                                                ),
+                                                                                                ConstrainedBox(
+                                                                                                  constraints: BoxConstraints(
+                                                                                                    maxWidth: 70,
+                                                                                                  ),
+                                                                                                  child: Text(
+                                                                                                    cubit.favListModelOfHome.data[listIndex].name,
+                                                                                                    style: TextStyle(
+                                                                                                      color: kDarkGoldColor,
+                                                                                                      fontWeight: FontWeight.w400,
+                                                                                                    ),
+                                                                                                    textAlign: TextAlign.center,
+                                                                                                    maxLines: 1,
+                                                                                                    overflow: TextOverflow.ellipsis,
+                                                                                                  ),
+                                                                                                )
+                                                                                              ],
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                        separatorBuilder: (context, listIndex) => SizedBox(
+                                                                                          width: MediaQuery.of(context).size.width / 60,
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  if (cubit.favListModelOfHome.data.isNotEmpty)
+                                                                                    SizedBox(
+                                                                                      width: MediaQuery.of(context).size.width / 60,
+                                                                                    ),
+                                                                                  InkWell(
+                                                                                    onTap: () {
+                                                                                      showDialog(
+                                                                                        context: context,
+                                                                                        builder: (context) {
+                                                                                          return AlertDialog(
+                                                                                            content: BlocConsumer<SubCatCubit, SubCatState>(
+                                                                                              listener: (context, state) {},
+                                                                                              builder: (context, state) {
+                                                                                                return Column(
+                                                                                                  mainAxisSize: MainAxisSize.min,
+                                                                                                  children: [
+                                                                                                    CustomTextFormField(
+                                                                                                      hintText: "theNameOfYourFavoriteList".tr(),
+                                                                                                      controller: listName,
+                                                                                                      fillColor: Colors.grey,
+                                                                                                      hintColor: Colors.black87,
+                                                                                                      textColor: kDarkGoldColor,
+                                                                                                    ),
+                                                                                                    SizedBox(
+                                                                                                      height: MediaQuery.of(context).size.height / 50,
+                                                                                                    ),
+                                                                                                    Row(
+                                                                                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                                                                      children: [
+                                                                                                        InkWell(
+                                                                                                          onTap: () {
+                                                                                                            Navigator.pop(context);
+                                                                                                            cubit.createNewFavListHome(listName: listName.text, context: context, productId: AppCubit.get(context).constructionLink.data.productList[index].id, index: index);
+                                                                                                          },
+                                                                                                          child: Container(
+                                                                                                            alignment: Alignment.center,
+                                                                                                            width: 70,
+                                                                                                            height: 40,
+                                                                                                            decoration: BoxDecoration(
+                                                                                                              color: Colors.green,
+                                                                                                              shape: BoxShape.rectangle,
+                                                                                                              borderRadius: BorderRadius.circular(14),
+                                                                                                            ),
+                                                                                                            child: Text(
+                                                                                                              "create".tr(),
+                                                                                                              style: TextStyle(
+                                                                                                                color: Colors.white,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        ),
+                                                                                                        InkWell(
+                                                                                                          onTap: () => Navigator.of(context).pop(),
+                                                                                                          child: Container(
+                                                                                                            alignment: Alignment.center,
+                                                                                                            width: 70,
+                                                                                                            height: 40,
+                                                                                                            decoration: BoxDecoration(
+                                                                                                              color: Colors.grey,
+                                                                                                              shape: BoxShape.rectangle,
+                                                                                                              borderRadius: BorderRadius.circular(14),
+                                                                                                            ),
+                                                                                                            child: Text(
+                                                                                                              "cancel".tr(),
+                                                                                                              style: TextStyle(
+                                                                                                                color: Colors.red,
+                                                                                                              ),
+                                                                                                            ),
+                                                                                                          ),
+                                                                                                        )
+                                                                                                      ],
+                                                                                                    ),
+                                                                                                  ],
+                                                                                                );
+                                                                                              },
+                                                                                            ),
+                                                                                          );
+                                                                                        },
+                                                                                      );
+                                                                                    },
+                                                                                    child: Wrap(
+                                                                                      direction: Axis.vertical,
+                                                                                      crossAxisAlignment: WrapCrossAlignment.center,
+                                                                                      children: [
+                                                                                        Container(
+                                                                                          width: 60,
+                                                                                          height: 60,
+                                                                                          alignment: Alignment.center,
+                                                                                          decoration: BoxDecoration(
+                                                                                            shape: BoxShape.rectangle,
+                                                                                            borderRadius: BorderRadius.circular(16),
+                                                                                            color: Colors.grey.shade200,
+                                                                                          ),
+                                                                                          child: Icon(
+                                                                                            CupertinoIcons.add_circled,
+                                                                                            color: Colors.black,
+                                                                                          ),
+                                                                                        ),
+                                                                                        ConstrainedBox(
+                                                                                          constraints: BoxConstraints(
+                                                                                            maxWidth: 70,
+                                                                                          ),
+                                                                                          child: Text(
+                                                                                            "createList".tr(),
+                                                                                            style: TextStyle(
+                                                                                              color: Colors.grey,
+                                                                                              fontWeight: FontWeight.w400,
+                                                                                            ),
+                                                                                            textAlign: TextAlign.center,
+                                                                                            maxLines: 1,
+                                                                                            overflow: TextOverflow.ellipsis,
+                                                                                          ),
+                                                                                        )
+                                                                                      ],
+                                                                                    ),
+                                                                                  ),
+                                                                                ],
+                                                                              ),
+                                                                            ),
+                                                                            // Container(
+                                                                            //   width: 60,
+                                                                            //   height: 60,
+                                                                            //   alignment: Alignment.center,
+                                                                            //   decoration: BoxDecoration(
+                                                                            //     shape: BoxShape.rectangle,
+                                                                            //     borderRadius: BorderRadius.circular(16),
+                                                                            //     color: Colors.grey.shade200,
+                                                                            //   ),
+                                                                            //   child: Icon(
+                                                                            //     CupertinoIcons.add_circled,
+                                                                            //     color: Colors.black,
+                                                                            //   ),
+                                                                            // ),
+                                                                          ],
+                                                                        )
+                                                                      : Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.min,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.center,
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Center(
+                                                                              child: CircularProgressIndicator(),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                );
+                                                              },
+                                                            );
+                                                          });
+                                                    }
                                                   }
                                                 },
                                               ),

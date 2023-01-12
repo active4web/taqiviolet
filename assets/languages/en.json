@@ -158,5 +158,7 @@
   "create":"Create",
   "cancel": "cancel",
   "listCreatedSuccessfully":"List created successfully",
-  "createNewFavoriteList":"Create new favorite list"
+  "createNewFavoriteList":"Create new favorite list",
+  "createList": "Create List",
+  "ourAvailableJobs":"Our available jobs"
 }

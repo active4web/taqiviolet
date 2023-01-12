@@ -152,5 +152,7 @@
   "create": "creare",
     "cancel": "Annulla",
     "listCreatedSuccessfully": "Elenco creato con successo",
-    "createNewFavoriteList": "Creare un nuovo elenco di preferiti"
+    "createNewFavoriteList": "Creare un nuovo elenco di preferiti",
+    "createList": "Creare lista",
+    "ourAvailableJobs": "I nostri lavori disponibili"
 }
