@@ -50,10 +50,10 @@ class Data {
 
 class ListProducts {
   String quantity;
-  int currentPrice;
-  int oldPrice;
+  num currentPrice;
+  num oldPrice;
   int id;
-  int smartPrice;
+  num smartPrice;
 
   ListProducts(
       {this.quantity,

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
-
+import 'package:search_map_place_updated/search_map_place_updated.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -127,6 +127,25 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     controller: textController,
                   ),
                 ),
+                // SearchMapPlaceWidget(
+                //   apiKey: 'AIzaSyCrsTVja4leOLfOxV6EfP1oSyQv_bpj7yg',
+                //   onSearch: (place) {
+                //     log('${place.description}');
+                //   },
+                //   location: LatLng(latitude, longitude),
+                //   radius: 30000,
+                //   onSelected: (Place place) async {
+                //     final geolocation = await place.geolocation;
+
+                //     // Will animate the GoogleMap camera, taking us to the selected position with an appropriate zoom
+                //     final GoogleMapController controller =
+                //         await _controller.future;
+                //     controller.animateCamera(
+                //         CameraUpdate.newLatLng(geolocation.coordinates));
+                //     controller.animateCamera(
+                //         CameraUpdate.newLatLngBounds(geolocation.bounds, 0));
+                //   },
+                // ),
                 // Positioned(
                 //   top: MediaQuery.of(context).viewPadding.top + 20,
                 //   width: MediaQuery.of(context).size.width - 50,
@@ -159,8 +178,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                         ),
                       ),
                       onPressed: () {
-                        log(
-                            "Location ${cameraPosition.target.latitude} ${cameraPosition.target.longitude}");
+                        log("Location ${cameraPosition.target.latitude} ${cameraPosition.target.longitude}");
                         log("Address: ${textController.text}");
                         AppCubit.get(context).lat =
                             cameraPosition.target.latitude;

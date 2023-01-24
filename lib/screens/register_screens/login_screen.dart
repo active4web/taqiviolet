@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
               .then((value) {
             kToken = CacheHelper.getData('token');
             AppCubit.get(context).getCache();
-            showToast(text: state.loginSuccessModel.msg, color: Colors.green);
+            // showToast(text: state.loginSuccessModel.msg, color: Colors.green);
             navigateAndFinish(context, HomeLayout());
             
           });

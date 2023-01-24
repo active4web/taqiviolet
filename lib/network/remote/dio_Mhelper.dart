@@ -39,4 +39,17 @@ class Mhelper {
       data: FormData.fromMap(data),
     );
   }
+
+    static Future<Response> postRawData(
+      {String url,
+      Map<String, dynamic> query,
+      @required dynamic data,
+      token}) async {
+    dio.options.headers["authorization"] = "Bearer $token";
+    return dio.post(
+      url,
+      queryParameters: query,
+      data: data,
+    );
+  }
 }

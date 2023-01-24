@@ -7,6 +7,7 @@ import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 class LanguageScreen extends StatelessWidget {
   const LanguageScreen({Key key}) : super(key: key);
@@ -96,6 +97,13 @@ class LanguageTile extends StatelessWidget {
         await EasyLocalization.of(context).setLocale(Locale(localCode));
         CacheHelper.setData(key: "language", value: localCode);
         kLanguage = CacheHelper.getData('language');
+        if (kToken == null || kToken.isEmpty) {
+          CacheHelper.removeData('localCart');
+          CacheHelper.removeData('cartCount');
+          cartCount = 0;
+          cartProducts = null;
+        }
+
         log('$localCode');
       },
     );

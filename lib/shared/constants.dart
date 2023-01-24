@@ -43,9 +43,10 @@ const String dellallnotifications = "/api/DeleteAllNotification";
 const String productDetails = "/api/productDetails?";
 const String AddToCartURL = "/api/AddToCart";
 const String myCartURL = "api/myCart";
-const String sumItemCartURL = "/api/sumItemCart?";
+const String sumItemCartURL = "/api/sumItemCart";
 const String delItem = "/api/deleteItemCart?id=";
 const String make_orderURL = "api/make_order";
+const String promoCodeURL = "api/PromoCode";
 
 const String myOrdersURL = "api/myOrders";
 const String giftCardsURL = "api/giftCards";
@@ -64,12 +65,16 @@ const String addToRosterItemURL = "api/addToRoster";
 const String reOrderURL = "api/reOrder";
 const String reOrderItemURL = "api/reOrderItem/";
 const String offerProductsURL = "api/get_all_offers";
-const String userProfileDataURL='api/UserProfile';
+const String userProfileDataURL = 'api/UserProfile';
+const String locationsURL = 'api/list_locations';
+const String deleteAccountURL = 'api/delete_account';
+
 // /*****************************************************/
 
 const Color kDarkGoldColor = Color(0xffBA8B31);
 const Color kLightGoldColor = Color(0xffF3E184);
 const Color kBGColor = Color(0xfff4f4f4);
+const Color kCustomBlack=Color(0xff393846);
 const Gradient kBlackGradient =
     RadialGradient(colors: [Color(0xff4D4D4D), Colors.black], radius: 4);
 const Gradient kGoldGradient =

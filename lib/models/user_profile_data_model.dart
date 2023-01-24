@@ -1,3 +1,6 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:safsofa/screens/check_out_screen.dart';
+
 class UserProfileDataModel {
   bool status;
   String errNum;
@@ -28,7 +31,7 @@ class UserProfileDataModel {
 class AccountData {
   UserProfile userProfile;
   int myOrder;
-  String lastOrder;
+  LastOrder lastOrder;
   String bonus;
   List<MyList> myList;
   List<Suggestion> suggestion;
@@ -45,8 +48,11 @@ class AccountData {
     userProfile = json['userProfile'] != null
         ? new UserProfile.fromJson(json['userProfile'])
         : null;
+
     myOrder = json['MyOrder'];
-    lastOrder = json['lastOrder'];
+    lastOrder = json['lastOrder'] != null
+        ? new LastOrder.fromJson(json['lastOrder'])
+        : null;
     bonus = json['bonus'];
     if (json['myList'] != null) {
       myList = new List<MyList>();
@@ -89,7 +95,7 @@ class UserProfile {
   String firebaseId;
   String lang;
   String image;
-  Null totalPoint;
+  String totalPoint;
   String createdAt;
   String updatedAt;
 
@@ -340,6 +346,95 @@ class Suggestion {
     data['hasFavorites'] = this.hasFavorites;
     data['hasRosters'] = this.hasRosters;
     data['hasReviews'] = this.hasReviews;
+    return data;
+  }
+}
+
+class LastOrder {
+  int id;
+  String codeOrder;
+  int clientId;
+  int storeId;
+  String address;
+  int promoCodeId;
+  num deliveryCost;
+  num subTotal;
+  num total;
+  String status;
+  String paymentStatus;
+  String paymentType;
+  int isActive;
+  String createdAt;
+  String updatedAt;
+  String userPhone;
+  String userName;
+  int countryId;
+  int cityId;
+  LastOrder({
+    this.id,
+    this.codeOrder,
+    this.clientId,
+    this.storeId,
+    this.address,
+    this.promoCodeId,
+    this.deliveryCost,
+    this.subTotal,
+    this.total,
+    this.status,
+    this.paymentStatus,
+    this.paymentType,
+    this.isActive,
+    this.createdAt,
+    this.updatedAt,
+    this.userPhone,
+    this.userName,
+    this.countryId,
+    this.cityId,
+  });
+
+  LastOrder.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    codeOrder = json['code_order'];
+    clientId = json['client_id'];
+    storeId = json['store_id'];
+    address = json['address'];
+    promoCodeId = json['promo_code_id'];
+    deliveryCost = json['delivery_cost'];
+    subTotal = json['sub_total'];
+    total = json['total'];
+    status = json['status'];
+    paymentStatus = json['payment_status'];
+    paymentType = json['payment_type'];
+    isActive = json['is_active'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    userName = json['username'];
+    userPhone = json['userphone'];
+    countryId = json['country_id'];
+    cityId = json['city_id'];
+  }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['code_order'] = this.codeOrder;
+    data['client_id'] = this.clientId;
+    data['store_id'] = this.storeId;
+    data['address'] = this.address;
+    data['promo_code_id'] = this.promoCodeId;
+    data['delivery_cost'] = this.deliveryCost;
+    data['sub_total'] = this.subTotal;
+    data['total'] = this.total;
+    data['status'] = this.status;
+    data['payment_status'] = this.paymentStatus;
+    data['payment_type'] = this.paymentType;
+    data['is_active'] = this.isActive;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['username'] = this.userName;
+    data['userphone'] = this.userPhone;
+    data['country_id'] = this.countryId;
+    data['city_id'] = this.cityId;
+
     return data;
   }
 }

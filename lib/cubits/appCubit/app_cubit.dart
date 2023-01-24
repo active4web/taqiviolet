@@ -10,7 +10,7 @@ import 'package:safsofa/models/cart_models/cart_local_model/cart_local_model.dar
 import 'package:safsofa/models/construction_link_model.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favorites_lists_model.dart';
-
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/models/homeModel/main_cat_model.dart' as homeMainCat;
 import 'package:safsofa/models/homeModel/main_home_banner.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
@@ -26,6 +26,7 @@ import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
 import 'package:safsofa/screens/favourites_screen.dart';
+import 'package:safsofa/screens/home_layout.dart';
 
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -72,6 +73,7 @@ class AppCubit extends Cubit<AppStates> {
       log("-" * 10);
     }
   }
+
 //////////////////////////////USER ACCOUNT DATA SCREEN LOGIC///////////////////////////////
   UserProfileDataModel myAccountData;
   void getUserAccountData({bool loading = true}) {
@@ -88,6 +90,38 @@ class AppCubit extends Cubit<AppStates> {
       emit(GetAccountDataSuccessState());
     }).catchError((error) {
       log('Error on loading account data:: ${error.toString()}');
+      emit(GetAccountDataErrorState());
+    });
+  }
+
+  void deleteUserAccount({@required BuildContext context}) {
+    Mhelper.postData(url: deleteAccountURL, token: kToken, data: {
+      'token': kToken,
+    }, query: {
+      'lang': kLanguage
+    }).then((value) {
+      log(value.data.toString());
+      if (value.data['status']) {
+        CacheHelper.removeData('userInfo');
+        CacheHelper.removeData('token');
+        CacheHelper.removeData('id');
+        kToken = null;
+        CacheHelper.removeData('localCart');
+        CacheHelper.removeData('cartCount');
+        showToast(
+            text: "yourAccountHasBeenDeletedSuccessfully".tr(),
+            color: Colors.green,
+            location: ToastGravity.CENTER);
+        emit(GetAccountDataSuccessState());
+        navigateAndFinish(context, HomeLayout());
+      } else {
+        showToast(
+            text: "somethingWentWrong".tr(),
+            color: Colors.red,
+            location: ToastGravity.CENTER);
+      }
+    }).catchError((error) {
+      log('Error on deleting account :: ${error.toString()}');
       emit(GetAccountDataErrorState());
     });
   }
@@ -763,9 +797,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void addToCartServer(
-      {@required product_id,
-      @required quantity,
-      @required int price,
+      {@required int product_id,
+      @required int quantity,
+      @required num price,
       @required String featureSize}) {
     log('price====>$price');
     log('features====>$featureSize');
@@ -773,8 +807,8 @@ class AppCubit extends Cubit<AppStates> {
     Mhelper.postData(
             url: AddToCartURL,
             data: {
-              "product_id": product_id,
-              "quantity": quantity,
+              "product_id": '$product_id',
+              "quantity": '$quantity',
               "price": "$price",
               "features": featureSize,
             },
@@ -782,12 +816,13 @@ class AppCubit extends Cubit<AppStates> {
         .then((value) {
       // print(value.data);
       log('Server Cart data==>${value.data}');
-      if (value.data["status"] == true) {
+      if (value.data["status"]) {
         productDetailsModel.data.productDetails[0].hascart = 1;
         // getAllNotifications();
         // emit(GetAllNotificationsSuccessState());
         // emit(AddToCartSuccessState());
         emit(GetProductDetailsSuccessState());
+        // cartCountControlller.add(int.parse(quantity));
       }
     }).catchError((error) {
       emit(AddToCartErrorState());
@@ -797,9 +832,10 @@ class AppCubit extends Cubit<AppStates> {
 
   void addToCartLocal({
     @required bool withSmartFeature,
+    @required String feature,
     @required int quantity,
-    @required int price,
-    @required int smartPrice,
+    @required num price,
+    @required num smartPrice,
     @required String productName,
     @required String productImage,
     @required int productId,
@@ -816,9 +852,12 @@ class AppCubit extends Cubit<AppStates> {
         withSmartFeature: withSmartFeature,
         smartPrice: smartPrice,
         price: withSmartFeature ? quantity * smartPrice : quantity * price,
+        onePiecePrice: withSmartFeature ? smartPrice : price,
         productId: productId,
         isFav: isFav,
+        features: feature,
       ));
+
       String localCart = jsonEncode(cartProducts);
       CacheHelper.setData(key: 'localCart', value: localCart);
       // showToast(
@@ -847,10 +886,13 @@ class AppCubit extends Cubit<AppStates> {
           withSmartFeature: withSmartFeature,
           smartPrice: smartPrice,
           price: withSmartFeature ? quantity * smartPrice : quantity * price,
+          onePiecePrice: withSmartFeature ? smartPrice : price,
           isFav: isFav,
+          features: feature,
         ));
         log('After add to cart [Else statement] ${cartProducts.cartProducts.length}');
         String localCart = jsonEncode(cartProducts);
+
         CacheHelper.setData(key: 'localCart', value: localCart);
         // showToast(
         //     text: "theProductHasBeenAddedToTheShoppingCart".tr(),

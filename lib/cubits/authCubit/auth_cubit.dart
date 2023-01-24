@@ -11,6 +11,7 @@ import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
+import '../../models/cart_models/cart_local_model/cart_local_model.dart';
 import '../../push_notifcation.dart';
 import '../../screens/home_layout.dart';
 import 'auth_states.dart';
@@ -93,6 +94,8 @@ class AuthCubit extends Cubit<AuthStates> {
       "password": "$password",
       "address": "$address",
       "key": key
+    }, query: {
+      'lang': kLanguage,
     }).then((value) {
       log(value.data.toString());
       if (value.data['status'] == true) {
@@ -101,6 +104,11 @@ class AuthCubit extends Cubit<AuthStates> {
         CacheHelper.setData(
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+        CacheHelper.setData(
+            key: 'token', value: emailRegisterSuccessResponse.data.token);
+        if (CacheHelper.getData('localCart') != null) {
+          addLocalDataOfCartToServer(token:emailRegisterSuccessResponse.data.token );
+        }
         //     CacheHelper.setData(key: 'token', value: emailRegisterSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
         // CacheHelper.setData(
@@ -137,6 +145,8 @@ class AuthCubit extends Cubit<AuthStates> {
       "phone": "$phone",
       "address": "$address",
       "key": key
+    }, query: {
+      'lang': kLanguage,
     }).then((value) {
       log(value.data.toString());
       if (value.data['status'] == true) {
@@ -145,6 +155,11 @@ class AuthCubit extends Cubit<AuthStates> {
         CacheHelper.setData(
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+        CacheHelper.setData(
+            key: 'token', value: phoneRegisterSuccessResponse.data.token);
+        if (CacheHelper.getData('localCart') != null) {
+          addLocalDataOfCartToServer(token: phoneRegisterSuccessResponse.data.token);
+        }
         //     CacheHelper.setData(key: 'token', value: phoneRegisterSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
         // CacheHelper.setData(
@@ -176,6 +191,8 @@ class AuthCubit extends Cubit<AuthStates> {
         "lang": language,
         "firebase_id": MobToken,
         "password": password,
+      }, query: {
+        'lang': kLanguage,
       }).then((value) {
         log(value.data.toString());
         if (value.data['status'] == true) {
@@ -186,10 +203,15 @@ class AuthCubit extends Cubit<AuthStates> {
           CacheHelper.setData(
               key: 'userInfo',
               value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+          if (CacheHelper.getData('localCart') != null) {
+            addLocalDataOfCartToServer(token: loginSuccessResponse.data.token);
+          }
+
           emit(LoginSuccessState(loginSuccessResponse));
         }
         if (value.data['status'] == false) {
           loginFailedResponse = FailedResponseModel.fromJson(value.data);
+
           emit(LoginErrorState(value.data['msg']));
         }
       }).catchError((error) {
@@ -208,9 +230,10 @@ class AuthCubit extends Cubit<AuthStates> {
       },
       token: kToken,
     ).then((value) {
-      log(value.statusCode.toString());
       if (value.data['status']) {
-        CacheHelper.clearCache();
+        CacheHelper.removeData('userInfo');
+        CacheHelper.removeData('token');
+        CacheHelper.removeData('id');
         kToken = null;
       }
       log('token after logout is: $kToken');
@@ -219,6 +242,28 @@ class AuthCubit extends Cubit<AuthStates> {
     }).catchError((error) {
       log('Logout error ==> ${error}');
       emit(LogoutErrorState());
+    });
+  }
+
+  void addLocalDataOfCartToServer({@required String token}) {
+    CartLocalModel data;
+    Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
+    data = CartLocalModel.fromJson(json);
+    Mhelper.postRawData(
+        url: 'api/AddListToCart',
+        data: jsonEncode(data),
+        token: token,
+        query: {
+          'lang': kLanguage,
+        }).then((value) {
+      log('==>${value.data}');
+      if (value.data['status']) {
+        CacheHelper.removeData('localCart');
+        CacheHelper.removeData('cartCount');
+        cartCount=0;
+      }
+    }).catchError((error) {
+      log('Error on sending local cart data: ${error}');
     });
   }
 }

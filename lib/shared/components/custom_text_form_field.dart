@@ -14,6 +14,7 @@ class CustomTextFormField extends StatelessWidget {
     this.fillColor=Colors.white,
     this.hintColor= Colors.white54,
     this.textColor= Colors.white,
+    this.cursorColor= Colors.white,
   }) : super(key: key);
 
   final String hintText;
@@ -24,6 +25,7 @@ class CustomTextFormField extends StatelessWidget {
  final Color fillColor;
  final Color hintColor;
  final Color textColor;
+ final Color cursorColor;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class CustomTextFormField extends StatelessWidget {
         validator: validate,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         style: TextStyle(color: textColor, fontFamily: 'Tajawal'),
-        cursorColor: Colors.white,
+        cursorColor: cursorColor,
         decoration: InputDecoration(
           hintText: hintText,
           enabledBorder: OutlineInputBorder(

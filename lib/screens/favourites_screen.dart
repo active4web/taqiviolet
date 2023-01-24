@@ -12,6 +12,7 @@ import 'package:safsofa/cubits/favorites_cubit/favorites_state.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/screens/register_screens/register_choice_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
+import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -34,7 +35,7 @@ class FavouritesScreen extends StatelessWidget {
           builder: (context, state) {
             return Visibility(
               visible: kToken != null && kToken.isNotEmpty,
-              child: FavoritesCubit.get(context).allFavData == null
+              child:  state is! SuccessFavoritesAllData
                   ? Center(
                       child: CircularProgressIndicator(
                         color: Colors.black,
@@ -49,7 +50,109 @@ class FavouritesScreen extends StatelessWidget {
                             Align(
                               alignment: AlignmentDirectional.topStart,
                               child: TextButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  TextEditingController listName =
+                                      TextEditingController();
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CustomTextFormField(
+                                              hintText:
+                                                  "theNameOfYourFavoriteList"
+                                                      .tr(),
+                                              controller: listName,
+                                              fillColor: Colors.grey,
+                                              hintColor: Colors.black87,
+                                              textColor: kDarkGoldColor,
+                                            ),
+                                            SizedBox(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  50,
+                                            ),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                InkWell(
+                                                  onTap: () async {
+                                                    var res =
+                                                        await FavoritesCubit
+                                                                .get(context)
+                                                            .createNewFavList(
+                                                      listName: listName.text,
+                                                      context: context,
+                                                    );
+                                                    if (res.data['status']) {
+                                                      Navigator.pop(context);
+                                                      FavoritesCubit.get(
+                                                              context)
+                                                          .getAllFavoritesData(
+                                                              withLoading:
+                                                                  false);
+                                                    } else {
+                                                      showToast(
+                                                          text:
+                                                              "somethingWentWrong"
+                                                                  .tr(),
+                                                          color: Colors.red);
+                                                    }
+                                                  },
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    width: 70,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.green,
+                                                      shape: BoxShape.rectangle,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              14),
+                                                    ),
+                                                    child: Text(
+                                                      "create".tr(),
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                InkWell(
+                                                  onTap: () =>
+                                                      Navigator.of(context)
+                                                          .pop(),
+                                                  child: Container(
+                                                    alignment: Alignment.center,
+                                                    width: 70,
+                                                    height: 40,
+                                                    decoration: BoxDecoration(
+                                                      color: Colors.grey,
+                                                      shape: BoxShape.rectangle,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              14),
+                                                    ),
+                                                    child: Text(
+                                                      "cancel".tr(),
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
                                 child: Text(
                                   "createNewFavoriteList".tr(),
                                   style: TextStyle(

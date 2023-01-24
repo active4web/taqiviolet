@@ -36,13 +36,14 @@ dependencies:
   flutter_local_notifications: null
   image_picker: ^0.8.4+7
   share_plus: 
+  path_provider: ^2.0.11
 
 dev_dependencies:
   appinio_video_player: ^1.2.0
   carousel_pro: null
   carousel_slider: ^4.0.0
   conditional_builder: ^1.0.2
-  devicelocale: ^0.5.4
+  devicelocale: 
   dio: ^4.0.0
   dropdown_button2: ^1.1.0
   easy_localization: ^3.0.0
@@ -71,7 +72,7 @@ dev_dependencies:
   url_launcher: ^6.0.9
   video_player: ^2.4.8
   youtube_player_flutter: ^8.0.0
-
+  search_map_place_updated: ^0.0.4
 flutter_icons:
   android: true
   ios: true

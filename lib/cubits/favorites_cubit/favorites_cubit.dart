@@ -15,51 +15,45 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   static FavoritesCubit get(context) => BlocProvider.of(context);
   FavoritesListsModel favListModel;
 
-  void getFavListData() {
-    emit(FavoritesListLoading());
-    Mhelper.getData(
-      url: 'api/favlist',
-      token: kToken,
-      query: {
-        'lang': kLanguage,
-      },
-    ).then((value) {
-      favListModel = FavoritesListsModel.fromJson(value.data);
-      log(value.data.toString());
-      emit(FavoritesListSuccess());
-    }).catchError((error) {
-      log('Error on loading fav list>>${error.toString()}');
-      emit(FavoritesListError());
-    });
-  }
+  // void getFavListData() {
+  //   emit(FavoritesListLoading());
+  //   Mhelper.getData(
+  //     url: 'api/favlist',
+  //     token: kToken,
+  //     query: {
+  //       'lang': kLanguage,
+  //     },
+  //   ).then((value) {
+  //     favListModel = FavoritesListsModel.fromJson(value.data);
+  //     log(value.data.toString());
+  //     emit(FavoritesListSuccess());
+  //   }).catchError((error) {
+  //     log('Error on loading fav list>>${error.toString()}');
+  //     emit(FavoritesListError());
+  //   });
+  // }
 
-  void createNewFavList(
-      {@required String listName,
-      @required BuildContext context,
-      int productId}) {
-    Mhelper.postData(
+  Future<dynamic> createNewFavList({
+    @required String listName,
+    @required BuildContext context,
+  }) async {
+    var data = await Mhelper.postData(
       url: 'api/addfavlist',
       data: {
         'name': listName,
-        if (productId != null) 'prod_id': '$productId',
       },
       token: kToken,
       query: {'lang': kLanguage},
-    ).then((value) {
-      log('Crating new list data: ${value.data}');
-      if (value.data['status']) {
-        // showToast(text: "listCreatedSuccessfully".tr(), color: Colors.green);
-
-        Navigator.of(context).pop();
-      } else {
-        showToast(text: value.data['msg'], color: Colors.red);
-      }
-    });
+    );
+    return data;
   }
 
   FavoritesModel allFavData;
-  void getAllFavoritesData() {
-    emit(LoadingFavoritesAllData());
+  void getAllFavoritesData({bool withLoading = true}) {
+    if (withLoading) {
+      emit(LoadingFavoritesAllData());
+    }
+
     Mhelper.getData(url: 'api/MyFav', token: kToken, query: {
       'lang': kLanguage,
     }).then((value) {
@@ -91,24 +85,24 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     });
   }
 
-  void addFavProductToFavList({@required int listId, @required int productId}) {
-    Mhelper.postData(
-        url: '/api/FavProduct',
-        data: {
-          'list_id': '$listId',
-          'product_id': '$productId',
-        },
-        token: kToken,
-        query: {
-          'lang': kLanguage,
-        }).then((value) {
-      log(value.data.toString());
-      if (value.data['status']) {
-      } else {
-        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
-      }
-    });
-  }
+  // void addFavProductToFavList({@required int listId, @required int productId}) {
+  //   Mhelper.postData(
+  //       url: '/api/FavProduct',
+  //       data: {
+  //         'list_id': '$listId',
+  //         'product_id': '$productId',
+  //       },
+  //       token: kToken,
+  //       query: {
+  //         'lang': kLanguage,
+  //       }).then((value) {
+  //     log(value.data.toString());
+  //     if (value.data['status']) {
+  //     } else {
+  //       showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+  //     }
+  //   });
+  // }
 
   void removeProductFromFavorites(
       {@required int prodId,

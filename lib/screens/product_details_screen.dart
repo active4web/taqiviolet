@@ -514,6 +514,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 cubit.addToCartLocal(
                                                     withSmartFeature:
                                                         isSmartFeatureSelected,
+                                                    feature: featureSize,
                                                     smartPrice: cubit
                                                         .productDetailsModel
                                                         .data

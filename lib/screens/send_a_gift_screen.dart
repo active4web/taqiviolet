@@ -1,6 +1,7 @@
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/src/public_ext.dart';
+import 'package:safsofa/shared/constants.dart';
 import '../cubits/cartCubit/cart_cubit.dart';
 import '../cubits/cartCubit/cart_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,22 +10,23 @@ import '../shared/components/custom_app_bar.dart';
 import '../shared/components/custom_button.dart';
 
 class SendAGiftScreen extends StatefulWidget {
-  const SendAGiftScreen({Key key}) : super(key: key);
+  final int orderId;
+  const SendAGiftScreen({Key key,@required this.orderId}) : super(key: key);
 
   @override
   _SendAGiftScreenState createState() => _SendAGiftScreenState();
 }
 
 class _SendAGiftScreenState extends State<SendAGiftScreen> {
+  bool showSenderName = true;
   @override
   Widget build(BuildContext context) {
     TextEditingController name = TextEditingController();
     TextEditingController phone = TextEditingController();
-    TextEditingController city = TextEditingController();
-    TextEditingController addres = TextEditingController();
-    TextEditingController vido = TextEditingController();
+    TextEditingController qrData = TextEditingController();
     TextEditingController massge = TextEditingController();
-    bool addname = false;
+    GlobalKey qrKey = GlobalKey();
+
     // var qrImage;
     return BlocConsumer<CartCubit, CartState>(
       listener: (context, state) {},
@@ -51,47 +53,52 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  customwidget(label: 'city'.tr(), controler: city),
+                  customwidget(label: 'link'.tr(), controler: qrData),
                   SizedBox(
                     height: 10,
                   ),
-                  customwidget(label: 'address'.tr(), controler: addres),
+                  customwidget(
+                      label: 'Comment'.tr(), controler: massge, minLines: 5),
                   SizedBox(
                     height: 10,
                   ),
-                  customwidget(label: 'link'.tr(), controler: vido),
-                  SizedBox(
-                    height: 10,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Checkbox(
+                          value: showSenderName,
+                          activeColor: kDarkGoldColor,
+                          onChanged: (value) {
+                            setState(() {
+                              showSenderName = !showSenderName;
+                            });
+                          }),
+                      Text(
+                        "showSenderName".tr(),
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 19,
+                        ),
+                      )
+                    ],
                   ),
-                  customwidget(label: 'Comment'.tr(), controler: massge),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  // ListTile(
-                  //     title: Text("addname".tr()),
-                  //     leading: Checkbox(
-                  //       value: addname,
-                  //       onChanged: (v) {
-                  //         addname = v;
-                  //         setState(() {
-                  //
-                  //         });
-                  //       },
-                  //     )),
                   SizedBox(
                     height: 10,
                   ),
                   CustomButton(
                     onTap: () {
                       _popUpMenu(
-                          context: context,
-                          phone: phone,
-                          name: name,
-                          addname: addname,
-                          addres: addres,
-                          cartCubit: cartCubit,
-                          massge: massge,
-                          vido: vido);
+                        context: context,
+                        phone: phone.text,
+                        name: name.text,
+                        addname: showSenderName,
+                        cartCubit: cartCubit,
+                        massge: massge.text,
+                        qrData: qrData.text,
+                        orderId: widget.orderId,
+                        qrKey: qrKey,
+                      );
 
                       // _generateBarCode("jjjj",bytes).then((value) {
                       //
@@ -111,9 +118,11 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
     );
   }
 
-  Widget customwidget({label, controler}) {
+  Widget customwidget({label, controler, int minLines}) {
     return TextFormField(
       controller: controler,
+      minLines: minLines,
+      maxLines: null,
       decoration: InputDecoration(
         label: Text(label),
         border: OutlineInputBorder(),
@@ -122,7 +131,16 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
     );
   }
 
-  _popUpMenu({context, name, massge, phone, addres, vido, addname, cartCubit}) {
+  _popUpMenu(
+      {context,
+      String name,
+      String massge,
+      String phone,
+      String qrData,
+      int orderId,
+      Key qrKey,
+      addname,
+      CartCubit cartCubit}) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -141,27 +159,29 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                 Container(
                     width: 200,
                     height: 200,
-                    child: QrImage(
-                        data: "qrcodedata",
-                        version: QrVersions.auto,
-                        size: 180)),
+                    child: RepaintBoundary(
+                      key: qrKey,
+                      child: QrImage(
+                          data: qrData, version: QrVersions.auto, size: 180),
+                    )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text("To : ${name.text}"),
+                  child: Text("To : ${name}"),
                 ),
-                Text(" ${massge.text}"),
+                Text(" ${massge}"),
               ]),
             ),
             actions: [
               CustomButton(
                 onTap: () {
                   cartCubit.sendgiftCards(
-                      phone: phone.text,
-                      address: addres.text,
+                      phone: phone,
                       context: context,
-                      link: vido.text,
-                      message: massge.text,
-                      receiver: name.text,
+                      qrKey: qrKey,
+                      qrData: qrData,
+                      message: massge,
+                      receiver: name,
+                      orderId: orderId,
                       type: addname == true ? 1 : 0);
 
                   for (int i = 0; i < 2; i++) {

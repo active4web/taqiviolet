@@ -10,7 +10,7 @@ class MakeOrderModel {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data =  Data.fromJson(json['data'])  ;
+    data = Data.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -30,12 +30,11 @@ class Data {
   int clientId;
   String paymentStatus;
   String paymentType;
-  String promoCodeId;
+  int promoCodeId;
   String status;
   String subTotal;
-  int total;
-  int deliveryCost;
-  String addressId;
+  num total;
+  num deliveryCost;
   int storeId;
   String updatedAt;
   String createdAt;
@@ -43,19 +42,18 @@ class Data {
 
   Data(
       {this.codeOrder,
-        this.clientId,
-        this.paymentStatus,
-        this.paymentType,
-        this.promoCodeId,
-        this.status,
-        this.subTotal,
-        this.total,
-        this.deliveryCost,
-        this.addressId,
-        this.storeId,
-        this.updatedAt,
-        this.createdAt,
-        this.id});
+      this.clientId,
+      this.paymentStatus,
+      this.paymentType,
+      this.promoCodeId,
+      this.status,
+      this.subTotal,
+      this.total,
+      this.deliveryCost,
+      this.storeId,
+      this.updatedAt,
+      this.createdAt,
+      this.id});
 
   Data.fromJson(Map<String, dynamic> json) {
     codeOrder = json['code_order'];
@@ -67,7 +65,6 @@ class Data {
     subTotal = json['sub_total'];
     total = json['total'];
     deliveryCost = json['delivery_cost'];
-    addressId = json['address_id'];
     storeId = json['store_id'];
     updatedAt = json['updated_at'];
     createdAt = json['created_at'];
@@ -85,7 +82,6 @@ class Data {
     data['sub_total'] = this.subTotal;
     data['total'] = this.total;
     data['delivery_cost'] = this.deliveryCost;
-    data['address_id'] = this.addressId;
     data['store_id'] = this.storeId;
     data['updated_at'] = this.updatedAt;
     data['created_at'] = this.createdAt;

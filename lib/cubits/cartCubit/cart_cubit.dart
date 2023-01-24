@@ -1,9 +1,18 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:io';
+
+import 'dart:ui' as ui;
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:safsofa/models/cart_models/remote_cart_model/cart_product_prices_model.dart';
+import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
@@ -14,17 +23,22 @@ import '../../screens/success_scr.dart';
 import '../../shared/constants.dart';
 import '../../shared/defaults.dart';
 import 'cart_state.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartStateInitial());
 
   static CartCubit get(context) => BlocProvider.of(context);
-  MyCartModel myCartModel;
-  double total = 0;
-  final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
 
-  getServerCartData() {
-    emit(CartLoadingState());
+  num total = 0;
+  final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+  ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
+  MyCartModel myCartModel;
+  getServerCartData({bool withLoading = true}) {
+    if (withLoading) {
+      emit(CartLoadingState());
+    }
+
     total = 0;
     Mhelper.getData(
         url: myCartURL,
@@ -34,21 +48,74 @@ class CartCubit extends Cubit<CartState> {
         }).then((value) {
       myCartModel = MyCartModel.fromJson(value.data);
       log(value.data.toString());
-      for (int i = 0; i < myCartModel.data.length; i++) {
-        log("item id ${myCartModel.data[i].price}");
-        total += myCartModel.data[i].price * myCartModel.data[i].quantity;
+      for (int i = 0; i < myCartModel.data.listItem.length; i++) {
+        log("item price ${myCartModel.data.listItem[i].price}");
+        total += myCartModel.data.listItem[i].price *
+            myCartModel.data.listItem[i].quantity;
       }
-      // myCartModel.data.forEach((element) {});
-      // print(myCartModel.toJson());
-      // print("i get data from  $myCartURL");
-      // print(value.data);
-      emit(CartStateSuccessState());
+      emit(CartSuccessState());
     }).catchError((e) {
       log(e.toString());
-      emit(CartStateErrorState());
+      emit(CartErrorState());
     });
   }
 
+  addquantityServer({
+    @required product_id,
+    @required int product_quantity,
+  }) {
+    log('${CacheHelper.getData("token")}');
+    log('$product_id');
+    log("0000000000000000000000000000");
+    Mhelper.postData(
+        data: {
+          "key": 1234567890,
+        },
+        url: sumItemCartURL,
+        token: CacheHelper.getData("token"),
+        query: {
+          "product_id": "$product_id",
+          "product_quantity": "$product_quantity",
+        }).then((value) {
+      if (value.data['status']) {
+        getServerCartData(withLoading: false);
+      } else {
+        showToast(text: value.data['msg'], color: Colors.red);
+      }
+    });
+  }
+
+  delItemFromCartServer({@required int productId}) {
+    Mhelper.postData(data: {
+      "key": 1234567890,
+    }, url: delItem + "$productId", token: CacheHelper.getData("token"))
+        .then((value) {
+      if (value.data['status']) {
+        getServerCartData(withLoading: false);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  emptyCartProductsServer() {
+    Mhelper.postData(
+      data: {},
+      url: 'api/emptycart',
+      token: CacheHelper.getData("token"),
+    ).then((value) {
+      if (value.data['status']) {
+        getServerCartData(withLoading: false);
+      } else {
+        showToast(text: "somethingWentWrong".tr(), color: Colors.red);
+      }
+    });
+  }
+
+  ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
+  ///                                          ***********************************************
+  ///                                          ***********************************************
+//////////////////////////////////////////////**HANDLE CART PART LOCALLY**////////////////////////////////////////////////////////////
   CartLocalModel myCartlocalModel;
   CartProductsPricesModel productCartPrices;
   getLocalCartData() {
@@ -67,14 +134,14 @@ class CartCubit extends Cubit<CartState> {
         productCartPrices = CartProductsPricesModel.fromJson(value.data);
 
         calculateTotalPrice(cartData: myCartlocalModel);
-        emit(CartStateSuccessState());
+        emit(CartSuccessState());
       }).catchError((error) {
         log('Error on getting cart product prices: ${error.toString()}');
-        emit(CartStateErrorState());
+        emit(CartErrorState());
       });
     } else {
       myCartlocalModel = CartLocalModel();
-      emit(CartStateSuccessState());
+      emit(CartSuccessState());
     }
   }
 
@@ -108,12 +175,12 @@ class CartCubit extends Cubit<CartState> {
           cartCountControlller.add(cartCount);
           String localCart = jsonEncode(cartProducts);
           CacheHelper.setData(key: 'localCart', value: localCart);
-          emit(CartStateSuccessState());
+          emit(CartSuccessState());
           break;
         } else {
           showToast(
               text: "noMoreAvailableForThisProduct".tr(), color: Colors.black);
-          emit(CartStateSuccessState());
+          emit(CartSuccessState());
         }
       }
     }
@@ -131,7 +198,7 @@ class CartCubit extends Cubit<CartState> {
     // });
   }
 
-  delITemFRomCart({int product_id}) {
+  delITemFRomCartLocal({int product_id}) {
     log('$product_id');
     log("0000000000000000000000000000");
     Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
@@ -152,7 +219,7 @@ class CartCubit extends Cubit<CartState> {
     String localCart = jsonEncode(cartProducts);
     CacheHelper.setData(key: 'localCart', value: localCart);
     calculateTotalPrice(cartData: myCartlocalModel);
-    emit(CartStateSuccessState());
+    emit(CartSuccessState());
     // Mhelper.postData(data: {
     //   "key": 1234567890,
     // }, url: delItem + "$product_id", token: CacheHelper.getData("token"))
@@ -170,45 +237,137 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
+  void emptyCartProductsLocally() {
+    myCartlocalModel.cartProducts.clear();
+    cartProducts.cartProducts.clear();
+    CacheHelper.removeData('localCart');
+    total = 0.0;
+    cartCount = 0;
+    CacheHelper.setData(key: 'cartCount', value: cartCount);
+    cartCountControlller.add(cartCount);
+    emit(CartSuccessState());
+  }
+
+////////////////////////////////////////////////////**HANDLE CART PART LOCALLY**//////////////////////////////////////////////////////
   make_order(
-      {payment_status,
-      payment_type,
-      sub_total,
-      address_save,
-      address_id,
+      {@required
+          int payment_status, //1-->Payment has been done , 0-->Payment not completed
+      @required
+          int payment_type, // 1-->Pay online , 0-->Pay Cash
+      @required
+          num orderPrice,
+      @required
+          String phone,
+      @required
+          String name,
+      @required
+          String address,
+      @required
+          int deliveryType, //0-->Deliver Order to home , 1-->Recieve order from store
+      @required
+          int countryId,
+      @required
+          int cityId,
       context}) {
     log('${CacheHelper.getData("token")}');
 
     log("0000000000000000000000000000");
-    Mhelper.postData(data: {
-      "key": 1234567890,
-      "payment_status": payment_status,
-      "payment_type": payment_type,
-      "sub_total": sub_total,
-      "address_save": address_save,
-      "address_id": address_id,
-    }, url: make_orderURL, token: CacheHelper.getData("token"))
-        .then((value) {
-      //ScaffoldMessenger.of( scaffoldkey.currentContext).showSnackBar(SnackBar(content:Text(value.data["msg"])));
-      MakeOrderModel makeOrderModel = MakeOrderModel.fromJson(value.data);
-      log("i add it");
-      log(value.data.toString());
-      navigateTo(context, SuccessScr(makeOrderModel));
+    log('Data is:');
+    log('countryId: $countryId');
+    log('cityId: $cityId');
+    log('cipoun id: $copunId');
+    Mhelper.postData(
+      data: {
+        "payment_status": payment_status,
+        "payment_type": payment_type,
+        "sub_total": '$orderPrice',
+        "phone": phone,
+        "name": name,
+        "address": address,
+        if (copunId != null) "promo_code_id": "$copunId",
+        "delivery_type": "$deliveryType"
+      },
+      url: make_orderURL,
+      token: CacheHelper.getData("token"),
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      if (value.data['status']) {
+        //ScaffoldMessenger.of( scaffoldkey.currentContext).showSnackBar(SnackBar(content:Text(value.data["msg"])));
+        MakeOrderModel makeOrderModel = MakeOrderModel.fromJson(value.data);
+        log("i add it");
+        log(value.data.toString());
+        navigateReplacement(context, SuccessScr(makeOrderModel));
+      } else {
+        showToast(
+            text: value.data['msg'],
+            color: Colors.red,
+            location: ToastGravity.CENTER);
+      }
     });
   }
 
-  sendgiftCards({receiver, phone, message, address, type, link, context}) {
-    log('${CacheHelper.getData("token")}');
+  bool isCopunValid;
+  int copunId;
+  checkCopunStatus({@required String copun}) {
+    Mhelper.postData(
+      url: promoCodeURL,
+      query: {'lang': kLanguage},
+      data: {
+        'code': copun,
+      },
+      token: kToken,
+    ).then((value) {
+      log('CUPOUN STATUS' + value.data.toString());
+      if (value.data['status']) {
+        isCopunValid = true;
+        copunId = value.data['data']['code']['id'];
+      } else {
+        isCopunValid = false;
+      }
+      emit(CartSuccessState());
+    });
+  }
 
+  sendgiftCards(
+      {receiver,
+      phone,
+      message,
+      address,
+      type,
+      GlobalKey qrKey,
+      String qrData,
+      int orderId,
+      context}) async {
+    log('${CacheHelper.getData("token")}');
+    File qrImageFile;
+    if (qrData.isNotEmpty) {
+      RenderRepaintBoundary boundary = qrKey.currentContext.findRenderObject();
+      ui.Image image = await boundary.toImage(pixelRatio: 2.5);
+      ByteData byteData =
+          await image.toByteData(format: ui.ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+      final tempDir = await getExternalStorageDirectory();
+      final file = await new File('${tempDir.path}/gift_card.png').create();
+      await file.writeAsBytes(pngBytes);
+
+      qrImageFile = file;
+      log('file=${file.path}');
+      log('qrImageFile=${qrImageFile.path}');
+    }
     log("0000000000000000000000000000");
     Mhelper.postData(data: {
-      "key": 1234567890,
       "receiver": receiver,
       "phone": phone,
-      "address": address,
+      // "address": address,
       "message": message,
       "type": type,
-      "link": link,
+      if (qrImageFile != null)
+        "qr_image": await MultipartFile.fromFile(qrImageFile.path,
+            filename: qrImageFile.path.split('/').last),
+      'id_order': "$orderId",
+      // "link": link,
     }, url: giftCardsURL, token: CacheHelper.getData("token"))
         .then((value) {
       //  ScaffoldMessenger.of( scaffoldkey.currentContext).showSnackBar(SnackBar(content:Text(value.data["msg"])));
@@ -217,14 +376,41 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  void emptyCartProducts() {
-    myCartlocalModel.cartProducts.clear();
-    cartProducts.cartProducts.clear();
-    CacheHelper.removeData('localCart');
-    total = 0.0;
-    cartCount = 0;
-    CacheHelper.setData(key: 'cartCount', value: cartCount);
-    cartCountControlller.add(cartCount);
-    emit(CartStateSuccessState());
+  CitiesLocationsModel allCitiesLocation;
+  getAllLocationsOfCities() {
+    Mhelper.getData(
+      url: locationsURL,
+      query: {
+        'lang': kLanguage,
+      },
+      token: kToken,
+    ).then((value) {
+      allCitiesLocation = CitiesLocationsModel.fromJson(value.data);
+      log('all Locations data is: ${value.data}');
+      emit(CartSuccessState());
+    }).catchError((error) {
+      log('Error on getting all locations data: ${error.toString()}');
+      emit(CartErrorState());
+    });
   }
+
+  CountryList selectedCountry;
+  List<ListCites> allCities = [];
+  void chooseCountry(CountryList chooseCountry) {
+    if (allCities.isNotEmpty) {
+      allCities = [];
+      selectedCity = null;
+    }
+    selectedCountry = chooseCountry;
+    allCities.addAll(selectedCountry.listCites);
+    emit(CartSuccessState());
+  }
+
+  ListCites selectedCity;
+  void chooseCity(ListCites choosenCity) {
+    selectedCity = choosenCity;
+    emit(CartSuccessState());
+  }
+
+
 }

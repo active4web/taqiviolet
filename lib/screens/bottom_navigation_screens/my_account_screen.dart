@@ -230,6 +230,37 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             SizedBox(
                               height: 20,
                             ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width / 4.5),
+                              child: InkWell(
+                                onTap: () {
+                                  cubit.deleteUserAccount(context: context);
+                                },
+                                child: Container(
+                                  height: 50,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.red.withOpacity(0.9),
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(35),
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      "deleteAccount".tr(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
                             // Row(
                             //   children: [
                             //     Expanded(

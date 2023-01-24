@@ -35,6 +35,10 @@ class _VideoServerDisplayState extends State<VideoServerDisplay> {
         showFullscreenButton: false,
         playbackSpeedButtonAvailable: false,
         settingsButtonAvailable: false,
+        placeholderWidget: Container(
+          color: Colors.black45,
+        ),
+        
       ),
     );
   }
@@ -48,9 +52,8 @@ class _VideoServerDisplayState extends State<VideoServerDisplay> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    super.dispose();
     widget.videoPlayerController.dispose();
     _customVideoPlayerController.dispose();
+    super.dispose();
   }
 }
