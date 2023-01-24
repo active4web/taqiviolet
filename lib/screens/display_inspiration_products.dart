@@ -8,15 +8,14 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:safsofa/cubits/inspirationCubit/inspiration_cubit.dart';
 import 'package:safsofa/models/inspiration_model.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
+import 'package:safsofa/shared/components/video_server_display.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 import '../cubits/appCubit/app_cubit.dart';
 import '../cubits/inspirationCubit/inspiration_state.dart';
 import '../shared/components/custom_app_bar_with_search.dart';
 import '../shared/defaults.dart';
-import '../shared/video_server_display.dart';
 
 TextEditingController searchController = TextEditingController();
 
@@ -113,12 +112,15 @@ class _DisplayInspirationProductsState
                                       alignment: AlignmentDirectional.topEnd,
                                       children: [
                                         VideoServerDisplay(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  InspirationCubit.get(context)
-                                                      .inspirationData[index]
-                                                      .image),
-                                        ),
+                                            videoUrl:
+                                                InspirationCubit.get(context)
+                                                    .inspirationData[index]
+                                                    .image
+                                            // VideoPlayerController.network(
+                                            //     InspirationCubit.get(context)
+                                            //         .inspirationData[index]
+                                            //         .image),
+                                            ),
                                         InkWell(
                                           onTap: () {
                                             if (kToken != null &&
@@ -261,11 +263,13 @@ class _DisplayInspirationProductsState
                                       alignment: AlignmentDirectional.topEnd,
                                       children: [
                                         VideoServerDisplay(
-                                          videoPlayerController:
-                                              VideoPlayerController.network(
-                                                  inspirationSearchResult[index]
-                                                      .image),
-                                        ),
+                                            videoUrl:
+                                                inspirationSearchResult[index]
+                                                    .image
+                                            // VideoPlayerController.network(
+                                            //     inspirationSearchResult[index]
+                                            //         .image),
+                                            ),
                                         InkWell(
                                           onTap: () {
                                             if (kToken != null &&

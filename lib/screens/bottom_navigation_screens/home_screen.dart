@@ -13,6 +13,7 @@ import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/notifications_screen.dart';
+import 'package:safsofa/shared/components/video_server_display.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
@@ -20,12 +21,10 @@ import 'package:safsofa/shared/components/dialogs.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../cubits/subCategory/sub_cat_cubit.dart';
 import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 import '../../shared/components/store_components/product_cards.dart';
-import '../../shared/video_server_display.dart';
 import '../searchScreen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -267,17 +266,24 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        width: double.infinity,
-                        height: MediaQuery.of(context).size.width / 1.6,
-                        child: VideoServerDisplay(
-                          videoPlayerController: VideoPlayerController.network(
-                            AppCubit.get(context)
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.width / 1.6,
+                          child: VideoServerDisplay(
+                            videoUrl: AppCubit.get(context)
                                 .constructionLink
                                 .data
                                 .videoLink,
+                          )
+
+                          // VideoServerDisplay(
+                          //   videoPlayerController: VideoPlayerController.network(
+                          //     AppCubit.get(context)
+                          //         .constructionLink
+                          //         .data
+                          //         .videoLink,
+                          //   ),
+                          // ),
                           ),
-                        ),
-                      ),
                       SizedBox(
                         height: 30,
                       ),
