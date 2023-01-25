@@ -161,8 +161,8 @@
   "validCoupon": "Buono valido",
   "invalidCoupon": "Buono non valido",
   "cashBack": "Rimborso",
-  "country":"Paese",
-  "city":"Città",
+  "country": "Paese",
+  "city": "Città",
   "deliveryData": "Dati di consegna",
   "yourOrderHasBeenCompletedSuccessfully": "Il tuo ordine è stato completato con successo",
   "orderNo": "Numero d'ordine.",
@@ -173,5 +173,6 @@
   "pleaseSelectTheCountry": "Si prega di selezionare il paese",
   "pleaseSelectACity": "Seleziona una città",
   "deleteAccount": "eliminare l'account",
-  "yourAccountHasBeenDeletedSuccessfully": "Il tuo account è stato eliminato con successo"
+  "yourAccountHasBeenDeletedSuccessfully": "Il tuo account è stato eliminato con successo",
+  "pictures": "Immagini"
 }

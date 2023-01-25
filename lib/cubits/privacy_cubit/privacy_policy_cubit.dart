@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:safsofa/cubits/SuccessStoriesCubit/privacy_policy_state.dart';
+import 'package:safsofa/cubits/privacy_cubit/privacy_policy_state.dart';
 
 import '../../models/privacy_policy_model.dart';
 import '../../network/remote/dio_Mhelper.dart';

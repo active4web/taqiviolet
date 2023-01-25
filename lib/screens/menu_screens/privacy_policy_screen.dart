@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 
-import '../../cubits/SuccessStoriesCubit/privacy_policy_cubit.dart';
-import '../../cubits/SuccessStoriesCubit/privacy_policy_state.dart';
+import '../../cubits/privacy_cubit/privacy_policy_cubit.dart';
+import '../../cubits/privacy_cubit/privacy_policy_state.dart';
 import '../../shared/constants.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {

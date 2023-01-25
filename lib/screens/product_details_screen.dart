@@ -984,11 +984,15 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  cubit.getProductReviews(
-                                      productId: cubit.productDetailsModel.data
-                                          .productDetails[0].id);
+                                  // cubit.getProductReviews(
+                                  //     productId: cubit.productDetailsModel.data
+                                  //         .productDetails[0].id);
                                   navigateTo(
-                                      context, ReviewsAndCommentsScreen());
+                                      context,
+                                      ReviewsAndCommentsScreen(
+                                        productId: cubit.productDetailsModel
+                                            .data.productDetails[0].id,
+                                      ));
                                 },
                                 child: Row(
                                   mainAxisAlignment:

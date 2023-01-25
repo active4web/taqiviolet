@@ -25,7 +25,7 @@ import 'package:safsofa/shared/router.dart';
 
 import 'cubits/AllDataStoreProductCatSub/all_data_cat_sub_pro_cubit.dart';
 import 'cubits/OrderReceived/order_received_cubit.dart';
-import 'cubits/SuccessStoriesCubit/privacy_policy_cubit.dart';
+import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
 import 'cubits/aboutCubit/about_cubit.dart';
 import 'cubits/authCubit/auth_cubit.dart';
 import 'cubits/cartCubit/cart_cubit.dart';

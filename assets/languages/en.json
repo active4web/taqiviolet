@@ -179,5 +179,6 @@
   "pleaseSelectTheCountry":"Please select the country",
   "pleaseSelectACity":"Please select a city",
   "deleteAccount":"Delete account",
-  "yourAccountHasBeenDeletedSuccessfully":"Your account has been deleted successfully"
+  "yourAccountHasBeenDeletedSuccessfully":"Your account has been deleted successfully",
+  "pictures":"Pictures"
 }
