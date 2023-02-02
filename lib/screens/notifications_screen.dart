@@ -21,7 +21,7 @@ class NotificationsScreen extends StatelessWidget {
         ? LoginScreen()
         : Scaffold(
             appBar: CustomAppBar(
-              title: 'Notifications'.tr(),
+              title: "notifications".tr(),
             ),
             body: BlocBuilder<AppCubit, AppStates>(
               builder: (context, state) {
@@ -41,25 +41,29 @@ class NotificationsScreen extends StatelessWidget {
                           padding: const EdgeInsets.all(22),
                           child: Column(
                             children: [
-                              Row(
-                                children: [
-                                  TextButton(
-                                    child: Text(
-                                      'DeleteAll'.tr(),
-                                      style:
-                                          TextStyle(color: Color(0xffD0021B)),
-                                    ),
-                                    onPressed: () {
-                                      cubit.delAllNotifications();
-                                    },
-                                  )
-                                ],
-                              ),
-                              SizedBox(
-                                height: 20,
-                              ),
+                              if (cubit.notificationsListModel.data.isNotEmpty)
+                                Row(
+                                  children: [
+                                    TextButton(
+                                      child: Text(
+                                        "DeleteAll".tr(),
+                                        style:
+                                            TextStyle(color: Color(0xffD0021B)),
+                                      ),
+                                      onPressed: () {
+                                        cubit.delAllNotifications();
+                                      },
+                                    )
+                                  ],
+                                ),
+                              if (cubit.notificationsListModel.data.isNotEmpty)
+                                SizedBox(
+                                  height: 20,
+                                ),
                               cubit.notificationsListModel.data.length == 0
-                                  ? Text("لا يوجد اشعارات").tr()
+                                  ? Align(
+                                      alignment: Alignment.center,
+                                      child: Text("NoNotification".tr()))
                                   : ListView.separated(
                                       itemCount: cubit
                                           .notificationsListModel.data.length,

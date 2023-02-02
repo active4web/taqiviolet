@@ -34,11 +34,15 @@ class Content {
     this.offerImage,
     this.videoLink,
     this.productList,
+    this.orderId,
+    this.inspirationImage,
   });
 
   Content.fromJson(dynamic json) {
     offerImage = json['offerImage'];
     videoLink = json['videoLink'];
+    orderId = json['order_id'];
+    inspirationImage = json['insp_mop_img'];
     if (json['product_list'] != null) {
       productList = [];
       json['product_list'].forEach((v) {
@@ -49,11 +53,15 @@ class Content {
   String offerImage;
   String videoLink;
   List<ProductList> productList;
+  int orderId;
+  String inspirationImage;
 
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['offerImage'] = offerImage;
     map['videoLink'] = videoLink;
+    map['order_id'] = orderId;
+    map['insp_mop_img'] = inspirationImage;
     if (productList != null) {
       map['product_list'] = productList.map((v) => v.toJson()).toList();
     }

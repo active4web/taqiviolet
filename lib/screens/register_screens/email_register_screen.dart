@@ -4,8 +4,6 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
@@ -26,13 +24,15 @@ class EmailRegisterScreen extends StatelessWidget {
   TextEditingController regEEmailController = TextEditingController();
   TextEditingController regEAddressController = TextEditingController();
   TextEditingController regEPasswordContoller = TextEditingController();
+  TextEditingController confirmRegEPasswordController = TextEditingController();
+
   bool passwordValidate = false;
   var formRegKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit()..getDeviceToken(),
+      create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -147,23 +147,66 @@ class EmailRegisterScreen extends StatelessWidget {
                         CustomPasswordFormField(
                           hintText: 'Password'.tr(),
                           controller: regEPasswordContoller,
+                          validation: (String pass) {
+                            if (pass.isEmpty) {
+                              return 'thisFieldCanNotBeEmpty'.tr();
+                            } else {
+                              bool result = cubit.validatePassword(pass);
+                              if (result) {
+                                return null;
+                              } else {
+                                return "passwordInvalidMessage".tr();
+                              }
+                            }
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: LinearProgressIndicator(
+                            value: cubit.password_strength,
+                            backgroundColor: Colors.grey[300],
+                            minHeight: 5,
+                            color: cubit.password_strength <= 1 / 4
+                                ? Colors.red
+                                : cubit.password_strength == 2 / 4
+                                    ? Colors.yellow
+                                    : cubit.password_strength == 3 / 4
+                                        ? Colors.blue
+                                        : Colors.green,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        FlutterPwValidator(
-                          controller: regEPasswordContoller,
-                          minLength: 6,
-                          uppercaseCharCount: 1,
-                          numericCharCount: 1,
-                          specialCharCount: 1,
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: MediaQuery.of(context).size.height / 6,
-                          onSuccess: () {
-                            passwordValidate = true;
-                          },
-                          onFail: () {
-                            passwordValidate = false;
+                        // FlutterPwValidator(
+                        //   controller: regEPasswordContoller,
+                        //   minLength: 6,
+                        //   uppercaseCharCount: 1,
+                        //   numericCharCount: 1,
+                        //   specialCharCount: 1,
+                        //   width: MediaQuery.of(context).size.width / 1.2,
+                        //   height: MediaQuery.of(context).size.height / 6,
+                        //   onSuccess: () {
+                        //     passwordValidate = true;
+                        //   },
+                        //   onFail: () {
+                        //     passwordValidate = false;
+                        //   },
+                        // ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CustomPasswordFormField(
+                          hintText: "confirmPassword".tr(),
+                          controller: confirmRegEPasswordController,
+                          validation: (String value) {
+                            if (value == null || value.isEmpty) {
+                              return "thisFieldCanNotBeEmpty".tr();
+                            } else if (value != regEPasswordContoller.text) {
+                              return "passwordDoesNotMatch".tr();
+                            } else {
+                              return null;
+                            }
                           },
                         ),
                         // Row(

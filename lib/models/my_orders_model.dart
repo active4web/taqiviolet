@@ -35,51 +35,55 @@ class MyOrdersData {
   String codeOrder;
   int clientId;
   int storeId;
-  int addressId;
-  Null promoCodeId;
-  int deliveryCost;
-  int subTotal;
-  int total;
+  String address;
+  dynamic promoCodeVal;
+  num deliveryCost;
+  num subTotal;
+  num total;
   String status;
   String paymentStatus;
   String paymentType;
-  int isActive;
-  String createdAt;
-  String updatedAt;
+  String userName;
+  String userPhone;
+  String orderDate;
+  String orderDeliveryDate;
 
-  MyOrdersData(
-      {this.id,
-        this.codeOrder,
-        this.clientId,
-        this.storeId,
-        this.addressId,
-        this.promoCodeId,
-        this.deliveryCost,
-        this.subTotal,
-        this.total,
-        this.status,
-        this.paymentStatus,
-        this.paymentType,
-        this.isActive,
-        this.createdAt,
-        this.updatedAt});
+  MyOrdersData({
+    this.id,
+    this.codeOrder,
+    this.clientId,
+    this.storeId,
+    this.address,
+    this.promoCodeVal,
+    this.deliveryCost,
+    this.subTotal,
+    this.total,
+    this.status,
+    this.paymentStatus,
+    this.paymentType,
+    this.userName,
+    this.userPhone,
+    this.orderDate,
+    this.orderDeliveryDate,
+  });
 
   MyOrdersData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     codeOrder = json['code_order'];
     clientId = json['client_id'];
     storeId = json['store_id'];
-    addressId = json['address_id'];
-    promoCodeId = json['promo_code_id'];
+    address = json['address_id'];
+    promoCodeVal = json['promo_code_value'];
     deliveryCost = json['delivery_cost'];
     subTotal = json['sub_total'];
     total = json['total'];
     status = json['status'];
     paymentStatus = json['payment_status'];
     paymentType = json['payment_type'];
-    isActive = json['is_active'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    userName = json['username'];
+    userPhone = json['userphone'];
+    orderDate = json['order_date'];
+    orderDeliveryDate = json['delivery_date'];
   }
 
   Map<String, dynamic> toJson() {
@@ -88,17 +92,18 @@ class MyOrdersData {
     data['code_order'] = this.codeOrder;
     data['client_id'] = this.clientId;
     data['store_id'] = this.storeId;
-    data['address_id'] = this.addressId;
-    data['promo_code_id'] = this.promoCodeId;
+    data['address_id'] = this.address;
+    data['promo_code_value'] = this.promoCodeVal;
     data['delivery_cost'] = this.deliveryCost;
     data['sub_total'] = this.subTotal;
     data['total'] = this.total;
     data['status'] = this.status;
     data['payment_status'] = this.paymentStatus;
     data['payment_type'] = this.paymentType;
-    data['is_active'] = this.isActive;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    data['username'] = this.userName;
+    data['userphone'] = this.userPhone;
+    data['order_date'] = this.orderDate;
+    data['delivery_date'] = this.orderDeliveryDate;
     return data;
   }
 }

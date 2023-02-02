@@ -1,19 +1,19 @@
 import 'dart:developer';
+
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/material.dart ';
 import 'package:flutter/material.dart';
+import 'package:flutter/material.dart ';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/cartCubit/cart_state.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_drop_down.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
-
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -275,6 +275,9 @@ class CheckOutScreen extends StatelessWidget {
                                                     cityId = null;
                                                   },
                                                 ),
+                                              ),
+                                              SizedBox(
+                                                width: 10,
                                               ),
                                               Expanded(
                                                 child: CustomDropDown(

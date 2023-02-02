@@ -1,13 +1,10 @@
-import 'dart:developer';
-
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
-import 'package:safsofa/screens/favourites_screen.dart';
-import 'package:safsofa/screens/my_orders_screen.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/my_orders_screen.dart';
 import 'package:safsofa/screens/my_profile_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -18,7 +15,6 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Lists.dart';
-import '../orderReceived.dart';
 
 class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({Key key}) : super(key: key);

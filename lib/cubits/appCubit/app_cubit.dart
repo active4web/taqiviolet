@@ -2,15 +2,16 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/models/cart_models/cart_local_model/cart_local_model.dart';
 import 'package:safsofa/models/construction_link_model.dart';
 import 'package:safsofa/models/departments_model.dart';
 import 'package:safsofa/models/favorites_lists_model.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/models/homeModel/main_cat_model.dart' as homeMainCat;
 import 'package:safsofa/models/homeModel/main_home_banner.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
@@ -27,12 +28,10 @@ import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
 import 'package:safsofa/screens/favourites_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
-
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../models/my_products_details_model.dart';
-import 'package:easy_localization/easy_localization.dart';
 import '../cartCubit/cart_cubit.dart';
 
 class AppCubit extends Cubit<AppStates> {
@@ -217,20 +216,10 @@ class AppCubit extends Cubit<AppStates> {
   ConstructionLinkModel constructionLink = ConstructionLinkModel();
   void getConstructionData() {
     emit(GetConstructionLoadingState());
-    Mhelper.getData(url: '/api/construction_link', query: {
+    Mhelper.getData(url: '/api/construction_link', token: kToken, query: {
       'lang': kLanguage,
     }).then((value) {
       constructionLink = ConstructionLinkModel.fromJson(value.data);
-      // videoController = YoutubePlayerController(
-      //   initialVideoId: constructionLink.data.videoLink,
-      //   flags: YoutubePlayerFlags(
-      //     autoPlay: false,
-      //     loop: true,
-      //     hideThumbnail: true,
-      //     mute: true,
-      //   ),
-      // );
-
       emit(GetConstructionSuccessState());
     }).then((error) {
       emit(GetConstructionErrorState());
@@ -963,12 +952,6 @@ class AppCubit extends Cubit<AppStates> {
     // getFavouritesProducts();
     // getCartData();
   }
-
-  File file1;
-
-  File file2;
-
-  File file3;
 
   Future<XFile> pickImage(file) async {
     final ImagePicker _picker = ImagePicker();

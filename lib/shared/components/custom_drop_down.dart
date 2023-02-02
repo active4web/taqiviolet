@@ -1,6 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
-import 'package:safsofa/shared/constants.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
   final T value;
@@ -27,7 +26,11 @@ class CustomDropDown<T> extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
-      style: TextStyle(color: textColor, fontFamily: 'Tajawal'),
+      style: TextStyle(
+        color: textColor,
+        fontFamily: 'Tajawal',
+        overflow: TextOverflow.ellipsis,
+      ),
 
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,

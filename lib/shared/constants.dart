@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:safsofa/shared/router.dart';
@@ -48,11 +47,13 @@ const String delItem = "/api/deleteItemCart?id=";
 const String make_orderURL = "api/make_order";
 const String promoCodeURL = "api/PromoCode";
 
-const String myOrdersURL = "api/myOrders";
+const String waitingOrdersURL = "api/waiting_myOrders";
+const String currentOrdersURL = "api/current_myOrders";
+const String oldOrdersURL = "api/old_myOrders";
 const String giftCardsURL = "api/giftCards";
 const String phonesURL = "api/phones";
 const String policyURL = "api/policy";
-const String orderDetailsURL = "/api/orderDetails";
+const String orderDetailsURL = "api/orderDetails";
 const String mainListURL = "api/mainList";
 const String createRosterURL = "api/createRoster";
 
@@ -74,7 +75,7 @@ const String deleteAccountURL = 'api/delete_account';
 const Color kDarkGoldColor = Color(0xffBA8B31);
 const Color kLightGoldColor = Color(0xffF3E184);
 const Color kBGColor = Color(0xfff4f4f4);
-const Color kCustomBlack=Color(0xff393846);
+const Color kCustomBlack = Color(0xff393846);
 const Gradient kBlackGradient =
     RadialGradient(colors: [Color(0xff4D4D4D), Colors.black], radius: 4);
 const Gradient kGoldGradient =

@@ -1,20 +1,13 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:flutter/cupertino.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
-import 'package:safsofa/cubits/favorites_cubit/favorites_state.dart';
-import 'package:safsofa/screens/display_products_screen.dart';
-import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/constants.dart';
 
 import '../models/cart_models/cart_local_model/cart_local_model.dart';
 import 'components/custom_button.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 void navigateTo(BuildContext context, Widget screen) {
   Navigator.push(context, MaterialPageRoute(builder: (context) => screen));
@@ -39,7 +32,7 @@ Uint8List decodeImage(String image) {
 Future<bool> showToast({
   @required String text,
   @required Color color,
-  ToastGravity location= ToastGravity.BOTTOM,
+  ToastGravity location = ToastGravity.BOTTOM,
 }) {
   return Fluttertoast.showToast(
       msg: text,
@@ -190,4 +183,21 @@ void printLongString(String text) {
       .forEach((RegExpMatch match) => print(match.group(0)));
 }
 
-
+String handleOrderStatusMessage({@required String statusVal}) {
+  switch (statusVal) {
+    case '0':
+      return "pending".tr();
+    case '1':
+      return "preparing".tr();
+    case '2':
+      return "delivering".tr();
+    case '3':
+      return "received".tr();
+    case '4':
+      return "cancelled".tr();
+    case '5':
+      return "rejected".tr();
+    default:
+      return 'Un Expected status';
+  }
+}

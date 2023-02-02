@@ -1,12 +1,13 @@
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:intl/intl.dart';
 import 'package:safsofa/cubits/reviews_cubit/cubit/reviews_comments_state.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import '../cubits/reviews_cubit/cubit/reviews_comments_cubit.dart';
-import 'package:intl/intl.dart';
 
 class ReviewsAndCommentsScreen extends StatelessWidget {
   final int productId;
@@ -120,12 +121,30 @@ class CommentItem extends StatelessWidget {
                       fontSize: 20,
                       fontWeight: FontWeight.w700),
                 ),
-                Text(
-                  DateFormat.yMd()
-                      .add_jm()
-                      .format(DateTime.parse(commentCreationDate)),
-                  style: TextStyle(color: Colors.blue),
-                )
+                Wrap(
+                  direction: Axis.vertical,
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: [
+                    Text(
+                      DateFormat("yyyy-MM-dd", kLanguage)
+                          .format(DateTime.parse(commentCreationDate))
+                          .toString(),
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                    Text(
+                      DateFormat.jm(kLanguage)
+                          .format(DateTime.parse(commentCreationDate))
+                          .toString(),
+                      style: TextStyle(color: Colors.blue),
+                    ),
+                  ],
+                ),
+                // Text(
+                //   '${DateFormat(
+                //     "yyyy-MM-dd", /*kLanguage*/
+                //   ).format(DateTime.parse(commentCreationDate))} - ${DateFormat.jm(/*kLanguage*/).format(DateTime.parse(commentCreationDate))} ',
+                //   style: TextStyle(color: Colors.blue),
+                // )
               ],
             ),
             RatingBarIndicator(

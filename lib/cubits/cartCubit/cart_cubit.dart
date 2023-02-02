@@ -1,20 +1,21 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
+import 'dart:typed_data';
 import 'dart:ui' as ui;
+
+import 'package:dio/dio.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'dart:typed_data';
-
-import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:safsofa/models/cart_models/remote_cart_model/cart_product_prices_model.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
-import 'package:easy_localization/easy_localization.dart';
+
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
 import '../../models/make_order_model.dart';
 import '../../models/my_cart_model.dart';
@@ -23,7 +24,6 @@ import '../../screens/success_scr.dart';
 import '../../shared/constants.dart';
 import '../../shared/defaults.dart';
 import 'cart_state.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class CartCubit extends Cubit<CartState> {
   CartCubit() : super(CartStateInitial());
@@ -276,6 +276,7 @@ class CartCubit extends Cubit<CartState> {
     log('countryId: $countryId');
     log('cityId: $cityId');
     log('cipoun id: $copunId');
+    log('order price: $orderPrice');
     Mhelper.postData(
       data: {
         "payment_status": payment_status,
@@ -411,6 +412,4 @@ class CartCubit extends Cubit<CartState> {
     selectedCity = choosenCity;
     emit(CartSuccessState());
   }
-
-
 }

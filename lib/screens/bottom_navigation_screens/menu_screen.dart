@@ -1,5 +1,4 @@
 import 'package:easy_localization/src/public_ext.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
@@ -7,11 +6,10 @@ import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/language_screen.dart';
 import 'package:safsofa/screens/display_inspiration_products.dart';
 import 'package:safsofa/screens/menu_screens/about_screen.dart';
-import 'package:safsofa/screens/menu_screens/policies_screens/policies_screen.dart';
 import 'package:safsofa/screens/menu_screens/contact_us_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
+import 'package:safsofa/screens/menu_screens/policies_screens/policies_screen.dart';
 import 'package:safsofa/screens/menu_screens/stores/stores_screen.dart';
-
 import 'package:safsofa/screens/menu_screens/taqi_work_screen.dart';
 import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
@@ -24,7 +22,7 @@ class MenuScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color(0xff393846),
       body: BlocProvider(
         create: (context) => AuthCubit(),
         child: BlocConsumer<AuthCubit, AuthStates>(
@@ -41,7 +39,7 @@ class MenuScreen extends StatelessWidget {
                       height: MediaQuery.of(context).size.height * 0.2,
                       width: MediaQuery.of(context).size.width * 0.6,
                       decoration: BoxDecoration(
-                        color: Colors.black87,
+                        color: Color(0xff393846),
                         image: DecorationImage(
                           image: AssetImage('assets/images/logo.png'),
                         ),
@@ -237,7 +235,7 @@ class MenuTile extends StatelessWidget {
         padding: EdgeInsets.all(10),
         height: MediaQuery.of(context).size.height * 0.13,
         decoration: BoxDecoration(
-            color: Colors.black,
+            color: Color(0xff393846),
             border: Border.all(color: kLightGoldColor),
             borderRadius: BorderRadius.circular(10)),
         child: SingleChildScrollView(

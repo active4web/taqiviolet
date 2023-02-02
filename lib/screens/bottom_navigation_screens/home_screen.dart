@@ -8,22 +8,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
 import 'package:safsofa/screens/display_inspiration_products.dart';
 import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/notifications_screen.dart';
-import 'package:safsofa/shared/components/video_server_display.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/dialogs.dart';
+import 'package:safsofa/shared/components/video_server_display.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../cubits/subCategory/sub_cat_cubit.dart';
-import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 import '../../shared/components/store_components/product_cards.dart';
 import '../searchScreen.dart';
 
@@ -32,12 +32,95 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TechnicalSupportCubit contactsCubit = TechnicalSupportCubit.get(context);
-    contactsCubit.getContactData();
-    return BlocBuilder<AppCubit, AppStates>(
+    AppCubit cubit = AppCubit.get(context);
+    return BlocConsumer<AppCubit, AppStates>(
+      listener: (context, state) {
+        if (state is GetConstructionSuccessState) {
+          log('ORDER ID ${cubit.constructionLink.data.orderId}');
+          if (cubit.constructionLink.data.orderId > 0) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "pleaseRateYourPreviousOrder".tr(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              InkWell(
+                                onTap: () => Navigator.pop(context),
+                                child: Container(
+                                  alignment: AlignmentDirectional.center,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        Colors.grey.shade200.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      "cancel".tr(),
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () => navigateReplacement(
+                                    context,
+                                    OrderDetailsSCR(
+                                      id: AppCubit.get(context)
+                                          .constructionLink
+                                          .data
+                                          .orderId,
+                                    )),
+                                child: Container(
+                                  alignment: AlignmentDirectional.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.green.withOpacity(0.6),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12),
+                                    child: Text(
+                                      "rate".tr(),
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  });
+            });
+          }
+        }
+      },
       builder: (context, state) {
-        AppCubit cubit = AppCubit.get(context);
-        state is AppInitial ?? cubit.fetchData();
+        // state is AppInitial ?? cubit.fetchData();
         return WillPopScope(
           onWillPop: () => displayLogoutDialog(
               context, "closeApplication".tr(), "wantExit".tr()),
@@ -226,8 +309,8 @@ class HomeScreen extends StatelessWidget {
                                       },
                                       //cubit.homeMainCatList[1].name.ar,
                                       //  jhdudhfiurhfirci
-                                      image:
-                                          contactsCubit.contactsData.data.image
+                                      image: cubit.constructionLink.data
+                                          .inspirationImage
 
                                       //  cubit.homeMainCatList[2].image
                                       //'https://taqiviolet.com/public/images/inspiration/47hFDvRXrgNpYoenB4H8TazwQISSnSpE1ZORkBuN.jpeg',
@@ -888,8 +971,9 @@ class HomeCard extends StatelessWidget {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height / 25,
           decoration: BoxDecoration(
-              //3A4652
-              color: Color(0xff5f5c7d),
+              //Color(0xff3A4652)
+              //Color(0xff5f5c7d)
+              color: Color(0xff393846),
               borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(20),
                 bottomRight: Radius.circular(20),

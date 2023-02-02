@@ -10,7 +10,7 @@ class ContactUs {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data =   new Data.fromJson(json['data'])  ;
+    data = new Data.fromJson(json['data']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,17 +33,16 @@ class Data {
   String twitterLink;
   String phone;
   String mail;
-  String image;
 
-  Data(
-      {this.iD,
-        this.youtubeLink,
-        this.tiktokLink,
-        this.instagramLink,
-        this.twitterLink,
-        this.phone,
-        this.mail,
-        this.image});
+  Data({
+    this.iD,
+    this.youtubeLink,
+    this.tiktokLink,
+    this.instagramLink,
+    this.twitterLink,
+    this.phone,
+    this.mail,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
@@ -53,7 +52,6 @@ class Data {
     twitterLink = json['Twitter-link'];
     phone = json['Phone'];
     mail = json['Mail'];
-    image = json['Image'];
   }
 
   Map<String, dynamic> toJson() {
@@ -65,7 +63,7 @@ class Data {
     data['Twitter-link'] = this.twitterLink;
     data['Phone'] = this.phone;
     data['Mail'] = this.mail;
-    data['Image'] = this.image;
+
     return data;
   }
 }

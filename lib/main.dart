@@ -8,16 +8,18 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
-import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
 import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
+import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
 import 'package:safsofa/cubits/storesCubit/stores_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
+import 'package:safsofa/push_notifcation.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -25,7 +27,6 @@ import 'package:safsofa/shared/router.dart';
 
 import 'cubits/AllDataStoreProductCatSub/all_data_cat_sub_pro_cubit.dart';
 import 'cubits/OrderReceived/order_received_cubit.dart';
-import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
 import 'cubits/aboutCubit/about_cubit.dart';
 import 'cubits/authCubit/auth_cubit.dart';
 import 'cubits/cartCubit/cart_cubit.dart';
@@ -38,7 +39,7 @@ import 'cubits/mobile_cubit.dart';
 import 'cubits/my_orders_cubit.dart';
 import 'cubits/onbordingCubit/onboarding_cubit.dart';
 import 'cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
-import 'cubits/order_details_cubit.dart';
+import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
 import 'cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
 import 'models/cart_models/cart_local_model/cart_local_model.dart';
@@ -53,27 +54,43 @@ import 'network/local/cache_helper.dart';
 //   }
 // }
 
-Future<void> getDataInBackground(RemoteMessage message) async {
-  log("on background: ${message.data.toString()}");
-  showToast(text: "${message.data.toString()}", color: Colors.green);
-}
+// Future<void> getDataInBackground(RemoteMessage message) async {
+//   log("on background: ${message.data.toString()}");
+//   showToast(text: "${message.data.toString()}", color: Colors.green);
+// }
 
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   // If you're going to use other Firebase services in the background, such as Firestore,
+//   // make sure you call `initializeApp` before using other Firebase services.
+//
+//   log("Handling a background message: ${message.notification.title}");
+//   log("Handling a background message: ${message.messageId}");
+// }
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
 
-  log("Handling a background message: ${message.notification.title}");
-  log("Handling a background message: ${message.messageId}");
+  print("Handling a background message: ${message.messageId}");
 }
 
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await CacheHelper.init();
+  await EasyLocalization.ensureInitialized();
+  Mhelper.init();
+  String FCM = await FirebaseMessaging.instance.getToken();
+  log('FCM TOKEN');
+  CacheHelper.setData(key: 'FCM', value: FCM);
+  log('${CacheHelper.getData('FCM')}');
+  log('*' * 50);
   await FirebaseMessaging.onBackgroundMessage(
       _firebaseMessagingBackgroundHandler);
-  Mhelper.init();
-  await EasyLocalization.ensureInitialized();
-  await CacheHelper.init();
+  await PushNotificationManagger.initialize(flutterLocalNotificationsPlugin);
+
   if (CacheHelper.getData('localCart') != null) {
     cartProducts =
         CartLocalModel.fromJson(jsonDecode(CacheHelper.getData('localCart')));
@@ -93,10 +110,10 @@ Future<void> main() async {
   //    log("${event.data.toString()}");
   //    showToast(text: "On app opened:${event.data.toString()}", color: Colors.green);
   //  });
-  //  FirebaseMessaging.onMessage.listen((event) {
-  //    log("on message: ${event.data.toString()}");
-  //    showToast(text: "${event.data.toString()}", color: Colors.green);
-  //  });
+  // FirebaseMessaging.onMessage.listen((event) {
+  //   log("on message: ${event.data.toString()}");
+  //   // showToast(text: "${event.data.toString()}", color: Colors.green);
+  // });
   //
   // FirebaseMessaging.onBackgroundMessage(getDataInBackground);
   log('$kToken');
@@ -171,9 +188,6 @@ class MyApp extends StatelessWidget {
           create: (context) => ContactsCubit(),
         ),
         BlocProvider(
-          create: (context) => OrderDetailsCubit(),
-        ),
-        BlocProvider(
           create: (context) => AboutCubit(),
         ),
         BlocProvider(
@@ -191,11 +205,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => TaqiWorkCubit(),
         ),
-        // BlocProvider(
-        //   create: (context) => InspirationCubit(),
-        // ),
         BlocProvider(create: (context) => AppCubit()..fetchData()),
-        BlocProvider(create: (context) => AuthCubit()..getDeviceToken()),
+        BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => SubCatCubit()),
         BlocProvider(create: (context) => StoresCubit()),

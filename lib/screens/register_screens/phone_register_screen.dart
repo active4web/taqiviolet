@@ -4,7 +4,6 @@ import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_pw_validator/flutter_pw_validator.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
@@ -26,19 +25,21 @@ class PhoneRegisterScreen extends StatelessWidget {
   TextEditingController regPhPhoneContoller = TextEditingController();
   TextEditingController regPhAddressController = TextEditingController();
   TextEditingController regPhPasswordController = TextEditingController();
+  TextEditingController confirmRegPhPasswordController =
+      TextEditingController();
   bool passwordValidate = false;
   var formRegPhone = GlobalKey<FormState>();
   String countryCode = '';
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit()..getDeviceToken(),
+      create: (context) => AuthCubit(),
       child: BlocConsumer<AuthCubit, AuthStates>(
         listener: (context, state) {},
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           if (state is PhoneSignupSuccessState) {
-             CacheHelper.setData(
+            CacheHelper.setData(
                     key: 'token', value: state.signUpModel.data.token)
                 .then((value) {
               kToken = CacheHelper.getData('token');
@@ -192,23 +193,48 @@ class PhoneRegisterScreen extends StatelessWidget {
                         CustomPasswordFormField(
                           hintText: 'Password'.tr(),
                           controller: regPhPasswordController,
+                          validation: (String pass) {
+                            if (pass.isEmpty) {
+                              return 'thisFieldCanNotBeEmpty'.tr();
+                            } else {
+                              bool result = cubit.validatePassword(pass);
+                              if (result) {
+                                return null;
+                              } else {
+                                return "passwordInvalidMessage".tr();
+                              }
+                            }
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(12.0),
+                          child: LinearProgressIndicator(
+                            value: cubit.password_strength,
+                            backgroundColor: Colors.grey[300],
+                            minHeight: 5,
+                            color: cubit.password_strength <= 1 / 4
+                                ? Colors.red
+                                : cubit.password_strength == 2 / 4
+                                    ? Colors.yellow
+                                    : cubit.password_strength == 3 / 4
+                                        ? Colors.blue
+                                        : Colors.green,
+                          ),
                         ),
                         SizedBox(
                           height: 10,
                         ),
-                        FlutterPwValidator(
-                          controller: regPhPasswordController,
-                          minLength: 6,
-                          uppercaseCharCount: 1,
-                          numericCharCount: 1,
-                          specialCharCount: 1,
-                          width: MediaQuery.of(context).size.width / 1.2,
-                          height: MediaQuery.of(context).size.height / 6,
-                          onSuccess: () {
-                            passwordValidate = true;
-                          },
-                          onFail: () {
-                            passwordValidate = false;
+                        CustomPasswordFormField(
+                          hintText: "confirmPassword".tr(),
+                          controller: confirmRegPhPasswordController,
+                          validation: (String value) {
+                            if (value == null || value.isEmpty) {
+                              return "thisFieldCanNotBeEmpty".tr();
+                            } else if (value != regPhPasswordController.text) {
+                              return "passwordDoesNotMatch".tr();
+                            } else {
+                              return null;
+                            }
                           },
                         ),
                         // Row(

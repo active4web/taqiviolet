@@ -11,10 +11,10 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.keyboardType = TextInputType.text,
     this.validate,
-    this.fillColor=Colors.white,
-    this.hintColor= Colors.white54,
-    this.textColor= Colors.white,
-    this.cursorColor= Colors.white,
+    this.fillColor = Colors.white,
+    this.hintColor = Colors.white54,
+    this.textColor = Colors.white,
+    this.cursorColor = Colors.white,
   }) : super(key: key);
 
   final String hintText;
@@ -22,10 +22,10 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final TextInputType keyboardType;
   final String Function(String) validate;
- final Color fillColor;
- final Color hintColor;
- final Color textColor;
- final Color cursorColor;
+  final Color fillColor;
+  final Color hintColor;
+  final Color textColor;
+  final Color cursorColor;
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +96,7 @@ class CustomPasswordFormField extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: hintText,
                 errorStyle: errorStyle,
+                errorMaxLines: 2,
                 hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
                 suffixIcon: IconButton(
                   icon: Icon(
