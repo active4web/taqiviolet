@@ -1,11 +1,13 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/screens/chat_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
@@ -286,6 +288,113 @@ class TechnicalSupportScreen extends StatelessWidget {
                   //   ],
                   // ),
                   ),
+          floatingActionButton: state is! GetContactUsSuccessState
+              ? SizedBox()
+              : FloatingActionButton(
+                  onPressed: () {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        navigateTo(
+                                            context,
+                                            ChatScreen(
+                                              techSupportId: cubit.contactsData
+                                                  .data.technicalSupportId,
+                                            ));
+                                      },
+                                      child: Wrap(
+                                        direction: Axis.vertical,
+                                        alignment: WrapAlignment.center,
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            child: Image(
+                                              height: 40,
+                                              width: 40,
+                                              image: AssetImage(
+                                                  'assets/images/technical-support-chat.png'),
+                                            ),
+                                          ),
+                                          Text(
+                                            "technicalSupport".tr(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                        navigateTo(
+                                            context,
+                                            ChatScreen(
+                                              techSupportId: cubit
+                                                  .contactsData.data.salesId,
+                                            ));
+                                      },
+                                      child: Wrap(
+                                        direction: Axis.vertical,
+                                        alignment: WrapAlignment.center,
+                                        crossAxisAlignment:
+                                            WrapCrossAlignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(40),
+                                            child: Image(
+                                              height: 40,
+                                              width: 40,
+                                              image: AssetImage(
+                                                  'assets/images/sales_chat.png'),
+                                            ),
+                                          ),
+                                          Text(
+                                            "sales".tr(),
+                                            style: TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                    // navigateTo(
+                    //     context,
+                    //     ChatScreen(
+                    //       techSupportId:
+                    //       cubit.contactsData.data.technicalSupportId,
+                    //     ));
+                  },
+                  child: Icon(
+                    Icons.support_agent,
+                    color: kDarkGoldColor,
+                    size: 35,
+                  ),
+                  backgroundColor: Colors.black,
+                ),
         );
       },
     );

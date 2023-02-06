@@ -33,7 +33,8 @@ class Data {
   String twitterLink;
   String phone;
   String mail;
-
+  int salesId;
+  int technicalSupportId;
   Data({
     this.iD,
     this.youtubeLink,
@@ -42,6 +43,8 @@ class Data {
     this.twitterLink,
     this.phone,
     this.mail,
+    this.salesId,
+    this.technicalSupportId,
   });
 
   Data.fromJson(Map<String, dynamic> json) {
@@ -52,6 +55,8 @@ class Data {
     twitterLink = json['Twitter-link'];
     phone = json['Phone'];
     mail = json['Mail'];
+    salesId = json['sales_id'];
+    technicalSupportId = json['technicalsupport'];
   }
 
   Map<String, dynamic> toJson() {
@@ -63,7 +68,8 @@ class Data {
     data['Twitter-link'] = this.twitterLink;
     data['Phone'] = this.phone;
     data['Mail'] = this.mail;
-
+    data['sales_id'] = this.salesId;
+    data['technicalsupport'] = this.technicalSupportId;
     return data;
   }
 }
