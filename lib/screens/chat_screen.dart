@@ -3,17 +3,16 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_chat_bubble/bubble_type.dart';
-import 'package:flutter_chat_bubble/chat_bubble.dart';
-import 'package:flutter_chat_bubble/clippers/chat_bubble_clipper_5.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class ChatScreen extends StatefulWidget {
   final int techSupportId;
+  final String type; //for room type
 
-  const ChatScreen({Key key, @required this.techSupportId}) : super(key: key);
+  const ChatScreen({Key key, @required this.techSupportId, @required this.type})
+      : super(key: key);
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -49,7 +48,10 @@ class _ChatScreenState extends State<ChatScreen> {
     if (snapshot.docs.isEmpty) {
       log('No Rooms with this Id was found');
       createChatRoom(
-          senderId: senderId, receiverId: receiverId, userImage: userImage);
+          senderId: senderId,
+          receiverId: receiverId,
+          userImage: userImage,
+          roomType: widget.type);
     } else {
       updateRoomOnStart(roomId: roomId, userImage: '');
     }
@@ -58,7 +60,8 @@ class _ChatScreenState extends State<ChatScreen> {
   void createChatRoom(
       {@required int senderId,
       @required int receiverId,
-      @required String userImage}) async {
+      @required String userImage,
+      @required String roomType}) async {
     CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
     await rooms.add({
       "room_id": receiverId > senderId
@@ -68,6 +71,7 @@ class _ChatScreenState extends State<ChatScreen> {
       "last_msg_update": "",
       "last_sender_id": "",
       "is_active": true,
+      "agent_type": roomType,
     });
   }
 
@@ -156,12 +160,21 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ? WrapCrossAlignment.start
                                 : WrapCrossAlignment.end,
                             children: [
-                              ChatBubble(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    maxWidth:
-                                        MediaQuery.of(context).size.width * 0.7,
-                                  ),
+                              Container(
+                                constraints: BoxConstraints(
+                                  maxWidth:
+                                      MediaQuery.of(context).size.width * 0.7,
+                                ),
+                                decoration: BoxDecoration(
+                                    color: snapShot.data.docs[index]
+                                                .data()['send_receive_id'] ==
+                                            CacheHelper.getData('id').toString()
+                                        ? Colors.green.shade300
+                                        : Colors.grey.shade400,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
                                   child: Text(
                                     '${snapShot.data.docs[index].data()['text']}',
                                     textAlign: TextAlign.start,
@@ -169,18 +182,6 @@ class _ChatScreenState extends State<ChatScreen> {
                                         color: Colors.black, fontSize: 16),
                                   ),
                                 ),
-                                alignment: Alignment.centerRight,
-                                backGroundColor: snapShot.data.docs[index]
-                                            .data()['send_receive_id'] ==
-                                        CacheHelper.getData('id').toString()
-                                    ? Colors.green.shade300
-                                    : Colors.grey.shade400,
-                                clipper: ChatBubbleClipper5(
-                                    type: snapShot.data.docs[index]
-                                                .data()['send_receive_id'] ==
-                                            CacheHelper.getData('id').toString()
-                                        ? BubbleType.sendBubble
-                                        : BubbleType.receiverBubble),
                               ),
                               Text(
                                 '${DateFormat.yMd().add_jm().format(snapShot.data.docs[index].data()['time'].toDate())}',

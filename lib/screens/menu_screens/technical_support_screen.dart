@@ -1,6 +1,7 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/chat_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
@@ -193,208 +194,122 @@ class TechnicalSupportScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                  )
-                  // Column(
-                  //   children: [
-                  //     Label(text: 'RequestHelp'.tr()),
-                  //     SizedBox(
-                  //       height: 30,
-                  //     ),
-                  //     CustomButton(onTap: (){
-                  //       navigateTo(context, ContactUsScreen());
-                  //     },
-                  //       height: 50,
-                  //       text: 'CreateRequest'.tr(),
-                  //     ),
-                  //     SizedBox(
-                  //       height: 30,
-                  //     ),
-                  //   Expanded(
-                  //     child: ListView.builder(itemCount:cubit.AllSupportsListOfData.length ,itemBuilder: (context,pos){
-                  //       return InkWell(onTap: (){
-                  //         log('${cubit.AllSupportsListOfData[pos].id}');
-                  //         TechnicalSupportDetailsCubit.get(context).id= cubit.AllSupportsListOfData[pos].id;
-                  //         TechnicalSupportDetailsCubit.get(context).getTechnicalSupport() ;
-                  //         log('${TechnicalSupportDetailsCubit.get(context).id}');
-                  //         navigateTo(context, RequestCard());
-                  //       },
-                  //         child: Container(
-                  //           padding: EdgeInsets.symmetric(horizontal: 35, vertical: 20),
-                  //           decoration: BoxDecoration(
-                  //               color: Colors.white,
-                  //               borderRadius: BorderRadius.circular(20),
-                  //               boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)]),
-                  //           child: Column(
-                  //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //             children: [
-                  //               Row(
-                  //                 children: [
-                  //                   Text(
-                  //                     cubit.AllSupportsListOfData[pos].name,
-                  //                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                  //                   )
-                  //                 ],
-                  //               ),
-                  //               SizedBox(
-                  //                 height: 20,
-                  //               ),
-                  //               Row(
-                  //                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Text(
-                  //                     cubit.AllSupportsListOfData[pos].createdAt,
-                  //                     style: TextStyle(
-                  //                       fontSize: 17,
-                  //                     ),
-                  //                   ),
-                  //                   Text(
-                  //                     cubit.AllSupportsListOfData[pos].updatedAt,
-                  //                     style: TextStyle(
-                  //                       fontSize: 17,
-                  //                     ),
-                  //                   ),
-                  //                 ],
-                  //               ),
-                  //               SizedBox(
-                  //                 height: 20,
-                  //               ),
-                  //               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Container(
-                  //                     padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                  //                     decoration: BoxDecoration(
-                  //                       color: Colors.green,
-                  //                       borderRadius: BorderRadius.circular(20),
-                  //                     ),
-                  //                     child: Text(cubit.AllSupportsListOfData[pos].notes??""
-                  //                    ,
-                  //                       style: TextStyle(
-                  //                           fontWeight: FontWeight.bold, color: Colors.white),
-                  //                     ),
-                  //                   ),
-                  //                Icon(Icons.remove_red_eye,color: cubit.AllSupportsListOfData[pos].status==0?Colors.grey:Colors.green,) ],
-                  //               )
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       );
-                  //     }),
-                  //   )
-                  //
-                  //     ,
-                  //     SizedBox(
-                  //       height: 20,
-                  //     ),
-                  //   ],
-                  // ),
-                  ),
+                  )),
           floatingActionButton: state is! GetContactUsSuccessState
               ? SizedBox()
-              : FloatingActionButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
+              : CacheHelper.getData('id') == null
+                  ? SizedBox()
+                  : FloatingActionButton(
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                        navigateTo(
-                                            context,
-                                            ChatScreen(
-                                              techSupportId: cubit.contactsData
-                                                  .data.technicalSupportId,
-                                            ));
-                                      },
-                                      child: Wrap(
-                                        direction: Axis.vertical,
-                                        alignment: WrapAlignment.center,
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                            child: Image(
-                                              height: 40,
-                                              width: 40,
-                                              image: AssetImage(
-                                                  'assets/images/technical-support-chat.png'),
-                                            ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            navigateTo(
+                                                context,
+                                                ChatScreen(
+                                                  techSupportId: cubit
+                                                      .contactsData
+                                                      .data
+                                                      .technicalSupportId,
+                                                  type: '2',
+                                                ));
+                                          },
+                                          child: Wrap(
+                                            direction: Axis.vertical,
+                                            alignment: WrapAlignment.center,
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                child: Image(
+                                                  height: 40,
+                                                  width: 40,
+                                                  image: AssetImage(
+                                                      'assets/images/technical-support-chat.png'),
+                                                ),
+                                              ),
+                                              Text(
+                                                "technicalSupport".tr(),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          Text(
-                                            "technicalSupport".tr(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                            navigateTo(
+                                                context,
+                                                ChatScreen(
+                                                  techSupportId: cubit
+                                                      .contactsData
+                                                      .data
+                                                      .salesId,
+                                                  type: '1',
+                                                ));
+                                          },
+                                          child: Wrap(
+                                            direction: Axis.vertical,
+                                            alignment: WrapAlignment.center,
+                                            crossAxisAlignment:
+                                                WrapCrossAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(40),
+                                                child: Image(
+                                                  height: 40,
+                                                  width: 40,
+                                                  image: AssetImage(
+                                                      'assets/images/sales_chat.png'),
+                                                ),
+                                              ),
+                                              Text(
+                                                "sales".tr(),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.of(context).pop();
-                                        navigateTo(
-                                            context,
-                                            ChatScreen(
-                                              techSupportId: cubit
-                                                  .contactsData.data.salesId,
-                                            ));
-                                      },
-                                      child: Wrap(
-                                        direction: Axis.vertical,
-                                        alignment: WrapAlignment.center,
-                                        crossAxisAlignment:
-                                            WrapCrossAlignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(40),
-                                            child: Image(
-                                              height: 40,
-                                              width: 40,
-                                              image: AssetImage(
-                                                  'assets/images/sales_chat.png'),
-                                            ),
-                                          ),
-                                          Text(
-                                            "sales".tr(),
-                                            style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                        ),
+                                      ],
                                     ),
                                   ],
                                 ),
-                              ],
-                            ),
-                          );
-                        });
-                    // navigateTo(
-                    //     context,
-                    //     ChatScreen(
-                    //       techSupportId:
-                    //       cubit.contactsData.data.technicalSupportId,
-                    //     ));
-                  },
-                  child: Icon(
-                    Icons.support_agent,
-                    color: kDarkGoldColor,
-                    size: 35,
-                  ),
-                  backgroundColor: Colors.black,
-                ),
+                              );
+                            });
+                        // navigateTo(
+                        //     context,
+                        //     ChatScreen(
+                        //       techSupportId:
+                        //       cubit.contactsData.data.technicalSupportId,
+                        //     ));
+                      },
+                      child: Icon(
+                        Icons.support_agent,
+                        color: kDarkGoldColor,
+                        size: 35,
+                      ),
+                      backgroundColor: Colors.black,
+                    ),
         );
       },
     );
