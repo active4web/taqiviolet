@@ -12,9 +12,9 @@ class ReviewsCommentsCubit extends Cubit<ReviewsCommentsState> {
 
   static ReviewsCommentsCubit get(context) => BlocProvider.of(context);
 
-ReviewsCommentsModel allReviews;
+ReviewsCommentsModel? allReviews;
 
-  void getAllReviews({@required int productId}) {
+  void getAllReviews({required int productId}) {
     emit(AllReviewsLoadingState());
     Mhelper.getData(url: 'api/allReviews', token: kToken, query: {
       'lang': kLanguage,

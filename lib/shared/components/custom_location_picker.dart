@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:developer';
-import 'package:search_map_place_updated/search_map_place_updated.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,7 +11,7 @@ import '../constants.dart';
 
 class LocationPickerScreen extends StatefulWidget {
   LocationPickerScreen({
-    Key key,
+    required Key key,
   }) : super(key: key);
 
   @override
@@ -31,12 +30,12 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   // static Position position;
   //
-  double longitude, latitude;
-  CameraPosition cameraPosition;
+  late double longitude, latitude;
+  late CameraPosition cameraPosition;
   Future<void> getMyCurrentLocation() async {
     var userLocation = await location.Location().getLocation();
-    longitude = userLocation.longitude;
-    latitude = userLocation.latitude;
+    longitude = userLocation.longitude!;
+    latitude = userLocation.latitude!;
     setState(() {});
   }
 
@@ -84,7 +83,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     },
                     onCameraMoveStarted: () {
                       // notify map is moving
-                      mapPickerController.mapMoving();
+                      mapPickerController.mapMoving!();
                       textController.text = "checking ...";
                     },
                     onCameraMove: (cameraPosition) {
@@ -92,7 +91,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                     },
                     onCameraIdle: () async {
                       // notify map stopped moving
-                      mapPickerController.mapFinishedMoving();
+                      mapPickerController.mapFinishedMoving!();
                       //get address name from camera position
                       List<Placemark> placemarks =
                           await placemarkFromCoordinates(

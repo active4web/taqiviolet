@@ -12,8 +12,8 @@ import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
   VerticalProductCard({
-    Key key,
-    this.isFavourite,
+    this.onFavPressed,
+    this.isFavourite= false,
     this.onclick,
     this.productName,
     this.productId,
@@ -22,19 +22,19 @@ class VerticalProductCard extends StatelessWidget {
     this.oldPrice,
     this.currentPrice,
     this.cubit,
-    this.onFavPressed,
-  }) : super(key: key);
 
-  bool isFavourite;
-  final String productName;
-  final int productId;
-  final String image;
-  final String totalRate;
-  final oldPrice;
+  });
+
+   final bool isFavourite;
+  final String? productName;
+  final int? productId;
+  final String? image;
+  final String? totalRate;
+   final oldPrice;
   final currentPrice;
   var cubit;
-  void Function() onFavPressed;
-  VoidCallback onclick;
+  void Function()? onFavPressed;
+  VoidCallback? onclick;
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +65,7 @@ class VerticalProductCard extends StatelessWidget {
                       child: Container(
                     decoration: BoxDecoration(
                       //    color: kBGColor,
-                      image: DecorationImage(image: NetworkImage(image)),
+                      image: DecorationImage(image: NetworkImage(image!)),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   )),
@@ -93,8 +93,8 @@ class VerticalProductCard extends StatelessWidget {
                               Row(
                                 children: [
                                   CustomRatingBar(
-                                    rating: totalRate.isNotEmpty
-                                        ? double.parse(totalRate)
+                                    rating: totalRate!.isNotEmpty
+                                        ? double.parse(totalRate!)
                                         : 0.0,
                                     itemSize: 14,
                                   ),
@@ -224,11 +224,11 @@ class VerticalProductCard extends StatelessWidget {
                     onPressed: onFavPressed,
                     icon: isFavourite
                         ? Icon(
-                            Icons.favorite_rounded,
+                            Icons.bookmark_add,
                             color: kDarkGoldColor,
                           )
                         : Icon(
-                            Icons.favorite_border_rounded,
+                            Icons.bookmark_add_outlined,
                             color: Colors.grey,
                           ),
                   )),
@@ -273,14 +273,13 @@ GridView showProductsGrid(int count, bool isFavourite, int id) {
         mainAxisSpacing: 20,
         crossAxisSpacing: 10),
     itemBuilder: (context, index) =>
-        VerticalProductCard(productId: id, isFavourite: isFavourite),
+        VerticalProductCard(productId: id, isFavourite: isFavourite, ),
   );
 }
 
 class HorizontalProductCard extends StatelessWidget {
   RelatedProducts relatedProducts;
-
-  HorizontalProductCard({this.relatedProducts});
+  HorizontalProductCard({required this.relatedProducts});
 
   @override
   Widget build(BuildContext context) {
@@ -308,9 +307,9 @@ class HorizontalProductCard extends StatelessWidget {
               child: Container(
                 width: 100,
                 decoration: BoxDecoration(
-                  color: Color(0xfff4f4f4),
+                  color: Colors.white,
                   image: DecorationImage(
-                      image: NetworkImage(relatedProducts.image)),
+                      image: NetworkImage("${relatedProducts.image}")),
                   borderRadius: BorderRadius.horizontal(
                     right: Radius.circular(10),
                   ),
@@ -332,7 +331,7 @@ class HorizontalProductCard extends StatelessWidget {
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.45,
                         child: Text(
-                          relatedProducts.name,
+                          "${relatedProducts.name}",
                           style: TextStyle(
                               fontSize: 17, fontWeight: FontWeight.w500),
                           maxLines: 2,

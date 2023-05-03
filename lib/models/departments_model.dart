@@ -2,26 +2,23 @@
 //
 //     final departmentsModel = departmentsModelFromJson(jsonString);
 
-import 'dart:convert';
-
-DepartmentsModel departmentsModelFromJson(String str) =>
-    DepartmentsModel.fromJson(json.decode(str));
-
-String departmentsModelToJson(DepartmentsModel data) =>
-    json.encode(data.toJson());
+// DepartmentsModel departmentsModelFromJson(String str) =>
+//     DepartmentsModel.fromJson(json.decode(str));
+// String departmentsModelToJson(DepartmentsModel data) =>
+//     json.encode(data.toJson());
 
 class DepartmentsModel {
+  String? message;
+  int? messageid;
+  bool? status;
+  Result? result;
+
   DepartmentsModel({
     this.message,
     this.messageid,
     this.status,
     this.result,
   });
-
-  String message;
-  int messageid;
-  bool status;
-  Result result;
 
   factory DepartmentsModel.fromJson(Map<String, dynamic> json) =>
       DepartmentsModel(
@@ -31,22 +28,22 @@ class DepartmentsModel {
         result: Result.fromJson(json["result"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "Message": message,
-        "Messageid": messageid,
-        "status": status,
-        "result": result.toJson(),
-      };
+// Map<String, dynamic> toJson() => {
+//       "Message": message,
+//       "Messageid": messageid,
+//       "status": status,
+//       "result": result.toJson(),
+//     };
 }
 
 class Result {
+  String? categoryName;
+  List<AllDepartment>? allDepartments;
+
   Result({
     this.categoryName,
     this.allDepartments,
   });
-
-  String categoryName;
-  List<AllDepartment> allDepartments;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         categoryName: json["category_name"],
@@ -54,23 +51,23 @@ class Result {
             json["all_departments"].map((x) => AllDepartment.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
-        "category_name": categoryName,
-        "all_departments":
-            List<dynamic>.from(allDepartments.map((x) => x.toJson())),
-      };
+// Map<String, dynamic> toJson() => {
+//       "category_name": categoryName,
+//       "all_departments":
+//           List<dynamic>.from(allDepartments.map((x) => x.toJson())),
+//     };
 }
 
 class AllDepartment {
+  String? depImage;
+  String? depName;
+  int? catId;
+
   AllDepartment({
     this.depImage,
     this.depName,
     this.catId,
   });
-
-  String depImage;
-  String depName;
-  int catId;
 
   factory AllDepartment.fromJson(Map<String, dynamic> json) => AllDepartment(
         depImage: json["dep_image"],
@@ -78,9 +75,9 @@ class AllDepartment {
         catId: json["cat_id"],
       );
 
-  Map<String, dynamic> toJson() => {
-        "dep_image": depImage,
-        "dep_name": depName,
-        "cat_id": catId,
-      };
+// Map<String, dynamic> toJson() => {
+//       "dep_image": depImage,
+//       "dep_name": depName,
+//       "cat_id": catId,
+//     };
 }

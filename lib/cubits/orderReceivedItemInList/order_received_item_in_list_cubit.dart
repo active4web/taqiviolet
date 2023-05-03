@@ -16,7 +16,7 @@ class OrderReceivedItemInListCubit extends Cubit<OrderReceivedItemInListState> {
 
   static OrderReceivedItemInListCubit get(context) => BlocProvider.of(context);
 
-  OrderReceivedItemInListModel orderReceivedItemInListModel;
+  OrderReceivedItemInListModel? orderReceivedItemInListModel;
   void getOrderReceivedData(String id) {
     emit(OrderReceivedItemInListLoadingState());
 

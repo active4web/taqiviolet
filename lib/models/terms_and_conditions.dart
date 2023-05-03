@@ -1,8 +1,8 @@
 class TermsAndConditions {
-  bool status;
-  String errNum;
-  String msg;
-  List<TermsAndConditionsData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<TermsAndConditionsData>? data;
 
   TermsAndConditions({this.status, this.errNum, this.msg, this.data});
 
@@ -13,12 +13,12 @@ class TermsAndConditions {
     if (json['data'] != null) {
       data = <TermsAndConditionsData>[];
       json['data'].forEach((v) {
-        data.add(new TermsAndConditionsData.fromJson(v));
+        data!.add(new TermsAndConditionsData.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['errNum'] = this.errNum;
@@ -27,17 +27,18 @@ class TermsAndConditions {
       data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
-  }
+  }*/
 }
 
 class TermsAndConditionsData {
-  int id;
-  String createdAt;
-  String updatedAt;
-  String txtName;
-  int type;
+  int? id;
+  String? createdAt;
+  String? updatedAt;
+  String? txtName;
+  int? type;
 
-  TermsAndConditionsData({this.id, this.createdAt, this.updatedAt, this.txtName, this.type});
+  TermsAndConditionsData(
+      {this.id, this.createdAt, this.updatedAt, this.txtName, this.type});
 
   TermsAndConditionsData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -47,7 +48,7 @@ class TermsAndConditionsData {
     type = json['type'];
   }
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['created_at'] = this.createdAt;
@@ -55,5 +56,5 @@ class TermsAndConditionsData {
     data['txt_name'] = this.txtName;
     data['type'] = this.type;
     return data;
-  }
+  }*/
 }

@@ -4,7 +4,7 @@ import '../constants.dart';
 
 class CustomAppBarWithLogo extends StatelessWidget with PreferredSizeWidget {
   const CustomAppBarWithLogo({
-    Key key,
+    required Key key,
   }) : super(key: key);
 
   @override
@@ -17,6 +17,8 @@ class CustomAppBarWithLogo extends StatelessWidget with PreferredSizeWidget {
         shape: ContinuousRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomRight: Radius.circular(100),
+            bottomLeft: Radius.circular(100),
+
           ),
         ),
         flexibleSpace: Center(
@@ -28,13 +30,16 @@ class CustomAppBarWithLogo extends StatelessWidget with PreferredSizeWidget {
             )),
           ),
         ),
-        backgroundColor:HexaColor.fromHexa("#2d2d37"),// Colors.black,
+        backgroundColor:Color(0xff393846),// Colors.black,
         title: Container(
             decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('assets/images/logo.png'),
           ),
         )),
+        actions: [
+
+        ],
       ),
     );
   }

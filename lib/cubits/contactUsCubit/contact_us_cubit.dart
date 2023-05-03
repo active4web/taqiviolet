@@ -12,14 +12,16 @@ class ContactCubit extends Cubit<ContactUs> {
   ContactCubit() : super(ContactUsInitial());
 
   static ContactCubit get(context) => BlocProvider.of(context);
+
+
   Map<String, dynamic> query = {};
   var formKey = GlobalKey<FormState>();
-  SubscribeModel subscribeModel;
+  SubscribeModel? subscribeModel;
   void postContactUs() {
     emit(PostContactUsState());
     Mhelper.postData(url: datasupports, data: query).then((value) {
       subscribeModel == SubscribeModel.fromJson(value.data);
-      log('*' * 10 + subscribeModel.msg + '*' * 10);
+      log('*' * 10 + (subscribeModel!.msg!) + '*' * 10);
       emit(PostContactUsSuccessState());
     }).catchError((err) {
       log("ERR:$err");

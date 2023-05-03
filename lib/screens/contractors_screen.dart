@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 
 class ConstructorsScreen extends StatelessWidget {
-  const ConstructorsScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

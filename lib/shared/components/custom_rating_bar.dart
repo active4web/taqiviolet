@@ -3,19 +3,18 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class CustomRatingBar extends StatelessWidget {
   const CustomRatingBar({
-    Key key,
     this.rating,
     this.itemSize = 15,
-  }) : super(key: key);
+  }) ;
 
-  final double rating;
-  final double itemSize;
+  final double? rating;
+  final double? itemSize;
   @override
   Widget build(BuildContext context) {
     return RatingBar.builder(
-      initialRating: rating,
+      initialRating: rating!,
       minRating: 1,
-      itemSize: itemSize,
+      itemSize: itemSize!,
       direction: Axis.horizontal,
       allowHalfRating: true,
       updateOnDrag: false,
@@ -26,7 +25,7 @@ class CustomRatingBar extends StatelessWidget {
       itemBuilder: (context, _) => Icon(
         Icons.star,
         color: Color(0xffFFCF00),
-      ),
+      ), onRatingUpdate: (double value) {  },
     );
   }
 }

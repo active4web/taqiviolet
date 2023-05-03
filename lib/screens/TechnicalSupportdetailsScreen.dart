@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import '../shared/components/custom_app_bar.dart';
 class TechnicalSupporDetailstScreen extends StatelessWidget {
-  const TechnicalSupporDetailstScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

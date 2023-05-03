@@ -13,7 +13,7 @@ import 'package:safsofa/shared/defaults.dart';
 class FavoritesCubit extends Cubit<FavoritesState> {
   FavoritesCubit() : super(FavoritesInitial());
   static FavoritesCubit get(context) => BlocProvider.of(context);
-  FavoritesListsModel favListModel;
+  FavoritesListsModel? favListModel;
 
   // void getFavListData() {
   //   emit(FavoritesListLoading());
@@ -34,8 +34,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   // }
 
   Future<dynamic> createNewFavList({
-    @required String listName,
-    @required BuildContext context,
+    required String listName,
+    required BuildContext context,
   }) async {
     var data = await Mhelper.postData(
       url: 'api/addfavlist',
@@ -48,7 +48,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     return data;
   }
 
-  FavoritesModel allFavData;
+  FavoritesModel? allFavData;
   void getAllFavoritesData({bool withLoading = true}) {
     if (withLoading) {
       emit(LoadingFavoritesAllData());
@@ -66,7 +66,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     });
   }
 
-  void deleteFavList({@required int listId, @required int listIndex}) {
+  void deleteFavList({required int listId, required int listIndex}) {
     Mhelper.postData(
         url: 'api/deletefavlist',
         data: {
@@ -77,7 +77,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
           'lang': kLanguage,
         }).then((value) {
       if (value.data['status']) {
-        allFavData.data.list.removeAt(listIndex);
+        allFavData?.data?.list?.removeAt(listIndex);
         emit(SuccessFavoritesAllData());
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
@@ -105,9 +105,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
   // }
 
   void removeProductFromFavorites(
-      {@required int prodId,
-      @required int listIndex,
-      @required int productIndex}) {
+      {required int prodId,
+      required int listIndex,
+      required int productIndex}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -116,7 +116,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        allFavData.data.list[listIndex].listProducts.removeAt(productIndex);
+        allFavData?.data?.list![listIndex].listProducts?.removeAt(productIndex);
         emit(SuccessFavoritesAllData());
       }
     });

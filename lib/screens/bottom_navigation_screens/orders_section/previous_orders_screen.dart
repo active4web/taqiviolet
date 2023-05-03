@@ -10,7 +10,6 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 class PreviousOrdersScreen extends StatelessWidget {
-  const PreviousOrdersScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +26,16 @@ class PreviousOrdersScreen extends StatelessWidget {
             : ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  log("myOrders ${cubit.previousOrders.data.length}");
+                  log("myOrders ${cubit.previousOrders?.data?.length}");
 
                   return OrderStatusCard(
-                      myOrdersData: cubit.previousOrders.data[index]);
+                      myOrdersData: cubit.previousOrders!.data![index]);
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 4,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).previousOrders.data.length);
+                    MyOrdersCubit.get(context).previousOrders!.data!.length);
       },
     );
   }
@@ -44,8 +43,8 @@ class PreviousOrdersScreen extends StatelessWidget {
 
 class OrderStatusCard extends StatelessWidget {
   OrderStatusCard({this.myOrdersData, this.status});
-  final MyOrdersData myOrdersData;
-  final int status;
+  final MyOrdersData? myOrdersData;
+  final int? status;
   // 1 = underway , 2 = done , 3 = canceled
 
   @override
@@ -67,7 +66,7 @@ class OrderStatusCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      '${myOrdersData.orderDate}',
+                      '${myOrdersData?.orderDate}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
@@ -88,7 +87,7 @@ class OrderStatusCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      myOrdersData.codeOrder,
+                      "${myOrdersData?.codeOrder}",
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     )
                   ],
@@ -106,7 +105,7 @@ class OrderStatusCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${myOrdersData.orderDeliveryDate}',
+                      '${myOrdersData?.orderDeliveryDate}',
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     )
                   ],
@@ -122,7 +121,7 @@ class OrderStatusCard extends StatelessWidget {
                         navigateTo(
                           context,
                           OrderDetailsSCR(
-                            id: myOrdersData.id,
+                            id: myOrdersData?.id,
                           ),
                         );
                       },
@@ -142,7 +141,7 @@ class OrderStatusCard extends StatelessWidget {
           Column(
             children: [
               StatusChip(
-                title: myOrdersData.status,
+                title: "${myOrdersData?.status}",
                 color: kDarkGoldColor,
               ),
               SizedBox(
@@ -158,13 +157,12 @@ class OrderStatusCard extends StatelessWidget {
 
 class StatusChip extends StatelessWidget {
   const StatusChip({
-    Key key,
     this.title,
     this.color,
-  }) : super(key: key);
+  }) ;
 
-  final String title;
-  final Color color;
+  final String? title;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -176,7 +174,7 @@ class StatusChip extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Text(
-          handleOrderStatusMessage(statusVal: title),
+          handleOrderStatusMessage(statusVal: "${title}"),
           style: TextStyle(
               color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
         ),

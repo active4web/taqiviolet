@@ -12,12 +12,13 @@ class SendContactUsModel {
     msg = json['msg'];
     data = json['data'] != null ? Data.fromJson(json['data']) : null;
   }
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
 
-  Map<String, dynamic> toJson() {
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
+
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['errNum'] = errNum;
@@ -26,7 +27,7 @@ class SendContactUsModel {
       map['data'] = data.toJson();
     }
     return map;
-  }
+  }*/
 }
 
 class Data {
@@ -51,16 +52,17 @@ class Data {
     createdAt = json['created_at'];
     id = json['id'];
   }
-  String name;
-  String phone;
-  String message;
-  int type;
-  String email;
-  String updatedAt;
-  String createdAt;
-  int id;
 
-  Map<String, dynamic> toJson() {
+  String? name;
+  String? phone;
+  String? message;
+  int? type;
+  String? email;
+  String? updatedAt;
+  String? createdAt;
+  int? id;
+
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['name'] = name;
     map['phone'] = phone;
@@ -71,5 +73,5 @@ class Data {
     map['created_at'] = createdAt;
     map['id'] = id;
     return map;
-  }
+  }*/
 }

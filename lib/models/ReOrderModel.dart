@@ -1,8 +1,8 @@
 class ReOrderModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<ReOrderData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<ReOrderData>? data;
 
   ReOrderModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,11 +13,11 @@ class ReOrderModel {
     if (json['data'] != null) {
       data = <ReOrderData>[];
       json['data'].forEach((v) {
-        data.add(new ReOrderData.fromJson(v));
+        data!.add(new ReOrderData.fromJson(v));
       });
     }
   }
-
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -27,42 +27,42 @@ class ReOrderModel {
       data['data'] = this.data.map((v) => v.toJson()).toList();
     }
     return data;
-  }
+  }*/
 }
 
 class ReOrderData {
-  int id;
-  String codeOrder;
-  int clientId;
-  int storeId;
-  int addressId;
-  Null promoCodeId;
-  int deliveryCost;
-  int subTotal;
-  int total;
-  String status;
-  String paymentStatus;
-  String paymentType;
-  int isActive;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? codeOrder;
+  int? clientId;
+  int? storeId;
+  int? addressId;
+  String? promoCodeId;
+  int? deliveryCost;
+  int? subTotal;
+  int? total;
+  String? status;
+  String? paymentStatus;
+  String? paymentType;
+  int? isActive;
+  String? createdAt;
+  String? updatedAt;
 
   ReOrderData(
       {this.id,
-        this.codeOrder,
-        this.clientId,
-        this.storeId,
-        this.addressId,
-        this.promoCodeId,
-        this.deliveryCost,
-        this.subTotal,
-        this.total,
-        this.status,
-        this.paymentStatus,
-        this.paymentType,
-        this.isActive,
-        this.createdAt,
-        this.updatedAt});
+      this.codeOrder,
+      this.clientId,
+      this.storeId,
+      this.addressId,
+      this.promoCodeId,
+      this.deliveryCost,
+      this.subTotal,
+      this.total,
+      this.status,
+      this.paymentStatus,
+      this.paymentType,
+      this.isActive,
+      this.createdAt,
+      this.updatedAt});
 
   ReOrderData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -82,7 +82,7 @@ class ReOrderData {
     updatedAt = json['updated_at'];
   }
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['code_order'] = this.codeOrder;
@@ -100,5 +100,5 @@ class ReOrderData {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
-  }
+  }*/
 }

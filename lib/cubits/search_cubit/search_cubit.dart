@@ -14,7 +14,7 @@ class SearchCubit extends Cubit<SearchStates> {
   SearchCubit() : super(SearchInitialState());
 
   static SearchCubit get(context) => BlocProvider.of(context);
-  HomeScreenMainCatModel homeScreenMainCatModel;
+  HomeScreenMainCatModel? homeScreenMainCatModel;
   List<Data> categories = [];
   var validationKey = GlobalKey<FormState>();
   void getCategories() {
@@ -24,7 +24,7 @@ class SearchCubit extends Cubit<SearchStates> {
             query: {'store_id': 34, 'lang': CacheHelper.getData("language")})
         .then((value) {
       homeScreenMainCatModel = HomeScreenMainCatModel.fromJson(value.data);
-      homeScreenMainCatModel.data.forEach((element) {
+      homeScreenMainCatModel?.data?.forEach((element) {
         categories.add(element);
       });
       emit(SearchSuccessState());
@@ -33,19 +33,19 @@ class SearchCubit extends Cubit<SearchStates> {
     });
   }
 
-  Data selectedValue;
+  Data? selectedValue;
 
   void dropDownChoiceSelection(Data value) {
     selectedValue = value;
     emit(SelectItem());
   }
 
-  SearchResultsModel searchResults;
+  SearchResultsModel? searchResults;
   void getSearchData(
-      {@required int categoryId,
-      String startPrice,
-      String endPrice,
-      String productName}) {
+      {required int categoryId,
+      String? startPrice,
+      String? endPrice,
+      String? productName}) {
     emit(LoadingSearchResults());
     Mhelper.postData(url: '/api/searchByPrice', data: {
       'category_id': categoryId,
@@ -63,7 +63,7 @@ class SearchCubit extends Cubit<SearchStates> {
     });
   }
 
-  void updateFavorite({@required int prodId}) {
+  void updateFavorite({required int prodId}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -72,14 +72,14 @@ class SearchCubit extends Cubit<SearchStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        for (int i = 0; i < searchResults.data.length; i++) {
-          if (searchResults.data[i].id == prodId) {
-            if (searchResults.data[i].hasFavorites == 0) {
-              searchResults.data[i].hasFavorites = 1;
+        for (int i = 0; i < searchResults!.data!.length; i++) {
+          if (searchResults!.data![i].id == prodId) {
+            if (searchResults?.data![i].hasFavorites == 0) {
+              searchResults?.data![i].hasFavorites = 1;
               emit(SuccessSearchResults());
               break;
             } else {
-              searchResults.data[i].hasFavorites = 0;
+              searchResults?.data![i].hasFavorites = 0;
               emit(SuccessSearchResults());
               break;
             }

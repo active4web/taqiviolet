@@ -48,7 +48,7 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                         Expanded(
                           child: ListView.builder(
                               itemCount: cubit
-                                  .orderReceivedItemInListModel.data.length,
+                                  .orderReceivedItemInListModel!.data!.length,
                               itemBuilder: (context, pos) {
                                 return Card(
                                   child: Column(children: [
@@ -60,10 +60,7 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                                             MediaQuery.of(context).size.width,
                                         decoration: BoxDecoration(
                                             image: DecorationImage(
-                                                image: NetworkImage(cubit
-                                                    .orderReceivedItemInListModel
-                                                    .data[pos]
-                                                    .images)))),
+                                                image: NetworkImage("${cubit.orderReceivedItemInListModel?.data![pos].images}")))),
                                     SizedBox(
                                       height: 10,
                                     ),
@@ -85,8 +82,8 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(cubit
-                                              .orderReceivedItemInListModel
-                                              .data[pos]
+                                              .orderReceivedItemInListModel!
+                                              .data![pos]
                                               .name
                                               .toString()),
                                           Text("name"),
@@ -100,8 +97,8 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(cubit
-                                              .orderReceivedItemInListModel
-                                              .data[pos]
+                                              .orderReceivedItemInListModel!
+                                              .data![pos]
                                               .price
                                               .toString()),
                                           Text("price"),
@@ -115,8 +112,8 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(cubit
-                                              .orderReceivedItemInListModel
-                                              .data[pos]
+                                              .orderReceivedItemInListModel!
+                                              .data![pos]
                                               .details
                                               .toString()),
                                           Text("Details".tr()),
@@ -130,8 +127,8 @@ class _OrderReceivedItemInListState extends State<OrderReceivedItemInList> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(cubit
-                                              .orderReceivedItemInListModel
-                                              .data[pos]
+                                              .orderReceivedItemInListModel!
+                                              .data![pos]
                                               .quantity
                                               .toString()),
                                           Text("quantity"),

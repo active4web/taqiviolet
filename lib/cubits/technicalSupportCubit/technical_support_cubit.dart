@@ -20,7 +20,7 @@ class TechnicalSupportCubit extends Cubit<TechnicalSupportState> {
     await Mhelper.getData(url: dataFromcontacts).then((value) async {
       var _myMap = Map<String, dynamic>.from(value.data);
       contactsData = ContactUs.fromJson(_myMap);
-      log('k ' * 6 + '${contactsData.data.mail}' + ' k' * 6);
+      log('k ' * 6 + '${contactsData.data?.mail}' + ' k' * 6);
       emit(GetContactUsSuccessState());
     }).catchError((error) {
       log("X" * 10 + " error in getting contacts data " + "X" * 10);
@@ -29,10 +29,10 @@ class TechnicalSupportCubit extends Cubit<TechnicalSupportState> {
     });
   }
 
-  SendContactUsModel sendingModel;
+  SendContactUsModel? sendingModel;
 
   void sendContactUs(
-      {String name, String phone, String email, String comment}) async {
+      {String? name, String? phone, String? email, String? comment}) async {
     emit(ContactUsSendingLoadingState());
     await Mhelper.postData(url: "/api/contactUs", data: {
       'name': name,

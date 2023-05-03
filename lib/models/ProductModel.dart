@@ -13,16 +13,17 @@ class ProductFromCatModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data.add(DataProduct.fromJson(v));
+        data!.add(DataProduct.fromJson(v));
       });
     }
   }
-  bool status;
-  String errNum;
-  String msg;
-  List<DataProduct> data;
 
-  Map<String, dynamic> toJson() {
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<DataProduct>? data;
+
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['errNum'] = errNum;
@@ -31,7 +32,7 @@ class ProductFromCatModel {
       map['data'] = data.map((v) => v.toJson()).toList();
     }
     return map;
-  }
+  }*/
 }
 
 class DataProduct {
@@ -74,25 +75,26 @@ class DataProduct {
     hasRosters = json['hasRosters'];
     hasReview = json['hasReviews'].toString();
   }
-  num id;
-  String name;
-  String nameSearch;
-  num oldPrice;
-  num currentPrice;
-  String details;
-  String quantity;
-  num subCategoryId;
-  num categoryId;
-  num isActive;
-  num storeId;
-  String createdAt;
-  String updatedAt;
-  String image;
-  num hasFavorites;
-  num hasRosters;
-  String hasReview;
 
-  Map<String, dynamic> toJson() {
+  int? id;
+  String? name;
+  String? nameSearch;
+  int? oldPrice;
+  dynamic currentPrice;
+  String? details;
+  String? quantity;
+  int? subCategoryId;
+  int? categoryId;
+  dynamic isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
+  String? image;
+  dynamic hasFavorites;
+  dynamic hasRosters;
+  String? hasReview;
+
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
@@ -113,5 +115,5 @@ class DataProduct {
     map['hasReviews'] = hasReview.toString();
 
     return map;
-  }
+  }*/
 }

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class DescriptionTextField extends StatelessWidget {
-  final TextEditingController controller;
-  final String hintText;
-  int maxLines = 1;
-  Widget suffixIcon;
+  final TextEditingController? controller;
+  final String ?hintText;
+  int maxLines ;
+  Widget? suffixIcon;
   DescriptionTextField(
-      {this.controller, this.hintText, this.maxLines, this.suffixIcon});
+      {this.controller, this.hintText, this.maxLines= 1, this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {

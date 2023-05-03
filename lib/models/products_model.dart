@@ -1,14 +1,3 @@
-// To parse this JSON data, do
-//
-//     final productsModel = productsModelFromJson(jsonString);
-
-import 'dart:convert';
-
-ProductsModel productsModelFromJson(String str) =>
-    ProductsModel.fromJson(json.decode(str));
-
-String productsModelToJson(ProductsModel data) => json.encode(data.toJson());
-
 class ProductsModel {
   ProductsModel({
     this.message,
@@ -18,11 +7,11 @@ class ProductsModel {
     this.result,
   });
 
-  String message;
-  int messageid;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? messageid;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory ProductsModel.fromJson(Map<String, dynamic> json) => ProductsModel(
         message: json["Message"],
@@ -32,13 +21,13 @@ class ProductsModel {
         result: Result.fromJson(json["result"]),
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "Message": message,
         "Messageid": messageid,
         "status": status,
         "total": total,
         "result": result.toJson(),
-      };
+      };*/
 }
 
 class Result {
@@ -47,8 +36,8 @@ class Result {
     this.allProducts,
   });
 
-  CategoryDetails categoryDetails;
-  List<AllProduct> allProducts;
+  CategoryDetails? categoryDetails;
+  List<AllProduct>? allProducts;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         categoryDetails: CategoryDetails.fromJson(json["category_details"]),
@@ -56,10 +45,10 @@ class Result {
             json["all_products"].map((x) => AllProduct.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "category_details": categoryDetails.toJson(),
         "all_products": List<dynamic>.from(allProducts.map((x) => x.toJson())),
-      };
+      };*/
 }
 
 class AllProduct {
@@ -74,15 +63,15 @@ class AllProduct {
       this.prodId,
       this.isFav});
 
-  int favExit;
-  bool isFav;
-  String totalRate;
-  String productImage;
-  String price;
-  String oldPrice;
-  String stock;
-  String productName;
-  int prodId;
+  int? favExit;
+  bool? isFav;
+  String? totalRate;
+  String? productImage;
+  String? price;
+  String? oldPrice;
+  String? stock;
+  String? productName;
+  int? prodId;
 
   factory AllProduct.fromJson(Map<String, dynamic> json) => AllProduct(
         favExit: json["fav_exit"],
@@ -96,7 +85,7 @@ class AllProduct {
         prodId: json["prod_id"],
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "fav_exit": favExit,
         "total_rate": totalRate,
         "product_image": productImage,
@@ -105,7 +94,7 @@ class AllProduct {
         "stock": stock,
         "product_name": productName,
         "prod_id": prodId,
-      };
+      };*/
 }
 
 class CategoryDetails {
@@ -115,9 +104,9 @@ class CategoryDetails {
     this.catId,
   });
 
-  String categoryImage;
-  String categoryName;
-  int catId;
+  String? categoryImage;
+  String? categoryName;
+  int? catId;
 
   factory CategoryDetails.fromJson(Map<String, dynamic> json) =>
       CategoryDetails(
@@ -126,9 +115,9 @@ class CategoryDetails {
         catId: json["cat_id"],
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "category_image": categoryImage,
         "category_name": categoryName,
         "cat_id": catId,
-      };
+      };*/
 }

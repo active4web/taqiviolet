@@ -4,7 +4,13 @@ abstract class AuthStates {}
 
 class AuthInitial extends AuthStates {}
 
-class ChangePasswordVisibilityState extends AuthStates {}
+class ShowAndHideEmailRegisterPassword extends AuthStates {}
+class ShowAndHideEmailRegisterPasswordLoading extends AuthStates {}
+
+class ShowAndHideEmailRegisterConfirmPassword extends AuthStates {}
+class ShowAndHidePhoneRegisterPassword extends AuthStates {}
+class ShowAndHidePhoneRegisterConfirmPassword extends AuthStates {}
+class ShowAndHideLoginPassword extends AuthStates {}
 
 class EmailSignupLoadingState extends AuthStates {}
 

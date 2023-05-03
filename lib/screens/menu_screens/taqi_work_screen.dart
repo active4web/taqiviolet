@@ -12,7 +12,6 @@ import '../../shared/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TaqiWorkScreen extends StatelessWidget {
-  const TaqiWorkScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +40,13 @@ class TaqiWorkScreen extends StatelessWidget {
                               children: [
                                 if (TaqiWorkCubit.get(context)
                                     .workModel
-                                    .data[index]
+                                    !.data![index]
                                     .title
-                                    .isNotEmpty)
+                                    !.isNotEmpty)
                                   Row(
                                     children: [
                                       Text(
-                                        TaqiWorkCubit.get(context)
-                                            .workModel
-                                            .data[index]
-                                            .title,
+                                        "${TaqiWorkCubit.get(context).workModel?.data![index].title}",
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 18,
@@ -63,10 +59,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                   direction: Axis.horizontal,
                                   children: [
                                     Text(
-                                      TaqiWorkCubit.get(context)
-                                          .workModel
-                                          .data[index]
-                                          .contentApp,
+                                      "${TaqiWorkCubit.get(context).workModel?.data![index].contentApp}",
                                       style: TextStyle(fontSize: 15, height: 2),
                                     ),
                                     if (index == 0)
@@ -127,6 +120,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                                             CustomFormField(
                                                               controller:
                                                                   nameController,
+                                                                validate: (va){}
                                                               // label: "name".tr(),
                                                             ),
                                                             SizedBox(
@@ -141,6 +135,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                                               inputType:
                                                                   TextInputType
                                                                       .emailAddress,
+                                                                validate: (va){}
 
                                                               // label: "Email".tr(),
                                                             ),
@@ -156,6 +151,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                                               inputType:
                                                                   TextInputType
                                                                       .phone,
+                                                                validate: (va){}
                                                               // label: "Phone".tr(),
                                                             ),
                                                             SizedBox(
@@ -168,6 +164,9 @@ class TaqiWorkScreen extends StatelessWidget {
                                                               controller:
                                                                   commentController,
                                                               minLines: 7,
+                                                                validate: (va){
+
+                                                                }
                                                             ),
                                                             SizedBox(
                                                               height: 20,
@@ -229,9 +228,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                                                           width:
                                                                               5,
                                                                         ),
-                                                                        Text(TaqiWorkCubit.get(context)
-                                                                            .file
-                                                                            .name)
+                                                                        Text("${TaqiWorkCubit.get(context).file?.name}")
                                                                       ],
                                                                     ),
                                                                   ),
@@ -309,8 +306,8 @@ class TaqiWorkScreen extends StatelessWidget {
                             ),
                             separatorBuilder: (context, index) => SizedBox(),
                             itemCount: TaqiWorkCubit.get(context)
-                                .workModel
-                                .data
+                                .workModel!
+                                .data!
                                 .length,
                           ),
                         ],

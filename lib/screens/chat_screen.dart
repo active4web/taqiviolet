@@ -8,11 +8,10 @@ import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class ChatScreen extends StatefulWidget {
-  final int techSupportId;
-  final String type; //for room type
+  final int? techSupportId;
+  final String? type; //for room type
 
-  const ChatScreen({Key key, @required this.techSupportId, @required this.type})
-      : super(key: key);
+  const ChatScreen({ @required this.techSupportId, @required this.type});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -26,16 +25,16 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     checkRoomExistence(
       senderId: CacheHelper.getData('id'),
-      receiverId: widget.techSupportId,
+      receiverId: widget.techSupportId!,
       userImage: '',
     );
     super.initState();
   }
 
   checkRoomExistence(
-      {@required int senderId,
-      @required int receiverId,
-      @required String userImage}) async {
+      {required int senderId,
+      required int receiverId,
+      required String userImage}) async {
     log('checking room function');
     CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
     roomId = receiverId > senderId
@@ -51,17 +50,17 @@ class _ChatScreenState extends State<ChatScreen> {
           senderId: senderId,
           receiverId: receiverId,
           userImage: userImage,
-          roomType: widget.type);
+          roomType: widget.type!);
     } else {
       updateRoomOnStart(roomId: roomId, userImage: '');
     }
   }
 
   void createChatRoom(
-      {@required int senderId,
-      @required int receiverId,
-      @required String userImage,
-      @required String roomType}) async {
+      {required int senderId,
+      required int receiverId,
+      required String userImage,
+      required String roomType}) async {
     CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
     await rooms.add({
       "room_id": receiverId > senderId
@@ -76,9 +75,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   sendMessage(
-      {@required String text,
-      @required String roomId,
-      @required String senderId}) async {
+      {required String text,
+      required String roomId,
+      required String senderId}) async {
     CollectionReference messages =
         FirebaseFirestore.instance.collection('messages');
     await messages.add({
@@ -90,12 +89,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   updateRoomBeforeClose(
-      {@required String roomId, @required String userImage}) async {
+      {required String roomId, required String userImage}) async {
     CollectionReference messages =
         FirebaseFirestore.instance.collection('messages');
     final snapShot =
         await messages.orderBy('time', descending: true).limit(1).get();
-    Map<String, dynamic> messageData = snapShot.docs[0].data();
+    dynamic messageData = snapShot.docs[0].data();
     CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
     final room = await rooms.where('room_id', isEqualTo: roomId).get();
     await rooms.doc(room.docs[0].id).update({
@@ -107,7 +106,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   updateRoomOnStart(
-      {@required String roomId, @required String userImage}) async {
+      {required String roomId, required String userImage}) async {
     CollectionReference rooms = FirebaseFirestore.instance.collection('rooms');
     final room = await rooms.where('room_id', isEqualTo: roomId).get();
     await rooms.doc(room.docs[0].id).update({
@@ -146,7 +145,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                       physics: BouncingScrollPhysics(),
                       itemBuilder: (context, index) => Row(
-                        mainAxisAlignment: snapShot.data.docs[index]
+                        mainAxisAlignment: snapShot.data?.docs[index]
                                     .data()['send_receive_id'] ==
                                 CacheHelper.getData('id').toString()
                             ? MainAxisAlignment.start
@@ -154,7 +153,7 @@ class _ChatScreenState extends State<ChatScreen> {
                         children: [
                           Wrap(
                             direction: Axis.vertical,
-                            crossAxisAlignment: snapShot.data.docs[index]
+                            crossAxisAlignment: snapShot.data?.docs[index]
                                         .data()['send_receive_id'] ==
                                     CacheHelper.getData('id').toString()
                                 ? WrapCrossAlignment.start
@@ -166,7 +165,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                       MediaQuery.of(context).size.width * 0.7,
                                 ),
                                 decoration: BoxDecoration(
-                                    color: snapShot.data.docs[index]
+                                    color: snapShot.data?.docs[index]
                                                 .data()['send_receive_id'] ==
                                             CacheHelper.getData('id').toString()
                                         ? Colors.green.shade300
@@ -176,7 +175,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 10, vertical: 5),
                                   child: Text(
-                                    '${snapShot.data.docs[index].data()['text']}',
+                                    '${snapShot.data?.docs[index].data()['text']}',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                         color: Colors.black, fontSize: 16),
@@ -184,7 +183,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 ),
                               ),
                               Text(
-                                '${DateFormat.yMd().add_jm().format(snapShot.data.docs[index].data()['time'].toDate())}',
+                                '${DateFormat.yMd().add_jm().format(snapShot.data?.docs[index].data()['time'].toDate())}',
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 10,
@@ -197,7 +196,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       separatorBuilder: (context, index) => SizedBox(
                         height: 8,
                       ),
-                      itemCount: snapShot.data.docs.length,
+                      itemCount: snapShot.data!.docs.length,
                     ),
                   ),
                   Padding(

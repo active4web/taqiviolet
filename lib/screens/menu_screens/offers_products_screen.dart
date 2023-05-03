@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/constants.dart';
 
 class OffersProductsScreen extends StatefulWidget {
-  const OffersProductsScreen({Key key}) : super(key: key);
 
   @override
   State<OffersProductsScreen> createState() => _OffersProductsScreenState();
@@ -49,7 +48,7 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                       : GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount: cubit.productOffers.data.length,
+                          itemCount: cubit.productOffers!.data!.length,
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
@@ -59,34 +58,33 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                           itemBuilder: (context, index) => VerticalProductCard(
                             onclick: () {
                               log("000000000000000000000000");
-                              log("000000000000000000000000     ${cubit.productOffers.data[index].id}");
+                              log("000000000000000000000000     ${cubit.productOffers?.data![index].id}");
                               appCubit.getProductDetails(
-                                productId: cubit.productOffers.data[index].id,
+                                productId: cubit.productOffers?.data![index].id,
                               );
                               navigateTo(context, ProductDetailsScreen());
                             },
                             cubit: cubit,
                             isFavourite:
-                                cubit.productOffers.data[index].hasFavorites ==
+                                cubit.productOffers?.data![index].hasFavorites ==
                                     1,
                             totalRate:
-                                cubit.productOffers.data[index].hasReviews,
-                            image: cubit.productOffers.data[index].image,
+                                cubit.productOffers?.data![index].hasReviews,
+                            image: cubit.productOffers?.data![index].image,
                             currentPrice:
-                                cubit.productOffers.data[index].currentPrice,
-                            oldPrice: cubit.productOffers.data[index].oldPrice,
+                                cubit.productOffers?.data![index].currentPrice,
+                            oldPrice: cubit.productOffers?.data![index].oldPrice,
                             // oldPrice: cubit
                             //     .productsModel.result.allProducts[index].oldPrice,
-                            productName: cubit.productOffers.data[index].name,
-                            productId: cubit.productOffers.data[index].id,
+                            productName: cubit.productOffers?.data![index].name,
+                            productId: cubit.productOffers?.data![index].id,
                             onFavPressed: () {
-                              if (kToken != null && kToken.isNotEmpty) {
+                              if (kToken != null && kToken!.isNotEmpty) {
                                 // isFavourite = !isFavourite;
-                                log(cubit.productOffers.data[index].id
-                                        .toString() +
-                                    "DDDDD");
+                                // log(cubit.productOffers?.data![index].id.toString() +
+                                //     "DDDDD");
                                 cubit.updateFavorite(
-                                    prodId: cubit.productOffers.data[index].id);
+                                    prodId: (cubit.productOffers?.data![index].id)!);
                                 // cubit.emit(ChangeIconColor());
                               } else {
                                 showToast(

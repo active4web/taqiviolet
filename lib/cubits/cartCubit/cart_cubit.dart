@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
-
 import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +14,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:safsofa/models/cart_models/remote_cart_model/cart_product_prices_model.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
-
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
 import '../../models/make_order_model.dart';
 import '../../models/my_cart_model.dart';
@@ -30,15 +28,17 @@ class CartCubit extends Cubit<CartState> {
 
   static CartCubit get(context) => BlocProvider.of(context);
 
-  num total = 0;
+  double total = 0;
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
+
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
-  MyCartModel myCartModel;
+  MyCartModel? myCartModel;
+
   getServerCartData({bool withLoading = true}) {
     if (withLoading) {
       emit(CartLoadingState());
     }
-
+    emit(CartLoadingState());
     total = 0;
     Mhelper.getData(
         url: myCartURL,
@@ -47,11 +47,44 @@ class CartCubit extends Cubit<CartState> {
           'lang': kLanguage,
         }).then((value) {
       myCartModel = MyCartModel.fromJson(value.data);
-      log(value.data.toString());
-      for (int i = 0; i < myCartModel.data.listItem.length; i++) {
-        log("item price ${myCartModel.data.listItem[i].price}");
-        total += myCartModel.data.listItem[i].price *
-            myCartModel.data.listItem[i].quantity;
+      // log(value.data.toString());
+      for (int i = 0; i < myCartModel!.data!.listItem!.length; i++) {
+        log("item price ${myCartModel?.data?.listItem![i].id}");
+
+        // if (myCartModel?.data?.listItem![i].smartPrice == null){
+
+                total += (myCartModel?.data?.listItem![i].price) *
+              (myCartModel?.data?.listItem![i].quantity).toDouble();
+       /* }else {
+          total += (myCartModel?.data?.listItem![i].price) *
+              (myCartModel?.data?.listItem![i].quantity)
+              +
+      (double.parse(myCartModel?.data?.listItem![i].smartPrice)) *
+      (myCartModel?.data?.listItem![i].quantity);
+          print('22222222222222');
+        }*/
+
+        print("Bisho ${myCartModel?.data?.listItem![i].price}");
+        print("Bisho ${myCartModel?.data?.listItem![i].smartPrice}");
+        print("Bisho ${myCartModel?.data?.listItem![i].quantity}");
+        print("Bisho ${total}");
+ /*       print(double.parse(myCartModel?.data?.listItem![i].smartPrice) *
+                (myCartModel?.data?.listItem![i].quantity));*/
+     /*   if(myCartModel?.data?.listItem![i].price != 0){
+          print('11111111111111');
+          total += (myCartModel?.data?.listItem![i].price)! *
+              (myCartModel?.data?.listItem![i].quantity)!; +
+              (int.parse(myCartModel?.data?.listItem![i].smartPrice!)) *
+                  (myCartModel?.data?.listItem![i].quantity)!;
+          print('11111111111111');
+          print(
+              (myCartModel?.data?.listItem![i].smartPrice)! *
+                  (myCartModel?.data?.listItem![i].quantity.toString())!
+          );
+        }else{
+          total += (myCartModel?.data?.listItem![i].price)!.toDouble() *
+              (myCartModel?.data?.listItem![i].quantity)!;
+        }*/
       }
       emit(CartSuccessState());
     }).catchError((e) {
@@ -62,8 +95,9 @@ class CartCubit extends Cubit<CartState> {
 
   addquantityServer({
     @required product_id,
-    @required int product_quantity,
-  }) {
+    required int product_quantity,
+  }) async {
+    emit(CartLoadingState());
     log('${CacheHelper.getData("token")}');
     log('$product_id');
     log("0000000000000000000000000000");
@@ -77,6 +111,7 @@ class CartCubit extends Cubit<CartState> {
           "product_id": "$product_id",
           "product_quantity": "$product_quantity",
         }).then((value) {
+          print(value.data);
       if (value.data['status']) {
         getServerCartData(withLoading: false);
       } else {
@@ -85,7 +120,8 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  delItemFromCartServer({@required int productId}) {
+  delItemFromCartServer({required int productId}) {
+    emit(CartLoadingState());
     Mhelper.postData(data: {
       "key": 1234567890,
     }, url: delItem + "$productId", token: CacheHelper.getData("token"))
@@ -99,6 +135,7 @@ class CartCubit extends Cubit<CartState> {
   }
 
   emptyCartProductsServer() {
+    emit(CartLoadingState());
     Mhelper.postData(
       data: {},
       url: 'api/emptycart',
@@ -116,24 +153,30 @@ class CartCubit extends Cubit<CartState> {
   ///                                          ***********************************************
   ///                                          ***********************************************
 //////////////////////////////////////////////**HANDLE CART PART LOCALLY**////////////////////////////////////////////////////////////
-  CartLocalModel myCartlocalModel;
-  CartProductsPricesModel productCartPrices;
+  CartLocalModel? myCartlocalModel;
+  CartProductsPricesModel? productCartPrices;
+
   getLocalCartData() {
     emit(CartLoadingState());
+    total =0;
     if (CacheHelper.getData('localCart') != null) {
       Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
       myCartlocalModel = CartLocalModel.fromJson(json);
       String productIds = '';
-      myCartlocalModel.cartProducts.forEach((element) {
+      myCartlocalModel?.cartProducts?.forEach((element) {
         productIds += '${element.productId},';
+        total+=element.quantity!.toDouble() * element.onePiecePrice;
+        print(element.quantity!.toDouble() * element.onePiecePrice);
       });
       Mhelper.getData(url: '/api/productprice', query: {
         'lang': kLanguage,
         'product_id': productIds.substring(0, productIds.length - 1)
       }).then((value) {
         productCartPrices = CartProductsPricesModel.fromJson(value.data);
+        print('Bisho0000');
+        print("Bisho ${total}");
 
-        calculateTotalPrice(cartData: myCartlocalModel);
+        // calculateTotalPrice(cartData: (myCartlocalModel!));
         emit(CartSuccessState());
       }).catchError((error) {
         log('Error on getting cart product prices: ${error.toString()}');
@@ -147,30 +190,44 @@ class CartCubit extends Cubit<CartState> {
 
   addquantityLocally(
       {@required product_id,
-      @required int product_quantity,
-      @required int index}) {
+      required int product_quantity,
+      required int index}) {
     log('${CacheHelper.getData("token")}');
     log('$product_id');
     log("0000000000000000000000000000");
-    for (int i = 0; i < productCartPrices.data.listProducts.length; i++) {
-      if (productCartPrices.data.listProducts[i].id == product_id) {
-        log('product quantity=$product_quantity <= existing quantity=${int.parse(productCartPrices.data.listProducts[i].quantity)}');
+    for (int i = 0; i < productCartPrices!.data!.listProducts!.length; i++) {
+      if (productCartPrices?.data?.listProducts![i].id == product_id) {
+        log('product quantity=$product_quantity <= existing quantity=${int.parse(productCartPrices!.data!.listProducts![i].quantity!)}');
+
         if (product_quantity <=
-            int.parse(productCartPrices.data.listProducts[i].quantity)) {
-          myCartlocalModel.cartProducts[index].quantity = product_quantity;
-          if (myCartlocalModel.cartProducts[index].withSmartFeature) {
-            myCartlocalModel.cartProducts[index].price = product_quantity *
-                productCartPrices.data.listProducts[i].smartPrice;
+            int.parse(productCartPrices!.data!.listProducts![i].quantity!)) {
+          myCartlocalModel?.cartProducts![index].quantity = product_quantity;
+          print(myCartlocalModel!.cartProducts![index].withSmartFeature!);
+          if (myCartlocalModel!.cartProducts![index].withSmartFeature! == true &&
+              myCartlocalModel!.cartProducts![index].smartPrice != null ) {
+            myCartlocalModel?.cartProducts![index].price =product_quantity *
+                productCartPrices!.data!.listProducts![i].currentPrice +
+                (productCartPrices!.data!.listProducts![i].smartPrice) * product_quantity;
+            print('a66661');
+            print(productCartPrices!.data!.listProducts![i].currentPrice +
+                productCartPrices!.data!.listProducts![i].smartPrice);
+            print(myCartlocalModel!.cartProducts![i].withSmartFeature);
+            print(productCartPrices!.data!.listProducts![i].currentPrice);
+            print(myCartlocalModel!.cartProducts![index].smartPrice);
+            print(myCartlocalModel?.cartProducts![index].price);
+             print("A7a ${myCartlocalModel?.cartProducts![index].price}");
           } else {
-            myCartlocalModel.cartProducts[index].price = product_quantity *
-                productCartPrices.data.listProducts[i].currentPrice;
+            myCartlocalModel?.cartProducts![index].price = product_quantity *
+            productCartPrices!.data!.listProducts![i].currentPrice;
+            // print('a6666');
+
           }
           cartProducts = myCartlocalModel;
           cartCount = 0;
-          cartProducts.cartProducts
-              .map((e) => cartCount += e.quantity)
+          cartProducts?.cartProducts
+              ?.map((e) => cartCount += e.quantity!)
               .toList();
-          calculateTotalPrice(cartData: myCartlocalModel);
+           calculateTotalPrice(cartData: myCartlocalModel!);
           CacheHelper.setData(key: 'cartCount', value: cartCount);
           cartCountControlller.add(cartCount);
           String localCart = jsonEncode(cartProducts);
@@ -198,27 +255,27 @@ class CartCubit extends Cubit<CartState> {
     // });
   }
 
-  delITemFRomCartLocal({int product_id}) {
+  delITemFRomCartLocal({int? product_id}) {
     log('$product_id');
     log("0000000000000000000000000000");
     Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
     myCartlocalModel = CartLocalModel.fromJson(json);
-    for (int i = 0; i < myCartlocalModel.cartProducts.length; i++) {
-      if (myCartlocalModel.cartProducts[i].productId == product_id) {
-        myCartlocalModel.cartProducts.removeAt(i);
+    for (int i = 0; i < myCartlocalModel!.cartProducts!.length; i++) {
+      if (myCartlocalModel?.cartProducts![i].productId == product_id) {
+        myCartlocalModel?.cartProducts?.removeAt(i);
         break;
       }
     }
-    cartProducts = myCartlocalModel;
+    cartProducts = myCartlocalModel!;
     cartCount = 0;
-    cartProducts.cartProducts.forEach((element) {
-      cartCount += element.quantity;
+    cartProducts?.cartProducts?.forEach((element) {
+      cartCount += element.quantity!;
     });
     cartCountControlller.add(cartCount);
     CacheHelper.setData(key: 'cartCount', value: cartCount);
     String localCart = jsonEncode(cartProducts);
     CacheHelper.setData(key: 'localCart', value: localCart);
-    calculateTotalPrice(cartData: myCartlocalModel);
+    calculateTotalPrice(cartData: myCartlocalModel!);
     emit(CartSuccessState());
     // Mhelper.postData(data: {
     //   "key": 1234567890,
@@ -230,16 +287,18 @@ class CartCubit extends Cubit<CartState> {
     // });
   }
 
-  void calculateTotalPrice({@required CartLocalModel cartData}) {
-    total = 0;
-    cartData.cartProducts.forEach((element) {
+  void calculateTotalPrice({required CartLocalModel cartData}) {
+     total = 0;
+    cartData.cartProducts?.forEach((element) {
+     print('Bisho555');
       total += element.price;
+      print(total);
     });
   }
 
   void emptyCartProductsLocally() {
-    myCartlocalModel.cartProducts.clear();
-    cartProducts.cartProducts.clear();
+    myCartlocalModel?.cartProducts?.clear();
+    cartProducts?.cartProducts?.clear();
     CacheHelper.removeData('localCart');
     total = 0.0;
     cartCount = 0;
@@ -250,24 +309,17 @@ class CartCubit extends Cubit<CartState> {
 
 ////////////////////////////////////////////////////**HANDLE CART PART LOCALLY**//////////////////////////////////////////////////////
   make_order(
-      {@required
-          int payment_status, //1-->Payment has been done , 0-->Payment not completed
-      @required
-          int payment_type, // 1-->Pay online , 0-->Pay Cash
-      @required
-          num orderPrice,
-      @required
-          String phone,
-      @required
-          String name,
-      @required
-          String address,
-      @required
-          int deliveryType, //0-->Deliver Order to home , 1-->Recieve order from store
-      @required
-          int countryId,
-      @required
-          int cityId,
+      {required int
+          payment_status, //1-->Payment has been done , 0-->Payment not completed
+      required int payment_type, // 1-->Pay online , 0-->Pay Cash
+      required num orderPrice,
+      required String phone,
+      required String name,
+      required String address,
+      required int
+          deliveryType, //0-->Deliver Order to home , 1-->Recieve order from store
+      required int countryId,
+      required int cityId,
       context}) {
     log('${CacheHelper.getData("token")}');
 
@@ -309,9 +361,10 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  bool isCopunValid;
-  int copunId;
-  checkCopunStatus({@required String copun}) {
+  bool? isCopunValid;
+  int? copunId;
+
+  checkCopunStatus({required String copun}) {
     Mhelper.postData(
       url: promoCodeURL,
       query: {'lang': kLanguage},
@@ -337,20 +390,21 @@ class CartCubit extends Cubit<CartState> {
       message,
       address,
       type,
-      GlobalKey qrKey,
-      String qrData,
-      int orderId,
+      GlobalKey? qrKey,
+      String? qrData,
+      int? orderId,
       context}) async {
     log('${CacheHelper.getData("token")}');
-    File qrImageFile;
-    if (qrData.isNotEmpty) {
-      RenderRepaintBoundary boundary = qrKey.currentContext.findRenderObject();
-      ui.Image image = await boundary.toImage(pixelRatio: 2.5);
-      ByteData byteData =
+    File? qrImageFile;
+    if (qrData!.isNotEmpty) {
+      RenderRepaintBoundary? boundary =
+          qrKey?.currentContext?.findRenderObject() as RenderRepaintBoundary?;
+      ui.Image image = await boundary!.toImage(pixelRatio: 2.5);
+      ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
-      Uint8List pngBytes = byteData.buffer.asUint8List();
+      Uint8List pngBytes = byteData!.buffer.asUint8List();
       final tempDir = await getExternalStorageDirectory();
-      final file = await new File('${tempDir.path}/gift_card.png').create();
+      final file = await new File('${tempDir?.path}/gift_card.png').create();
       await file.writeAsBytes(pngBytes);
 
       qrImageFile = file;
@@ -377,7 +431,8 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  CitiesLocationsModel allCitiesLocation;
+  CitiesLocationsModel? allCitiesLocation;
+
   getAllLocationsOfCities() {
     Mhelper.getData(
       url: locationsURL,
@@ -395,19 +450,21 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  CountryList selectedCountry;
-  List<ListCites> allCities = [];
+  CountryList? selectedCountry;
+  List<ListCites>? allCities = [];
+
   void chooseCountry(CountryList chooseCountry) {
-    if (allCities.isNotEmpty) {
+    if (allCities!.isNotEmpty) {
       allCities = [];
       selectedCity = null;
     }
     selectedCountry = chooseCountry;
-    allCities.addAll(selectedCountry.listCites);
+    allCities?.addAll(selectedCountry?.listCites as Iterable<ListCites>);
     emit(CartSuccessState());
   }
 
-  ListCites selectedCity;
+  ListCites? selectedCity;
+
   void chooseCity(ListCites choosenCity) {
     selectedCity = choosenCity;
     emit(CartSuccessState());

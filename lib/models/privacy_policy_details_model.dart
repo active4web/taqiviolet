@@ -1,8 +1,8 @@
 class PrivacyPolicyDetailsModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<Data> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<Data>? data;
 
   PrivacyPolicyDetailsModel({this.status, this.errNum, this.msg, this.data});
 
@@ -11,38 +11,38 @@ class PrivacyPolicyDetailsModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['status'] = this.status;
+//   data['errNum'] = this.errNum;
+//   data['msg'] = this.msg;
+//   if (this.data != null) {
+//     data['data'] = this.data.map((v) => v.toJson()).toList();
+//   }
+//   return data;
+// }
 }
 
 class Data {
-  int id;
-  String title;
-  String content;
-  String contentApp;
-  String image;
-  int type;
-  Null file;
-  int footer;
-  String createdAt;
-  String updatedAt;
-  int appView;
-  int idCat;
+  int? id;
+  String? title;
+  String? content;
+  String? contentApp;
+  String? image;
+  int? type;
+  String? file;
+  int? footer;
+  String? createdAt;
+  String? updatedAt;
+  int? appView;
+  int? idCat;
 
   Data(
       {this.id,
@@ -73,6 +73,7 @@ class Data {
     idCat = json['id_cat'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
@@ -89,4 +90,5 @@ class Data {
     data['id_cat'] = this.idCat;
     return data;
   }
+*/
 }

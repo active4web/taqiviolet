@@ -1,4 +1,8 @@
 class ConstructionLinkModel {
+  bool? status;
+  String? errNum;
+  String? msg;
+  Content? data;
   ConstructionLinkModel({
     this.status,
     this.errNum,
@@ -6,30 +10,34 @@ class ConstructionLinkModel {
     this.data,
   });
 
-  ConstructionLinkModel.fromJson(dynamic json) {
+  ConstructionLinkModel.fromJson(Map<String,dynamic> json) {
+
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
     data = json['data'] != null ? Content.fromJson(json['data']) : null;
   }
-  bool status;
-  String errNum;
-  String msg;
-  Content data;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['status'] = status;
-    map['errNum'] = errNum;
-    map['msg'] = msg;
-    if (data != null) {
-      map['data'] = data.toJson();
-    }
-    return map;
+Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = new Map<String, dynamic>();
+  data['status'] = this.status;
+  data['errNum'] = this.errNum;
+  data['msg'] = this.msg;
+  if (this.data != null) {
+    data['data'] = this.data!.toJson();
   }
+  return data;
+}
+
 }
 
 class Content {
+  String? offerImage;
+  String? videoLink;
+  List<ProductList>? productList;
+  int? orderId;
+  String? inspirationImage;
+
   Content({
     this.offerImage,
     this.videoLink,
@@ -38,7 +46,7 @@ class Content {
     this.inspirationImage,
   });
 
-  Content.fromJson(dynamic json) {
+  Content.fromJson(Map<String,dynamic> json) {
     offerImage = json['offerImage'];
     videoLink = json['videoLink'];
     orderId = json['order_id'];
@@ -46,30 +54,42 @@ class Content {
     if (json['product_list'] != null) {
       productList = [];
       json['product_list'].forEach((v) {
-        productList.add(ProductList.fromJson(v));
+        productList!.add(ProductList.fromJson(v));
       });
     }
   }
-  String offerImage;
-  String videoLink;
-  List<ProductList> productList;
-  int orderId;
-  String inspirationImage;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['offerImage'] = offerImage;
-    map['videoLink'] = videoLink;
-    map['order_id'] = orderId;
-    map['insp_mop_img'] = inspirationImage;
-    if (productList != null) {
-      map['product_list'] = productList.map((v) => v.toJson()).toList();
-    }
-    return map;
+Map<String, dynamic> toJson() {
+  final Map<String, dynamic> data = new Map<String, dynamic>();
+  data['offerImage'] = this.offerImage;
+  data['videoLink'] = this.videoLink;
+  data['order_id'] = this.orderId;
+  data['insp_mop_img'] = this.inspirationImage;
+  if (this.productList != null) {
+    data['product_list'] = this.productList!.map((v) => v.toJson()).toList();
   }
+  return data;
+}
 }
 
 class ProductList {
+  int? id;
+  String? name;
+  String? nameSearch;
+  var oldPrice;
+  var currentPrice;
+  String? details;
+  String? quantity;
+  int? subCategoryId;
+  int? categoryId;
+  int? isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
+  String? image;
+  int? hasFavorites;
+  String? hasReview;
+
   ProductList({
     this.id,
     this.name,
@@ -89,7 +109,7 @@ class ProductList {
     this.hasReview,
   });
 
-  ProductList.fromJson(dynamic json) {
+  ProductList.fromJson(Map<String,dynamic> json) {
     id = json['id'];
     name = json['name'];
     nameSearch = json['name_search'];
@@ -107,41 +127,25 @@ class ProductList {
     hasFavorites = json['hasFavorites'];
     hasReview = json['hasReviews'].toString();
   }
-  int id;
-  String name;
-  String nameSearch;
-  num oldPrice;
-  num currentPrice;
-  String details;
-  String quantity;
-  int subCategoryId;
-  int categoryId;
-  int isActive;
-  int storeId;
-  String createdAt;
-  String updatedAt;
-  String image;
-  int hasFavorites;
-  String hasReview;
 
-  Map<String, dynamic> toJson() {
-    final map = <String, dynamic>{};
-    map['id'] = id;
-    map['name'] = name;
-    map['name_search'] = nameSearch;
-    map['old_price'] = oldPrice;
-    map['current_price'] = currentPrice;
-    map['details'] = details;
-    map['quantity'] = quantity;
-    map['sub_category_id'] = subCategoryId;
-    map['category_id'] = categoryId;
-    map['is_active'] = isActive;
-    map['store_id'] = storeId;
-    map['created_at'] = createdAt;
-    map['updated_at'] = updatedAt;
-    map['image'] = image;
-    map['hasFavorites'] = hasFavorites;
-    map['hasReviews'] = hasReview;
-    return map;
-  }
+Map<String, dynamic> toJson() {
+  final map = <String, dynamic>{};
+  map['id'] = id;
+  map['name'] = name;
+  map['name_search'] = nameSearch;
+  map['old_price'] = oldPrice;
+  map['current_price'] = currentPrice;
+  map['details'] = details;
+  map['quantity'] = quantity;
+  map['sub_category_id'] = subCategoryId;
+  map['category_id'] = categoryId;
+  map['is_active'] = isActive;
+  map['store_id'] = storeId;
+  map['created_at'] = createdAt;
+  map['updated_at'] = updatedAt;
+  map['image'] = image;
+  map['hasFavorites'] = hasFavorites;
+  map['hasReviews'] = hasReview;
+  return map;
+}
 }

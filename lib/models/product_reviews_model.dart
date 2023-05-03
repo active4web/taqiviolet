@@ -1,14 +1,4 @@
-// To parse this JSON data, do
-//
-//     final productReviewsModel = productReviewsModelFromJson(jsonString);
 
-import 'dart:convert';
-
-ProductReviewsModel productReviewsModelFromJson(String str) =>
-    ProductReviewsModel.fromJson(json.decode(str));
-
-String productReviewsModelToJson(ProductReviewsModel data) =>
-    json.encode(data.toJson());
 
 class ProductReviewsModel {
   ProductReviewsModel({
@@ -19,11 +9,11 @@ class ProductReviewsModel {
     this.result,
   });
 
-  String message;
-  int errNum;
-  bool status;
-  int total;
-  Result result;
+  String? message;
+  int? errNum;
+  bool? status;
+  int? total;
+  Result? result;
 
   factory ProductReviewsModel.fromJson(Map<String, dynamic> json) =>
       ProductReviewsModel(
@@ -34,13 +24,13 @@ class ProductReviewsModel {
         result: Result.fromJson(json["result"]),
       );
 
-  Map<String, dynamic> toJson() => {
-        "message": message,
-        "errNum": errNum,
-        "status": status,
-        "total": total,
-        "result": result.toJson(),
-      };
+  // Map<String, dynamic> toJson() => {
+  //       "message": message,
+  //       "errNum": errNum,
+  //       "status": status,
+  //       "total": total,
+  //       "result": result.toJson(),
+  //     };
 }
 
 class Result {
@@ -48,16 +38,16 @@ class Result {
     this.allRates,
   });
 
-  List<AllRate> allRates;
+  List<AllRate>? allRates;
 
   factory Result.fromJson(Map<String, dynamic> json) => Result(
         allRates: List<AllRate>.from(
             json["all_rates"].map((x) => AllRate.fromJson(x))),
       );
-
+/*
   Map<String, dynamic> toJson() => {
         "all_rates": List<dynamic>.from(allRates.map((x) => x.toJson())),
-      };
+      };*/
 }
 
 class AllRate {
@@ -70,12 +60,12 @@ class AllRate {
     this.allSlider,
   });
 
-  String comments;
-  String rateValue;
-  DateTime createdAt;
-  String username;
-  int prodId;
-  List<AllSlider> allSlider;
+  String? comments;
+  String? rateValue;
+  DateTime? createdAt;
+  String? username;
+  int? prodId;
+  List<AllSlider>? allSlider;
 
   factory AllRate.fromJson(Map<String, dynamic> json) => AllRate(
         comments: json["comments"],
@@ -87,7 +77,7 @@ class AllRate {
             json["all_slider"].map((x) => AllSlider.fromJson(x))),
       );
 
-  Map<String, dynamic> toJson() => {
+/*  Map<String, dynamic> toJson() => {
         "comments": comments,
         "rate_value": rateValue,
         "created_at":
@@ -95,7 +85,7 @@ class AllRate {
         "username": username,
         "prod_id": prodId,
         "all_slider": List<dynamic>.from(allSlider.map((x) => x.toJson())),
-      };
+      };*/
 }
 
 class AllSlider {
@@ -103,13 +93,13 @@ class AllSlider {
     this.image,
   });
 
-  String image;
+  String? image;
 
   factory AllSlider.fromJson(Map<String, dynamic> json) => AllSlider(
         image: json["image"],
       );
-
+/*
   Map<String, dynamic> toJson() => {
         "image": image,
-      };
+      };*/
 }

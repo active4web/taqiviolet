@@ -9,20 +9,19 @@ class CustomDropDown<T> extends StatelessWidget {
   final Color fillColor;
   final Color textColor;
   final List<DropdownMenuItem<T>> items;
-  final void Function(T) onChanged;
+  final dynamic Function(T) onChanged;
 
-  final String Function(T) validate;
+  final Function? validate;
   CustomDropDown({
-    Key key,
-    @required this.hintText,
-    @required this.items,
-    @required this.onChanged,
-    @required this.value,
+    required this.hintText,
+    required this.items,
+    required this.onChanged,
+    required this.value,
     this.validate,
     this.fillColor = Colors.white,
     this.hintColor = Colors.white54,
     this.textColor = Colors.white,
-  }) : super(key: key);
+  });
 
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
@@ -68,8 +67,12 @@ class CustomDropDown<T> extends StatelessWidget {
       dropdownDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
       ),
-      validator: validate,
-      onChanged: onChanged,
+      validator: (va){
+       return validate!(va);
+      },
+      onChanged: (v){
+       return onChanged(v as T);
+      },
       items: items,
     );
   }

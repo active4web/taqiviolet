@@ -1,8 +1,8 @@
 class HomeScreenMainCatModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<Data> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<Data>? data;
 
   HomeScreenMainCatModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,34 +13,24 @@ class HomeScreenMainCatModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
 }
 
 class Data {
-  int id;
-  String name;
-  String image;
-  String imageMop;
-  String description;
-  int isActive;
-  String createdAt;
-  String updatedAt;
-  int storeId;
-  int hasSubCategories;
+  int? id;
+  String? name;
+  String? image;
+  String? imageMop;
+  String? description;
+  int? isActive;
+  String? createdAt;
+  String? updatedAt;
+  int? storeId;
+  int? hasSubCategories;
 
   Data(
       {this.id,

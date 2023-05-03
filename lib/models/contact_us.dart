@@ -1,8 +1,8 @@
 class ContactUs {
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   ContactUs({this.status, this.errNum, this.msg, this.data});
 
@@ -13,28 +13,28 @@ class ContactUs {
     data = new Data.fromJson(json['data']);
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['status'] = this.status;
+  //   data['errNum'] = this.errNum;
+  //   data['msg'] = this.msg;
+  //   if (this.data != null) {
+  //     data['data'] = this.data.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
 class Data {
-  int iD;
-  String youtubeLink;
-  String tiktokLink;
-  String instagramLink;
-  String twitterLink;
-  String phone;
-  String mail;
-  int salesId;
-  int technicalSupportId;
+  int? iD;
+  String? youtubeLink;
+  String? tiktokLink;
+  String? instagramLink;
+  String? twitterLink;
+  String? phone;
+  String? mail;
+  int? salesId;
+  int? technicalSupportId;
   Data({
     this.iD,
     this.youtubeLink,
@@ -59,17 +59,17 @@ class Data {
     technicalSupportId = json['technicalsupport'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['youtube-link'] = this.youtubeLink;
-    data['tiktok-link'] = this.tiktokLink;
-    data['Instagram-link'] = this.instagramLink;
-    data['Twitter-link'] = this.twitterLink;
-    data['Phone'] = this.phone;
-    data['Mail'] = this.mail;
-    data['sales_id'] = this.salesId;
-    data['technicalsupport'] = this.technicalSupportId;
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['ID'] = this.iD;
+  //   data['youtube-link'] = this.youtubeLink;
+  //   data['tiktok-link'] = this.tiktokLink;
+  //   data['Instagram-link'] = this.instagramLink;
+  //   data['Twitter-link'] = this.twitterLink;
+  //   data['Phone'] = this.phone;
+  //   data['Mail'] = this.mail;
+  //   data['sales_id'] = this.salesId;
+  //   data['technicalsupport'] = this.technicalSupportId;
+  //   return data;
+  // }
 }

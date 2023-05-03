@@ -17,7 +17,6 @@ import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 import '../../cubits/technicalSupportCubit/technical_support_state.dart';
 
 class TechnicalSupportScreen extends StatelessWidget {
-  const TechnicalSupportScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -68,6 +67,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                         CustomFormField(
                           controller: name,
                           label: "name".tr(),
+                            validate: (va){}
                         ),
                         SizedBox(
                           height: 15,
@@ -80,6 +80,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                           controller: email,
                           inputType: TextInputType.emailAddress,
                           label: "Email".tr(),
+                            validate: (va){}
                         ),
                         SizedBox(
                           height: 15,
@@ -92,6 +93,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                           controller: phone,
                           inputType: TextInputType.phone,
                           label: "Phone".tr(),
+                            validate: (va){}
                         ),
                         SizedBox(
                           height: 15,
@@ -104,6 +106,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                           controller: comment,
                           minLines: 5,
                           label: "Comment".tr(),
+                            validate: (va){}
                         ),
                         SizedBox(
                           height: 20,
@@ -139,7 +142,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () async {
                                   await launch(
-                                      'whatsapp://send?phone=+966${cubit.contactsData.data.phone.substring(5)}');
+                                      'whatsapp://send?phone=+966${cubit.contactsData.data?.phone?.substring(5)}');
                                 },
                                 icon: Image.asset('assets/images/whatsapp.png'),
                               ),
@@ -148,7 +151,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                               child: IconButton(
                                 onPressed: () async {
                                   await launch(
-                                      'mailto:${cubit.contactsData.data.mail}?subject=This is Subject Title&body=This is Body of Email');
+                                      'mailto:${cubit.contactsData.data?.mail}?subject=This is Subject Title&body=This is Body of Email');
                                 },
                                 icon: Image.asset('assets/images/gmail.png'),
                               ),
@@ -218,10 +221,10 @@ class TechnicalSupportScreen extends StatelessWidget {
                                             navigateTo(
                                                 context,
                                                 ChatScreen(
-                                                  techSupportId: cubit
+                                                  techSupportId: (cubit
                                                       .contactsData
                                                       .data
-                                                      .technicalSupportId,
+                                                      ?.technicalSupportId)!,
                                                   type: '2',
                                                 ));
                                           },
@@ -257,10 +260,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                                             navigateTo(
                                                 context,
                                                 ChatScreen(
-                                                  techSupportId: cubit
-                                                      .contactsData
-                                                      .data
-                                                      .salesId,
+                                                  techSupportId: (cubit.contactsData.data?.salesId)!,
                                                   type: '1',
                                                 ));
                                           },
@@ -317,9 +317,7 @@ class TechnicalSupportScreen extends StatelessWidget {
 }
 
 class RequestCard extends StatelessWidget {
-  const RequestCard({
-    Key key,
-  }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -346,7 +344,7 @@ class RequestCard extends StatelessWidget {
                         BoxShadow(color: Colors.black26, blurRadius: 1)
                       ]),
                   child: ListView.builder(
-                      itemCount: cubit.detailsSupportDetailsData.length,
+                      itemCount: cubit.detailsSupportDetailsData!.length,
                       itemBuilder: (context, pos) {
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -354,7 +352,7 @@ class RequestCard extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  cubit.detailsSupportDetailsData[pos].name,
+                                  "${cubit.detailsSupportDetailsData![pos].name}",
                                   style: TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold),
@@ -365,7 +363,7 @@ class RequestCard extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              cubit.detailsSupportDetailsData[0].phone,
+                              "${cubit.detailsSupportDetailsData![0].phone}",
                               style: TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.bold),
                             ),
@@ -373,7 +371,7 @@ class RequestCard extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              cubit.detailsSupportDetailsData[pos].message,
+                              "${cubit.detailsSupportDetailsData![pos].message}",
                               style: TextStyle(
                                   fontSize: 17, fontWeight: FontWeight.bold),
                             ),
@@ -384,15 +382,13 @@ class RequestCard extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  cubit
-                                      .detailsSupportDetailsData[pos].updatedAt,
+                                  "${cubit.detailsSupportDetailsData![pos].updatedAt}",
                                   style: TextStyle(
                                     fontSize: 17,
                                   ),
                                 ),
                                 Text(
-                                  cubit
-                                      .detailsSupportDetailsData[pos].createdAt,
+                                  "${cubit.detailsSupportDetailsData![pos].createdAt}",
                                   style: TextStyle(
                                     fontSize: 17,
                                   ),
@@ -413,7 +409,7 @@ class RequestCard extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(20),
                                   ),
                                   child: Text(
-                                    cubit.detailsSupportDetailsData[pos]
+                                    cubit.detailsSupportDetailsData![pos]
                                             .notes ??
                                         "",
                                     style: TextStyle(
@@ -423,7 +419,7 @@ class RequestCard extends StatelessWidget {
                                 ),
                                 Icon(
                                   Icons.remove_red_eye,
-                                  color: cubit.detailsSupportDetailsData[pos]
+                                  color: cubit.detailsSupportDetailsData![pos]
                                               .status ==
                                           0
                                       ? Colors.grey

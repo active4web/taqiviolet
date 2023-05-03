@@ -11,7 +11,6 @@ import '../../cubits/privacy_cubit/privacy_policy_state.dart';
 import '../../shared/constants.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
-  const PrivacyPolicyScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,14 +38,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
                   child: ListView.separated(
                       itemBuilder: (context, index) {
                         log("imageeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
-                        log('${cubit.privacyPolicyModel.data[index].image}');
+                        log('${cubit.privacyPolicyModel?.data![index].image}');
                         return Column(
                           children: [
                             Row(
                               children: [
                                 Expanded(
                                   child: Text(
-                                    cubit.privacyPolicyModel.data[index].title,
+                                    "${cubit.privacyPolicyModel?.data![index].title}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -82,7 +81,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                               height: 20,
                             ),
                             Text(
-                              cubit.privacyPolicyModel.data[index].content,
+                              "${cubit.privacyPolicyModel?.data![index].content}",
                               style: TextStyle(fontSize: 15, height: 2),
                             ),
                             // SizedBox(
@@ -114,7 +113,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(vertical: 20),
                             child: Divider(),
                           ),
-                      itemCount: cubit.privacyPolicyModel.data.length - 2),
+                      itemCount: (cubit.privacyPolicyModel?.data?.length)! - 2),
                 ),
         );
       },

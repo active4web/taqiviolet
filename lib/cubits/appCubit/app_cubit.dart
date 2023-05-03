@@ -26,7 +26,7 @@ import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/home_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/menu_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/my_account_screen.dart';
-import 'package:safsofa/screens/favourites_screen.dart';
+import 'package:safsofa/screens/mylist_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
@@ -41,13 +41,14 @@ class AppCubit extends Cubit<AppStates> {
 
   List<Widget> screens = [
     HomeScreen(),
-    FavouritesScreen(), // StoresScreen(), // OffersScreen(), // ChatsScreen(),
+    MyListScreen(), // StoresScreen(), // OffersScreen(), // ChatsScreen(),
     CartScreen(),
     MyAccountScreen(),
     MenuScreen(),
   ];
 
-  int selectedIndex = 0;
+  int? selectedIndex = 0;
+
   addtolist(product_id) {
     Mhelper.postData(url: "/api/addToRoster", data: {"product_id": product_id});
   }
@@ -61,7 +62,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(BottomNavState());
   }
 
-  RegisterSuccessModel userInfo;
+  RegisterSuccessModel? userInfo;
 
   void getCache() {
     if (CacheHelper.getData('userInfo') != null) {
@@ -74,26 +75,33 @@ class AppCubit extends Cubit<AppStates> {
   }
 
 //////////////////////////////USER ACCOUNT DATA SCREEN LOGIC///////////////////////////////
-  UserProfileDataModel myAccountData;
+  UserProfileDataModel? myAccountData;
+
   void getUserAccountData({bool loading = true}) {
     if (loading) {
       emit(GetAccountDataLoadingState());
     }
-
+    print('555555555551111');
     Mhelper.getData(
         url: userProfileDataURL,
         token: kToken,
         query: {'lang': kLanguage}).then((value) {
+      log('55555555555 ${value.data['lastOrder']}');
+      log('55555555555 ${myAccountData?.data?.lastOrder}');
+
       myAccountData = UserProfileDataModel.fromJson(value.data);
-      log(value.data.toString());
+/*      print(myAccountData?.data?.myOrder);
+      print("LastOrder ${myAccountData?.data?.lastOrder?.createdAt.toString().substring(0,11)}");*/
+      // print(myAccountData?.data?.userProfile);
+      print('55555555555');
       emit(GetAccountDataSuccessState());
     }).catchError((error) {
       log('Error on loading account data:: ${error.toString()}');
-      emit(GetAccountDataErrorState());
+      emit(GetAccountDataErrorState(error.toString()));
     });
   }
 
-  void deleteUserAccount({@required BuildContext context}) {
+  void deleteUserAccount({required BuildContext context}) {
     Mhelper.postData(url: deleteAccountURL, token: kToken, data: {
       'token': kToken,
     }, query: {
@@ -104,14 +112,14 @@ class AppCubit extends Cubit<AppStates> {
         CacheHelper.removeData('userInfo');
         CacheHelper.removeData('token');
         CacheHelper.removeData('id');
-        kToken = null;
+        kToken = '';
         CacheHelper.removeData('localCart');
         CacheHelper.removeData('cartCount');
         showToast(
             text: "yourAccountHasBeenDeletedSuccessfully".tr(),
             color: Colors.green,
             location: ToastGravity.CENTER);
-        emit(GetAccountDataSuccessState());
+        emit(DeleteAccountDataSuccessState());
         navigateAndFinish(context, HomeLayout());
       } else {
         showToast(
@@ -121,11 +129,11 @@ class AppCubit extends Cubit<AppStates> {
       }
     }).catchError((error) {
       log('Error on deleting account :: ${error.toString()}');
-      emit(GetAccountDataErrorState());
+      emit(DeleteAccountDataErrorState(error.toString()));
     });
   }
 
-  void removeFavoriteSuugestion({@required int prodId, @required int index}) {
+  void removeFavoriteSuugestion({required int prodId, required int index}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -134,16 +142,16 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        myAccountData.data.suggestion[index].hasFavorites = 0;
+        myAccountData?.data?.suggestion![index].hasFavorites = 0;
         emit(GetAccountDataSuccessState());
       }
     });
   }
 
-  FavoritesListsModel favListModelOfSuggestion;
+  FavoritesListsModel? favListModelOfSuggestion;
 
   void getFavListDataSuggestion() {
-    emit(FavoritesListLoading());
+    emit(GetFavoritesListLoading());
     Mhelper.getData(
       url: 'api/favlist',
       token: kToken,
@@ -153,18 +161,18 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       favListModelOfSuggestion = FavoritesListsModel.fromJson(value.data);
       log(value.data.toString());
-      emit(GetAccountDataSuccessState());
+      emit(GetFavoritesListSuccess());
     }).catchError((error) {
       log('Error on loading fav list>>${error.toString()}');
-      emit(GetAccountDataSuccessState());
+      emit(GetFavoritesListError(error.toString()));
     });
   }
 
   void addFavProductToFavListSuggestion(
-      {@required int listId,
-      @required int productId,
-      @required int index,
-      @required BuildContext context}) {
+      {required int listId,
+      required int productId,
+      required int index,
+      required BuildContext context}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -177,8 +185,8 @@ class AppCubit extends Cubit<AppStates> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        myAccountData.data.suggestion[index].hasFavorites = 1;
-        emit(GetAccountDataSuccessState());
+        myAccountData?.data?.suggestion![index].hasFavorites = 1;
+        emit(addFavoritesListSuccess());
         Navigator.pop(context);
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
@@ -187,10 +195,10 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void createNewFavListSuggestion(
-      {@required String listName,
-      @required BuildContext context,
-      int productId,
-      @required int index}) {
+      {required String listName,
+      required BuildContext context,
+      int? productId,
+      required int index}) {
     Mhelper.postData(
       url: 'api/addfavlist',
       data: {
@@ -202,8 +210,8 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       log('Crating new list data: ${value.data}');
       if (value.data['status']) {
-        myAccountData.data.suggestion[index].hasFavorites = 1;
-        emit(GetAccountDataSuccessState());
+        myAccountData?.data?.suggestion![index].hasFavorites = 1;
+        emit(createNewFavoritesListSuccess());
         Navigator.of(context).pop();
       } else {
         showToast(text: value.data['msg'], color: Colors.red);
@@ -213,7 +221,8 @@ class AppCubit extends Cubit<AppStates> {
 
 //////////////////////////////USER ACCOUNT DATA SCREEN LOGIC///////////////////////////////
   // YoutubePlayerController videoController;
-  ConstructionLinkModel constructionLink = ConstructionLinkModel();
+  ConstructionLinkModel? constructionLink = ConstructionLinkModel();
+
   void getConstructionData() {
     emit(GetConstructionLoadingState());
     Mhelper.getData(url: '/api/construction_link', token: kToken, query: {
@@ -226,7 +235,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  void removeFavoriteHome({@required int prodId, @required int index}) {
+  void removeFavoriteHome({required int prodId, required int index}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -235,16 +244,16 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        constructionLink.data.productList[index].hasFavorites = 0;
-        emit(GetConstructionSuccessState());
+        constructionLink?.data?.productList![index].hasFavorites = 0;
+        emit(removeFavoriteHomeSuccess());
       }
     });
   }
 
-  FavoritesListsModel favListModelOfHome;
+  FavoritesListsModel? favListModelOfHome;
 
   void getFavListDataOfHome() {
-    emit(FavoritesListLoading());
+    emit(GetFavoritesListLoading());
     Mhelper.getData(
       url: 'api/favlist',
       token: kToken,
@@ -262,10 +271,10 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void addFavProductToFavListHome(
-      {@required int listId,
-      @required int productId,
-      @required int index,
-      @required BuildContext context}) {
+      {required int listId,
+      required int productId,
+      required int index,
+      required BuildContext context}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -278,7 +287,7 @@ class AppCubit extends Cubit<AppStates> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        constructionLink.data.productList[index].hasFavorites = 1;
+        constructionLink?.data?.productList![index].hasFavorites = 1;
         emit(GetConstructionSuccessState());
         Navigator.pop(context);
       } else {
@@ -288,10 +297,10 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void createNewFavListHome(
-      {@required String listName,
-      @required BuildContext context,
-      int productId,
-      @required int index}) {
+      {required String listName,
+      required BuildContext context,
+      int? productId,
+      required int index}) {
     Mhelper.postData(
       url: 'api/addfavlist',
       data: {
@@ -303,7 +312,7 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       log('Crating new list data: ${value.data}');
       if (value.data['status']) {
-        constructionLink.data.productList[index].hasFavorites = 1;
+        constructionLink?.data?.productList![index].hasFavorites = 1;
         emit(GetConstructionSuccessState());
         Navigator.of(context).pop();
       } else {
@@ -313,8 +322,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   ///////////////////////////////////////PRODUCT DETAILS SECTION//////////////////////////////////////////
-  MyProductsDetailsModel productDetailsModel;
-  void getProductDetails({int productId}) {
+  MyProductsDetailsModel? productDetailsModel;
+
+  void getProductDetails({int? productId}) {
     emit(GetProductDetailsLoadingState());
     log(CacheHelper.getData("token")
         .toString()); //product_id=$productId&lang=${ CacheHelper.getData("lan") }
@@ -340,7 +350,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void removeProductDetailsFavorite({
-    @required int prodId,
+    int? prodId,
   }) {
     log('inside is favorite of updateProductDetailsFavorite');
     Mhelper.postData(
@@ -350,13 +360,13 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        productDetailsModel.data.productDetails[0].hasFavorites = 0;
+        productDetailsModel?.data?.productDetails![0].hasFavorites = 0;
         emit(GetProductDetailsSuccessState());
       }
     });
   }
 
-  void removeRelatedProductsFavorite({@required int prodId}) {
+  void removeRelatedProductsFavorite({required int prodId}) {
     log('inside is favorite of updateProductDetailsFavorite');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -366,10 +376,10 @@ class AppCubit extends Cubit<AppStates> {
       log(value.data.toString());
       if (value.data['status']) {
         for (int i = 0;
-            i < productDetailsModel.data.relatedProducts.length;
+            i < productDetailsModel!.data!.relatedProducts!.length;
             i++) {
-          if (productDetailsModel.data.relatedProducts[i].id == prodId) {
-            productDetailsModel.data.relatedProducts[i].hasFavorites = 0;
+          if (productDetailsModel!.data!.relatedProducts![i].id == prodId) {
+            productDetailsModel?.data?.relatedProducts![i].hasFavorites = 0;
             emit(GetProductDetailsSuccessState());
             break;
           }
@@ -378,10 +388,10 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  FavoritesListsModel favListModelOfProdDetails;
+  FavoritesListsModel? favListModelOfProdDetails;
 
   void getFavListDataOfProdDetails() {
-    emit(FavoritesListLoading());
+    emit(GetFavoritesListLoading());
     Mhelper.getData(
       url: 'api/favlist',
       token: kToken,
@@ -399,9 +409,7 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void addFavProductToFavListProdDetails(
-      {@required int listId,
-      @required int productId,
-      @required BuildContext context}) {
+      {int? listId, int? productId, required BuildContext context}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -414,7 +422,7 @@ class AppCubit extends Cubit<AppStates> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        productDetailsModel.data.productDetails[0].hasFavorites = 1;
+        productDetailsModel?.data?.productDetails![0].hasFavorites = 1;
         emit(GetProductDetailsSuccessState());
         Navigator.pop(context);
       } else {
@@ -424,9 +432,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void createNewFavListProdDetails({
-    @required String listName,
-    @required BuildContext context,
-    int productId,
+    required String listName,
+    required BuildContext context,
+    int? productId,
   }) {
     Mhelper.postData(
       url: 'api/addfavlist',
@@ -439,7 +447,7 @@ class AppCubit extends Cubit<AppStates> {
     ).then((value) {
       log('Crating new list data: ${value.data}');
       if (value.data['status']) {
-        productDetailsModel.data.productDetails[0].hasFavorites = 1;
+        productDetailsModel?.data?.productDetails![0].hasFavorites = 1;
         emit(GetConstructionSuccessState());
         Navigator.of(context).pop();
       } else {
@@ -447,15 +455,16 @@ class AppCubit extends Cubit<AppStates> {
       }
     });
   }
+
 ///////////////////////////////////////////////END PRODUCT DETAILS SECTION////////////////////////////////////////
 
   /// Get Home Main Category Data
-  homeMainCat.HomeScreenMainCatModel homeScreenMainCatModel;
-  List<homeMainCat.Data> homeMainCatList;
+  homeMainCat.HomeScreenMainCatModel? homeScreenMainCatModel;
+  List<homeMainCat.Data>? homeMainCatList;
 
   /// Get Home Main banner Data
-  HomeScreenMainCatBannerModel homeScreenMainCatBannerModel;
-  List<DataBanner> homeBannersList;
+  HomeScreenMainCatBannerModel? homeScreenMainCatBannerModel;
+  List<DataBanner>? homeBannersList;
 
   void gethomeMainBanners() {
     emit(HomeMainCatLoading());
@@ -463,8 +472,8 @@ class AppCubit extends Cubit<AppStates> {
       homeScreenMainCatBannerModel =
           HomeScreenMainCatBannerModel.fromJson(value.data);
       log(value.data.toString());
-      homeBannersList = homeScreenMainCatBannerModel.data;
-      log(homeBannersList[0].image.toString());
+      homeBannersList = homeScreenMainCatBannerModel?.data;
+      log(homeBannersList![0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
@@ -473,7 +482,8 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   /// Get Home Main Offer List Data
-  OfferModel offerModel;
+  OfferModel? offerModel;
+
   // List<OfferModelData> offerDataList;
 
   void gethomeMainOfferData() {
@@ -482,7 +492,7 @@ class AppCubit extends Cubit<AppStates> {
       offerModel = OfferModel.fromJson(value.data);
       log(value.data.toString());
       // offerDataList = offerModel.data;
-      log(homeBannersList[0].image.toString());
+      log(homeBannersList![0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
@@ -490,7 +500,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  homeMainCat.HomeScreenMainCatModel homeScreenModel;
+  homeMainCat.HomeScreenMainCatModel? homeScreenModel;
 
   void getHomeScreen() {
     emit(GetHomeScreenLoadingState());
@@ -501,7 +511,7 @@ class AppCubit extends Cubit<AppStates> {
       log("the data of ${value.data}");
       homeScreenMainCatModel =
           homeMainCat.HomeScreenMainCatModel.fromJson(value.data);
-      homeMainCatList = homeScreenMainCatModel.data;
+      homeMainCatList = homeScreenMainCatModel?.data;
       log("000000000000000000000000000000000000000000000000");
       emit(GetHomeScreenSuccessState());
     }).catchError((error) {
@@ -512,9 +522,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   int currentDepIndex = 0;
-  DepartmentsModel departmentsModel;
+  DepartmentsModel? departmentsModel;
 
-  void getAllDepartments({int catId, int pageNumber = 0}) {
+  void getAllDepartments({int? catId, int pageNumber = 0}) {
     emit(GetDepartmentsLoadingState());
     Mhelper.postData(url: 'user_api/get_all_departments', data: {
       "key": 1234567890,
@@ -529,7 +539,8 @@ class AppCubit extends Cubit<AppStates> {
       if (value.data["status"] == true) {
         emit(GetDepartmentsSuccessState());
         getProducts(
-          catId: departmentsModel.result.allDepartments[currentDepIndex].catId,
+          catId: (departmentsModel
+              ?.result?.allDepartments![currentDepIndex].catId)!,
         );
       } else
         emit(GetDepartmentsErrorState());
@@ -566,9 +577,9 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   Map<int, bool> favourites = {};
-  ProductsModel productsModel;
+  ProductsModel? productsModel;
 
-  void getProducts({int catId}) {
+  void getProducts({int? catId}) {
     emit(GetProductsLoadingState());
     Mhelper.postData(
         url: 'user_api/get_all_product',
@@ -585,8 +596,8 @@ class AppCubit extends Cubit<AppStates> {
           'lang': kLanguage,
         }).then((value) {
       productsModel = ProductsModel.fromJson(value.data);
-      productsModel.result.allProducts.forEach((element) {
-        favourites.addAll({element.prodId: element.isFav});
+      productsModel?.result?.allProducts?.forEach((element) {
+        favourites.addAll({element.prodId: element.isFav} as Map<int, bool>);
       });
       // print(favourites.toString() + "mostafa there is favorite");
       getAllData();
@@ -603,10 +614,10 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  ProductsModel moreProducts;
+  ProductsModel? moreProducts;
   int pageNum = 0;
 
-  void fetchMore({int catId}) {
+  void fetchMore({int? catId}) {
     emit(LoadMoreLoadingState());
     pageNum++;
     // print('loading page ${pageNum}');
@@ -618,17 +629,17 @@ class AppCubit extends Cubit<AppStates> {
       "limit": 10,
       "page_number": pageNum
     }).then((value) {
-      if (productsModel.total > productsModel.result.allProducts.length) {
+      if (productsModel!.total! > productsModel!.result!.allProducts!.length) {
         moreProducts = ProductsModel.fromJson(value.data);
-        productsModel.result.allProducts
-            .addAll(moreProducts.result.allProducts);
-        productsModel.result.allProducts.forEach((element) {
-          favourites.addAll({element.prodId: element.isFav});
+        productsModel?.result?.allProducts
+            ?.addAll(moreProducts?.result?.allProducts as Iterable<AllProduct>);
+        productsModel?.result?.allProducts?.forEach((element) {
+          favourites.addAll({element.prodId: element.isFav} as Map<int, bool>);
         });
         // print(favourites.toString());
         emit(LoadMoreSuccessState());
-      } else if (productsModel.total ==
-          productsModel.result.allProducts.length) {
+      } else if (productsModel?.total ==
+          productsModel!.result?.allProducts!.length) {
         emit(LoadMoreEndState());
       }
       //  print(value.data["result"]["all_products"]);
@@ -669,12 +680,12 @@ class AppCubit extends Cubit<AppStates> {
   // }
 
   Future<void> addReview(
-      {int productId,
-      int rating,
-      String comment,
-      File image1,
-      File image2,
-      File image3}) async {
+      {int? productId,
+      int? rating,
+      String? comment,
+      File? image1,
+      File? image2,
+      File? image3}) async {
     emit(AddReviewLoadingState());
     Mhelper.postData(url: 'user_api/add_review', data: {
       "key": 1234567890,
@@ -707,9 +718,9 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  ProductReviewsModel productReviewsModel;
+  ProductReviewsModel? productReviewsModel;
 
-  void getProductReviews({int productId}) {
+  void getProductReviews({int? productId}) {
     emit(GetProductReviewsLoadingState());
     Mhelper.postData(url: 'user_api/get_all_rate', data: {
       "key": 1234567890,
@@ -732,7 +743,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
-  NotificationsListModel notificationsListModel;
+  NotificationsListModel? notificationsListModel;
 
   void getAllNotifications() {
     emit(GetAllNotificationsLoadingState());
@@ -786,10 +797,12 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void addToCartServer(
-      {@required int product_id,
-      @required int quantity,
-      @required num price,
-      @required String featureSize}) {
+      {required int product_id,
+      required int quantity,
+      dynamic price,
+      required String featureSize,
+      dynamic smartPrice,
+      }) {
     log('price====>$price');
     log('features====>$featureSize');
     // emit(AddToCartLoadingState());
@@ -800,13 +813,14 @@ class AppCubit extends Cubit<AppStates> {
               "quantity": '$quantity',
               "price": "$price",
               "features": featureSize,
+              "smart_price" : smartPrice
             },
             token: CacheHelper.getData("token"))
         .then((value) {
       // print(value.data);
       log('Server Cart data==>${value.data}');
       if (value.data["status"]) {
-        productDetailsModel.data.productDetails[0].hascart = 1;
+        productDetailsModel?.data?.productDetails![0].hascart = 1;
         // getAllNotifications();
         // emit(GetAllNotificationsSuccessState());
         // emit(AddToCartSuccessState());
@@ -820,28 +834,30 @@ class AppCubit extends Cubit<AppStates> {
   }
 
   void addToCartLocal({
-    @required bool withSmartFeature,
-    @required String feature,
-    @required int quantity,
-    @required num price,
-    @required num smartPrice,
-    @required String productName,
-    @required String productImage,
-    @required int productId,
-    @required int isFav,
+    required bool withSmartFeature,
+    required String feature,
+    required int quantity,
+    int? price,
+  required  dynamic oneProductPrice,
+    dynamic smartPrice,
+    String? productName,
+    String? productImage,
+    int? productId,
+    int? isFav,
   }) {
     // log('${cartProducts == null} && ${cartProducts.cartProducts.length == 0}');
     // log('Before add to cart ${cartProducts.cartProducts.length}');
     if (cartProducts == null /*&& cartProducts.cartProducts.length == 0*/) {
       cartProducts = CartLocalModel(cartProducts: []);
-      cartProducts.cartProducts.add(CartProducts(
+      cartProducts?.cartProducts?.add(CartProducts(
         productName: productName,
         quantity: quantity,
         productImage: productImage,
+        oneProdctPrice: oneProductPrice,
         withSmartFeature: withSmartFeature,
         smartPrice: smartPrice,
-        price: withSmartFeature ? quantity * smartPrice : quantity * price,
-        onePiecePrice: withSmartFeature ? smartPrice : price,
+        price:smartPrice != null ? withSmartFeature == true? quantity * smartPrice+price! : quantity * price!: quantity * price!,
+        onePiecePrice:smartPrice != null ? withSmartFeature== true ? price+smartPrice : price:price,
         productId: productId,
         isFav: isFav,
         features: feature,
@@ -852,12 +868,13 @@ class AppCubit extends Cubit<AppStates> {
       // showToast(
       //     text: "theProductHasBeenAddedToTheShoppingCart".tr(),
       //     color: Colors.green);
-      log('After add to cart ${cartProducts.cartProducts.length}');
+      log('After add to cart ${cartProducts?.cartProducts!.length}');
+      // log('After add to cart ${cartProducts?.cartProducts?[1].smartPrice}');
       emit(GetProductDetailsSuccessState());
     } else {
       bool isExist = false;
-      for (int i = 0; i < cartProducts.cartProducts.length; i++) {
-        if (cartProducts.cartProducts[i].productId == productId) {
+      for (int i = 0; i < cartProducts!.cartProducts!.length; i++) {
+        if (cartProducts!.cartProducts![i].productId == productId) {
           isExist = true;
           break;
         }
@@ -867,21 +884,25 @@ class AppCubit extends Cubit<AppStates> {
         //     text: "theProductIsAlreadyInTheCart".tr(), color: Colors.black);
         emit(GetProductDetailsSuccessState());
       } else {
-        cartProducts.cartProducts.add(CartProducts(
+        cartProducts?.cartProducts?.add(CartProducts(
           productName: productName,
           productId: productId,
           productImage: productImage,
           quantity: quantity,
+          oneProdctPrice: oneProductPrice,
           withSmartFeature: withSmartFeature,
           smartPrice: smartPrice,
-          price: withSmartFeature ? quantity * smartPrice : quantity * price,
-          onePiecePrice: withSmartFeature ? smartPrice : price,
+          price:smartPrice != null ?
+          withSmartFeature == true ?
+          quantity * smartPrice + price! :
+          quantity * price! :
+          quantity * price!,
+          onePiecePrice:smartPrice != null ? withSmartFeature == true ? smartPrice+price : price : price,
           isFav: isFav,
           features: feature,
         ));
-        log('After add to cart [Else statement] ${cartProducts.cartProducts.length}');
+        log('After add to cart [Else statement] ${cartProducts?.cartProducts?.length}');
         String localCart = jsonEncode(cartProducts);
-
         CacheHelper.setData(key: 'localCart', value: localCart);
         // showToast(
         //     text: "theProductHasBeenAddedToTheShoppingCart".tr(),
@@ -890,32 +911,45 @@ class AppCubit extends Cubit<AppStates> {
       }
     }
     cartCount = 0;
-    cartProducts.cartProducts.forEach((element) {
-      cartCount += element.quantity;
+    withSmartFeature = false ;
+    cartProducts?.cartProducts?.forEach((element) {
+      cartCount += element.quantity!;
     });
     CacheHelper.setData(key: 'cartCount', value: cartCount);
     cartCountControlller.add(cartCount);
   }
 
-  delITemFromCartLocally({int product_id}) {
+  delITemFromCartLocally({required int product_id}) {
     log('$product_id');
     log("0000000000000000000000000000");
-    Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
-    cartProducts = CartLocalModel.fromJson(json);
-    for (int i = 0; i < cartProducts.cartProducts.length; i++) {
-      if (cartProducts.cartProducts[i].productId == product_id) {
-        cartProducts.cartProducts.removeAt(i);
-        break;
+    if(cartProducts!.cartProducts!.length == 0){
+      CacheHelper.removeData('localCart');
+    }else{
+      Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
+      log("0000000000000000000000000000");
+      cartProducts = CartLocalModel.fromJson(json);
+      log("0000000000000000000000000000");
+      for (int i = 0; i < cartProducts!.cartProducts!.length; i++) {
+        log("0000000000000000000000000000");
+        if (cartProducts?.cartProducts![i].productId == product_id) {
+          cartProducts?.cartProducts?.removeAt(i);
+          break;
+        }
       }
+      cartCount = 0;
+      cartProducts?.cartProducts?.forEach((element) {
+        cartCount += element.quantity!;
+      });
+      bool? withSmartFeature = false;
+      cartProducts?.cartProducts?.forEach((element) {
+        withSmartFeature = element.withSmartFeature;
+      });
+      cartCountControlller.add(cartCount);
+      CacheHelper.setData(key: 'cartCount', value: cartCount);
+      String localCart = jsonEncode(cartProducts);
+      CacheHelper.setData(key: 'localCart', value: localCart);
     }
-    cartCount = 0;
-    cartProducts.cartProducts.forEach((element) {
-      cartCount += element.quantity;
-    });
-    cartCountControlller.add(cartCount);
-    CacheHelper.setData(key: 'cartCount', value: cartCount);
-    String localCart = jsonEncode(cartProducts);
-    CacheHelper.setData(key: 'localCart', value: localCart);
+
     emit(GetProductDetailsSuccessState());
   }
 
@@ -931,7 +965,7 @@ class AppCubit extends Cubit<AppStates> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        productDetailsModel.data.productDetails[0].hascart = 0;
+        productDetailsModel?.data?.productDetails![0].hascart = 0;
         emit(GetProductDetailsSuccessState());
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);

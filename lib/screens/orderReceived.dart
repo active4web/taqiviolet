@@ -12,7 +12,6 @@ import '../shared/defaults.dart';
 import 'Orderreceived_item_in_list.dart';
 
 class OrderReceived extends StatefulWidget {
-  const OrderReceived({Key key}) : super(key: key);
 
   @override
   _OrderReceivedState createState() => _OrderReceivedState();
@@ -53,11 +52,11 @@ class _OrderReceivedState extends State<OrderReceived> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                              itemCount: cubit.reOrderModel.data.length,
+                              itemCount: cubit.reOrderModel!.data!.length,
                               itemBuilder: (context, pos) {
                                 return InkWell(onTap: (){
                                  // OrderReceivedItemInList
-                                  OrderReceivedItemInListCubit.get(context).getOrderReceivedData(cubit.reOrderModel.data[pos].id.toString());
+                                  OrderReceivedItemInListCubit.get(context).getOrderReceivedData(cubit.reOrderModel!.data![pos].id.toString());
 
                                   navigateTo(context, OrderReceivedItemInList());
                                 },
@@ -76,8 +75,8 @@ class _OrderReceivedState extends State<OrderReceived> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(cubit.reOrderModel.data
-                                                [pos].id.toString()),
+                                            Text(cubit.reOrderModel!.data
+                                                ![pos].id.toString()),
                                             Text("ID"),
                                           ],
                                         ),
@@ -90,8 +89,8 @@ class _OrderReceivedState extends State<OrderReceived> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(cubit.reOrderModel.data
-                                                [pos].total.toString()),
+                                            Text(cubit.reOrderModel!.data
+                                                ![pos].total.toString()),
                                             Text("total"),
                                           ],
                                         ),
@@ -102,8 +101,8 @@ class _OrderReceivedState extends State<OrderReceived> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(cubit.reOrderModel.data
-                                            [pos].codeOrder.toString()),
+                                            Text(cubit.reOrderModel!.data
+                                            ![pos].codeOrder.toString()),
                                             Text("codeOrder"),
                                           ],
                                         ),
@@ -113,8 +112,8 @@ class _OrderReceivedState extends State<OrderReceived> {
                                           mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(cubit.reOrderModel.data
-                                            [pos].deliveryCost.toString()),
+                                            Text(cubit.reOrderModel!.data
+                                            ![pos].deliveryCost.toString()),
                                             Text("deliveryCost"),
                                           ],
                                         ),

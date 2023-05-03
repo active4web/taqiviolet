@@ -1,8 +1,8 @@
 class PhonesModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<PhonesModelData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<PhonesModelData>? data;
 
   PhonesModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,11 +13,12 @@ class PhonesModel {
     if (json['data'] != null) {
       data = <PhonesModelData>[];
       json['data'].forEach((v) {
-        data.add(new PhonesModelData.fromJson(v));
+        data!.add(new PhonesModelData.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -28,19 +29,20 @@ class PhonesModel {
     }
     return data;
   }
+*/
 }
 
 class PhonesModelData {
-  int iD;
-  String name;
-  String phone;
-  String aboutUS;
-  String faceBookLink;
-  String instagramLink;
-  String twitterLink;
-  String judgments;
-  String replacement;
-  String image;
+  int? iD;
+  String? name;
+  String? phone;
+  String? aboutUS;
+  String? faceBookLink;
+  String? instagramLink;
+  String? twitterLink;
+  String? judgments;
+  String? replacement;
+  String? image;
   Null categoryId;
 
   PhonesModelData(
@@ -70,6 +72,7 @@ class PhonesModelData {
     categoryId = json['Category_id'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['ID'] = this.iD;
@@ -85,4 +88,5 @@ class PhonesModelData {
     data['Category_id'] = this.categoryId;
     return data;
   }
+*/
 }

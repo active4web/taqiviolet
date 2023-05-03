@@ -10,15 +10,16 @@ class SubscribeModel {
     errNum = json['errNum'];
     msg = json['msg'];
   }
-  bool status;
-  String errNum;
-  String msg;
 
-  Map<String, dynamic> toJson() {
+  bool? status;
+  String? errNum;
+  String? msg;
+
+/* Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['errNum'] = errNum;
     map['msg'] = msg;
     return map;
-  }
+  }*/
 }

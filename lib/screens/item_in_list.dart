@@ -6,7 +6,6 @@ import '../cubits/dataInList/data_in_list_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ItemInList extends StatefulWidget {
-  const ItemInList({Key key}) : super(key: key);
 
   @override
   _ItemInListState createState() => _ItemInListState();
@@ -24,7 +23,7 @@ class _ItemInListState extends State<ItemInList> {
             if (state is DataInListSuccessState) {
               log("iteeeeeemmmm innnn   lisssstttt");
               log('$state');
-              log('${cubit.dataInList.data.products.length}');
+              log('${cubit.dataInList!.data!.products!.length}');
             }
             return state is! DataInListSuccessState
                 ? Center(
@@ -51,7 +50,7 @@ class _ItemInListState extends State<ItemInList> {
                         ),
                         Expanded(
                           child: ListView.builder(
-                              itemCount: cubit.dataInList.data.products.length,
+                              itemCount: cubit.dataInList!.data!.products!.length,
                               itemBuilder: (context, pos) {
                                 return Card(
                                   child: Column(children: [
@@ -65,8 +64,8 @@ class _ItemInListState extends State<ItemInList> {
                                           IconButton(
                                               onPressed: () {
                                                 cubit.postdeletItemlistsData(
-                                                    id: cubit.dataInList.data
-                                                        .products[pos].id
+                                                    id: cubit.dataInList?.data
+                                                        ?.products![pos].id
                                                         .toString());
                                               },
                                               icon: Icon(Icons.clear)),
@@ -78,8 +77,7 @@ class _ItemInListState extends State<ItemInList> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(cubit.dataInList.data
-                                              .products[pos].name),
+                                          Text("${cubit.dataInList?.data?.products![pos].name}"),
                                           Text("Name"),
                                         ],
                                       ),
@@ -90,9 +88,7 @@ class _ItemInListState extends State<ItemInList> {
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text(cubit.dataInList.data
-                                              .products[pos].price
-                                              .toString()),
+                                          Text("${cubit.dataInList?.data?.products![pos].price.toString()}"),
                                           Text("price"),
                                         ],
                                       ),

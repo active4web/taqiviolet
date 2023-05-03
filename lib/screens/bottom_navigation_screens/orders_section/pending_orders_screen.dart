@@ -10,7 +10,6 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 class PendingOrdersScreen extends StatelessWidget {
-  const PendingOrdersScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,15 +25,15 @@ class PendingOrdersScreen extends StatelessWidget {
             : ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  log("myOrders ${cubit.waitingOrders.data.length}");
+                  log("myOrders ${cubit.waitingOrders?.data?.length}");
                   return OrderStatusCard(
-                      myOrdersData: cubit.waitingOrders.data[index]);
+                      myOrdersData: cubit.waitingOrders!.data![index]);
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 4,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).waitingOrders.data.length);
+                    MyOrdersCubit.get(context).waitingOrders!.data!.length);
       },
     );
   }
@@ -42,8 +41,8 @@ class PendingOrdersScreen extends StatelessWidget {
 
 class OrderStatusCard extends StatelessWidget {
   OrderStatusCard({this.myOrdersData, this.status});
-  final MyOrdersData myOrdersData;
-  final int status;
+  final MyOrdersData? myOrdersData;
+  final int? status;
 
   @override
   Widget build(BuildContext context) {
@@ -63,18 +62,20 @@ class OrderStatusCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    myOrdersData?.orderDate != null ?
                     Text(
-                      '${myOrdersData.orderDate}',
+                      '${myOrdersData?.orderDate}',
                       style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                           color: Colors.black54),
-                    ),
+                    ): SizedBox(),
                   ],
                 ),
                 SizedBox(
                   height: 20,
                 ),
+                myOrdersData?.codeOrder != null ?
                 Row(
                   children: [
                     SizedBox(
@@ -85,14 +86,15 @@ class OrderStatusCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      myOrdersData.codeOrder,
+                      "${myOrdersData?.codeOrder}",
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     )
                   ],
-                ),
+                ):SizedBox(),
                 SizedBox(
                   height: 10,
                 ),
+                myOrdersData?.orderDeliveryDate != null ?
                 Row(
                   children: [
                     SizedBox(
@@ -103,34 +105,35 @@ class OrderStatusCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      '${myOrdersData.orderDeliveryDate}',
+                      '${myOrdersData?.orderDeliveryDate}',
                       style: TextStyle(color: Colors.grey, fontSize: 12),
                     )
                   ],
-                ),
+                ):SizedBox(),
                 SizedBox(
                   height: 10,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        navigateTo(
-                            context,
-                            OrderDetailsSCR(
-                              id: myOrdersData.id,
-                            ));
-                      },
-                      child: Text(
+                //TODO: PRODUCT DETAILS
+                InkWell(
+                  onTap: (){
+                    navigateTo(
+                        context,
+                        OrderDetailsSCR(
+                          id: myOrdersData?.id,
+                        ));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
                         'OrderDetails'.tr(),
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w500,
                             color: kDarkGoldColor),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ],
             ),
@@ -138,14 +141,14 @@ class OrderStatusCard extends StatelessWidget {
           Column(
             children: [
               StatusChip(
-                title: myOrdersData.status,
+                title: "${myOrdersData?.status}",
                 color: kDarkGoldColor,
               ),
               SizedBox(
                 height: 10,
               ),
             ],
-          )
+          ),
         ],
       ),
     );
@@ -154,13 +157,12 @@ class OrderStatusCard extends StatelessWidget {
 
 class StatusChip extends StatelessWidget {
   const StatusChip({
-    Key key,
     this.title,
     this.color,
-  }) : super(key: key);
+  }) ;
 
-  final String title;
-  final Color color;
+  final String? title;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -172,7 +174,7 @@ class StatusChip extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: Text(
-          handleOrderStatusMessage(statusVal: title),
+          handleOrderStatusMessage(statusVal: "${title}"),
           style: TextStyle(
               color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
         ),

@@ -41,7 +41,7 @@
   "Total": "Total",
   "CheckOut": "Check Out",
   "ShareApp": "Share Application",
-  "UnderWayOrders": "UnderWay orders",
+  "UnderWayOrders": "Pending requests",
   "CreditBalance": "Credit balance",
   "Details": "details",
   "Chats": "chat",
@@ -153,8 +153,10 @@
   "categories": "Categories",
   "somethingWentWrong": "something went wrong",
   "logInToViewYourFavoriteProducts": "Log in to view your favorite products",
-  "addToOneOfYourFavoriteLists": "Add to one of your favorite lists",
-  "theNameOfYourFavoriteList": "The name of your favorite list",
+  "addToOneOfYourFavoriteLists": "Add this product to the list",
+  "addToOneOfYourFavoriteListsVlate": "Select the product and save it to an existing list or create a new one",
+
+  "theNameOfYourFavoriteList": "The name of your list",
   "create": "Create",
   "cancel": "cancel",
   "listCreatedSuccessfully": "List created successfully",
@@ -205,5 +207,86 @@
   "DeleteAll": "Delete all",
   "typeYourMessage": "type your message",
   "sales": "Sales",
-  "technicalSupport": "Technical Support"
+  "technicalSupport": "Technical Support",
+  "priceSmartControlFeature": "The price is with the smart control feature: ",
+  "chooseSmartControlFeature":"Choose the self control feature.",
+  "commonQuestions": "Common Questions",
+  "coupons": "Coupons",
+  "cashback": "Cashback",
+  "wallet": "Gift wallet",
+  "giftCard": "Gift card",
+  "rial": "Rial",
+  "noInternet":"Please check your internet and make sure the network is ready to work",
+  "internet": "Internet",
+  "noInternetBar": "No Internet",
+  "mobileNetwork": "Mobile Network",
+  "wifiNetwork": "Wifi Network",
+  "resetPassword": "Reset a password",
+  "oldPassword" : "Old Password",
+  "newPassword": "New Password",
+  "validateOldPassword": "You must enter the old password",
+  "myList": "My List",
+  "areYouSure": "are you sure?",
+  "unitPrice": "unit price:",
+  "numberOfUnit": "Number of units:",
+  "finalPrice": "The final price:",
+  "smartPrice": "Smart price",
+  "containSmartPrice": "The final price includes the smart price",
+  "cardNumber": "card number",
+  "personalIdentificationNumber": "personal identification number",
+  "checkTheBalance": "Check the balance",
+  "sellTheMostGoods": "Sell The Most Goods",
+  "theValue": "the value",
+  "thePrice": "the price",
+  "rS": "RS",
+  "electronicGiftCard": "Electronic gift card",
+  "theDesign": "the design",
+  "theAmount": "the amount",
+  "enterTheRecipientEmailAddress": "Enter the recipient's email address",
+  "enterYourName": "Enter your name",
+  "validateMessage": "Send a message to the recipient that does not exceed 250 characters",
+  "checkBoxGiftCard": "By rating this app. I agree that I have read and understood the Terms and Conditions",
+  "payingOff": "paying off",
+  "unusedCoupons": "Unused coupons",
+  "expiredCoupons": "Expired coupons",
+  "forOrdersMoreThan": "for orders more than ",
+  "code": "Code:",
+  "forSelectedItems": "for selected items",
+  "expired": "Expired",
+  "newList": "Create a new list",
+  "descriList": "Create lists based on competition or need, like a friend's wedding or shopping for a new home",
+  "descriListshare": "Share the lists with your friends and family so they can know which products to shop for!",
+  "introList": "Introducing \"My Lists\"",
+  "new": "new",
+  "introductionList": "We have improved and replaced the My Favorites List feature! You can now create different lists, and share them with your friends! We have saved your current favorite products in a private list. We have improved and replaced the My Favorites List feature."
+
+,
+  "product": "product"
+,
+  "updateIn": "update in"
+
+
+,
+  "outOfStock": "Out of stock"
+,
+  "delete": "Delete",
+  "youDontHaveLists": "You don't have lists",
+  "yourLetter": "your letter:"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

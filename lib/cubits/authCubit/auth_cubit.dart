@@ -18,52 +18,112 @@ class AuthCubit extends Cubit<AuthStates> {
   AuthCubit() : super(AuthInitial());
 
   static AuthCubit get(context) => BlocProvider.of(context);
+
   // PushNotificationManagger _pushNotificationManagger =
   //     PushNotificationManagger();
 
-  bool showPassword = true;
-  IconData passwordIcon = Icons.visibility;
+  // bool showPassword = true;
+  // IconData passwordIcon = Icons.visibility;
+  //
+  // void changePasswordVisibility() {
+  //   showPassword = !showPassword;
+  //   passwordIcon = showPassword
+  //       ? Icons.visibility_outlined
+  //       : Icons.visibility_off_outlined;
+  //   emit(ShowAndHideEmailRegisterPassword());
+  // }
 
-  void changePasswordVisibility() {
-    showPassword = !showPassword;
-    passwordIcon = showPassword
-        ? Icons.visibility_outlined
-        : Icons.visibility_off_outlined;
-    emit(ChangePasswordVisibilityState());
+  IconData suffixLogin = Icons.visibility_off_outlined;
+  bool isPasswordLogin = true;
+
+  void isShowAndHideLoginPassWord() {
+    isPasswordLogin = !isPasswordLogin;
+    suffixLogin = isPasswordLogin
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    emit(ShowAndHideLoginPassword());
   }
 
-  double password_strength = 0;
+  IconData suffixEmailRegisterPassword = Icons.visibility_off_outlined;
+  bool isPasswordEmailRegisterPassword = true;
+
+  void isShowAndHideEmailRegisterPassword() {
+    isPasswordEmailRegisterPassword = !isPasswordEmailRegisterPassword;
+    suffixEmailRegisterPassword = isPasswordEmailRegisterPassword
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    emit(ShowAndHideEmailRegisterPassword());
+  }
+
+  IconData suffixEmailRegisterConfirmPassword = Icons.visibility_off_outlined;
+  bool isPasswordEmailRegisterConfirmPassword = true;
+
+  void isShowAndHideEmailRegisterConfirmPassword() {
+    isPasswordEmailRegisterConfirmPassword =
+        !isPasswordEmailRegisterConfirmPassword;
+    suffixEmailRegisterConfirmPassword = isPasswordEmailRegisterConfirmPassword
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    emit(ShowAndHideEmailRegisterConfirmPassword());
+  }
+
+  IconData suffixPhoneRegisterPassword = Icons.visibility_off_outlined;
+  bool isPasswordPhoneRegisterPassword = true;
+
+  void isShowAndHidePhoneRegisterPassword() {
+    isPasswordPhoneRegisterPassword = !isPasswordPhoneRegisterPassword;
+    suffixPhoneRegisterPassword = isPasswordPhoneRegisterPassword
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    emit(ShowAndHidePhoneRegisterPassword());
+  }
+
+  IconData suffixPhoneRegisterConfirmPassword = Icons.visibility_off_outlined;
+  bool isPasswordPhoneRegisterConfirmPassword = true;
+
+  void isShowAndHidePhoneRegisterConfirmPassword() {
+    isPasswordPhoneRegisterConfirmPassword =
+        !isPasswordPhoneRegisterConfirmPassword;
+    suffixPhoneRegisterConfirmPassword = isPasswordPhoneRegisterConfirmPassword
+        ? Icons.visibility_off_outlined
+        : Icons.visibility_outlined;
+    emit(ShowAndHideLoginPassword());
+  }
+
+  // double password_strength = 0;
+
   // 0: No password
   // 1/4: Weak
   // 2/4: Medium
   // 3/4: Strong
   //   1:   Great
-  RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
+  // RegExp pass_valid = RegExp(r"(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*\W)");
 
   //A function that validate user entered password
-  bool validatePassword(String pass) {
-    if (pass.isEmpty) {
-      password_strength = 0;
-      emit(ChangePasswordVisibilityState());
-    } else if (pass.length < 6) {
-      password_strength = 1 / 4; //string length less then 6 character
-      emit(ChangePasswordVisibilityState());
-    } else if (pass.length < 8) {
-      password_strength = 2 / 4; //string length greater then 6 & less then 8
-      emit(ChangePasswordVisibilityState());
-    } else {
-      if (pass_valid.hasMatch(pass)) {
-        password_strength = 4 / 4;
-        emit(ChangePasswordVisibilityState());
-        return true;
-      } else {
-        password_strength = 3 / 4;
-        emit(ChangePasswordVisibilityState());
-        return false;
-      }
-    }
-    return false;
-  }
+  // bool validatePassword(String pass) {
+  //   if (pass.isEmpty) {
+  //     password_strength = 0;
+  //     emit(ShowAndHideEmailRegisterPasswordLoading());
+  //   } else if (pass.length < 6) {
+  //     password_strength = 1 / 4; //string length less then 6 character
+  //     emit(ShowAndHideEmailRegisterPasswordLoading());
+  //   } else if (pass.length < 8) {
+  //     password_strength = 2 / 4; //string length greater then 6 & less then 8
+  //     emit(ShowAndHideEmailRegisterPasswordLoading());
+  //   } else {
+  //     if (pass_valid.hasMatch(pass)) {
+  //       password_strength = 4 / 4;
+  //       emit(ShowAndHideEmailRegisterPasswordLoading());
+  //       return true;
+  //     } else {
+  //       password_strength = 3 / 4;
+  //       emit(ShowAndHideEmailRegisterPasswordLoading());
+  //       return false;
+  //     }
+  //   }
+  //   return false;
+  // }
+
 
   String MobToken = CacheHelper.getData('FCM');
 
@@ -91,23 +151,22 @@ class AuthCubit extends Cubit<AuthStates> {
   //   return token;
   // }
 
-  FailedResponseModel emailRegisterFailedResponse;
-  RegisterSuccessModel emailRegisterSuccessResponse;
-  FailedResponseModel phoneRegisterFailedResponse;
-  RegisterSuccessModel phoneRegisterSuccessResponse;
+  FailedResponseModel? emailRegisterFailedResponse;
+  RegisterSuccessModel? emailRegisterSuccessResponse;
+  FailedResponseModel? phoneRegisterFailedResponse;
+  RegisterSuccessModel? phoneRegisterSuccessResponse;
 
   void registerWithEmail({
-    String lang,
-    String name,
-    String password,
-    String email,
-    String address,
+    String? lang,
+    String? name,
+    String? password,
+    String? email,
+    String? address,
     //key=1 for phone register
     //key=2 for email register
-    String key,
+    String? key,
   }) {
     emit(EmailSignupLoadingState());
-
     Mhelper.postData(url: '/api/register', data: {
       "lang": "$lang",
       "firebase_id": CacheHelper.getData('FCM'),
@@ -119,44 +178,44 @@ class AuthCubit extends Cubit<AuthStates> {
     }, query: {
       'lang': kLanguage,
     }).then((value) {
-      log(value.data.toString());
       if (value.data['status'] == true) {
-        emailRegisterSuccessResponse =
-            RegisterSuccessModel.fromJson(value.data);
+        emailRegisterSuccessResponse = RegisterSuccessModel.fromJson(value.data);
         CacheHelper.setData(
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
         CacheHelper.setData(
-            key: 'token', value: emailRegisterSuccessResponse.data.token);
+            key: 'token', value: emailRegisterSuccessResponse?.data?.token);
         if (CacheHelper.getData('localCart') != null) {
           addLocalDataOfCartToServer(
-              token: emailRegisterSuccessResponse.data.token);
+              token: (emailRegisterSuccessResponse?.data?.token)!);
         }
         //     CacheHelper.setData(key: 'token', value: emailRegisterSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
         // CacheHelper.setData(
         //     key: 'token', value: signupSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
-        emit(EmailSignupSuccessState(emailRegisterSuccessResponse));
+
+        emit(EmailSignupSuccessState(emailRegisterSuccessResponse!));
       }
       if (value.data['status'] == false) {
-        emailRegisterFailedResponse = FailedResponseModel.fromJson(value.data);
+        // emailRegisterFailedResponse = FailedResponseModel.fromJson(value.data);
         emit(EmailSignupErrorState(value.data['msg']));
       }
     }).catchError((error) {
+
       log(error.toString());
     });
   }
 
   void registerWithPhone({
-    String lang,
-    String name,
-    String phone,
-    String password,
-    String address,
+    String? lang,
+    String? name,
+    String? phone,
+    String? password,
+    String? address,
     //key=1 for phone register
     //key=2 for email register
-    String key,
+    String? key,
   }) {
     emit(PhoneSignupLoadingState());
 
@@ -179,17 +238,17 @@ class AuthCubit extends Cubit<AuthStates> {
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
         CacheHelper.setData(
-            key: 'token', value: phoneRegisterSuccessResponse.data.token);
+            key: 'token', value: phoneRegisterSuccessResponse?.data?.token);
         if (CacheHelper.getData('localCart') != null) {
           addLocalDataOfCartToServer(
-              token: phoneRegisterSuccessResponse.data.token);
+              token: (phoneRegisterSuccessResponse?.data?.token)!);
         }
         //     CacheHelper.setData(key: 'token', value: phoneRegisterSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
         // CacheHelper.setData(
         //     key: 'token', value: signupSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');
-        emit(PhoneSignupSuccessState(phoneRegisterSuccessResponse));
+        emit(PhoneSignupSuccessState(phoneRegisterSuccessResponse!));
       }
       if (value.data['status'] == false) {
         phoneRegisterFailedResponse = FailedResponseModel.fromJson(value.data);
@@ -200,10 +259,10 @@ class AuthCubit extends Cubit<AuthStates> {
     });
   }
 
-  FailedResponseModel loginFailedResponse;
-  RegisterSuccessModel loginSuccessResponse;
+  FailedResponseModel? loginFailedResponse;
+  RegisterSuccessModel? loginSuccessResponse;
 
-  void login({String phone, String password, String language}) async {
+  void login({String? phone, String? password, String? language}) async {
     //await getDeviceToken();
 
     // _pushNotificationManagger.init().then((value) {
@@ -221,17 +280,18 @@ class AuthCubit extends Cubit<AuthStates> {
       log(value.data.toString());
       if (value.data['status'] == true) {
         loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
-        CacheHelper.setData(key: 'id', value: loginSuccessResponse.data.id);
+        CacheHelper.setData(key: 'id', value: loginSuccessResponse?.data?.id);
         CacheHelper.setData(
-            key: 'token', value: loginSuccessResponse.data.token);
+            key: 'token', value: loginSuccessResponse?.data?.token);
         CacheHelper.setData(
             key: 'userInfo',
             value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
         if (CacheHelper.getData('localCart') != null) {
-          addLocalDataOfCartToServer(token: loginSuccessResponse.data.token);
+          addLocalDataOfCartToServer(
+              token: (loginSuccessResponse?.data?.token)!);
         }
 
-        emit(LoginSuccessState(loginSuccessResponse));
+        emit(LoginSuccessState(loginSuccessResponse!));
       }
       if (value.data['status'] == false) {
         loginFailedResponse = FailedResponseModel.fromJson(value.data);
@@ -245,7 +305,7 @@ class AuthCubit extends Cubit<AuthStates> {
     // });
   }
 
-  void logOut({@required BuildContext context}) {
+  void logOut({required BuildContext context}) {
     emit(LogoutLoadingState());
     Mhelper.postData(
       url: authLogOut,
@@ -269,10 +329,11 @@ class AuthCubit extends Cubit<AuthStates> {
     });
   }
 
-  void addLocalDataOfCartToServer({@required String token}) {
+  void addLocalDataOfCartToServer({required String token}) {
     CartLocalModel data;
     Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
     data = CartLocalModel.fromJson(json);
+
     Mhelper.postRawData(
         url: 'api/AddListToCart',
         data: jsonEncode(data),
@@ -280,7 +341,7 @@ class AuthCubit extends Cubit<AuthStates> {
         query: {
           'lang': kLanguage,
         }).then((value) {
-      log('==>${value.data}');
+      log('Bisho==>${value.data}');
       if (value.data['status']) {
         CacheHelper.removeData('localCart');
         CacheHelper.removeData('cartCount');

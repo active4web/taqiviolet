@@ -1,8 +1,8 @@
 class StoreModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<DataOfStore> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<DataOfStore>? data;
 
   StoreModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,35 +13,34 @@ class StoreModel {
     if (json['data'] != null) {
       data = <DataOfStore>[];
       json['data'].forEach((v) {
-        data.add(new DataOfStore.fromJson(v));
+        data!.add(new DataOfStore.fromJson(v));
       });
     }
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['status'] = this.status;
+  //   data['errNum'] = this.errNum;
+  //   data['msg'] = this.msg;
+  //   if (this.data != null) {
+  //     data['data'] = this.data.map((v) => v.toJson()).toList();
+  //   }
+  //   return data;
+  // }
 }
 
 class DataOfStore {
-  int iD;
-  String name;
-  String phone;
-  String aboutUS;
-  String faceBookLink;
-  String instagramLink;
-  String twitterLink;
-  String judgments;
-  String replacement;
-  String image;
-  Null categoryId;
+  int? iD;
+  String? name;
+  String? phone;
+  String? aboutUS;
+  String? faceBookLink;
+  String? instagramLink;
+  String? twitterLink;
+  String? judgments;
+  String? replacement;
+  String? image;
+  int? categoryId;
 
   DataOfStore(
       {this.iD,
@@ -70,19 +69,19 @@ class DataOfStore {
     categoryId = json['Category_id'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['ID'] = this.iD;
-    data['Name'] = this.name;
-    data['Phone'] = this.phone;
-    data['AboutUS'] = this.aboutUS;
-    data['FaceBookLink'] = this.faceBookLink;
-    data['InstagramLink'] = this.instagramLink;
-    data['twitterLink'] = this.twitterLink;
-    data['Judgments'] = this.judgments;
-    data['Replacement'] = this.replacement;
-    data['Image'] = this.image;
-    data['Category_id'] = this.categoryId;
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['ID'] = this.iD;
+  //   data['Name'] = this.name;
+  //   data['Phone'] = this.phone;
+  //   data['AboutUS'] = this.aboutUS;
+  //   data['FaceBookLink'] = this.faceBookLink;
+  //   data['InstagramLink'] = this.instagramLink;
+  //   data['twitterLink'] = this.twitterLink;
+  //   data['Judgments'] = this.judgments;
+  //   data['Replacement'] = this.replacement;
+  //   data['Image'] = this.image;
+  //   data['Category_id'] = this.categoryId;
+  //   return data;
+  // }
 }

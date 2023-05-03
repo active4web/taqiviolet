@@ -12,10 +12,10 @@ part 'data_in_list_state.dart';
 class DataInListCubit extends Cubit<DataInListState> {
   DataInListCubit() : super(DataInListInitial());
 
-  int roster_id;
+  int? roster_id;
   static DataInListCubit get(context) => BlocProvider.of(context);
-  DataInListModel dataInList;
-  void postlistsData({String id}) {
+  DataInListModel? dataInList;
+  void postlistsData({String? id}) {
     emit(DataInListLoadingState());
 
     Mhelper.postData(
@@ -31,7 +31,7 @@ class DataInListCubit extends Cubit<DataInListState> {
     });
   }
 
-  void postdeletItemlistsData({String id}) {
+  void postdeletItemlistsData({String? id}) {
     emit(DataInListLoadingState());
 
     Mhelper.postData(

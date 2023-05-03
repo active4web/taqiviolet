@@ -1,8 +1,8 @@
 class MakeOrderModel {
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   MakeOrderModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,32 +13,32 @@ class MakeOrderModel {
     data = Data.fromJson(json['data']);
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['status'] = this.status;
+  //   data['errNum'] = this.errNum;
+  //   data['msg'] = this.msg;
+  //   if (this.data != null) {
+  //     data['data'] = this.data.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
 class Data {
-  int codeOrder;
-  int clientId;
-  String paymentStatus;
-  String paymentType;
-  int promoCodeId;
-  String status;
-  String subTotal;
-  num total;
-  num deliveryCost;
-  int storeId;
-  String updatedAt;
-  String createdAt;
-  int id;
+  int? codeOrder;
+  int? clientId;
+  String? paymentStatus;
+  String? paymentType;
+  int? promoCodeId;
+  String? status;
+  String? subTotal;
+  dynamic total;
+  dynamic deliveryCost;
+  int? storeId;
+  String? updatedAt;
+  String? createdAt;
+  int? id;
 
   Data(
       {this.codeOrder,
@@ -71,21 +71,21 @@ class Data {
     id = json['id'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code_order'] = this.codeOrder;
-    data['client_id'] = this.clientId;
-    data['payment_status'] = this.paymentStatus;
-    data['payment_type'] = this.paymentType;
-    data['promo_code_id'] = this.promoCodeId;
-    data['status'] = this.status;
-    data['sub_total'] = this.subTotal;
-    data['total'] = this.total;
-    data['delivery_cost'] = this.deliveryCost;
-    data['store_id'] = this.storeId;
-    data['updated_at'] = this.updatedAt;
-    data['created_at'] = this.createdAt;
-    data['id'] = this.id;
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['code_order'] = this.codeOrder;
+//   data['client_id'] = this.clientId;
+//   data['payment_status'] = this.paymentStatus;
+//   data['payment_type'] = this.paymentType;
+//   data['promo_code_id'] = this.promoCodeId;
+//   data['status'] = this.status;
+//   data['sub_total'] = this.subTotal;
+//   data['total'] = this.total;
+//   data['delivery_cost'] = this.deliveryCost;
+//   data['store_id'] = this.storeId;
+//   data['updated_at'] = this.updatedAt;
+//   data['created_at'] = this.createdAt;
+//   data['id'] = this.id;
+//   return data;
+// }
 }

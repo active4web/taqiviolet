@@ -1,8 +1,8 @@
 class SubCatDataModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<SubCatData> date;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<SubCatData>? date;
 
   SubCatDataModel({this.status, this.errNum, this.msg, this.date});
 
@@ -13,11 +13,12 @@ class SubCatDataModel {
     if (json['date'] != null) {
       date = <SubCatData>[];
       json['date'].forEach((v) {
-        date.add(new SubCatData.fromJson(v));
+        date!.add(new SubCatData.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -28,18 +29,19 @@ class SubCatDataModel {
     }
     return data;
   }
+*/
 }
 
 class SubCatData {
-  int id;
-  String name;
-  String details;
-  String image;
-  int categoryId;
-  int isActive;
-  int storeId;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? name;
+  String? details;
+  String? image;
+  int? categoryId;
+  int? isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
 
   SubCatData(
       {this.id,
@@ -64,6 +66,7 @@ class SubCatData {
     updatedAt = json['updated_at'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
@@ -77,4 +80,5 @@ class SubCatData {
     data['updated_at'] = this.updatedAt;
     return data;
   }
+*/
 }

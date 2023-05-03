@@ -12,7 +12,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   /// Get Home Main Category Data
   //HomeMainCategoryModel homeMainCategoryModel;
-  List<Data> homeMainCatList;
+  List<Data>? homeMainCatList;
 
   // void getHomeData() {
   //   emit(HomeMainCatLoading());

@@ -1,8 +1,8 @@
 class OrderReceivedItemInListModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<OrderReceivedItemInListData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<OrderReceivedItemInListData>? data;
 
   OrderReceivedItemInListModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,11 +13,12 @@ class OrderReceivedItemInListModel {
     if (json['data'] != null) {
       data = <OrderReceivedItemInListData>[];
       json['data'].forEach((v) {
-        data.add(new OrderReceivedItemInListData.fromJson(v));
+        data!.add(new OrderReceivedItemInListData.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -28,22 +29,23 @@ class OrderReceivedItemInListModel {
     }
     return data;
   }
+*/
 }
 
 class OrderReceivedItemInListData {
-  int id;
-  String name;
-  int price;
-  int discount;
-  String details;
-  String quantity;
-  int subCategoryId;
-  int categoryId;
-  int isActive;
-  int storeId;
-  String createdAt;
-  String updatedAt;
-  String images;
+  int? id;
+  String? name;
+  int? price;
+  int? discount;
+  String? details;
+  String? quantity;
+  int? subCategoryId;
+  int? categoryId;
+  int? isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
+  String? images;
 
   OrderReceivedItemInListData(
       {this.id,
@@ -76,6 +78,7 @@ class OrderReceivedItemInListData {
     images = json['images'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
@@ -93,4 +96,5 @@ class OrderReceivedItemInListData {
     data['images'] = this.images;
     return data;
   }
+*/
 }

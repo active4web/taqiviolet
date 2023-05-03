@@ -1,13 +1,14 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/shared/router.dart';
 
 // const String kBaseURL = 'https://safsfurniture.com/';
 //const String MBaseUrl = "https://safsoofa.amlakyeg.com/";
 const String MBaseUrl = "https://taqiviolet.com/";
-String kToken;
-String kLanguage;
+String? kToken = null;
+String? kLanguage;
 int cartCount = 0;
 
 StreamController<int> cartCountControlller = StreamController.broadcast();
@@ -18,7 +19,7 @@ const String homeMainCatEndPoint = "/api/categories?store_id=34&lang=ar";
 const String homeMainBannerEndPoint = "/api/banners";
 const String SubCatEndPoint = "/api/subCategory?";
 const String productEndPoint = "/api/products";
-const String dataFromStores = "/api/stores";
+const String dataFromStores = "/api/common_question";
 // const String dataFromstories = "/api/stories";
 const String dataFromPrivacyPolicy = "/api/privacyPolicy";
 const String privacyPolicyDetailsUrl = "/api/get_pages";
@@ -34,7 +35,7 @@ const String dataFromalldetailsSupport = "/api/detailsSupport?message=";
 const String authRegister = "api/register";
 const String authLogin = "/api/login";
 const String authLogOut = "/api/logout";
-const String userProfile = "api/profile";
+const String userProfile = "/api/profile";
 const String editProfile = "/api/editProfile";
 const String getallnotifications = "/api/notifications?client_id=";
 const String getonenotifications = "/api/DeleteNotification?id=";
@@ -46,6 +47,8 @@ const String sumItemCartURL = "/api/sumItemCart";
 const String delItem = "/api/deleteItemCart?id=";
 const String make_orderURL = "api/make_order";
 const String promoCodeURL = "api/PromoCode";
+const String commonQuestionUrl = "/api/faqlist";//
+const String answerCommonQuestionUrl = "/api/faqlist_answer";//
 
 const String waitingOrdersURL = "api/waiting_myOrders";
 const String currentOrdersURL = "api/current_myOrders";
@@ -69,6 +72,7 @@ const String offerProductsURL = "api/get_all_offers";
 const String userProfileDataURL = 'api/UserProfile';
 const String locationsURL = 'api/list_locations';
 const String deleteAccountURL = 'api/delete_account';
+const String resetPassword = 'api/resetPassword';
 
 // /*****************************************************/
 
@@ -77,7 +81,7 @@ const Color kLightGoldColor = Color(0xffF3E184);
 const Color kBGColor = Color(0xfff4f4f4);
 const Color kCustomBlack = Color(0xff393846);
 const Gradient kBlackGradient =
-    RadialGradient(colors: [Color(0xff4D4D4D), Colors.black], radius: 4);
+    RadialGradient(colors: [Color(0xff4D4D4D), Color(0xff393846)], radius: 4);
 const Gradient kGoldGradient =
     RadialGradient(colors: [kLightGoldColor, kDarkGoldColor], radius: 4);
 
@@ -178,12 +182,12 @@ final containerDecoration = BoxDecoration(
     border: Border.all(color: Colors.black54, width: 0.2));
 
 void closeKeyboard() =>
-    FocusScope.of(MagicRouter.currentContext).requestFocus(FocusNode());
+    FocusScope.of(MagicRouter.currentContext!).requestFocus(FocusNode());
 
-TextTheme get getTextTheme => Theme.of(MagicRouter.currentContext).textTheme;
+TextTheme get getTextTheme => Theme.of(MagicRouter.currentContext!).textTheme;
 
 double sizeFromHeight(double fraction, {bool removeAppBarSize = true}) {
-  MediaQueryData mediaQuery = MediaQuery.of(MagicRouter.currentContext);
+  MediaQueryData mediaQuery = MediaQuery.of(MagicRouter.currentContext!);
   fraction = (removeAppBarSize
           ? (mediaQuery.size.height -
               AppBar().preferredSize.height -
@@ -194,7 +198,7 @@ double sizeFromHeight(double fraction, {bool removeAppBarSize = true}) {
 }
 
 double sizeFromWidth(double fraction) {
-  fraction = MediaQuery.of(MagicRouter.currentContext).size.width /
+  fraction = MediaQuery.of(MagicRouter.currentContext!).size.width /
       (fraction == 0 ? 1 : fraction);
   return fraction;
 }

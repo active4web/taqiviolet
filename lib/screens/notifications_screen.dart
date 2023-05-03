@@ -5,21 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class NotificationsScreen extends StatelessWidget {
-  const NotificationsScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
     cubit.getAllNotifications();
-
-    return kToken == null
-        ? LoginScreen()
-        : Scaffold(
+    return Scaffold(
             appBar: CustomAppBar(
               title: "notifications".tr(),
             ),
@@ -29,7 +26,6 @@ class NotificationsScreen extends StatelessWidget {
 
                 return state is GetAllNotificationsLoadingState
                     ?
-
                     //  cubit.notificationsListModel == null
                     Center(
                         child: CircularProgressIndicator(
@@ -40,8 +36,11 @@ class NotificationsScreen extends StatelessWidget {
                         child: Padding(
                           padding: const EdgeInsets.all(22),
                           child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              if (cubit.notificationsListModel.data.isNotEmpty)
+                              if (cubit.notificationsListModel!.data!.isNotEmpty)
                                 Row(
                                   children: [
                                     TextButton(
@@ -56,24 +55,37 @@ class NotificationsScreen extends StatelessWidget {
                                     )
                                   ],
                                 ),
-                              if (cubit.notificationsListModel.data.isNotEmpty)
+                              if (cubit.notificationsListModel!.data!.isNotEmpty)
                                 SizedBox(
                                   height: 20,
                                 ),
-                              cubit.notificationsListModel.data.length == 0
-                                  ? Align(
-                                      alignment: Alignment.center,
-                                      child: Text("NoNotification".tr()))
+                              cubit.notificationsListModel!.data!.length == 0
+                                  ? Column(
+
+                                    children: [
+                                      SizedBox(
+                                        height:  MediaQuery.of(context).size.height /3,
+                                      ),
+                                      Center(
+                                        child: Text("NoNotification".tr(),
+                                style: TextStyle(
+                                fontSize: 18,
+                                  fontWeight: FontWeight.bold
+                              ),
+                              ),
+                                      ),
+                                    ],
+                                  )
                                   : ListView.separated(
                                       itemCount: cubit
-                                          .notificationsListModel.data.length,
+                                          .notificationsListModel!.data!.length,
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) => InkWell(
                                         onLongPress: () {
                                           cubit.deloneNotifications(cubit
                                               .notificationsListModel
-                                              .data[index]
+                                              ?.data![index]
                                               .id);
                                         },
                                         child: ListTile(
@@ -91,18 +103,15 @@ class NotificationsScreen extends StatelessWidget {
                                           //       borderRadius:
                                           //           BorderRadius.circular(50)),
                                           // ),
-                                          title: Text(cubit
-                                              .notificationsListModel
-                                              .data[index]
-                                              .title),
+                                          title: Text("${cubit.notificationsListModel?.data![index].title}"),
                                           contentPadding: EdgeInsets.symmetric(
                                               vertical: 10),
                                           subtitle: Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 vertical: 10),
                                             child: Text(cubit
-                                                .notificationsListModel
-                                                .data[index]
+                                                .notificationsListModel!
+                                                .data![index]
                                                 .createdAt
                                                 .toString()
                                                 .substring(0, 10)),

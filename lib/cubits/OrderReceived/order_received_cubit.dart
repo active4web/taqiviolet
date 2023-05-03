@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,8 @@ class OrderReceivedCubit extends Cubit<OrderReceivedState> {
 
   static OrderReceivedCubit get(context) => BlocProvider.of(context);
 
-  ReOrderModel reOrderModel;
+  ReOrderModel? reOrderModel;
+
   void getOrderReceivedData() {
     emit(OrderReceivedLoadingState());
 
@@ -25,7 +25,7 @@ class OrderReceivedCubit extends Cubit<OrderReceivedState> {
       url: reOrderURL,
     ).then((value) {
       reOrderModel = ReOrderModel.fromJson(value.data);
-      log('${reOrderModel.toJson()}');
+      // log('${reOrderModel.toJson()}');
       // allOffer=offerModel.data;
       // print("${allOffer}");
       emit(OrderReceivedSuccessState());

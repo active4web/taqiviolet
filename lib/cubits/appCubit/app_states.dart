@@ -68,13 +68,13 @@ class ChangeIconColor extends AppStates {}
 class AddReviewLoadingState extends AppStates {}
 
 class AddReviewSuccessState extends AppStates {
-  AddReviewSuccessState({this.message});
+  AddReviewSuccessState({required this.message});
 
   final String message;
 }
 
 class AddReviewErrorState extends AppStates {
-  AddReviewErrorState({this.message});
+  AddReviewErrorState({required this.message});
 
   final String message;
 }
@@ -106,8 +106,37 @@ class GetConstructionLoadingState extends AppStates {}
 class GetConstructionSuccessState extends AppStates {}
 
 class GetConstructionErrorState extends AppStates {}
-class FavoritesListLoading extends AppStates {}
- 
+
+class GetFavoritesListLoading extends AppStates {}
+
+class GetFavoritesListSuccess extends AppStates {}
+
+class GetFavoritesListError extends AppStates {
+  final String error;
+
+  GetFavoritesListError(this.error);
+}
+
+class addFavoritesListSuccess extends AppStates {}
+
+class createNewFavoritesListSuccess extends AppStates {}
+
+class removeFavoriteHomeSuccess extends AppStates {}
+
 class GetAccountDataLoadingState extends AppStates {}
+
 class GetAccountDataSuccessState extends AppStates {}
-class GetAccountDataErrorState extends AppStates {}
+
+class GetAccountDataErrorState extends AppStates {
+  final String error;
+
+  GetAccountDataErrorState(this.error);
+}
+
+class DeleteAccountDataSuccessState extends AppStates {}
+
+class DeleteAccountDataErrorState extends AppStates {
+  final String error;
+
+  DeleteAccountDataErrorState(this.error);
+}

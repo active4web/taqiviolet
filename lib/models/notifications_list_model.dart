@@ -1,8 +1,8 @@
 class NotificationsListModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<NotificationData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<NotificationData>? data;
 
   NotificationsListModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,30 +13,30 @@ class NotificationsListModel {
     if (json['data'] != null) {
       data = <NotificationData>[];
       json['data'].forEach((v) {
-        data.add(new NotificationData.fromJson(v));
+        data!.add(new NotificationData.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['status'] = this.status;
+  //   data['errNum'] = this.errNum;
+  //   data['msg'] = this.msg;
+  //   if (this.data != null) {
+  //     data['data'] = this.data.map((v) => v.toJson()).toList();
+  //   }
+  //   return data;
+  // }
 }
 
 class NotificationData {
-  int id;
-  String title;
-  String body;
-  int clientId;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? title;
+  String? body;
+  int? clientId;
+  String? createdAt;
+  String? updatedAt;
 
   NotificationData(
       {this.id,
@@ -55,14 +55,14 @@ class NotificationData {
     updatedAt = json['updated_at'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['body'] = this.body;
-    data['client_id'] = this.clientId;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    return data;
-  }
+  // Map<String, dynamic> toJson() {
+  //   final Map<String, dynamic> data = new Map<String, dynamic>();
+  //   data['id'] = this.id;
+  //   data['title'] = this.title;
+  //   data['body'] = this.body;
+  //   data['client_id'] = this.clientId;
+  //   data['created_at'] = this.createdAt;
+  //   data['updated_at'] = this.updatedAt;
+  //   return data;
+  // }
 }

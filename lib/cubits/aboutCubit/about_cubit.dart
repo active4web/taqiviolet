@@ -1,12 +1,11 @@
 import 'dart:developer';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../models/about_model.dart';
-import '../../network/local/cache_helper.dart';
-import '../../network/remote/dio_Mhelper.dart';
-import '../../shared/constants.dart';
-import 'about_state.dart';
+import 'package:safsofa/cubits/aboutCubit/about_state.dart';
+import 'package:safsofa/models/about_model.dart';
+import 'package:safsofa/network/local/cache_helper.dart';
+import 'package:safsofa/network/remote/dio_Mhelper.dart';
+import 'package:safsofa/shared/constants.dart';
 
 class AboutCubit extends Cubit<AboutStates> {
   AboutCubit() : super(AboutInitial());
@@ -14,8 +13,8 @@ class AboutCubit extends Cubit<AboutStates> {
   static AboutCubit get(context) => BlocProvider.of(context);
 
   ///Get Data From stories
-  AboutModel aboutModel;
-  List<AboutModelData> aboutData;
+  AboutModel? aboutModel;
+  List<AboutModelData>? aboutData;
 
   void getAbout() async {
     log("i get the lang     ${CacheHelper.getData("language")}");
@@ -24,7 +23,6 @@ class AboutCubit extends Cubit<AboutStates> {
       url: dataFromabout,
       query: {
         'lang': kLanguage,
-    
       },
       token: kToken,
     ).then((value) async {
@@ -32,9 +30,9 @@ class AboutCubit extends Cubit<AboutStates> {
       log(value.data.toString());
       log("0" * 50);
       aboutModel = AboutModel.fromJson(value.data);
-      aboutData = aboutModel.data;
+      aboutData = aboutModel?.data!;
       log(value.data.toString());
-      log(aboutData[0].title.toString());
+      log(aboutData![0].title.toString());
       emit(GetAboutSuccessState());
     }).catchError((err) {
       log("Error form dio:$err");

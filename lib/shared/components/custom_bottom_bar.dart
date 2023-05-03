@@ -14,15 +14,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
         return ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              topLeft: Radius.circular(30), topRight: Radius.circular(30),),
           child: BottomAppBar(
+            color: Color(0xff393846),
             shape: const CircularNotchedRectangle(),
             child: BottomNavigationBar(
               type: BottomNavigationBarType.fixed,
               elevation: 0,
-              backgroundColor: Theme.of(context).primaryColor.withAlpha(0),
+              backgroundColor: Color(0xff393846)
+                  .withAlpha(1),
               selectedItemColor: kDarkGoldColor,
-              currentIndex: cubit.selectedIndex,
+              currentIndex: (cubit.selectedIndex!),
               unselectedItemColor: Colors.grey,
               onTap: (value) {
                 cubit.changeNavBar(value, context);
@@ -31,8 +33,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.home), label: "Home".tr()),
                 BottomNavigationBarItem(
-                    icon: Icon(CupertinoIcons.heart_fill),
-                    label: "Favorites".tr()),
+                    icon: Icon(Icons.bookmark_add_outlined),
+                    label: "myList".tr()),
                 BottomNavigationBarItem(icon: SizedBox(), label: ''),
                 BottomNavigationBarItem(
                     icon: Icon(CupertinoIcons.person), label: 'Account'.tr()),

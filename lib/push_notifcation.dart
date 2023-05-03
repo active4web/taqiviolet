@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class PushNotificationManagger {
@@ -23,26 +22,28 @@ class PushNotificationManagger {
   //   }
   // }
   static Future<void> initialize(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
+      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin)  async{
     AndroidInitializationSettings initializationSettingsAndroid =
-        const AndroidInitializationSettings('@mipmap/launcher_icon');
+     AndroidInitializationSettings('@mipmap/launcher_icon');
+
     final DarwinInitializationSettings initializationSettingsDarwin =
-        DarwinInitializationSettings(onDidReceiveLocalNotification:
-            (int id, String title, String body, String payload) async {
+    DarwinInitializationSettings(onDidReceiveLocalNotification:
+        (int? id, String? title, String? body, String? payload) async {
       // display a dialog with the notification details, tap ok to go to another page
     });
+
     const LinuxInitializationSettings initializationSettingsLinux =
-        LinuxInitializationSettings(defaultActionName: 'Open notification');
+    LinuxInitializationSettings(defaultActionName: 'Open notification');
     final InitializationSettings initializationSettings =
-        InitializationSettings(
-            android: initializationSettingsAndroid,
-            iOS: initializationSettingsDarwin,
-            linux: initializationSettingsLinux);
+    InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsDarwin,
+        linux: initializationSettingsLinux);
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse:
           (NotificationResponse notificationResponse) async {
-        final String payload = notificationResponse.payload;
+        final String? payload = notificationResponse.payload;
         if (notificationResponse.payload != null) {
           log('notification payload: $payload');
         }
@@ -63,8 +64,8 @@ class PushNotificationManagger {
       print(
           '================================ FOREGROUND NOTIFICATION ================================');
       print(message.data);
-      print('Notification title: ${message.notification.title}');
-      print('Notification body: ${message.notification.body}');
+      print('Notification title: ${message.notification?.title}');
+      print('Notification body: ${message.notification?.body}');
       showNotification(
           message: message,
           fln: flutterLocalNotificationsPlugin,
@@ -74,8 +75,8 @@ class PushNotificationManagger {
       print(
           '================================ if the app has opened from a background state (not terminated) NOTIFICATION ================================');
       print(message.data);
-      print('Notification title: ${message.notification.title}');
-      print('Notification body: ${message.notification.body}');
+      print('Notification title: ${message.notification?.title}');
+      print('Notification body: ${message.notification?.body}');
       showNotification(
           message: message,
           fln: flutterLocalNotificationsPlugin,
@@ -84,12 +85,12 @@ class PushNotificationManagger {
   }
 
   static Future<void> showNotification({
-    @required RemoteMessage message,
-    @required FlutterLocalNotificationsPlugin fln,
-    String payload,
+    required RemoteMessage message,
+    required FlutterLocalNotificationsPlugin fln,
+    String? payload,
   }) async {
-    const AndroidNotificationDetails androidNotificationDetails =
-        AndroidNotificationDetails(
+     AndroidNotificationDetails androidNotificationDetails =
+    AndroidNotificationDetails(
       'high_channel',
       'High Importance Notification',
       channelDescription: 'This channel is for important notification',
@@ -98,9 +99,9 @@ class PushNotificationManagger {
       enableLights: true,
       enableVibration: true,
     );
-    const NotificationDetails notificationDetails =
-        NotificationDetails(android: androidNotificationDetails);
-    await fln.show(0, message.notification.title, message.notification.body,
+     NotificationDetails notificationDetails =
+    NotificationDetails(android: androidNotificationDetails);
+    await fln.show(0, message.notification?.title, message.notification?.body,
         notificationDetails,
         payload: payload);
   }

@@ -33,14 +33,14 @@ class _MobileScrState extends State<MobileScr> {
                     child: CircularProgressIndicator(),
                   )
                 : GridView.builder(
-                    itemCount: mobileCubit.phonesModel.data.length,
+                    itemCount: mobileCubit.phonesModel!.data!.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 4.0,
                         mainAxisSpacing: 4.0),
                     itemBuilder: (BuildContext context, int index) {
                       return Image.network(
-                          mobileCubit.phonesModel.data[index].image);
+                          "${mobileCubit.phonesModel?.data![index].image}");
                     },
                   );
           },

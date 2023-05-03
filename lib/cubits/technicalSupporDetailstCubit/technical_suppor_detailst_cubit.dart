@@ -12,11 +12,11 @@ class TechnicalSupportDetailsCubit
   TechnicalSupportDetailsCubit() : super(TechnicalSupportdetailstInitial());
 
   static TechnicalSupportDetailsCubit get(context) => BlocProvider.of(context);
-  int id;
+  int? id;
 
   ///Get Data From stories
-  DetailsSupportModel detailsSupportModel;
-  List<DetailsSupportData> detailsSupportDetailsData;
+  DetailsSupportModel? detailsSupportModel;
+  List<DetailsSupportData>? detailsSupportDetailsData;
 
   void getTechnicalSupport() async {
     emit(GetTechnicalSupportdetailstLoadingState());
@@ -27,7 +27,7 @@ class TechnicalSupportDetailsCubit
       log(value.data.toString());
       log("0" * 50);
       detailsSupportModel = DetailsSupportModel.fromJson(value.data);
-      detailsSupportDetailsData = detailsSupportModel.data;
+      detailsSupportDetailsData = detailsSupportModel?.data;
 
       emit(GetTechnicalSupportdetailstSuccessState());
     }).catchError((err) {

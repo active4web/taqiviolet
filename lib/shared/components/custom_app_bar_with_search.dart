@@ -1,38 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants.dart';
 import 'custom_search_bar.dart';
 
 class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
   CustomAppBarWithSearch(
-      {Key key,
+      {
       this.title,
       this.colorAB = Colors.white,
       this.withFilter = false,
       this.colorIcon = Colors.white,
-      @required this.controller,
-      @required this.onChange})
-      : super(key: key);
+       this.controller,
+        this.function,
+       this.onChange})
+       ;
 
-  final String title;
-  Color colorAB;
+  final String? title;
+  Color? colorAB;
   final bool withFilter;
+  final Function? function;
   Color colorIcon;
-  TextEditingController controller;
-  void Function(String) onChange;
+  TextEditingController? controller;
+  void Function(String)? onChange;
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
       preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
       child: AppBar(
         elevation: 0,
-        backgroundColor: HexaColor.fromHexa("#2d2d37"), //colorAB,
+        backgroundColor: Color(0xff393846), //
+        systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Color(0xff393846),
+            statusBarIconBrightness: Brightness.light
+        ) ,
+// colorAB,
         shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(10)),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(60)),
         ),
         title: Text(
-          title,
+          "${title}",
           style: TextStyle(
               fontSize: 18, fontWeight: FontWeight.normal, color: colorIcon),
         ),
@@ -59,16 +67,21 @@ class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
             child: Row(
               children: [
                 withFilter
-                    ? Container(
-                        width: 40,
-                        height: 40,
-                        decoration: BoxDecoration(
-                            color: colorIcon, //Colors.grey,
-                            borderRadius: BorderRadius.circular(10)),
-                        child: Icon(CupertinoIcons.line_horizontal_3_decrease,
-                            color: colorIcon // Colors.white,
-                            ),
-                      )
+                    ? InkWell(
+                  onTap: (){
+                    function!();
+                  },
+                      child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                              color: colorIcon, //Colors.grey,
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Icon(CupertinoIcons.line_horizontal_3_decrease,
+                              color: Colors.black // Colors.white,
+                              ),
+                        ),
+                    )
                     : SizedBox(),
                 SizedBox(
                   width: withFilter ? 10 : 0,

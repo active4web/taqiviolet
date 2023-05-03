@@ -10,8 +10,8 @@ import '../shared/components/custom_app_bar.dart';
 import '../shared/components/custom_button.dart';
 
 class SendAGiftScreen extends StatefulWidget {
-  final int orderId;
-  const SendAGiftScreen({Key key,@required this.orderId}) : super(key: key);
+  final int? orderId;
+  const SendAGiftScreen({required this.orderId});
 
   @override
   _SendAGiftScreenState createState() => _SendAGiftScreenState();
@@ -96,7 +96,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                         cartCubit: cartCubit,
                         massge: massge.text,
                         qrData: qrData.text,
-                        orderId: widget.orderId,
+                        orderId: widget.orderId!,
                         qrKey: qrKey,
                       );
 
@@ -118,7 +118,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
     );
   }
 
-  Widget customwidget({label, controler, int minLines}) {
+  Widget customwidget({label, controler, int? minLines}) {
     return TextFormField(
       controller: controler,
       minLines: minLines,
@@ -133,14 +133,14 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
 
   _popUpMenu(
       {context,
-      String name,
-      String massge,
-      String phone,
-      String qrData,
-      int orderId,
-      Key qrKey,
+      String? name,
+      String? massge,
+      String? phone,
+      String? qrData,
+      int? orderId,
+      GlobalKey? qrKey,
       addname,
-      CartCubit cartCubit}) {
+      CartCubit? cartCubit}) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -162,7 +162,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                     child: RepaintBoundary(
                       key: qrKey,
                       child: QrImage(
-                          data: qrData, version: QrVersions.auto, size: 180),
+                          data: "${qrData}", version: QrVersions.auto, size: 180),
                     )),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -174,7 +174,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
             actions: [
               CustomButton(
                 onTap: () {
-                  cartCubit.sendgiftCards(
+                  cartCubit?.sendgiftCards(
                       phone: phone,
                       context: context,
                       qrKey: qrKey,

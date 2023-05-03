@@ -28,7 +28,7 @@ class SuccessScr extends StatelessWidget {
             height: 20,
           ),
           Text(
-            "${"orderNo".tr()} #${makeOrderModel.data.codeOrder}",
+            "${"orderNo".tr()} #${makeOrderModel.data?.codeOrder}",
             style: TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
@@ -58,7 +58,7 @@ class SuccessScr extends StatelessWidget {
                     onTap: () => navigateTo(
                         context,
                         SendAGiftScreen(
-                          orderId: makeOrderModel.data.id,
+                          orderId: makeOrderModel.data?.id,
                         )),
                   ),
                 ),

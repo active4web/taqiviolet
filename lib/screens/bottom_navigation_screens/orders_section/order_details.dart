@@ -8,15 +8,15 @@ import '../../../cubits/order_details_cubit.dart';
 import '../../../shared/components/custom_app_bar.dart';
 
 class OrderDetailsSCR extends StatelessWidget {
-  final int id;
+  final int? id;
 
   OrderDetailsSCR({
-    @required this.id,
+    required this.id,
   });
 
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => OrderDetailsCubit()..getOrderDetails(id),
+      create: (context) => OrderDetailsCubit()..getOrderDetails(id!),
       child: BlocConsumer<OrderDetailsCubit, OrderDetailsState>(
         listener: (context, state) {},
         builder: (context, state) {
@@ -47,7 +47,7 @@ class OrderDetailsSCR extends StatelessWidget {
                                 style: TextStyle(fontSize: 24),
                               ),
                               Text(
-                                '#${cubit.orderDetails.data.orderDetails.codeOrder}',
+                                '#${cubit.orderDetails?.data?.orderDetails?.codeOrder}',
                                 style: TextStyle(
                                   color: Colors.blue,
                                   decoration: TextDecoration.underline,
@@ -61,7 +61,7 @@ class OrderDetailsSCR extends StatelessWidget {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount:
-                              cubit.orderDetails.data.listProducts.length,
+                              cubit.orderDetails!.data!.listProducts!.length,
                           itemBuilder: (context, pos) {
                             return Container(
                               decoration: BoxDecoration(
@@ -77,8 +77,7 @@ class OrderDetailsSCR extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(8),
                                       child: Image(
                                         image: NetworkImage(
-                                          cubit.orderDetails.data
-                                              .listProducts[pos].image,
+                                          "${cubit.orderDetails?.data?.listProducts![pos].image}",
                                         ),
                                         height: 110,
                                         width: 110,
@@ -93,8 +92,7 @@ class OrderDetailsSCR extends StatelessWidget {
                                             CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            cubit.orderDetails.data
-                                                .listProducts[pos].name,
+                                            "${cubit.orderDetails?.data?.listProducts![pos].name}",
                                             maxLines: 2,
                                             style: TextStyle(
                                               fontSize: 18,
@@ -110,9 +108,7 @@ class OrderDetailsSCR extends StatelessWidget {
                                                     fontSize: 16),
                                               ),
                                               Text(
-                                                cubit.orderDetails.data
-                                                    .listProducts[pos].qty
-                                                    .toString(),
+                                                "${cubit.orderDetails?.data?.listProducts![pos].qty.toString()}",
                                                 style: TextStyle(fontSize: 16),
                                               ),
                                             ],
@@ -126,19 +122,19 @@ class OrderDetailsSCR extends StatelessWidget {
                                                     fontSize: 16),
                                               ),
                                               Text(
-                                                '${cubit.orderDetails.data.listProducts[pos].price} ${"SAR".tr()}',
+                                                '${cubit.orderDetails?.data?.listProducts![pos].price} ${"SAR".tr()}',
                                                 style: TextStyle(fontSize: 16),
                                               ),
                                             ],
                                           ),
                                           if (cubit
                                                       .orderDetails
-                                                      .data
-                                                      .listProducts[pos]
+                                                      ?.data
+                                                      ?.listProducts![pos]
                                                       .productRate ==
                                                   0 &&
-                                              cubit.orderDetails.data
-                                                      .orderDetails.status ==
+                                              cubit.orderDetails?.data
+                                                      ?.orderDetails?.status ==
                                                   "3")
                                             Align(
                                               alignment: AlignmentDirectional
@@ -151,20 +147,20 @@ class OrderDetailsSCR extends StatelessWidget {
                                                         AddReviewScreen(
                                                       prodId: cubit
                                                           .orderDetails
-                                                          .data
-                                                          .listProducts[pos]
+                                                          ?.data
+                                                          ?.listProducts![pos]
                                                           .productId,
                                                       orderId: cubit
                                                           .orderDetails
-                                                          .data
-                                                          .orderDetails
-                                                          .id,
+                                                          ?.data
+                                                          ?.orderDetails
+                                                          ?.id,
                                                     ),
                                                   ))
                                                       .then((value) {
                                                     if (value) {
                                                       cubit.getOrderDetails(
-                                                          id, false);
+                                                          id!, false);
                                                     }
                                                   });
                                                 },
@@ -200,7 +196,8 @@ class OrderDetailsSCR extends StatelessWidget {
                               "paymentMethod".tr(),
                               style: TextStyle(fontSize: 20),
                             ),
-                            cubit.orderDetails.data.orderDetails.paymentType ==
+                            cubit.orderDetails?.data?.orderDetails
+                                        ?.paymentType ==
                                     0
                                 ? Image(
                                     height: 40,
@@ -226,20 +223,20 @@ class OrderDetailsSCR extends StatelessWidget {
                                   ),
                           ],
                         ),
-                        if (cubit.orderDetails.data.orderDetails.address !=
+                        if (cubit.orderDetails?.data?.orderDetails?.address !=
                                 null &&
-                            cubit.orderDetails.data.orderDetails.address
+                            cubit.orderDetails!.data!.orderDetails!.address!
                                 .isNotEmpty)
                           Text(
                             "Address".tr(),
                             style: TextStyle(fontSize: 20),
                           ),
-                        if (cubit.orderDetails.data.orderDetails.address !=
+                        if (cubit.orderDetails?.data?.orderDetails?.address !=
                                 null &&
-                            cubit.orderDetails.data.orderDetails.address
+                            cubit.orderDetails!.data!.orderDetails!.address!
                                 .isNotEmpty)
                           Text(
-                            cubit.orderDetails.data.orderDetails.address,
+                            "${cubit.orderDetails?.data?.orderDetails?.address}",
                             style: TextStyle(fontSize: 18),
                           ),
                         Container(
@@ -252,23 +249,24 @@ class OrderDetailsSCR extends StatelessWidget {
                                 customRow(
                                   lab: "price".tr(),
                                   val:
-                                      '${cubit.orderDetails.data.orderDetails.subTotal.toStringAsFixed(2)} ${"SAR".tr()}',
+                                      '${cubit.orderDetails?.data?.orderDetails?.subTotal?.toStringAsFixed(2)} ${"SAR".tr()}',
                                 ),
-                                if (cubit.orderDetails.data.orderDetails
-                                        .deliveryType ==
+                                if (cubit.orderDetails?.data?.orderDetails
+                                        ?.deliveryType ==
                                     0)
                                   customRow(
                                     lab: "deliveryCost".tr(),
                                     val:
-                                        '${cubit.orderDetails.data.orderDetails.deliveryCost.toStringAsFixed(2)} ${"SAR".tr()}',
+                                        '${cubit.orderDetails?.data?.orderDetails?.deliveryCost?.toStringAsFixed(2)} ${"SAR".tr()}',
                                   ),
-                                if (cubit.orderDetails.data.orderDetails
-                                        .promoCodeValue >
+                                if ((cubit.orderDetails?.data?.orderDetails
+                                            ?.promoCodeValue)!
+                                        .toInt() >
                                     0)
                                   customRow(
                                     lab: "discountValue".tr(),
                                     val:
-                                        '${cubit.orderDetails.data.orderDetails.promoCodeValue.toStringAsFixed(2)} ${"SAR".tr()}',
+                                        '${cubit.orderDetails?.data?.orderDetails?.promoCodeValue?.toStringAsFixed(2)} ${"SAR".tr()}',
                                   ),
                                 Divider(
                                   height: 3,
@@ -277,7 +275,7 @@ class OrderDetailsSCR extends StatelessWidget {
                                 customRow(
                                   lab: "Total".tr(),
                                   val:
-                                      '${cubit.orderDetails.data.orderDetails.total.toStringAsFixed(2)} ${"SAR".tr()}',
+                                      '${cubit.orderDetails?.data?.orderDetails?.total?.toStringAsFixed(2)} ${"SAR".tr()}',
                                 ),
                               ],
                             ),
@@ -290,13 +288,13 @@ class OrderDetailsSCR extends StatelessWidget {
     );
   }
 
-  Widget customRow({String lab, String val}) {
+  Widget customRow({String? lab, String? val}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.max,
       children: [
         Text(
-          lab,
+          "${lab}",
           style: TextStyle(
             fontSize: 18,
           ),

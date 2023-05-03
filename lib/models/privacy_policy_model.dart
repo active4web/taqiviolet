@@ -1,8 +1,8 @@
 class PrivacyPolicyModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<PrivacyPolicyData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<PrivacyPolicyData>? data;
 
   PrivacyPolicyModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,11 +13,12 @@ class PrivacyPolicyModel {
     if (json['data'] != null) {
       data = <PrivacyPolicyData>[];
       json['data'].forEach((v) {
-        data.add(new PrivacyPolicyData.fromJson(v));
+        data!.add(new PrivacyPolicyData.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -28,16 +29,17 @@ class PrivacyPolicyModel {
     }
     return data;
   }
+*/
 }
 
 class PrivacyPolicyData {
-  int id;
-  String content;
-  String title;
-  String image;
-  int type;
-  String createdAt;
-  String updatedAt;
+  int? id;
+  String? content;
+  String? title;
+  String? image;
+  int? type;
+  String? createdAt;
+  String? updatedAt;
 
   PrivacyPolicyData(
       {this.id,
@@ -58,7 +60,7 @@ class PrivacyPolicyData {
     updatedAt = json['updated_at'];
   }
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['content'] = this.content;
@@ -68,5 +70,5 @@ class PrivacyPolicyData {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
-  }
+  }*/
 }

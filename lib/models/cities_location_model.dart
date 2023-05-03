@@ -1,8 +1,8 @@
 class CitiesLocationsModel {
-  bool status;
-  String errNum;
-  String msg;
-  CityLocationData data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  CityLocationData? data;
 
   CitiesLocationsModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,45 +13,45 @@ class CitiesLocationsModel {
     data = json['data'] != null ? new CityLocationData.fromJson(json['data']) : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['status'] = this.status;
+  //   data['errNum'] = this.errNum;
+  //   data['msg'] = this.msg;
+  //   if (this.data != null) {
+  //     data['data'] = this.data.toJson();
+  //   }
+  //   return data;
+  // }
 }
 
 class CityLocationData {
-  List<CountryList> countryList;
+  List<CountryList>? countryList;
 
   CityLocationData({this.countryList});
 
   CityLocationData.fromJson(Map<String, dynamic> json) {
     if (json['country_list'] != null) {
-      countryList = new List<CountryList>();
+      countryList = <CountryList>[];
       json['country_list'].forEach((v) {
-        countryList.add(new CountryList.fromJson(v));
+        countryList!.add(new CountryList.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.countryList != null) {
-      data['country_list'] = this.countryList.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   if (this.countryList != null) {
+  //     data['country_list'] = this.countryList.map((v) => v.toJson()).toList();
+  //   }
+  //   return data;
+  // }
 }
 
 class CountryList {
-  String name;
-  int id;
-  List<ListCites> listCites;
+  String? name;
+  int? id;
+  List<ListCites>? listCites;
 
   CountryList({this.name, this.id, this.listCites});
 
@@ -59,27 +59,25 @@ class CountryList {
     name = json['name'];
     id = json['id'];
     if (json['list_cites'] != null) {
-      listCites = new List<ListCites>();
+      listCites = <ListCites>[];
       json['list_cites'].forEach((v) {
-        listCites.add(new ListCites.fromJson(v));
+        listCites!.add(new ListCites.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['id'] = this.id;
-    if (this.listCites != null) {
-      data['list_cites'] = this.listCites.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['name'] = this.name;
+  //   data['id'] = this.id;
+  //   data['list_cites'] = this.listCites.map((v) => v.toJson()).toList();
+  //   return data;
+  // }
 }
 
 class ListCites {
-  String nameCity;
-  int idCity;
+  String? nameCity;
+  int? idCity;
 
   ListCites({this.nameCity, this.idCity});
 
@@ -88,10 +86,10 @@ class ListCites {
     idCity = json['id_city'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name_city'] = this.nameCity;
-    data['id_city'] = this.idCity;
-    return data;
-  }
+  // Map<String?, dynamic> toJson() {
+  //   final Map<String?, dynamic> data = new Map<String?, dynamic>();
+  //   data['name_city'] = this.nameCity;
+  //   data['id_city'] = this.idCity;
+  //   return data;
+  // }
 }

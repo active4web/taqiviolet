@@ -13,7 +13,7 @@ class PrivacyPolicyCubit extends Cubit<PrivacyPolicyState> {
   static PrivacyPolicyCubit get(context) => BlocProvider.of(context);
 
   ///Get Data From stories
-  PrivacyPolicyModel privacyPolicyModel;
+  PrivacyPolicyModel? privacyPolicyModel;
   // List<PrivacyPolicyData> storeListOfData;
 
   void getPrivacyPolicy() async {

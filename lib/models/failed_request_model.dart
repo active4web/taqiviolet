@@ -1,7 +1,7 @@
 class FailedResponseModel {
-  bool status;
-  String errNum;
-  String msg;
+  bool? status;
+  String? errNum;
+  String? msg;
 
   FailedResponseModel({this.status, this.errNum, this.msg});
 
@@ -11,11 +11,11 @@ class FailedResponseModel {
     msg = json['msg'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    return data;
-  }
+   Map<String?, dynamic> toJson() {
+     final Map<String?, dynamic> data = new Map<String?, dynamic>();
+     data['status'] = this.status;
+     data['errNum'] = this.errNum;
+     data['msg'] = this.msg;
+     return data;
+   }
 }

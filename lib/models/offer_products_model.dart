@@ -1,8 +1,8 @@
 class OfferProductsModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<Data> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<Data>? data;
 
   OfferProductsModel({this.status, this.errNum, this.msg, this.data});
 
@@ -11,13 +11,14 @@ class OfferProductsModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -28,28 +29,29 @@ class OfferProductsModel {
     }
     return data;
   }
+*/
 }
 
 class Data {
-  int id;
-  String name;
-  String nameSearch;
-  int oldPrice;
-  int currentPrice;
-  Null smartPrice;
-  String details;
-  String quantity;
-  int subCategoryId;
-  int categoryId;
-  int isActive;
-  int storeId;
-  String createdAt;
-  String updatedAt;
-  String image;
-  int hasFavorites;
-  int hasRosters;
-  String hasReviews;
-  String reviewComment;
+  int? id;
+  String? name;
+  String? nameSearch;
+  int? oldPrice;
+  int? currentPrice;
+  String? smartPrice;
+  String? details;
+  String? quantity;
+  int? subCategoryId;
+  int? categoryId;
+  int? isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
+  String? image;
+  int? hasFavorites;
+  int? hasRosters;
+  String? hasReviews;
+  String? reviewComment;
 
   Data(
       {this.id,
@@ -94,6 +96,7 @@ class Data {
     reviewComment = json['ReviewComment'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
@@ -117,4 +120,5 @@ class Data {
     data['ReviewComment'] = this.reviewComment;
     return data;
   }
+*/
 }

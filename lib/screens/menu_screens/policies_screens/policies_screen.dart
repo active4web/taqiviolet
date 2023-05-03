@@ -11,7 +11,6 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 class PoliciesScreen extends StatelessWidget {
-  const PoliciesScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,8 +40,8 @@ class PoliciesScreen extends StatelessWidget {
                               navigateTo(
                                   context,
                                   PoliciesDetailsScreen(
-                                    title: cubit.policies[index].title,
-                                    id: cubit.policies[index].id,
+                                    title: cubit.policies![index].title,
+                                    id: (cubit.policies![index].id)!,
                                   ));
                             },
                             child: Card(
@@ -59,14 +58,14 @@ class PoliciesScreen extends StatelessWidget {
                                             Radius.circular(20))),
                                     child: Image(
                                         image: NetworkImage(
-                                            cubit.policies[index].image),
+                                            "${cubit.policies![index].image}"),
                                         fit: BoxFit.cover),
                                   ),
                                   SizedBox(
                                     height: 15,
                                   ),
                                   Text(
-                                    cubit.policies[index].title,
+                                    "${cubit.policies![index].title}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: kDarkGoldColor,
@@ -84,7 +83,7 @@ class PoliciesScreen extends StatelessWidget {
                       separatorBuilder: (context, index) => SizedBox(
                             height: 20,
                           ),
-                      itemCount: cubit.policies.length),
+                      itemCount: cubit.policies!.length),
 
                   // GridView.builder(
                   //   padding: EdgeInsets.zero,

@@ -13,7 +13,7 @@ import 'package:safsofa/shared/defaults.dart';
 class TaqiWorkCubit extends Cubit<TaqiWorkState> {
   TaqiWorkCubit() : super(TaqiWorkCubitInitial());
   static TaqiWorkCubit get(context) => BlocProvider.of(context);
-  TqiWorkModel workModel;
+  TqiWorkModel? workModel;
   void getTaqiWorkData() {
     emit(TaqiWorkCubitLoadingState());
     Mhelper.getData(url: '/api/companywork', token: kToken, query: {
@@ -28,7 +28,7 @@ class TaqiWorkCubit extends Cubit<TaqiWorkState> {
     });
   }
 
-  PlatformFile file;
+  PlatformFile? file;
   void pickMediaFile() async {
     final result = await FilePicker.platform.pickFiles(
       allowMultiple: false,
@@ -48,10 +48,10 @@ class TaqiWorkCubit extends Cubit<TaqiWorkState> {
 
   var formKey = GlobalKey<FormState>();
   void sendIdeaOfWork({
-    @required String name,
-    @required String email,
-    @required String phone,
-    @required String comment,
+    required String name,
+    required String email,
+    required String phone,
+    required String comment,
   }) async {
     emit(SendingLoadingState());
     Mhelper.postData(url: '/api/ideas_taqiviolet', data: {
@@ -59,7 +59,7 @@ class TaqiWorkCubit extends Cubit<TaqiWorkState> {
       'phone': phone,
       'message': comment,
       'email': email,
-      'file': await MultipartFile.fromFile(file.path, filename: file.name),
+      'file': await MultipartFile.fromFile("${file?.path}", filename: file?.name),
     }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {

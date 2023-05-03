@@ -1,8 +1,8 @@
 class FavoritesListsModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<Data> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<Data>? data;
 
   FavoritesListsModel({this.status, this.errNum, this.msg, this.data});
 
@@ -11,48 +11,53 @@ class FavoritesListsModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = <Data>[];
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data!.add(new Data.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
     data['errNum'] = this.errNum;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     return data;
   }
+*/
 }
 
 class Data {
-  int id;
-  int clientId;
-  String name;
+  int? iD;
+  int? clientId;
+  String? name;
+  String? image;
+  String? createdAt;
 
-  Data({
-    this.id,
-    this.clientId,
-    this.name,
-  });
+  Data({this.iD, this.clientId, this.name, this.image, this.createdAt});
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    iD = json['ID'];
     clientId = json['client_id'];
     name = json['name'];
+    image = json['Image'];
+    createdAt = json['created_at'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
+    data['ID'] = this.iD;
     data['client_id'] = this.clientId;
     data['name'] = this.name;
-
+    data['Image'] = this.image;
+    data['created_at'] = this.createdAt;
     return data;
   }
+*/
 }

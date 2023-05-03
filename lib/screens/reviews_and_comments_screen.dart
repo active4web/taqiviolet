@@ -10,9 +10,8 @@ import 'package:safsofa/shared/constants.dart';
 import '../cubits/reviews_cubit/cubit/reviews_comments_cubit.dart';
 
 class ReviewsAndCommentsScreen extends StatelessWidget {
-  final int productId;
-  const ReviewsAndCommentsScreen({Key key, @required this.productId})
-      : super(key: key);
+  final int? productId;
+  const ReviewsAndCommentsScreen({ this.productId});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +22,7 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) =>
-            ReviewsCommentsCubit()..getAllReviews(productId: productId),
+            ReviewsCommentsCubit()..getAllReviews(productId: productId!),
         child: BlocConsumer<ReviewsCommentsCubit, ReviewsCommentsState>(
           listener: (context, state) {
             // TODO: implement listener
@@ -38,37 +37,37 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
                     itemBuilder: (context, index) => CommentItem(
                       commentAuthorName: ReviewsCommentsCubit.get(context)
                           .allReviews
-                          .data
-                          .list[index]
+                          ?.data
+                          ?.list![index]
                           .clientName,
                       commentCreationDate: ReviewsCommentsCubit.get(context)
                           .allReviews
-                          .data
-                          .list[index]
+                          ?.data
+                          ?.list![index]
                           .date,
                       commentText: ReviewsCommentsCubit.get(context)
                           .allReviews
-                          .data
-                          .list[index]
+                          ?.data
+                          ?.list![index]
                           .comment,
                       ratingValue: ReviewsCommentsCubit.get(context)
                           .allReviews
-                          .data
-                          .list[index]
+                          ?.data
+                          ?.list![index]
                           .rate,
                       imagesUrl: ReviewsCommentsCubit.get(context)
                           .allReviews
-                          .data
-                          .list[index]
+                          ?.data
+                          ?.list![index]
                           .listImg,
                     ),
                     separatorBuilder: (context, index) => SizedBox(
                       height: MediaQuery.of(context).size.height / 40,
                     ),
                     itemCount: ReviewsCommentsCubit.get(context)
-                        .allReviews
-                        .data
-                        .list
+                        .allReviews!
+                        .data!
+                        .list!
                         .length,
                   )
                 : Center(
@@ -82,19 +81,18 @@ class ReviewsAndCommentsScreen extends StatelessWidget {
 }
 
 class CommentItem extends StatelessWidget {
-  final String commentAuthorName;
-  final String commentCreationDate;
-  final String commentText;
-  final String ratingValue;
-  final List<String> imagesUrl;
+  final String? commentAuthorName;
+  final String? commentCreationDate;
+  final String? commentText;
+  final String? ratingValue;
+  final List<String>? imagesUrl;
   const CommentItem(
-      {Key key,
-      @required this.commentAuthorName,
-      @required this.commentCreationDate,
-      @required this.commentText,
-      @required this.ratingValue,
-      this.imagesUrl})
-      : super(key: key);
+      {
+      required this.commentAuthorName,
+      required this.commentCreationDate,
+      required this.commentText,
+      required this.ratingValue,
+      this.imagesUrl});
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +113,7 @@ class CommentItem extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  commentAuthorName,
+                  "${commentAuthorName}",
                   style: TextStyle(
                       color: Colors.black,
                       fontSize: 20,
@@ -127,13 +125,13 @@ class CommentItem extends StatelessWidget {
                   children: [
                     Text(
                       DateFormat("yyyy-MM-dd", kLanguage)
-                          .format(DateTime.parse(commentCreationDate))
+                          .format(DateTime.parse("${commentCreationDate}"))
                           .toString(),
                       style: TextStyle(color: Colors.blue),
                     ),
                     Text(
                       DateFormat.jm(kLanguage)
-                          .format(DateTime.parse(commentCreationDate))
+                          .format(DateTime.parse("${commentCreationDate}"))
                           .toString(),
                       style: TextStyle(color: Colors.blue),
                     ),
@@ -150,7 +148,7 @@ class CommentItem extends StatelessWidget {
             RatingBarIndicator(
               direction: Axis.horizontal,
               itemCount: 5,
-              rating: double.parse(ratingValue),
+              rating: double.parse("${ratingValue}"),
               itemSize: 24,
               itemBuilder: (context, index) => Icon(
                 Icons.star_purple500_sharp,
@@ -161,10 +159,10 @@ class CommentItem extends StatelessWidget {
               height: MediaQuery.of(context).size.height / 80,
             ),
             Text(
-              commentText,
+              "${commentText}",
               style: TextStyle(color: Colors.brown.shade700, fontSize: 14),
             ),
-            if (imagesUrl.isNotEmpty)
+            if (imagesUrl!.isNotEmpty)
               ExpansionTile(
                 tilePadding: EdgeInsets.zero,
                 title: Text(
@@ -184,14 +182,14 @@ class CommentItem extends StatelessWidget {
                         return Image(
                           height: MediaQuery.of(context).size.width / 5,
                           width: MediaQuery.of(context).size.width / 2,
-                          image: NetworkImage(imagesUrl[index]),
+                          image: NetworkImage(imagesUrl![index]),
                           fit: BoxFit.cover,
                         );
                       },
                       separatorBuilder: (context, index) => SizedBox(
                         width: 15,
                       ),
-                      itemCount: imagesUrl.length,
+                      itemCount: imagesUrl!.length,
                     ),
                   )
                 ],

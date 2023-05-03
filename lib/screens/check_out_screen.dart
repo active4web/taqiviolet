@@ -19,22 +19,21 @@ import 'package:safsofa/shared/defaults.dart';
 
 import '../cubits/cartCubit/cart_cubit.dart';
 
-int countryId;
-int cityId;
+int? countryId;
+int? cityId;
 
 class CheckOutScreen extends StatelessWidget {
-  const CheckOutScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    ReceiveMethod receiveMethod = ReceiveMethod.fromHome;
+    ReceiveMethod? receiveMethod = ReceiveMethod.fromHome;
     PaymentMethod paymentMethod = PaymentMethod.onlinePayment;
     TextEditingController nameOfReceiver =
-        TextEditingController(text: AppCubit.get(context).userInfo.data.name);
+        TextEditingController(text: AppCubit.get(context).userInfo?.data?.name);
     TextEditingController phoneOfReceiver =
-        TextEditingController(text: AppCubit.get(context).userInfo.data.phone);
+        TextEditingController(text: AppCubit.get(context).userInfo?.data?.phone);
     TextEditingController addressOfReceiver = TextEditingController(
-        text: AppCubit.get(context).userInfo.data.address);
+        text: AppCubit.get(context).userInfo?.data?.address);
     CartCubit cartCubit = CartCubit.get(context);
 
     // cartCubit.getAllLocationsOfCities();
@@ -115,7 +114,7 @@ class CheckOutScreen extends StatelessWidget {
                                   Radio<ReceiveMethod>(
                                     value: ReceiveMethod.fromHome,
                                     groupValue: receiveMethod,
-                                    onChanged: (ReceiveMethod value) {
+                                    onChanged: (value) {
                                       log('$value');
                                       setState(() {
                                         receiveMethod = value;
@@ -172,6 +171,8 @@ class CheckOutScreen extends StatelessWidget {
                                 textColor: Colors.black,
                                 cursorColor: kDarkGoldColor,
                                 keyboardType: TextInputType.phone,
+                                validate: (value){},
+
                               ),
                               SizedBox(height: 10),
                               Label(
@@ -252,25 +253,25 @@ class CheckOutScreen extends StatelessWidget {
                                                   textColor: Colors.black,
                                                   hintText: "country".tr(),
                                                   items: CartCubit.get(context)
-                                                      .allCitiesLocation
-                                                      .data
-                                                      .countryList
+                                                      .allCitiesLocation!
+                                                      .data!
+                                                      .countryList!
                                                       .map((CountryList
                                                           country) {
                                                     return DropdownMenuItem(
                                                       // alignment:
                                                       //     AlignmentDirectional
                                                       //         .topStart,
-                                                      child: Text(country.name),
+                                                      child: Text("${country.name}"),
                                                       value: country,
                                                     );
                                                   }).toList(),
                                                   value: CartCubit.get(context)
                                                       .selectedCountry,
                                                   onChanged:
-                                                      (CountryList value) {
+                                                      ( value) {
                                                     CartCubit.get(context)
-                                                        .chooseCountry(value);
+                                                        .chooseCountry(value!);
                                                     countryId = value.id;
                                                     cityId = null;
                                                   },
@@ -287,22 +288,22 @@ class CheckOutScreen extends StatelessWidget {
                                                   textColor: Colors.black,
                                                   hintText: "city".tr(),
                                                   items: CartCubit.get(context)
-                                                      .allCities
+                                                      .allCities!
                                                       .map((ListCites city) {
                                                     return DropdownMenuItem(
                                                       // alignment:
                                                       //     AlignmentDirectional
                                                       //         .topStart,
                                                       child:
-                                                          Text(city.nameCity),
+                                                          Text("${city.nameCity}"),
                                                       value: city,
                                                     );
                                                   }).toList(),
                                                   value: CartCubit.get(context)
                                                       .selectedCity,
-                                                  onChanged: (ListCites value) {
+                                                  onChanged: ( value) {
                                                     CartCubit.get(context)
-                                                        .chooseCity(value);
+                                                        .chooseCity(value!);
                                                     cityId = value.idCity;
                                                   },
                                                 ),
@@ -338,6 +339,8 @@ class CheckOutScreen extends StatelessWidget {
                     hintColor: Colors.black,
                     textColor: Colors.black,
                     cursorColor: kDarkGoldColor,
+                    validate: (value){},
+
                   ),
                   SizedBox(
                     height: 10,
@@ -357,6 +360,8 @@ class CheckOutScreen extends StatelessWidget {
                     textColor: Colors.black,
                     cursorColor: kDarkGoldColor,
                     keyboardType: TextInputType.phone,
+                    validate: (value){},
+
                   ),
                   SizedBox(
                     height: 20,
@@ -407,7 +412,7 @@ class CheckOutScreen extends StatelessWidget {
                               Radio<PaymentMethod>(
                                 value: PaymentMethod.onlinePayment,
                                 groupValue: paymentMethod,
-                                onChanged: (PaymentMethod value) {
+                                onChanged: ( value) {
                                   setState(() {
                                     // paymentMethod = value;
                                     // showToast(
@@ -510,8 +515,8 @@ class CheckOutScreen extends StatelessWidget {
                             name: nameOfReceiver.text,
                             phone: phoneOfReceiver.text,
                             orderPrice: cartCubit.total,
-                            countryId: countryId,
-                            cityId: cityId,
+                            countryId: countryId!,
+                            cityId: cityId!,
                             context: context);
                       }
                     },
@@ -532,9 +537,7 @@ class CheckOutScreen extends StatelessWidget {
 }
 
 class PromoCodeTextField extends StatelessWidget {
-  const PromoCodeTextField({
-    Key key,
-  }) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -599,11 +602,11 @@ class PromoCodeTextField extends StatelessWidget {
             ),
             if (CartCubit.get(context).isCopunValid != null)
               Text(
-                CartCubit.get(context).isCopunValid
+                CartCubit.get(context).isCopunValid!
                     ? "validCoupon".tr()
                     : "invalidCoupon".tr(),
                 style: TextStyle(
-                    color: CartCubit.get(context).isCopunValid
+                    color: CartCubit.get(context).isCopunValid!
                         ? Colors.green
                         : Colors.red),
               ),

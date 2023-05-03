@@ -1,5 +1,5 @@
+/*
 import 'package:flutter/material.dart';
-import 'package:safsofa/cubits/storesCubit/stores_cubit.dart';
 import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -9,8 +9,7 @@ import 'package:safsofa/shared/defaults.dart';
 
 class StoreCategoriesScreen extends StatelessWidget {
   final int storeId;
-  const StoreCategoriesScreen({Key key, @required this.storeId})
-      : super(key: key);
+  const StoreCategoriesScreen({ required this.storeId});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +21,8 @@ class StoreCategoriesScreen extends StatelessWidget {
       ),
       body: BlocProvider(
         create: (context) =>
-            StoresCubit()..getStoreCategories(storeId: storeId),
-        child: BlocConsumer<StoresCubit, StoresState>(
+            CommonQuestionCubit()..getStoreCategories(storeId: storeId),
+        child: BlocConsumer<CommonQuestionCubit, CommonQuestionState>(
           listener: (context, state) {},
           builder: (context, state) {
             return state is StoreCategorySuccessState
@@ -41,22 +40,15 @@ class StoreCategoriesScreen extends StatelessWidget {
                       onTap: () => navigateTo(
                           context,
                           DisplayProductsScreen(
-                            hasDepartments: StoresCubit.get(context)
+                            hasDepartments: CommonQuestionCubit.get(context)
                                         .storeCats
-                                        .data[index]
+                                        ?.data![index]
                                         .hasSubCategories ==
                                     1
                                 ? true
                                 : false,
-                            categoryName: StoresCubit.get(context)
-                                .storeCats
-                                .data[index]
-                                .name,
-                            category_id: StoresCubit.get(context)
-                                .storeCats
-                                .data[index]
-                                .id
-                                .toString(),
+                            categoryName: "${CommonQuestionCubit.get(context).storeCats?.data![index].name}",
+                            category_id: CommonQuestionCubit.get(context).storeCats!.data![index].id.toString(),
                           )),
                       child: Column(
                         children: [
@@ -70,10 +62,7 @@ class StoreCategoriesScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                                 child: Image(
                                   image: NetworkImage(
-                                    StoresCubit.get(context)
-                                        .storeCats
-                                        .data[index]
-                                        .image,
+                                    "${CommonQuestionCubit.get(context).storeCats?.data![index].image}",
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -88,10 +77,7 @@ class StoreCategoriesScreen extends StatelessWidget {
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 25),
                                 child: Text(
-                                  StoresCubit.get(context)
-                                      .storeCats
-                                      .data[index]
-                                      .name,
+                                  "${CommonQuestionCubit.get(context).storeCats?.data![index].name}",
                                   maxLines: 2,
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -106,7 +92,7 @@ class StoreCategoriesScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    itemCount: StoresCubit.get(context).storeCats.data.length,
+                    itemCount: CommonQuestionCubit.get(context).storeCats!.data!.length,
                   )
                 : Center(
                     child: CircularProgressIndicator(color: kDarkGoldColor),
@@ -117,3 +103,4 @@ class StoreCategoriesScreen extends StatelessWidget {
     );
   }
 }
+*/

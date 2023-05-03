@@ -29,9 +29,9 @@ Uint8List decodeImage(String image) {
   return result;
 }
 
-Future<bool> showToast({
-  @required String text,
-  @required Color color,
+Future<void> showToast({
+  required String text,
+  required Color color,
   ToastGravity location = ToastGravity.BOTTOM,
 }) {
   return Fluttertoast.showToast(
@@ -45,12 +45,12 @@ Future<bool> showToast({
 }
 
 void showAlertDialogWithAction(
-    {BuildContext context,
-    String message,
-    Color messageColor = kLightGoldColor,
-    String imagePath,
-    String buttonText,
-    Function action}) {
+    {required BuildContext context,
+    String? message,
+    Color ?messageColor = kLightGoldColor,
+    String? imagePath,
+    String? buttonText,
+    Function ?action}) {
   showDialog(
     context: context,
     builder: (context) => AlertDialog(
@@ -62,7 +62,7 @@ void showAlertDialogWithAction(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              message,
+              "${message}",
               style: TextStyle(
                   fontSize: 20,
                   color: messageColor,
@@ -76,7 +76,7 @@ void showAlertDialogWithAction(
               height: MediaQuery.of(context).size.height * 0.12,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(imagePath),
+                  image: AssetImage(imagePath!),
                 ),
               ),
             ),
@@ -84,7 +84,7 @@ void showAlertDialogWithAction(
               height: 40,
             ),
             CustomButton(
-              onTap: action,
+              onTap: (){},
               text: buttonText,
             )
           ],
@@ -94,7 +94,7 @@ void showAlertDialogWithAction(
   );
 }
 
-Future<dynamic> showCustomBottomSheet({BuildContext context, Widget content}) {
+Future<dynamic> showCustomBottomSheet({required BuildContext context, required Widget content}) {
   return showModalBottomSheet(
       context: context,
       builder: (context) => ClipRRect(
@@ -112,7 +112,8 @@ Future<dynamic> showCustomBottomSheet({BuildContext context, Widget content}) {
           ));
 }
 
-CartLocalModel cartProducts;
+CartLocalModel? cartProducts;
+
 
 // void ensureDeleteMessage({context, onTap, String text}) {
 //   showDialog(
@@ -183,7 +184,7 @@ void printLongString(String text) {
       .forEach((RegExpMatch match) => print(match.group(0)));
 }
 
-String handleOrderStatusMessage({@required String statusVal}) {
+String handleOrderStatusMessage({required String statusVal}) {
   switch (statusVal) {
     case '0':
       return "pending".tr();

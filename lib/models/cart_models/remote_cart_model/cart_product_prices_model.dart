@@ -1,8 +1,8 @@
 class CartProductsPricesModel {
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   CartProductsPricesModel({this.status, this.errNum, this.msg, this.data});
 
@@ -19,41 +19,41 @@ class CartProductsPricesModel {
     data['errNum'] = this.errNum;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['Data'] = this.data.toJson();
+      data['Data'] = this.data?.toJson();
     }
     return data;
   }
 }
 
 class Data {
-  List<ListProducts> listProducts;
-
+  List<ListProducts>? listProducts;
   Data({this.listProducts});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['list_products'] != null) {
-      listProducts = new List<ListProducts>();
+      listProducts = <ListProducts>[];
       json['list_products'].forEach((v) {
-        listProducts.add(new ListProducts.fromJson(v));
+        listProducts!.add(new ListProducts.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.listProducts != null) {
-      data['list_products'] = this.listProducts.map((v) => v.toJson()).toList();
+    final listProducts = this.listProducts;
+    if (listProducts != null) {
+      data['list_products'] = listProducts.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class ListProducts {
-  String quantity;
-  num currentPrice;
-  num oldPrice;
-  int id;
-  num smartPrice;
+  String? quantity;
+  dynamic currentPrice;
+  dynamic oldPrice;
+  int? id;
+  dynamic smartPrice;
 
   ListProducts(
       {this.quantity,

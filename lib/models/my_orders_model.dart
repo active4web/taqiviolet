@@ -1,8 +1,8 @@
 class MyOrdersModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<MyOrdersData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<MyOrdersData>? data;
 
   MyOrdersModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,40 +13,40 @@ class MyOrdersModel {
     if (json['data'] != null) {
       data = <MyOrdersData>[];
       json['data'].forEach((v) {
-        data.add(new MyOrdersData.fromJson(v));
+        data!.add(new MyOrdersData.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['status'] = this.status;
+//   data['errNum'] = this.errNum;
+//   data['msg'] = this.msg;
+//   if (this.data != null) {
+//     data['data'] = this.data.map((v) => v.toJson()).toList();
+//   }
+//   return data;
+// }
 }
 
 class MyOrdersData {
-  int id;
-  String codeOrder;
-  int clientId;
-  int storeId;
-  String address;
+  int? id;
+  String? codeOrder;
+  int? clientId;
+  int? storeId;
+  String? address;
   dynamic promoCodeVal;
-  num deliveryCost;
-  num subTotal;
-  num total;
-  String status;
-  String paymentStatus;
-  String paymentType;
-  String userName;
-  String userPhone;
-  String orderDate;
-  String orderDeliveryDate;
+  dynamic deliveryCost;
+  dynamic subTotal;
+  dynamic total;
+  String? status;
+  String? paymentStatus;
+  String? paymentType;
+  String? userName;
+  String? userPhone;
+  String? orderDate;
+  String? orderDeliveryDate;
 
   MyOrdersData({
     this.id,
@@ -86,24 +86,24 @@ class MyOrdersData {
     orderDeliveryDate = json['delivery_date'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['code_order'] = this.codeOrder;
-    data['client_id'] = this.clientId;
-    data['store_id'] = this.storeId;
-    data['address_id'] = this.address;
-    data['promo_code_value'] = this.promoCodeVal;
-    data['delivery_cost'] = this.deliveryCost;
-    data['sub_total'] = this.subTotal;
-    data['total'] = this.total;
-    data['status'] = this.status;
-    data['payment_status'] = this.paymentStatus;
-    data['payment_type'] = this.paymentType;
-    data['username'] = this.userName;
-    data['userphone'] = this.userPhone;
-    data['order_date'] = this.orderDate;
-    data['delivery_date'] = this.orderDeliveryDate;
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['id'] = this.id;
+//   data['code_order'] = this.codeOrder;
+//   data['client_id'] = this.clientId;
+//   data['store_id'] = this.storeId;
+//   data['address_id'] = this.address;
+//   data['promo_code_value'] = this.promoCodeVal;
+//   data['delivery_cost'] = this.deliveryCost;
+//   data['sub_total'] = this.subTotal;
+//   data['total'] = this.total;
+//   data['status'] = this.status;
+//   data['payment_status'] = this.paymentStatus;
+//   data['payment_type'] = this.paymentType;
+//   data['username'] = this.userName;
+//   data['userphone'] = this.userPhone;
+//   data['order_date'] = this.orderDate;
+//   data['delivery_date'] = this.orderDeliveryDate;
+//   return data;
+// }
 }

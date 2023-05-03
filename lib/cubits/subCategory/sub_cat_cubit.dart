@@ -19,10 +19,10 @@ class SubCatCubit extends Cubit<SubCatState> {
   static SubCatCubit get(context) => BlocProvider.of(context);
 
   /// Get Home Main Sub category List Data
-  SubCatDataModel subCatDataModel;
-  List<SubCatData> subCatDataList;
+  SubCatDataModel? subCatDataModel;
+  List<SubCatData>? subCatDataList;
 
-  Future<void> getSubCatData({@required CatId}) async {
+  Future<void> getSubCatData({required CatId}) async {
     log('in getSubCatData function');
     emit(HomeSubCatLoading());
     log("CatIdCatId  $CatId");
@@ -30,8 +30,8 @@ class SubCatCubit extends Cubit<SubCatState> {
         url: SubCatEndPoint + CatId, query: {'lang': kLanguage}).then((value) {
       subCatDataModel = SubCatDataModel.fromJson(value.data);
       log(value.data.toString());
-      subCatDataList = subCatDataModel.date;
-      log('${subCatDataList[0].name}');
+      subCatDataList = subCatDataModel?.date;
+      log('${subCatDataList![0].name}');
       emit(HomeSubCatSuccess());
     }).catchError((err) {
       emit(HomeSubCatError());
@@ -42,9 +42,9 @@ class SubCatCubit extends Cubit<SubCatState> {
   ///End of SubCategories List Data
 
   /// Get  Product in  Sub category List Data
-  ProductFromCatModel productFromCatModel;
-  List<DataProduct> productFromCatList;
-  List<DataProduct> searchLocal = [];
+  ProductFromCatModel? productFromCatModel;
+  List<DataProduct>? productFromCatList;
+  List<DataProduct>? searchLocal = [];
 
   Future<void> getProductSubCatData({@required param, @required ProId}) async {
     log('in getProductSubCatData function');
@@ -57,8 +57,8 @@ class SubCatCubit extends Cubit<SubCatState> {
       log(value.data.toString());
       productFromCatModel = ProductFromCatModel.fromJson(value.data);
 
-      log('${productFromCatModel.data}');
-      productFromCatList = productFromCatModel.data;
+      log('${productFromCatModel?.data}');
+      productFromCatList = productFromCatModel?.data;
       log('$productFromCatList');
       emit(ProductSuccess());
     }).catchError((err) {
@@ -67,7 +67,7 @@ class SubCatCubit extends Cubit<SubCatState> {
     });
   }
 
-  void removeFavorite({@required int prodId}) {
+  void removeFavorite({required int prodId}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -76,14 +76,14 @@ class SubCatCubit extends Cubit<SubCatState> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        for (int i = 0; i < productFromCatList.length; i++) {
-          if (productFromCatList[i].id == prodId) {
-            if (productFromCatList[i].hasFavorites == 0) {
-              productFromCatList[i].hasFavorites = 1;
+        for (int i = 0; i < productFromCatList!.length; i++) {
+          if (productFromCatList![i].id == prodId) {
+            if (productFromCatList![i].hasFavorites == 0) {
+              productFromCatList![i].hasFavorites = 1;
               emit(ProductSuccess());
               break;
             } else {
-              productFromCatList[i].hasFavorites = 0;
+              productFromCatList![i].hasFavorites = 0;
               emit(ProductSuccess());
               break;
             }
@@ -93,12 +93,13 @@ class SubCatCubit extends Cubit<SubCatState> {
     });
   }
 
-  void localSearch(String keyWord) {
-    searchLocal.clear();
+  void localSearch(String? keyWord) {
+    searchLocal?.clear();
+    final productFromCatList = this.productFromCatList;
     if (productFromCatList != null) {
       productFromCatList.forEach((element) {
-        if (keyWord.contains(element.name)) {
-          searchLocal.add(element);
+        if (keyWord!.contains(element.name as Pattern)) {
+          searchLocal?.add(element);
         }
       });
     }
@@ -106,7 +107,7 @@ class SubCatCubit extends Cubit<SubCatState> {
 
   ///End of  Product in  Sub category List Data
 
-  FavoritesListsModel favListModel;
+  FavoritesListsModel? favListModel;
 
   void getFavListData() {
     emit(FavoritesListLoading());
@@ -127,10 +128,10 @@ class SubCatCubit extends Cubit<SubCatState> {
   }
 
   void createNewFavList(
-      {@required String listName,
-      @required BuildContext context,
-      int productId,
-      @required int index}) {
+      {required String listName,
+      required BuildContext context,
+      int? productId,
+      required int index}) {
     Mhelper.postData(
       url: 'api/addfavlist',
       data: {
@@ -142,7 +143,7 @@ class SubCatCubit extends Cubit<SubCatState> {
     ).then((value) {
       log('Crating new list data: ${value.data}');
       if (value.data['status']) {
-        productFromCatList[index].hasFavorites = 1;
+        productFromCatList![index].hasFavorites = 1;
         emit(ProductSuccess());
         Navigator.of(context).pop();
       } else {
@@ -152,10 +153,10 @@ class SubCatCubit extends Cubit<SubCatState> {
   }
 
   void addFavProductToFavList(
-      {@required int listId,
-      @required int productId,
-      @required int index,
-      @required BuildContext context}) {
+      {required int listId,
+      required int productId,
+      required int index,
+      required BuildContext context}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -168,7 +169,7 @@ class SubCatCubit extends Cubit<SubCatState> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        productFromCatList[index].hasFavorites = 1;
+        productFromCatList![index].hasFavorites = 1;
         emit(ProductSuccess());
         Navigator.pop(context);
       } else {

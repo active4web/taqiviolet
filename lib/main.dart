@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-
 import 'package:devicelocale/devicelocale.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -11,21 +10,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/common_questionCubit/common_question_cubit.dart';
 import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
+import 'package:safsofa/cubits/gify_cubit/gift_cubit.dart';
 import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
 import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
-import 'package:safsofa/cubits/storesCubit/stores_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/push_notifcation.dart';
+import 'package:safsofa/screens/splash_and_onboarding/splash_screen.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:safsofa/shared/router.dart';
-
-import 'cubits/AllDataStoreProductCatSub/all_data_cat_sub_pro_cubit.dart';
+import 'dart:developer' as developer;
 import 'cubits/OrderReceived/order_received_cubit.dart';
 import 'cubits/aboutCubit/about_cubit.dart';
 import 'cubits/authCubit/auth_cubit.dart';
@@ -45,50 +45,25 @@ import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
 import 'models/cart_models/cart_local_model/cart_local_model.dart';
 import 'network/local/cache_helper.dart';
 
-// class MyHttpOverrides extends HttpOverrides {
-//   @override
-//   HttpClient createHttpClient(SecurityContext context) {
-//     return super.createHttpClient(context)
-//       ..badCertificateCallback =
-//           (X509Certificate cert, String host, int port) => true;
-//   }
-// }
-
-// Future<void> getDataInBackground(RemoteMessage message) async {
-//   log("on background: ${message.data.toString()}");
-//   showToast(text: "${message.data.toString()}", color: Colors.green);
-// }
-
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   // If you're going to use other Firebase services in the background, such as Firestore,
-//   // make sure you call `initializeApp` before using other Firebase services.
-//
-//   log("Handling a background message: ${message.notification.title}");
-//   log("Handling a background message: ${message.messageId}");
-// }
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  // If you're going to use other Firebase services in the background, such as Firestore,
-  // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-
   print("Handling a background message: ${message.messageId}");
 }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+FlutterLocalNotificationsPlugin();
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheHelper.init();
   await EasyLocalization.ensureInitialized();
   Mhelper.init();
-  String FCM = await FirebaseMessaging.instance.getToken();
-  log('FCM TOKEN');
-  CacheHelper.setData(key: 'FCM', value: FCM);
-  log('${CacheHelper.getData('FCM')}');
-  log('*' * 50);
-  await FirebaseMessaging.onBackgroundMessage(
-      _firebaseMessagingBackgroundHandler);
+  await FirebaseMessaging.instance.getToken().then((value) {
+    CacheHelper.setData(key: 'FCM', value: value);
+  });
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await PushNotificationManagger.initialize(flutterLocalNotificationsPlugin);
 
   if (CacheHelper.getData('localCart') != null) {
@@ -97,37 +72,26 @@ Future<void> main() async {
   }
   cartCount = CacheHelper.getData('cartCount') ?? 0;
   // HttpOverrides.global = new MyHttpOverrides();
-  String currentLocale = await Devicelocale.currentLocale;
+  String? currentLocale = await Devicelocale.currentLocale;
   kToken = await CacheHelper.getData('token');
   if (CacheHelper.getData('language') == null) {
-    kLanguage = currentLocale.substring(0, 2);
+    kLanguage = currentLocale?.substring(0, 2);
   } else {
     kLanguage = await CacheHelper.getData('language');
   }
 
-  log('${CacheHelper.getData('id')}');
-  //  FirebaseMessaging.onMessageOpenedApp.listen((event) {
-  //    log("${event.data.toString()}");
-  //    showToast(text: "On app opened:${event.data.toString()}", color: Colors.green);
-  //  });
-  // FirebaseMessaging.onMessage.listen((event) {
-  //   log("on message: ${event.data.toString()}");
-  //   // showToast(text: "${event.data.toString()}", color: Colors.green);
-  // });
-  //
-  // FirebaseMessaging.onBackgroundMessage(getDataInBackground);
   log('$kToken');
   BlocOverrides.runZoned(
-    () {
+        () {
       runApp(
         EasyLocalization(
             supportedLocales: [Locale('en'), Locale('ar'), Locale('it')],
-            startLocale: Locale(kLanguage),
+            startLocale: Locale(kLanguage!),
             saveLocale: true,
             path: 'assets/languages',
             // <-- change the path of the translation files
             fallbackLocale: Locale('ar'),
-            child: Phoenix(child: MyApp(kToken))),
+            child: Phoenix(child: MyApp())),
       );
     },
     blocObserver: MyBlocObserver(),
@@ -135,102 +99,91 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  String KToken;
-
-// bool opensplash=false;
-
-  MyApp(this.KToken);
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    // if(CacheHelper.getData('opensplash')==null){
-    //   opensplash=true;
-    //   CacheHelper.setData(key: 'opensplash',value:false );
-    // }
-    log('$kToken');
     return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (context) => OrderReceivedItemInListCubit(),
-        ),
-        BlocProvider(
-          create: (context) => OrderReceivedCubit(),
-        ),
-        BlocProvider(
-          create: (context) => DataInListCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ListsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => MobileCubit(),
-        ),
-        BlocProvider(
-          create: (context) => MyOrdersCubit(),
-        ),
-        BlocProvider(
-          create: (context) => CartCubit(),
-        ),
-        BlocProvider(
-          create: (context) => GetdataprofileCubit(),
-        ),
-        BlocProvider(
-          create: (context) => TechnicalSupportDetailsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => TechnicalSupportCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ContactCubit(),
-        ),
-        BlocProvider(
-          create: (context) => ContactsCubit(),
-        ),
-        BlocProvider(
-          create: (context) => AboutCubit(),
-        ),
-        BlocProvider(
-          create: (context) => PrivacyPolicyCubit(),
-        ),
-        BlocProvider(
-          create: (context) => OnboardngCubit(),
-        ),
-        BlocProvider(
-          create: (context) => OfferCubit(),
-        ),
-        BlocProvider(
-          create: (context) => PoliciesCubit(),
-        ),
-        BlocProvider(
-          create: (context) => TaqiWorkCubit(),
-        ),
-        BlocProvider(create: (context) => AppCubit()..fetchData()),
-        BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
-        BlocProvider(create: (context) => HomeCubit()),
-        BlocProvider(create: (context) => SubCatCubit()),
-        BlocProvider(create: (context) => StoresCubit()),
-        BlocProvider(create: (context) => AllDataCatSubProCubit()),
-        BlocProvider(create: (context) => FavoritesCubit()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Taqi Violet',
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          fontFamily: 'Tajawal',
-          textSelectionTheme: TextSelectionThemeData(cursorColor: Colors.black),
-        ),
-        onGenerateRoute: onGenerateRoute,
-        navigatorKey: navigatorKey,
-        initialRoute: Routes.onBoardingRoute,
-        // KToken == null && opensplash
-        //     ? Routes.onBoardingRoute
-        //     : Routes.mainRoute,
-      ),
-    );
+        providers: [
+          BlocProvider(
+            create: (context) => OrderReceivedItemInListCubit(),
+          ),
+          BlocProvider(
+            create: (context) => OrderReceivedCubit(),
+          ),
+          BlocProvider(
+            create: (context) => DataInListCubit(),
+          ),
+          BlocProvider(
+            create: (context) => ListsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => MobileCubit(),
+          ),
+          BlocProvider(
+            create: (context) => MyOrdersCubit(),
+          ),
+          BlocProvider(
+            create: (context) => CartCubit(),
+          ),
+          BlocProvider(
+            create: (context) => GetdataprofileCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TechnicalSupportDetailsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TechnicalSupportCubit(),
+          ),
+          BlocProvider(
+            create: (context) => ContactCubit(),
+          ),
+          BlocProvider(
+            create: (context) => ContactsCubit(),
+          ),
+          BlocProvider(
+            create: (context) => AboutCubit(),
+          ),
+          BlocProvider(
+            create: (context) => PrivacyPolicyCubit(),
+          ),
+          BlocProvider(
+            create: (context) => OnboardngCubit(),
+          ),
+          BlocProvider(
+            create: (context) => OfferCubit(),
+          ),
+          //TODO :
+          BlocProvider(
+            create: (context) => GiftCubit(),
+          ),
+
+          BlocProvider(
+            create: (context) => PoliciesCubit(),
+          ),
+          BlocProvider(
+            create: (context) => TaqiWorkCubit(),
+          ),
+          BlocProvider(create: (context) => AppCubit()),
+          BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
+          BlocProvider(create: (context) => HomeCubit()),
+          BlocProvider(create: (context) => SubCatCubit()),
+          BlocProvider(create: (context) => CommonQuestionCubit()),
+          BlocProvider(create: (context) => FavoritesCubit()),
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Taqi Violet',
+          localizationsDelegates: context.localizationDelegates,
+          supportedLocales: context.supportedLocales,
+          locale: context.locale,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            fontFamily: 'Tajawal',
+            textSelectionTheme:
+            TextSelectionThemeData(cursorColor: Colors.black),
+          ),
+          navigatorKey: navigatorKey,
+          home: SplashScreen(),
+
+        ));
   }
 }

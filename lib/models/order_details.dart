@@ -1,8 +1,8 @@
 class OrderDetailsModel {
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   OrderDetailsModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,6 +13,7 @@ class OrderDetailsModel {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['status'] = this.status;
@@ -23,11 +24,12 @@ class OrderDetailsModel {
     }
     return data;
   }
+*/
 }
 
 class Data {
-  OrderDetails orderDetails;
-  List<ListProducts> listProducts;
+  OrderDetails? orderDetails;
+  List<ListProducts>? listProducts;
 
   Data({this.orderDetails, this.listProducts});
 
@@ -36,13 +38,14 @@ class Data {
         ? new OrderDetails.fromJson(json['order_details'])
         : null;
     if (json['list_products'] != null) {
-      listProducts = new List<ListProducts>();
+      listProducts = <ListProducts>[];
       json['list_products'].forEach((v) {
-        listProducts.add(new ListProducts.fromJson(v));
+        listProducts!.add(new ListProducts.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.orderDetails != null) {
@@ -53,24 +56,25 @@ class Data {
     }
     return data;
   }
+*/
 }
 
 class OrderDetails {
-  int id;
-  String codeOrder;
-  String address;
-  num promoCodeValue;
-  int deliveryType;
-  num deliveryCost;
-  num subTotal;
-  num total;
-  String status;
-  String paymentStatus;
-  String paymentType;
-  String username;
-  String userphone;
-  String orderDate;
-  String deliveryDate;
+  int? id;
+  String? codeOrder;
+  String? address;
+  dynamic promoCodeValue;
+  int? deliveryType;
+  dynamic deliveryCost;
+  dynamic subTotal;
+  dynamic total;
+  String? status;
+  String? paymentStatus;
+  String? paymentType;
+  String? username;
+  String? userphone;
+  String? orderDate;
+  String? deliveryDate;
 
   OrderDetails(
       {this.id,
@@ -129,12 +133,12 @@ class OrderDetails {
 }
 
 class ListProducts {
-  String name;
-  String image;
-  int productId;
-  num price;
-  int productRate;
-  int qty;
+  String? name;
+  String? image;
+  int? productId;
+  dynamic price;
+  int? productRate;
+  int? qty;
 
   ListProducts(
       {this.name,
@@ -153,6 +157,7 @@ class ListProducts {
     qty = json['qty'];
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['name'] = this.name;
@@ -163,4 +168,5 @@ class ListProducts {
     data['qty'] = this.qty;
     return data;
   }
+*/
 }

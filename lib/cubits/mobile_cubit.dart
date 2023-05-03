@@ -13,7 +13,7 @@ part 'mobile_state.dart';
 class MobileCubit extends Cubit<MobileState> {
   MobileCubit() : super(MobileInitial());
   static MobileCubit get(context) => BlocProvider.of(context);
-  PhonesModel phonesModel;
+  PhonesModel? phonesModel;
 
   void getdataprofileCData() {
     emit(MobileLoadingState());

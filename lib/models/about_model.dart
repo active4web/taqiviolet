@@ -1,8 +1,8 @@
 class AboutModel {
-  bool status;
-  String errNum;
-  String msg;
-  List<AboutModelData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<AboutModelData>? data;
 
   AboutModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,7 +13,7 @@ class AboutModel {
     if (json['data'] != null) {
       data = <AboutModelData>[];
       json['data'].forEach((v) {
-        data.add(new AboutModelData.fromJson(v));
+        data?.add(new AboutModelData.fromJson(v));
       });
     }
   }
@@ -24,17 +24,17 @@ class AboutModel {
     data['errNum'] = this.errNum;
     data['msg'] = this.msg;
     if (this.data != null) {
-      data['data'] = this.data.map((v) => v.toJson()).toList();
+      data['data'] = this.data?.map((v) => v.toJson()).toList();
     }
     return data;
   }
 }
 
 class AboutModelData {
-  int id;
-  String title;
-  String content;
-  String image;
+  int? id;
+  String? title;
+  String? content;
+  String? image;
 
   AboutModelData({
     this.id,

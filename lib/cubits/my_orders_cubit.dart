@@ -31,12 +31,12 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     ),
   ];
 
-  List<Widget> tabBarsContent = const [
+  List<Widget> tabBarsContent =  [
     PendingOrdersScreen(),
     CurrentOrdersScreen(),
     PreviousOrdersScreen(),
   ];
-  MyOrdersModel waitingOrders;
+  MyOrdersModel? waitingOrders;
   void getMyWaitingOrders() {
     emit(MyOrdersLoadingState());
 
@@ -50,7 +50,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     ).then((value) {
       waitingOrders = MyOrdersModel.fromJson(value.data);
       log("my order 000000000000000000000000000000000000");
-      log('${waitingOrders.toJson()}');
+      // log('${waitingOrders.toJson()}');
       log("my order 000000000000000000000000000000000000");
       emit(MyOrdersSuccessState());
     }).catchError((error) {
@@ -59,7 +59,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     });
   }
 
-  MyOrdersModel currentOrders;
+  MyOrdersModel? currentOrders;
   void getMyCurrentOrders() {
     emit(MyOrdersLoadingState());
 
@@ -73,7 +73,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     ).then((value) {
       currentOrders = MyOrdersModel.fromJson(value.data);
       log("my order 000000000000000000000000000000000000");
-      log('${currentOrders.toJson()}');
+      // log('${currentOrders.toJson()}');
       log("my order 000000000000000000000000000000000000");
       emit(MyOrdersSuccessState());
     }).catchError((error) {
@@ -82,7 +82,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     });
   }
 
-  MyOrdersModel previousOrders;
+  MyOrdersModel? previousOrders;
   void getMyPreviousOrders() {
     emit(MyOrdersLoadingState());
 
@@ -96,7 +96,7 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
     ).then((value) {
       previousOrders = MyOrdersModel.fromJson(value.data);
       log("my order 000000000000000000000000000000000000");
-      log('${previousOrders.toJson()}');
+      // log('${previousOrders.toJson()}');
       log("my order 000000000000000000000000000000000000");
       emit(MyOrdersSuccessState());
     }).catchError((error) {

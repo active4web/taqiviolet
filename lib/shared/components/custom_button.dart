@@ -5,23 +5,25 @@ import '../constants.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
-    Key key,
+
     this.text,
-    this.onTap,
+   required this.onTap,
     this.gradient = kBlackGradient,
     this.height = 40,
     this.textColor = kLightGoldColor,
-  }) : super(key: key);
+  }) ;
 
-  final String text;
+  final String? text;
   final Gradient gradient;
-  final double height;
-  final Function onTap;
+  final double? height;
+  final Function? onTap;
   final Color textColor;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
+    return InkWell(
+      onTap: (){
+        onTap!();
+      },
       child: Row(
         children: [
           Expanded(
@@ -31,7 +33,7 @@ class CustomButton extends StatelessWidget {
                   gradient: gradient, borderRadius: BorderRadius.circular(35)),
               child: Center(
                   child: Text(
-                text,
+                "${text}",
                 style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
               )),
             ),

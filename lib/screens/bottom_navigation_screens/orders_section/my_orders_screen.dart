@@ -5,7 +5,6 @@ import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class MyOrdersScreen extends StatefulWidget {
-  const MyOrdersScreen({Key key}) : super(key: key);
 
   @override
   State<MyOrdersScreen> createState() => _MyOrdersScreenState();

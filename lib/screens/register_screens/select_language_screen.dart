@@ -7,7 +7,6 @@ import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class SelectLanguageScreen extends StatelessWidget {
-  const SelectLanguageScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

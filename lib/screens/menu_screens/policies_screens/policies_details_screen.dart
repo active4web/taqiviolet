@@ -111,9 +111,10 @@ import 'package:safsofa/shared/constants.dart';
 import '../../../shared/components/custom_app_bar.dart';
 
 class PoliciesDetailsScreen extends StatelessWidget {
-  final String title;
+  final String? title;
   final int id;
-  const PoliciesDetailsScreen({Key key, this.title, this.id}) : super(key: key);
+
+  const PoliciesDetailsScreen({ this.title, required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -136,10 +137,7 @@ class PoliciesDetailsScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          PoliciesCubit.get(context)
-                              .policyDetails
-                              .data[index]
-                              .title,
+                          "${PoliciesCubit.get(context).policyDetails?.data![index].title}",
                           style: TextStyle(
                             color: kDarkGoldColor,
                             fontSize: MediaQuery.of(context).size.width / 19,
@@ -150,10 +148,7 @@ class PoliciesDetailsScreen extends StatelessWidget {
                           height: MediaQuery.of(context).size.height / 80,
                         ),
                         Text(
-                          PoliciesCubit.get(context)
-                              .policyDetails
-                              .data[index]
-                              .contentApp,
+                          "${PoliciesCubit.get(context).policyDetails?.data![index].contentApp}",
                           style: TextStyle(
                             fontSize: MediaQuery.of(context).size.width / 22,
                           ),
@@ -166,7 +161,7 @@ class PoliciesDetailsScreen extends StatelessWidget {
                       height: 20,
                     ),
                     itemCount:
-                        PoliciesCubit.get(context).policyDetails.data.length,
+                        PoliciesCubit.get(context).policyDetails!.data!.length,
                   )
                 : Center(
                     child: CircularProgressIndicator(color: kDarkGoldColor),

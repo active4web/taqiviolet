@@ -13,16 +13,16 @@ class SearchResultsModel {
     if (json['data'] != null) {
       data = [];
       json['data'].forEach((v) {
-        data.add(ResultData.fromJson(v));
+        data!.add(ResultData.fromJson(v));
       });
     }
   }
-  bool status;
-  String errNum;
-  String msg;
-  List<ResultData> data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  List<ResultData>? data;
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['status'] = status;
     map['errNum'] = errNum;
@@ -31,7 +31,7 @@ class SearchResultsModel {
       map['data'] = data.map((v) => v.toJson()).toList();
     }
     return map;
-  }
+  }*/
 }
 
 class ResultData {
@@ -70,23 +70,23 @@ class ResultData {
     hasFavorites = json['hasFavorites'];
     reviewRate = json['ReviewRate'];
   }
-  int id;
-  String name;
-  int oldPrice;
-  int currentPrice;
-  String details;
-  String quantity;
-  int subCategoryId;
-  int categoryId;
-  int isActive;
-  int storeId;
-  String createdAt;
-  String updatedAt;
-  String image;
-  int hasFavorites;
-  String reviewRate;
+  int? id;
+  String? name;
+  int? oldPrice;
+  int? currentPrice;
+  String? details;
+  String? quantity;
+  int? subCategoryId;
+  int? categoryId;
+  int? isActive;
+  int? storeId;
+  String? createdAt;
+  String? updatedAt;
+  String? image;
+  int? hasFavorites;
+  String? reviewRate;
 
-  Map<String, dynamic> toJson() {
+/*  Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['id'] = id;
     map['name'] = name;
@@ -104,5 +104,5 @@ class ResultData {
     map['hasFavorites'] = hasFavorites;
     map['ReviewRate'] = reviewRate;
     return map;
-  }
+  }*/
 }

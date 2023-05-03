@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Future<bool> displayLogoutDialog(
+Future<Future> displayLogoutDialog(
   BuildContext context,
   String title,
   String body,

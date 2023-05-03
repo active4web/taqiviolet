@@ -2,21 +2,24 @@ import 'package:flutter/material.dart';
 
 class CustomFormField extends StatelessWidget {
   const CustomFormField({
-    Key key,
     this.label,
     this.controller,
     this.isSecured = false,
     this.prefix,
     this.inputType = TextInputType.text,
     this.minLines = 1,
-  }) : super(key: key);
+    required  this.validate,
 
-  final String label;
+  });
+
+  final String? label;
   final controller;
   final bool isSecured;
-  final Widget prefix;
+  final Widget? prefix;
   final TextInputType inputType;
   final int minLines;
+  final String? Function(String? val) validate;
+
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +49,9 @@ class CustomFormField extends StatelessWidget {
             hintText: label,
             hintTextDirection: TextDirection.rtl),
         style: TextStyle(color: Colors.black),
+          validator: (value){
+            return  validate(value);
+          }
       ),
     );
   }

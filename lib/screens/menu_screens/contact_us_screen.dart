@@ -11,7 +11,6 @@ import '../../cubits/contactUsCubit/contact_us_state.dart';
 import '../../cubits/technicalSupportCubit/technical_support_cubit.dart';
 
 class ContactUsScreen extends StatelessWidget {
-  ContactUsScreen({Key key}) : super(key: key);
   TextEditingController email = TextEditingController();
   // TextEditingController phone = TextEditingController();
   // TextEditingController message = TextEditingController();
@@ -95,6 +94,7 @@ class ContactUsScreen extends StatelessWidget {
                     controller: email,
                     inputType: TextInputType.emailAddress,
                     label: "Email".tr(),
+                      validate: (va){}
                   ),
                   // SizedBox(
                   //   height: 10,
@@ -151,8 +151,7 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(technicalSupportDetailsCubit
-                                .contactsData.data.twitterLink);
+                            await launch("${technicalSupportDetailsCubit.contactsData.data?.twitterLink}");
                           },
                           icon: Image.asset('assets/images/twitter.png'),
                         ),
@@ -160,8 +159,7 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(technicalSupportDetailsCubit
-                                .contactsData.data.instagramLink);
+                            await launch("${technicalSupportDetailsCubit.contactsData.data?.instagramLink}");
                           },
                           icon: Image.asset('assets/images/instagram.png'),
                         ),
@@ -169,8 +167,7 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(technicalSupportDetailsCubit
-                                .contactsData.data.tiktokLink);
+                            await launch("${technicalSupportDetailsCubit.contactsData.data?.tiktokLink}");
                           },
                           icon: Image.asset('assets/images/TikTok.png'),
                         ),
@@ -178,8 +175,7 @@ class ContactUsScreen extends StatelessWidget {
                       Expanded(
                         child: IconButton(
                           onPressed: () async {
-                            await launch(technicalSupportDetailsCubit
-                                .contactsData.data.youtubeLink);
+                            await launch("${technicalSupportDetailsCubit.contactsData.data?.youtubeLink}");
                           },
                           icon: Image.asset('assets/images/youtube.png'),
                         ),

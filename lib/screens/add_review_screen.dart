@@ -15,11 +15,10 @@ import '../shared/components/custom_button.dart';
 import '../shared/components/custom_label.dart';
 
 class AddReviewScreen extends StatefulWidget {
-  AddReviewScreen({Key key, @required this.prodId, @required this.orderId})
-      : super(key: key);
+  AddReviewScreen({ @required this.prodId, @required this.orderId});
 
-  final int prodId;
-  final int orderId;
+  final int? prodId;
+  final int? orderId;
 
   @override
   State<AddReviewScreen> createState() => _AddReviewScreenState();
@@ -27,7 +26,7 @@ class AddReviewScreen extends StatefulWidget {
 
 class _AddReviewScreenState extends State<AddReviewScreen> {
   TextEditingController commentController = TextEditingController();
-  List<XFile> images;
+  List<XFile>? images;
 
   Future geImageGallery1() async {
     images = await ImagePicker().pickMultiImage();
@@ -140,7 +139,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           text: 'ProductImages'.tr(),
                         ),
                       ),
-                      if (images != null && images.isNotEmpty)
+                      if (images != null && images!.isNotEmpty)
                         SizedBox(
                           height: MediaQuery.of(context).size.height / 5,
                           child: ListView.separated(
@@ -158,14 +157,14 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                                     width:
                                         MediaQuery.of(context).size.width / 2,
                                     image: FileImage(
-                                      File(images[index].path),
+                                      File(images![index].path),
                                     ),
                                     fit: BoxFit.cover,
                                   ),
                                   InkWell(
                                     onTap: () {
                                       setState(() {
-                                        images.removeAt(index);
+                                        images?.removeAt(index);
                                       });
                                     },
                                     child: CircleAvatar(
@@ -183,7 +182,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                             separatorBuilder: (context, index) => SizedBox(
                               width: MediaQuery.of(context).size.width / 30,
                             ),
-                            itemCount: images.length,
+                            itemCount: images!.length,
                           ),
                         ),
                       SizedBox(
@@ -204,17 +203,17 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                                 if (rating > 0) {
                                   var res = await OrderDetailsCubit.get(context)
                                       .addReviewForProduct(
-                                    orderId: widget.orderId,
-                                    productId: widget.prodId,
+                                    orderId: widget.orderId!,
+                                    productId: widget.prodId!,
                                     rate: rating.toString() ?? "0",
                                     comment: commentController.text,
-                                    reviewImages: images,
+                                    reviewImages: images!,
                                   );
                                   if (res.data['status']) {
                                     setState(() {
                                       rating = 0.0;
                                       commentController.clear();
-                                      images.clear();
+                                      images?.clear();
                                     });
                                   }
                                 } else {

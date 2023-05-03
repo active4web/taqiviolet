@@ -15,8 +15,8 @@ class OfferCubit extends Cubit<OfferState> {
 
   static OfferCubit get(context) => BlocProvider.of(context);
 
-  OfferModel offerModel;
-  List<OfferModelData> allOffer;
+  OfferModel? offerModel;
+  List<OfferModelData>? allOffer;
   void getOfferData() {
     emit(GetOfferLoadingState());
     Mhelper.getData(
@@ -24,7 +24,7 @@ class OfferCubit extends Cubit<OfferState> {
     ).then((value) {
       log("the offer ${value.data}");
       offerModel = OfferModel.fromJson(value.data);
-      allOffer = offerModel.data;
+      allOffer = offerModel?.data;
       log("${allOffer}");
       emit(GetOfferSuccessState());
     }).catchError((error) {
@@ -33,7 +33,7 @@ class OfferCubit extends Cubit<OfferState> {
     });
   }
 
-  OfferProductsModel productOffers;
+  OfferProductsModel? productOffers;
   void getOffersProduct() {
     emit(GetProductsOfferLoadingState());
     Mhelper.getData(url: offerProductsURL, token: kToken, query: {
@@ -48,7 +48,7 @@ class OfferCubit extends Cubit<OfferState> {
     });
   }
 
-  void updateFavorite({@required int prodId}) {
+  void updateFavorite({required int prodId}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',
@@ -57,14 +57,14 @@ class OfferCubit extends Cubit<OfferState> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        for (int i = 0; i < productOffers.data.length; i++) {
-          if (productOffers.data[i].id == prodId) {
-            if (productOffers.data[i].hasFavorites == 0) {
-              productOffers.data[i].hasFavorites = 1;
+        for (int i = 0; i < productOffers!.data!.length; i++) {
+          if (productOffers?.data![i].id == prodId) {
+            if (productOffers?.data![i].hasFavorites == 0) {
+              productOffers?.data![i].hasFavorites = 1;
               emit(GetProductsOfferSuccessState());
               break;
             } else {
-              productOffers.data[i].hasFavorites = 0;
+              productOffers?.data![i].hasFavorites = 0;
               emit(GetProductsOfferSuccessState());
               break;
             }

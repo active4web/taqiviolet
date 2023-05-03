@@ -18,10 +18,10 @@ class PoliciesCubit extends Cubit<PoliciesState> {
   // BlogModel blog;
   // List<Blogs> blogs;
   // List<LastBlogs> lastblog;
-  PrivacyPolicyModel _privacyPolicyModel;
-  List<PrivacyPolicyData> policies = [];
+  PrivacyPolicyModel? _privacyPolicyModel;
+  List<PrivacyPolicyData>? policies = [];
   void getPoliciesData() async {
-    policies.clear();
+    policies?.clear();
     emit(GetPoliciesLoadingState());
     await Mhelper.getData(
         url: dataFromPrivacyPolicy,
@@ -35,7 +35,7 @@ class PoliciesCubit extends Cubit<PoliciesState> {
       //   }
       // }
       // );
-      policies = _privacyPolicyModel.data;
+      policies = _privacyPolicyModel?.data;
       // log('$blogs');
       emit(GetPoliciesSuccessState());
     }).catchError((err) {
@@ -44,15 +44,15 @@ class PoliciesCubit extends Cubit<PoliciesState> {
     });
   }
 
-  PrivacyPolicyDetailsModel policyDetails;
-  void getPolicyDetails({@required int id}) {
+  PrivacyPolicyDetailsModel? policyDetails;
+  void getPolicyDetails({required int id}) {
     emit(GetPolicyDetailsLoadingState());
     Mhelper.getData(url: privacyPolicyDetailsUrl, token: kToken, query: {
       'lang': kLanguage,
       'id': '$id',
     }).then((value) {
       policyDetails = PrivacyPolicyDetailsModel.fromJson(value.data);
-      log(policyDetails.data.toString());
+      log(policyDetails!.data.toString());
       emit(GetPolicyDetailsSuccessState());
     }).catchError((error) {
       log('Error on policy details: ${error.toString()}');

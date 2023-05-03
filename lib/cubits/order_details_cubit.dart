@@ -16,7 +16,7 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   OrderDetailsCubit() : super(OrderDetailsInitial());
 
   static OrderDetailsCubit get(context) => BlocProvider.of(context);
-  OrderDetailsModel orderDetails;
+  OrderDetailsModel? orderDetails;
 
   void getOrderDetails(int id, [bool withLoading = true]) {
     if (withLoading) {
@@ -44,11 +44,11 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
   }
 
   Future<Response> addReviewForProduct({
-    @required int productId,
-    @required int orderId,
-    @required String rate,
-    @required String comment,
-    @required List<XFile> reviewImages,
+    required int productId,
+    required int orderId,
+    required String rate,
+    required String comment,
+    required List<XFile> reviewImages,
   }) async {
     log('Rating value: ${rate}');
     emit(OrderDetailsLoadingState());

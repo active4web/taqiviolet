@@ -86,7 +86,7 @@ class SearchScreen extends StatelessWidget {
                                     (item) => DropdownMenuItem<Data>(
                                       value: item,
                                       child: Text(
-                                        item.name,
+                                        "${item.name}",
                                         style: TextStyle(fontSize: 12),
                                       ),
                                     ),
@@ -95,7 +95,7 @@ class SearchScreen extends StatelessWidget {
                               isExpanded: true,
                               onChanged: (value) {
                                 SearchCubit.get(context)
-                                    .dropDownChoiceSelection(value);
+                                    .dropDownChoiceSelection(value!);
                               },
                               // onSaved: (String val) => SearchCubit.get(context)
                               //     .dropDownChoiceSelection(val),
@@ -234,6 +234,7 @@ class SearchScreen extends StatelessWidget {
                           CustomFormField(
                             controller: productName,
                             minLines: 1,
+                              validate: (va){}
                           ),
                           SizedBox(
                             height: height / 35,
@@ -244,13 +245,13 @@ class SearchScreen extends StatelessWidget {
                             onTap: () {
                               if (SearchCubit.get(context)
                                   .validationKey
-                                  .currentState
+                                  .currentState!
                                   .validate()) {
                                 log('VALIDATED');
                                 SearchCubit.get(context).getSearchData(
                                     categoryId: SearchCubit.get(context)
-                                        .selectedValue
-                                        .id,
+                                        .selectedValue!
+                                        .id!,
                                     startPrice: fromPrice.text,
                                     endPrice: toPrice.text,
                                     productName: productName.text);
@@ -269,8 +270,8 @@ class SearchScreen extends StatelessWidget {
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: SearchCubit.get(context)
-                                          .searchResults
-                                          .data
+                                          .searchResults!
+                                          .data!
                                           .length,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
@@ -283,43 +284,43 @@ class SearchScreen extends StatelessWidget {
                                         onclick: () {},
                                         isFavourite: SearchCubit.get(context)
                                                 .searchResults
-                                                .data[index]
+                                                ?.data![index]
                                                 .hasFavorites ==
                                             1,
                                         totalRate: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .reviewRate,
                                         image: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .image,
                                         currentPrice: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .currentPrice,
                                         oldPrice: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .oldPrice,
                                         productName: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .name,
                                         productId: SearchCubit.get(context)
                                             .searchResults
-                                            .data[index]
+                                            ?.data![index]
                                             .id,
                                         onFavPressed: () {
                                           if (kToken != null &&
-                                              kToken.isNotEmpty) {
+                                              kToken!.isNotEmpty) {
                                             SearchCubit.get(context)
                                                 .updateFavorite(
                                                     prodId:
                                                         SearchCubit.get(context)
                                                             .searchResults
-                                                            .data[index]
-                                                            .id);
+                                                            !.data![index]
+                                                            .id!);
                                           } else {
                                             showToast(
                                                 text: 'pleaseLoginFirst'.tr(),

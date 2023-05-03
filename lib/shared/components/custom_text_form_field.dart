@@ -3,25 +3,26 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 
+import '../constants.dart';
+
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    Key key,
+   CustomTextFormField({
     this.hintText,
     this.icon,
     this.controller,
     this.keyboardType = TextInputType.text,
-    this.validate,
     this.fillColor = Colors.white,
     this.hintColor = Colors.white54,
     this.textColor = Colors.white,
     this.cursorColor = Colors.white,
-  }) : super(key: key);
+  required  this.validate,
+  });
 
-  final String hintText;
-  final IconData icon;
-  final TextEditingController controller;
+  final String? hintText;
+  final IconData? icon;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
-  final String Function(String) validate;
+ final String? Function(String? val) validate;
   final Color fillColor;
   final Color hintColor;
   final Color textColor;
@@ -35,7 +36,9 @@ class CustomTextFormField extends StatelessWidget {
       child: TextFormField(
         keyboardType: keyboardType,
         controller: controller,
-        validator: validate,
+        validator: (T){
+        return  validate(T);
+        },
         autovalidateMode: AutovalidateMode.onUserInteraction,
         style: TextStyle(color: textColor, fontFamily: 'Tajawal'),
         cursorColor: cursorColor,
@@ -62,17 +65,23 @@ class CustomTextFormField extends StatelessWidget {
 
 class CustomPasswordFormField extends StatelessWidget {
   const CustomPasswordFormField({
-    Key key,
     this.controller,
     this.hintText = 'password',
     this.validation,
     this.errorStyle,
-  }) : super(key: key);
+    this.isPassword = false,
+    this.suffixOnPressed,
+    this.suffixIcon,
 
-  final TextEditingController controller;
-  final String hintText;
-  final String Function(String) validation;
-  final TextStyle errorStyle;
+  });
+
+  final TextEditingController? controller;
+  final String? hintText;
+  final Function? validation;
+  final TextStyle? errorStyle;
+  final IconData? suffixIcon;
+  final bool isPassword;
+  final Function? suffixOnPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -89,8 +98,10 @@ class CustomPasswordFormField extends StatelessWidget {
               controller: controller,
               cursorColor: Colors.white,
               keyboardType: TextInputType.visiblePassword,
-              obscureText: cubit.showPassword,
-              validator: validation,
+              obscureText: isPassword,
+              validator: (v){
+                return validation!(v!);
+              },
               autovalidateMode: AutovalidateMode.onUserInteraction,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
@@ -98,15 +109,17 @@ class CustomPasswordFormField extends StatelessWidget {
                 errorStyle: errorStyle,
                 errorMaxLines: 2,
                 hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    cubit.passwordIcon,
-                    color: Colors.white,
-                  ),
-                  onPressed: () {
-                    cubit.changePasswordVisibility();
-                  },
-                ),
+                suffixIcon: suffixIcon != null
+                    ? IconButton(
+                    icon: Icon(
+                      suffixIcon,
+                      color: kLightGoldColor,
+                    ),
+                    onPressed: () {
+                      suffixOnPressed!();
+
+                    })
+                    : null,
                 filled: true,
                 fillColor: Colors.white.withOpacity(0.4),
                 isDense: true,

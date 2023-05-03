@@ -7,7 +7,6 @@ import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 
 class OffersScreen extends StatelessWidget {
-  const OffersScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,15 +30,15 @@ class OffersScreen extends StatelessWidget {
                   child: ListView.builder(
                     physics: BouncingScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: cubit.allOffer.length,
+                    itemCount: cubit.allOffer!.length,
                     itemBuilder: (context, index) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 10.0),
                         child: BigOfferCard(
-                          title: cubit.allOffer[index].title,
+                          title: "${cubit.allOffer![index].title}",
                           discountValue:
-                              cubit.allOffer[index].discount.toString(),
-                          OfferImage: cubit.allOffer[index].image,
+                              cubit.allOffer![index].discount.toString(),
+                          OfferImage: "${cubit.allOffer![index].image}",
                         ),
                       );
                     },
@@ -52,9 +51,9 @@ class OffersScreen extends StatelessWidget {
 }
 
 class BigOfferCard extends StatelessWidget {
-  String discountValue;
-  String OfferImage;
-  String title;
+  String? discountValue;
+  String? OfferImage;
+  String? title;
 
   BigOfferCard({
     @required this.discountValue,
@@ -79,7 +78,7 @@ class BigOfferCard extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(20),
                     image: DecorationImage(
-                        image: NetworkImage(OfferImage), fit: BoxFit.cover)),
+                        image: NetworkImage("${OfferImage}"), fit: BoxFit.cover)),
                 child: Column(
                   children: [
                     Text(

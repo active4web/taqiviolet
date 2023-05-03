@@ -7,29 +7,31 @@ import 'package:nil/nil.dart';
 
 class CustomImagePicker extends StatelessWidget {
   const CustomImagePicker({
-    Key key,
+    required Key key,
     this.text = '',
     this.onTab,
     this.imageFile,
   }) : super(key: key);
 
   final String text;
-  final Function onTab;
-  final XFile imageFile;
+  final Function? onTab;
+  final XFile? imageFile;
   @override
   Widget build(BuildContext context) {
-    File file;
+    File? file;
     if (imageFile != null) {
-      file = File(imageFile.path);
+      file = File(imageFile!.path);
     }
     return GestureDetector(
-      onTap: onTab,
+      onTap: (){
+        onTab!();
+      },
       child: Container(
         height: MediaQuery.of(context).size.width * 0.25,
         width: MediaQuery.of(context).size.width * 0.25,
         decoration: BoxDecoration(
           image: imageFile != null
-              ? DecorationImage(image: FileImage(file), fit: BoxFit.cover)
+              ? DecorationImage(image: FileImage(file!), fit: BoxFit.cover)
               : null,
           color: Colors.white,
           border: Border.all(color: Colors.grey),

@@ -10,7 +10,6 @@ import '../../shared/components/custom_app_bar.dart';
 import '../../shared/constants.dart';
 
 class AboutScreen extends StatelessWidget {
-  const AboutScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +40,7 @@ class AboutScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Text(
-                                    cubit.aboutModel.data[index].title,
+                                    "${cubit.aboutModel?.data![index].title}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 18,
@@ -54,7 +53,7 @@ class AboutScreen extends StatelessWidget {
                               // ),
 
                               Text(
-                                cubit.aboutModel.data[index].content,
+                                "${cubit.aboutModel?.data![index].content}",
                                 style: TextStyle(fontSize: 15, height: 2),
                               ),
 
@@ -85,7 +84,7 @@ class AboutScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          itemCount: cubit.aboutModel.data.length,
+                          itemCount: cubit.aboutModel!.data!.length,
                         ),
                         Divider(
                           thickness: 1,

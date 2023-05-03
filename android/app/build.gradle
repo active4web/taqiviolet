@@ -32,6 +32,7 @@ android {
         abortOnError false
     }
     compileSdkVersion 33
+//    ndkVersion flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -51,9 +52,10 @@ android {
         applicationId "active4web.com.safsofa"
         minSdkVersion 21
         targetSdkVersion flutter.targetSdkVersion
-        multiDexEnabled = true
+        multiDexEnabled  true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
     }
 
     buildTypes {
@@ -73,5 +75,6 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation platform('com.google.firebase:firebase-bom:29.0.4')
     implementation 'com.google.firebase:firebase-analytics'
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("com.android.support:multidex:1.0.3")
+
 }

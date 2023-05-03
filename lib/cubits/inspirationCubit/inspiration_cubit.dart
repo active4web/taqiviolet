@@ -10,15 +10,18 @@ import 'package:safsofa/shared/constants.dart';
 class InspirationCubit extends Cubit<InspirationStates> {
   InspirationCubit() : super(InspirationInitialState());
   static InspirationCubit get(context) => BlocProvider.of(context);
-  InspirationModel _inspirationModel;
+  InspirationModel? _inspirationModel;
   List<Data> inspirationData = [];
 
   void getInspirationData() async {
     emit(GetInspirationLoadingState());
     await Mhelper.getData(url: inspiration, query: {'lang': kLanguage})
         .then((value) async {
+          print('Bishoooo1111');
       _inspirationModel = InspirationModel.fromJson(value.data);
-      inspirationData = _inspirationModel.data;
+      print('Bishoooo1111');
+      print(_inspirationModel!.data![0].iD);
+      inspirationData = _inspirationModel!.data!;
       log(inspirationData[0].urlLink.toString());
       emit(GetInspirationSuccessState());
     }).catchError((error) {
@@ -28,7 +31,7 @@ class InspirationCubit extends Cubit<InspirationStates> {
     });
   }
 
-  void updateFavorite({@required int prodId}) {
+  void updateFavorite({required int prodId}) {
     log('inside is favorite of sub_cat_cubit');
     Mhelper.postData(
         url: 'api/FavProduct',

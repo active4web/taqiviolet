@@ -1,8 +1,8 @@
 class FavoritesModel {
-  bool status;
-  String errNum;
-  String msg;
-  Data data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   FavoritesModel({this.status, this.errNum, this.msg, this.data});
 
@@ -13,45 +13,45 @@ class FavoritesModel {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['errNum'] = this.errNum;
-    data['msg'] = this.msg;
-    if (this.data != null) {
-      data['data'] = this.data.toJson();
-    }
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['status'] = this.status;
+//   data['errNum'] = this.errNum;
+//   data['msg'] = this.msg;
+//   if (this.data != null) {
+//     data['data'] = this.data.toJson();
+//   }
+//   return data;
+// }
 }
 
 class Data {
-  List<FavsListModel> list;
+  List<FavsListModel>? list;
 
   Data({this.list});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['list'] != null) {
-      list = new List<FavsListModel>();
+      list = <FavsListModel>[];
       json['list'].forEach((v) {
-        list.add(new FavsListModel.fromJson(v));
+        list!.add(new FavsListModel.fromJson(v));
       });
     }
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.list != null) {
-      data['list'] = this.list.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   if (this.list != null) {
+//     data['list'] = this.list.map((v) => v.toJson()).toList();
+//   }
+//   return data;
+// }
 }
 
 class FavsListModel {
-  String listName;
-  int listId;
-  List<ListProducts> listProducts;
+  String? listName;
+  int? listId;
+  List<ListProducts>? listProducts;
 
   FavsListModel({this.listName, this.listId, this.listProducts});
 
@@ -59,13 +59,14 @@ class FavsListModel {
     listName = json['list_name'];
     listId = json['list_id'];
     if (json['list_products'] != null) {
-      listProducts = new List<ListProducts>();
+      listProducts = <ListProducts>[];
       json['list_products'].forEach((v) {
-        listProducts.add(new ListProducts.fromJson(v));
+        listProducts!.add(new ListProducts.fromJson(v));
       });
     }
   }
 
+/*
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['list_name'] = this.listName;
@@ -75,22 +76,23 @@ class FavsListModel {
     }
     return data;
   }
+*/
 }
 
 class ListProducts {
-  String name;
-  num oldPrice;
-  int id;
-  String image;
-  int subCategoryId;
-  num currentPrice;
-  int storeId;
-  int smartPrice;
-  String quantity;
-  String details;
-  int hasFavorites;
-  int hasRosters;
-  String hasReviews;
+  String? name;
+  dynamic? oldPrice;
+  int? id;
+  String? image;
+  int? subCategoryId;
+  dynamic currentPrice;
+  int? storeId;
+  int? smartPrice;
+  String? quantity;
+  String? details;
+  int? hasFavorites;
+  int? hasRosters;
+  String? hasReviews;
 
   ListProducts(
       {this.name,
@@ -123,21 +125,21 @@ class ListProducts {
     hasReviews = json['hasReviews'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['old_price'] = this.oldPrice;
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['sub_category_id'] = this.subCategoryId;
-    data['current_price'] = this.currentPrice;
-    data['store_id'] = this.storeId;
-    data['smart_price'] = this.smartPrice;
-    data['quantity'] = this.quantity;
-    data['details'] = this.details;
-    data['hasFavorites'] = this.hasFavorites;
-    data['hasRosters'] = this.hasRosters;
-    data['hasReviews'] = this.hasReviews;
-    return data;
-  }
+// Map<String, dynamic> toJson() {
+//   final Map<String, dynamic> data = new Map<String, dynamic>();
+//   data['name'] = this.name;
+//   data['old_price'] = this.oldPrice;
+//   data['id'] = this.id;
+//   data['image'] = this.image;
+//   data['sub_category_id'] = this.subCategoryId;
+//   data['current_price'] = this.currentPrice;
+//   data['store_id'] = this.storeId;
+//   data['smart_price'] = this.smartPrice;
+//   data['quantity'] = this.quantity;
+//   data['details'] = this.details;
+//   data['hasFavorites'] = this.hasFavorites;
+//   data['hasRosters'] = this.hasRosters;
+//   data['hasReviews'] = this.hasReviews;
+//   return data;
+// }
 }
