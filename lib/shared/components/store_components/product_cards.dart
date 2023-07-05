@@ -65,7 +65,7 @@ class VerticalProductCard extends StatelessWidget {
                       child: Container(
                     decoration: BoxDecoration(
                       //    color: kBGColor,
-                      image: DecorationImage(image: NetworkImage(image!)),
+                      image: DecorationImage(image: NetworkImage("https://taqiviolet.com/public/images/product/jSJuJfaWrMJMgRQn17ld8ciKqTuKiVB81ZVN29iy.pngs")),
                       borderRadius: BorderRadius.circular(10),
                     ),
                   )),

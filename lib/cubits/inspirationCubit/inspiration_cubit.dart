@@ -15,7 +15,9 @@ class InspirationCubit extends Cubit<InspirationStates> {
 
   void getInspirationData() async {
     emit(GetInspirationLoadingState());
-    await Mhelper.getData(url: inspiration, query: {'lang': kLanguage})
+    await Mhelper.getData(
+        url: inspiration,
+        query: {'lang': kLanguage})
         .then((value) async {
           print('Bishoooo1111');
       _inspirationModel = InspirationModel.fromJson(value.data);

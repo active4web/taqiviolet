@@ -10,6 +10,12 @@ class GetOfferLoadingState extends OfferState{}
 class GetOfferSuccessState extends OfferState{}
 
 class GetOfferErrorState extends OfferState{}
+class GetOfferLoadingState2 extends OfferState{}
+
+class GetOfferSuccessState2 extends OfferState{}
+
+class GetOfferErrorState2 extends OfferState{}
+
 class GetProductsOfferLoadingState extends OfferState {}
 
 class GetProductsOfferSuccessState extends OfferState {}

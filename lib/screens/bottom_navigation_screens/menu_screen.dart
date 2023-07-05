@@ -16,11 +16,9 @@ import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/menu_screens/policies_screens/policies_screen.dart';
 import 'package:safsofa/screens/menu_screens/taqi_work_screen.dart';
 import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
-import 'package:safsofa/screens/register_screens/login_screen.dart';
-import 'package:safsofa/shared/components/dialogs.dart';
+ import 'package:safsofa/shared/components/dialogs.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class MenuScreen extends StatelessWidget {
   @override

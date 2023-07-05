@@ -53,7 +53,7 @@ dev_dependencies:
   intl_phone_field: ^3.1.0
   location: ^4.2.0
   map_picker: ^0.0.3
-  map_pin_picker: any
+#  map_pin_picker:
   nil: null
   persistent_bottom_nav_bar: any
   qr_flutter: ^4.0.0

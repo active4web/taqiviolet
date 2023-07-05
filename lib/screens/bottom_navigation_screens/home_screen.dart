@@ -22,6 +22,7 @@ import 'package:safsofa/shared/components/video_server_display.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../cubits/offerCubit/offer_cubit.dart';
 import '../../cubits/subCategory/sub_cat_cubit.dart';
 import '../../shared/components/store_components/product_cards.dart';
 import '../searchScreen.dart';
@@ -40,7 +41,12 @@ class _HomeScreenState extends State<HomeScreen> {
  }
   @override
   Widget build(BuildContext context) {
+
+   print("5"*20);
     AppCubit cubit = AppCubit.get(context);
+    var offerCubit = OfferCubit.get(context);
+    offerCubit.getOfferData();
+    offerCubit.getOfferData2();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is GetConstructionSuccessState) {

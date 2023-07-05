@@ -14,6 +14,7 @@ int cartCount = 0;
 StreamController<int> cartCountControlller = StreamController.broadcast();
 // /*****************All End Point***********************/
 const String offersEndpoint = "/api/offers";
+const String offersEndpoint2 = "/api/get_all_offers";
 const String blogEndpoint = "/api/blogs";
 const String homeMainCatEndPoint = "/api/categories?store_id=34&lang=ar";
 const String homeMainBannerEndPoint = "/api/banners";

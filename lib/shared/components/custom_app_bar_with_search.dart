@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import '../constants.dart';
 import 'custom_search_bar.dart';
 
-class CustomAppBarWithSearch extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWidget {
   CustomAppBarWithSearch(
       {
       this.title,

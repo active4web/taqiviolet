@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart';
 
-class CustomAppBarWithLogo extends StatelessWidget with PreferredSizeWidget {
+class CustomAppBarWithLogo extends StatelessWidget implements  PreferredSizeWidget {
   const CustomAppBarWithLogo({
     required Key key,
   }) : super(key: key);
