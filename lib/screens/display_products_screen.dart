@@ -608,13 +608,9 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                     showModalBottomSheet(
                                                         context: context,
                                                         builder: (context) {
-                                                          cubit
-                                                              .getFavListData();
-                                                          return BlocConsumer<
-                                                              SubCatCubit,
-                                                              SubCatState>(
-                                                            listener: (context,
-                                                                state) {},
+                                                          cubit.getFavListData();
+                                                          return BlocConsumer<SubCatCubit, SubCatState>(
+                                                            listener: (context, state) {},
                                                             builder: (context,
                                                                 state) {
                                                               return Padding(

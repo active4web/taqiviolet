@@ -7,10 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
-import 'package:safsofa/cubits/cartCubit/cart_cubit.dart';
-import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
-import 'package:safsofa/screens/mylist_screen.dart';
-import 'package:safsofa/screens/home_layout.dart';
+ import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
+ import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/reviews_and_comments_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -21,9 +19,7 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import '../cubits/listsCubit/lists_cubit.dart';
-import '../network/local/cache_helper.dart';
-import 'Lists.dart';
+ import '../network/local/cache_helper.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   @override
@@ -54,14 +50,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     print(CacheHelper.getData("token"));
+
     String featureSize = '';
     PageController pageController = new PageController();
     AppCubit cubit = AppCubit.get(context);
+    print(cubit.productDetailsModel!.data!.productDetails![0].smartPrice);
+    print(cubit.productDetailsModel!.data!.productDetails![0].smartType);
+    print(cubit.productDetailsModel!.data!.productDetails![0].hascart);
+    print(cubit.productDetailsModel!.data!.productDetails![0].id);
+    print("mostafa bahr");
     return BlocConsumer<AppCubit, AppStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if(state is  AddToCartSuccessState){
+          cubit.getProductDetails(
+            productId: cubit.productDetailsModel!.data!.productDetails![0].id,
+          );
+        }
+      },
       builder: (context, state) {
         log("99999999999999999999999999999999999999999   $state");
-        log('${cubit.productDetailsModel}');
+        log('${cubit.productDetailsModel!.data!.productDetails![0].smartPrice}');
+        log("99999999999999999999999999999999999999999   $state");
         return Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
@@ -355,6 +364,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           setState(() {
                                             isSmartFeatureSelected = value!;
                                             print(isSmartFeatureSelected);
+                                            print("web");
                                           });
                                         },
                                       ),
@@ -608,12 +618,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   //Server
                                   if (kToken != null && kToken!.isNotEmpty)
                                     Expanded(
-                                      child:
-                                      cubit.productDetailsModel?.data?.productDetails![0].hascart == 1
-                                          && cubit.productDetailsModel?.data?.productDetails![0].smartPrice==null
-                                          && cubit.productDetailsModel?.data?.productDetails![0].smartPrice!=null
+                                      child: cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
+                                          cubit.productDetailsModel?.data?.productDetails![0].smartType == 0 ||
+                                          cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
+                                              cubit.productDetailsModel?.data?.productDetails![0].smartType == 3
                                           ? CustomButton(
-
                                               onTap: () {
                                                 navigateTo(context, CartScreen());
                                                 // cubit.delITemFromCartServer(
@@ -630,6 +639,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               text: 'shoppingCart'.tr(),
                                             )
                                           :
+
                                       CustomButton(
                                               onTap: () {
                                               //   if(cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
@@ -648,9 +658,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 print(cubit.productDetailsModel?.data?.productDetails![0].currentPrice);
                                                 cubit.addToCartServer(
                                                   quantity: quantity,
-                                                  smartType:
-                                                  cubit.productDetailsModel?.data?.productDetails![0].smartPrice == 0  ?
-                                                  0 : cubit.productDetailsModel?.data?.productDetails![0].smartPrice == 1 ? 1:2,
+                                                  smartType: cubit.productDetailsModel?.data?.productDetails![0].smartPrice == 0  ? 0 :
+                                                  isSmartFeatureSelected==true ? 2:1 ,
                                                   featureSize: featureSize,
                                                   product_id: cubit.productDetailsModel!.data!.productDetails![0].id!,
                                                   price: isSmartFeatureSelected
@@ -764,6 +773,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   SizedBox(
                                     width: 10,
                                   ),
+                                  cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
+                                      cubit.productDetailsModel?.data?.productDetails![0].smartType == 1  ||
+                                      cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
+                                          cubit.productDetailsModel?.data?.productDetails![0].smartType == 2 ?
+                                  Container(
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff393846),
+                                          borderRadius: BorderRadius.circular(35)),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        navigateTo(context, CartScreen());
+                                      },
+                                      icon:Icon(
+                                        Icons.shopping_cart,
+                                        size: 25,
+                                        color: kLightGoldColor,
+                                      ),
+                                    ),
+
+                                  ) : Text(""),
                                   IconButton(
                                     onPressed: () {
                                       if (kToken != null &&

@@ -14,6 +14,8 @@ import '../../cubits/cartCubit/cart_cubit.dart';
 import '../../cubits/cartCubit/cart_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../network/local/cache_helper.dart';
+
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,7 @@ class CartScreen extends StatelessWidget {
         log("state is $state");
       },
       builder: (context, state) {
+        print(CacheHelper.getData("token"));
         return Scaffold(
             appBar: CustomAppBar(
               title: 'Cart'.tr(),
@@ -61,11 +64,7 @@ class CartScreen extends StatelessWidget {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => Container(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.8 /
-                                              2,
+                                          height: MediaQuery.of(context).size.height * 0.8 / 2,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -354,12 +353,12 @@ class CartScreen extends StatelessWidget {
                                                             //
                                                             // print(  int.parse(cubit.myCartModel.data[index].quantity)+1);
                                                             cubit.addquantityServer(
-                                                                product_id: cubit
+                                                                cart_id: cubit
                                                                     .myCartModel
                                                                     ?.data
                                                                     ?.listItem![
                                                                         index]
-                                                                    .id,
+                                                                    .cartId,
                                                                 product_quantity: (cubit
                                                                             .myCartModel
                                                                             ?.data
@@ -369,34 +368,14 @@ class CartScreen extends StatelessWidget {
                                                                     1);
                                                           },
                                                           onRemove: () {
-                                                            if ((cubit
-                                                                        .myCartModel
-                                                                        ?.data
-                                                                        ?.listItem![
-                                                                            index]
-                                                                        .quantity)!
-                                                                    .toInt() >
-                                                                1) {
+                                                            if ((cubit.myCartModel?.data?.listItem![index].quantity)!.toInt() > 1) {
                                                               cubit.addquantityServer(
-                                                                  product_id: cubit
-                                                                      .myCartModel
-                                                                      ?.data
-                                                                      ?.listItem![
-                                                                          index]
-                                                                      .id,
-                                                                  product_quantity: (cubit
-                                                                              .myCartModel
-                                                                              ?.data
-                                                                              ?.listItem![index]
-                                                                              .quantity)!
-                                                                          .toInt() -
+                                                                  cart_id: cubit.myCartModel?.data?.listItem![index].cartId,
+                                                                  product_quantity: (cubit.myCartModel?.data?.listItem![index].quantity)!.toInt() -
                                                                       1);
                                                             }
-
-                                                            //  cubit.myCartModel.data[index].quantity-1;
-                                                            //   print(   cubit.myCartModel.data[index].quantity-1);
-                                                            print(
-                                                                "111111111111111111");
+                                                            print("bbbbaaahhhhrrrrr");
+                                                            print("111111111111111111");
                                                           }),
                                                     ],
                                                   ),
@@ -412,11 +391,11 @@ class CartScreen extends StatelessWidget {
                                                       onPressed: () {
                                                         cubit
                                                             .delItemFromCartServer(
-                                                          productId: cubit
+                                                          cartId: cubit
                                                               .myCartModel!
                                                               .data!
                                                               .listItem![index]
-                                                              .id!,
+                                                              .cartId!,
                                                         );
                                                       },
                                                       icon: Icon(
@@ -769,13 +748,7 @@ class CartScreen extends StatelessWidget {
                                                                 product_quantity: (cubit.myCartlocalModel?.cartProducts![index].quantity)!.toInt() + 1);
                                                           },
                                                           onRemove: () {
-                                                            if ((cubit
-                                                                        .myCartlocalModel
-                                                                        ?.cartProducts![
-                                                                            index]
-                                                                        .quantity)!
-                                                                    .toInt() >
-                                                                1) {
+                                                            if ((cubit.myCartlocalModel?.cartProducts![index].quantity)!.toInt() > 1) {
                                                               cubit.addquantityLocally(
                                                                   index: index,
                                                                   product_id: cubit

@@ -419,6 +419,7 @@ class MyProductDetailsData {
 
 class ProductDetails {
   dynamic id;
+  dynamic smartType;
   String? name;
   String? nameSearch;
   dynamic oldPrice;
@@ -445,6 +446,7 @@ class ProductDetails {
   ProductDetails(
       {this.id,
       this.name,
+      this.smartType,
       this.nameSearch,
       this.oldPrice,
       this.currentPrice,
@@ -467,6 +469,7 @@ class ProductDetails {
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    smartType = json['smart_type'];
     name = json['name'];
     deliveryTime = json['delivery_time'];
     nameSearch = json['name_search'];

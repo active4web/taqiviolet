@@ -4,6 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:safsofa/screens/header_my_account/widget/custom_text_form_field.dart';
 import 'package:safsofa/screens/header_my_account/widget/gift_card.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
+import 'package:safsofa/shared/defaults.dart';
+
+import '../new_pay_after_gifts_screen.dart';
 
 class CheckBalanceGiftCardScreen extends StatelessWidget {
   CheckBalanceGiftCardScreen({Key? key}) : super(key: key);
@@ -47,38 +50,38 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTextFormField(
-                  controller: cardNumberController,
-                  text: 'cardNumber'.tr(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomTextFormField(
-                  controller: personalIdentificationNumberController,
-                  text: 'personalIdentificationNumber'.tr(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                CustomButton(
-                  onTap: () {
-                    if (_formKey.currentState!.validate()) {
-                      print('object');
-                    } else {
-                      print('yes');
-                    }
-                  },
-                  height: 50,
-                  text: 'checkTheBalance'.tr(),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Divider(),
-                SizedBox(
-                  height: 15,
-                ),
+                // CustomTextFormField(
+                //   controller: cardNumberController,
+                //   text: 'cardNumber'.tr(),
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // CustomTextFormField(
+                //   controller: personalIdentificationNumberController,
+                //   text: 'personalIdentificationNumber'.tr(),
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // CustomButton(
+                //   onTap: () {
+                //     if (_formKey.currentState!.validate()) {
+                //       print('object');
+                //     } else {
+                //       print('yes');
+                //     }
+                //   },
+                //   height: 50,
+                //   text: 'checkTheBalance'.tr(),
+                // ),
+                // SizedBox(
+                //   height: 20,
+                // ),
+                // Divider(),
+                // SizedBox(
+                //   height: 15,
+                // ),
                 Text(
                   'sellTheMostGoods'.tr(),
                   style: TextStyle(
@@ -100,7 +103,11 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                       childAspectRatio: 1 / 1.4,
                       mainAxisSpacing: 2.0,
                       crossAxisSpacing: 6.0),
-                  itemBuilder: (context, index) => GiftCardComponent(),
+                  itemBuilder: (context, index) => InkWell(
+                      onTap: (){
+                        navigateTo(context, NewPayScreenAfterGifts());
+                      },
+                      child: GiftCardComponent()),
                 ),
 
               ],

@@ -32,6 +32,7 @@ import 'cubits/authCubit/auth_cubit.dart';
 import 'cubits/cartCubit/cart_cubit.dart';
 import 'cubits/contactUsCubit/contact_us_cubit.dart';
 import 'cubits/contactsCubit/contacts_cubit.dart';
+import 'cubits/coupones_cubit/coupones_cubit.dart';
 import 'cubits/cubit/getdataprofile_cubit.dart';
 import 'cubits/dataInList/data_in_list_cubit.dart';
 import 'cubits/listsCubit/lists_cubit.dart';
@@ -165,6 +166,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => AppCubit()),
           BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
           BlocProvider(create: (context) => HomeCubit()),
+          BlocProvider(create: (context) => CouponesCubit()),
           BlocProvider(create: (context) => SubCatCubit()),
           BlocProvider(create: (context) => CommonQuestionCubit()),
           BlocProvider(create: (context) => FavoritesCubit()),

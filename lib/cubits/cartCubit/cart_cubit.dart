@@ -92,12 +92,12 @@ class CartCubit extends Cubit<CartState> {
   }
 
   addquantityServer({
-    @required product_id,
+    @required cart_id,
     required int product_quantity,
   }) async {
     emit(CartLoadingState());
     log('${CacheHelper.getData("token")}');
-    log('$product_id');
+    log('$cart_id');
     log("0000000000000000000000000000");
     Mhelper.postData(
         data: {
@@ -106,7 +106,8 @@ class CartCubit extends Cubit<CartState> {
         url: sumItemCartURL,
         token: CacheHelper.getData("token"),
         query: {
-          "product_id": "$product_id",
+          // "product_id": "$product_id",
+          "cart_id": "$cart_id",
           "product_quantity": "$product_quantity",
         }).then((value) {
           print(value.data);
@@ -118,11 +119,11 @@ class CartCubit extends Cubit<CartState> {
     });
   }
 
-  delItemFromCartServer({required int productId}) {
+  delItemFromCartServer({required int cartId}) {
     emit(CartLoadingState());
     Mhelper.postData(data: {
       "key": 1234567890,
-    }, url: delItem + "$productId", token: CacheHelper.getData("token"))
+    }, url: delItem + "$cartId", token: CacheHelper.getData("token"))
         .then((value) {
       if (value.data['status']) {
         getServerCartData(withLoading: false);

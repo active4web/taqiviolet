@@ -817,18 +817,20 @@ class AppCubit extends Cubit<AppStates> {
               "price": "$price",
               "features": featureSize,
               "smart_price" : smartPrice,
-              "smart_type" : "4654",
+              "smart_type" : smartType,
             },
             token: CacheHelper.getData("token"))
         .then((value) {
       // print(value.data);
       log('Server Cart data==>${value.data}');
+      print( productDetailsModel?.data?.productDetails![0].smartPrice);
+      log("8   $state"*20);
       if (value.data["status"]) {
         productDetailsModel?.data?.productDetails![0].hascart = 1;
         // getAllNotifications();
         // emit(GetAllNotificationsSuccessState());
         // emit(AddToCartSuccessState());
-        emit(GetProductDetailsSuccessState());
+        emit(AddToCartSuccessState());
         // cartCountControlller.add(int.parse(quantity));
       }
     }).catchError((error) {

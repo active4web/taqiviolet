@@ -54,6 +54,7 @@ class GetData {
 
 class ListItem {
   int? id;
+  int? cartId;
   dynamic name;
   dynamic image;
   dynamic quantity;
@@ -64,6 +65,7 @@ class ListItem {
   ListItem(
       {this.id,
         this.name,
+        this.cartId,
         this.image,
         this.quantity,
         this.smartPrice,
@@ -72,6 +74,7 @@ class ListItem {
 
   ListItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    cartId = json['cart_id'];
     name = json['name'];
     image = json['image'];
     quantity = json['quantity'];
@@ -83,6 +86,7 @@ class ListItem {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
+    data['cart_id'] = this.cartId;
     data['name'] = this.name;
     data['image'] = this.image;
     data['quantity'] = this.quantity;
