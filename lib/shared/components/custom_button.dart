@@ -8,16 +8,18 @@ class CustomButton extends StatelessWidget {
 
     this.text,
    required this.onTap,
-    this.gradient = kBlackGradient,
+    // this.gradient = kBlackGradient,
+    this.gradient  ,
     this.height = 40,
-    this.textColor = kLightGoldColor,
+    this.textColor = kLightGoldColor,   this.buttonColor,
   }) ;
 
   final String? text;
-  final Gradient gradient;
+  final Gradient? gradient;
   final double? height;
   final Function? onTap;
   final Color textColor;
+  final Color? buttonColor;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -30,6 +32,7 @@ class CustomButton extends StatelessWidget {
             child: Container(
               height: height,
               decoration: BoxDecoration(
+                color: Color(0xff393846),
                   gradient: gradient, borderRadius: BorderRadius.circular(35)),
               child: Center(
                   child: Text(

@@ -50,9 +50,7 @@ class CartCubit extends Cubit<CartState> {
       // log(value.data.toString());
       for (int i = 0; i < myCartModel!.data!.listItem!.length; i++) {
         log("item price ${myCartModel?.data?.listItem![i].id}");
-
         // if (myCartModel?.data?.listItem![i].smartPrice == null){
-
                 total += (myCartModel?.data?.listItem![i].price) *
               (myCartModel?.data?.listItem![i].quantity).toDouble();
        /* }else {

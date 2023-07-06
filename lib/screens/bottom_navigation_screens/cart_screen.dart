@@ -7,8 +7,7 @@ import 'package:safsofa/screens/check_out_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
-import 'package:safsofa/shared/components/dialogs.dart';
-import 'package:safsofa/shared/constants.dart';
+ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../cubits/cartCubit/cart_cubit.dart';
@@ -65,7 +64,7 @@ class CartScreen extends StatelessWidget {
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                              0.7 /
+                                              0.8 /
                                               2,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
@@ -76,7 +75,6 @@ class CartScreen extends StatelessWidget {
                                               Flexible(
                                                 flex: 3,
                                                 child: Container(
-
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
                                                     image: DecorationImage(

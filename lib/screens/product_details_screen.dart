@@ -22,6 +22,7 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../cubits/listsCubit/lists_cubit.dart';
+import '../network/local/cache_helper.dart';
 import 'Lists.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
@@ -52,6 +53,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(CacheHelper.getData("token"));
     String featureSize = '';
     PageController pageController = new PageController();
     AppCubit cubit = AppCubit.get(context);
@@ -338,12 +340,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 SizedBox(
                                   height: 8,
                                 ),
-                              if (cubit.productDetailsModel?.data
-                                          ?.productDetails![0].smartPrice !=
-                                      0 &&
-                                  cubit.productDetailsModel?.data
-                                          ?.productDetails![0].smartPrice !=
-                                      null)
+                              if (
+                              cubit.productDetailsModel?.data?.productDetails![0].smartPrice != 0 &&
+                                  cubit.productDetailsModel?.data?.productDetails![0].smartPrice != null
+                              )
                                 Row(
                                   children: [
                                     Transform.scale(
@@ -608,65 +608,60 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   //Server
                                   if (kToken != null && kToken!.isNotEmpty)
                                     Expanded(
-                                      child: cubit
-                                                  .productDetailsModel
-                                                  ?.data
-                                                  ?.productDetails![0]
-                                                  .hascart ==
-                                              1
+                                      child:
+                                      cubit.productDetailsModel?.data?.productDetails![0].hascart == 1
+                                          && cubit.productDetailsModel?.data?.productDetails![0].smartPrice==null
+                                          && cubit.productDetailsModel?.data?.productDetails![0].smartPrice!=null
                                           ? CustomButton(
+
                                               onTap: () {
-                                                cubit.delITemFromCartServer(
-                                                    product_id: cubit
-                                                        .productDetailsModel
-                                                        ?.data
-                                                        ?.productDetails![0]
-                                                        .id);
-                                                CartCubit.get(context).total =
-                                                    0;
+                                                navigateTo(context, CartScreen());
+                                                // cubit.delITemFromCartServer(
+                                                //     product_id: cubit
+                                                //         .productDetailsModel
+                                                //         ?.data
+                                                //         ?.productDetails![0]
+                                                //         .id);
+                                                // CartCubit.get(context).total =
+                                                //     0;
                                                 // Future.delayed(Duration(seconds: 1));
                                               },
                                               height: 50,
-                                              text: 'removeFromCart'.tr(),
+                                              text: 'shoppingCart'.tr(),
                                             )
-                                          : CustomButton(
+                                          :
+                                      CustomButton(
                                               onTap: () {
+                                              //   if(cubit.productDetailsModel?.data?.productDetails![0].hascart == 1 &&
+                                              //       cubit.productDetailsModel?.data?.productDetails![0].smartPrice==null
+                                              //   && isSmartFeatureSelected==true
+                                              //   ){
+                                              //     print("Dddd"*10);
+                                              //     showToast(
+                                              //         text: 'thisProductAlreadyInCart'.tr(),
+                                              //         color: Colors.black);
+                                              //   }
+                                              // else
+                                              // {
+                                                print(cubit.productDetailsModel?.data?.productDetails![0].smartPrice);
+                                                print(cubit.productDetailsModel?.data?.productDetails![0].id);
+                                                print(cubit.productDetailsModel?.data?.productDetails![0].currentPrice);
                                                 cubit.addToCartServer(
                                                   quantity: quantity,
+                                                  smartType:
+                                                  cubit.productDetailsModel?.data?.productDetails![0].smartPrice == 0  ?
+                                                  0 : cubit.productDetailsModel?.data?.productDetails![0].smartPrice == 1 ? 1:2,
                                                   featureSize: featureSize,
-                                                  product_id: cubit
-                                                      .productDetailsModel!
-                                                      .data!
-                                                      .productDetails![0]
-                                                      .id!,
+                                                  product_id: cubit.productDetailsModel!.data!.productDetails![0].id!,
                                                   price: isSmartFeatureSelected
-                                                      ? cubit
-                                                              .productDetailsModel
-                                                              ?.data
-                                                              ?.productDetails![
-                                                                  0]
-                                                              .currentPrice +
-                                                          cubit
-                                                              .productDetailsModel
-                                                              ?.data
-                                                              ?.productDetails![
-                                                                  0]
-                                                              .smartPrice
-                                                      : cubit
-                                                          .productDetailsModel
-                                                          ?.data
-                                                          ?.productDetails![0]
-                                                          .currentPrice,
+                                                      ? cubit.productDetailsModel?.data?.productDetails![0].currentPrice + cubit.productDetailsModel?.data?.productDetails![0].smartPrice
+                                                      : cubit.productDetailsModel?.data?.productDetails![0].currentPrice,
                                                   smartPrice:
-                                                      isSmartFeatureSelected
-                                                          ? cubit
-                                                              .productDetailsModel
-                                                              ?.data
-                                                              ?.productDetails![
-                                                                  0]
-                                                              .smartPrice
-                                                          : null,
+                                                  isSmartFeatureSelected
+                                                      ? cubit.productDetailsModel?.data?.productDetails![0].smartPrice
+                                                      : null,
                                                 );
+                                                // }
                                               },
                                               height: 50,
                                               text: 'AddToCart'.tr(),
@@ -689,9 +684,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   -1)
                                           ? CustomButton(
                                               onTap: () {
-                                                cubit.delITemFromCartLocally(
-                                                    product_id: cubit
-                                                        .productDetailsModel!
+                                                cubit.delITemFromCartLocally(product_id: cubit.productDetailsModel!
                                                         .data!
                                                         .productDetails![0]
                                                         .id);

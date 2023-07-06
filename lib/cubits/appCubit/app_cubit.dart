@@ -802,6 +802,7 @@ class AppCubit extends Cubit<AppStates> {
       dynamic price,
       required String featureSize,
       dynamic smartPrice,
+      dynamic smartType,
       }) {
     log('price====>$price');
     log('features====>$featureSize');
@@ -813,7 +814,8 @@ class AppCubit extends Cubit<AppStates> {
               "quantity": '$quantity',
               "price": "$price",
               "features": featureSize,
-              "smart_price" : smartPrice
+              "smart_price" : smartPrice,
+              "smart_type" : "4654",
             },
             token: CacheHelper.getData("token"))
         .then((value) {
