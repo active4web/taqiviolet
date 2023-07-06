@@ -44,7 +44,14 @@ class _CouponesScreenState extends State<CouponesScreen> {
             builder: (context) => ListView.separated(
               physics: BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return Padding(
+                return
+                  cubit.couponsModel!.data!.couponLists!.length==0 ?
+                  Center(
+                      child: Image(
+                          image:
+                          AssetImage('assets/images/empty_cart.png')))
+                      :
+                  Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Card(
                     elevation: 8,

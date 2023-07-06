@@ -21,6 +21,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen>
         length: MyOrdersCubit.get(context).tabs.length,
         vsync: this);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: CustomAppBar(
         title: 'Orders'.tr(),
       ),

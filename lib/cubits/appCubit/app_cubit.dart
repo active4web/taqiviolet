@@ -90,6 +90,8 @@ class AppCubit extends Cubit<AppStates> {
       log('55555555555 ${myAccountData?.data?.lastOrder}');
 
       myAccountData = UserProfileDataModel.fromJson(value.data);
+      print(myAccountData?.data?.bonus);
+      print("mostafa");
 /*      print(myAccountData?.data?.myOrder);
       print("LastOrder ${myAccountData?.data?.lastOrder?.createdAt.toString().substring(0,11)}");*/
       // print(myAccountData?.data?.userProfile);

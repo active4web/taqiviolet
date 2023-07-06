@@ -84,7 +84,7 @@ class VerticalProductCard extends StatelessWidget {
                                 productName ?? '',
                                 maxLines: 2,
                                 style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 17),
+                                    fontWeight: FontWeight.w500, fontSize: 15),
                                 overflow: TextOverflow.ellipsis,
                               ),
                               SizedBox(

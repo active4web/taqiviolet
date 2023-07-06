@@ -41,8 +41,6 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     AppCubit cubit = AppCubit.get(context);
     return BlocBuilder<AppCubit, AppStates>(
       builder: (context, state) {
-        // log("Data:${cubit.userInfo.data.name}");
-
         return kToken == null
             ? LoginScreen()
             : state is GetAccountDataSuccessState ||
@@ -167,13 +165,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   Expanded(
                                     child: InkWell(
                                       onTap: (){
-                                        navigateTo(
-                                            context, MyCouponsScreen());
+                                        // navigateTo(
+                                        //     context, MyCouponsScreen());
                                       },
                                       child: Column(
                                         children: [
                                           Text(
-                                              '${cubit.myAccountData?.data?.bonus}${"rial".tr()}',
+                                              '${cubit.myAccountData?.data?.bonus=="" ? 0 : cubit.myAccountData?.data?.bonus} ${ "rial".tr()}',
                                               style: TextStyle(fontSize: 17)),
                                           SizedBox(
                                             height: 5,

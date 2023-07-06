@@ -22,7 +22,15 @@ class PendingOrdersScreen extends StatelessWidget {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.separated(
+            :
+        MyOrdersCubit.get(context).waitingOrders!.data!.length==0 ?
+        Center(
+            child: Image(
+                image:
+                AssetImage('assets/images/empty_cart.png'),
+            ),
+        ):
+        ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
                   log("myOrders ${cubit.waitingOrders?.data?.length}");

@@ -163,7 +163,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                         //     ? FontWeight
                                                                         //     .bold
                                                                         //     :
-                                                                        FontWeight.bold),
+                                                                        FontWeight.w500),
                                                               )
                                                             ],
                                                           ),
@@ -604,9 +604,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                   } else {
                                                     ///////////////////////////////////////////////////
 
-                                                    TextEditingController
-                                                        listName =
-                                                        TextEditingController();
+                                                    TextEditingController listName = TextEditingController();
                                                     showModalBottomSheet(
                                                         context: context,
                                                         builder: (context) {
@@ -639,7 +637,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                               Text(
                                                                                 "addToOneOfYourFavoriteLists".tr(),
                                                                                 textAlign: TextAlign.center,
-                                                                                style: TextStyle(color: kDarkGoldColor, fontSize: 22, fontWeight: FontWeight.w600),
+                                                                                style: TextStyle(color: kDarkGoldColor, fontSize: 18, fontWeight: FontWeight.w400),
                                                                               ),
                                                                               Spacer(),
                                                                               IconButton(
@@ -665,7 +663,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                               textAlign: TextAlign.center,
                                                                               style: TextStyle(
                                                                                 color: Colors.grey,
-                                                                                fontSize: 20,
+                                                                                fontSize: 16,
                                                                               ),
                                                                             ),
                                                                           ),
@@ -775,7 +773,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                                                             Text(
                                                                                                               "newList".tr(),
                                                                                                               textAlign: TextAlign.center,
-                                                                                                              style: TextStyle(color: kDarkGoldColor, fontSize: 22, fontWeight: FontWeight.w600),
+                                                                                                              style: TextStyle(color: kDarkGoldColor, fontSize: 18, fontWeight: FontWeight.w500),
                                                                                                             ),
                                                                                                             Spacer(),
                                                                                                             IconButton(
@@ -798,7 +796,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                                                             textAlign: TextAlign.center,
                                                                                                             style: TextStyle(
                                                                                                               color: Colors.grey,
-                                                                                                              fontSize: 20,
+                                                                                                              fontSize: 17,
                                                                                                             ),
                                                                                                           ),
                                                                                                         ),
@@ -812,7 +810,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                                                             textAlign: TextAlign.center,
                                                                                                             style: TextStyle(
                                                                                                               color: Colors.grey,
-                                                                                                              fontSize: 20,
+                                                                                                              fontSize: 17,
                                                                                                             ),
                                                                                                           ),
                                                                                                         ),

@@ -77,7 +77,8 @@ const String resetPassword = 'api/resetPassword';
 
 // /*****************************************************/
 
-const Color kDarkGoldColor = Color(0xffBA8B31);
+// const Color kDarkGoldColor = Color(0xffBA8B31);
+const Color kDarkGoldColor = Color(0xffF3E184);
 const Color kLightGoldColor = Color(0xffF3E184);
 const Color kBGColor = Color(0xfff4f4f4);
 const Color kCustomBlack = Color(0xff393846);

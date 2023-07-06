@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +22,15 @@ class PreviousOrdersScreen extends StatelessWidget {
             ? Center(
                 child: CircularProgressIndicator(),
               )
-            : ListView.separated(
+            :
+        MyOrdersCubit.get(context).previousOrders!.data!.length==0 ?
+        Center(
+          child: Image(
+            image:
+            AssetImage('assets/images/empty_cart.png'),
+          ),
+        ):
+        ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
                   log("myOrders ${cubit.previousOrders?.data?.length}");
