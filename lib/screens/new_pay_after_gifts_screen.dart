@@ -31,6 +31,7 @@ class NewPayScreenAfterGifts extends StatelessWidget {
       create: (context)=>NewGiftsCubit()..getNewGiftsDetailsData(id: id),
       child: BlocConsumer<NewGiftsCubit, NewGiftsStates>(
         listener: (context, state) {
+          //
           if(state is SendNewCardSuccessState){
             NewGiftsCubit.get(context).newImage="";
             NewGiftsCubit.get(context).newPrice="";
