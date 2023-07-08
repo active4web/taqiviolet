@@ -2,11 +2,15 @@ import 'package:flutter/material.dart%20';
 import 'package:safsofa/shared/components/custom_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 
-class GiftCardComponent extends StatelessWidget {
-  const GiftCardComponent({Key? key}) : super(key: key);
+import '../../../models/new_list_cards_model.dart';
 
+class GiftCardComponent extends StatelessWidget {
+    GiftCardComponent({Key? key,required this.newListCardsModel}) : super(key: key);
+    Listcards? newListCardsModel;
   @override
   Widget build(BuildContext context) {
+    print(newListCardsModel!.name);
+    print("11111111111");
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

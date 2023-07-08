@@ -22,7 +22,6 @@ class CustomTextFormField extends StatelessWidget {
         return null;
       },
       autovalidateMode: AutovalidateMode.onUserInteraction,
-      keyboardType: TextInputType.number,
       decoration: InputDecoration(
           label: Text(text, style: TextStyle(color: Colors.grey)),
           border:
