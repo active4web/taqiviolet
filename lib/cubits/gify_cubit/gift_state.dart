@@ -13,6 +13,10 @@ class ChangeBorderImage extends GiftState{}
 class ShowCouponsDataLoading extends GiftState{}
 class ShowCouponsDataSuccess extends GiftState{}
 
+class GetAllListGiftsWalletLoadingState extends GiftState{}
+class GetAllListGiftsWalletSuccessState extends GiftState{}
+class GetAllListGiftsWalletErrorState extends GiftState{}
+
 class ShowCouponsDataFailure extends GiftState{
   final String error;
 

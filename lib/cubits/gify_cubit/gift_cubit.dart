@@ -5,6 +5,8 @@ import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../../models/new_list_gifts_wallet_model.dart';
+
 part 'gift_state.dart';
 
 class GiftCubit extends Cubit<GiftState> {
@@ -55,6 +57,28 @@ class GiftCubit extends Cubit<GiftState> {
     }).catchError((error){
       emit(ShowCouponsDataFailure(error.toString()));
       print(error.toString());
+    });
+  }
+
+
+  NewListGiftsWalletModel? newListGiftsWalletModel;
+  getAllListGiftsWalletData()
+  {
+    emit(GetAllListGiftsWalletLoadingState());
+    Mhelper.getData(url: "api/giftwallet",
+      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdGFxaXZpb2xldC5jb21cL1wvYXBpXC9sb2dpbiIsImlhdCI6MTY4ODgzNTY4NywibmJmIjoxNjg4ODM1Njg3LCJqdGkiOiJWR2V5a0JvRnFHSUFBaDE2Iiwic3ViIjoxNjksInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.iCrjN4gFwxvEm-JnzPOv2-OmWx8XYtI3s3CrXOtOtb4",
+      query: {
+      "lang" : "ar",
+      },
+    ).then((value){
+      print(value.data);
+      newListGiftsWalletModel = NewListGiftsWalletModel.fromJson(value.data);
+      print("samy------------");
+      print("newListGiftsWalletModel");
+      emit(GetAllListGiftsWalletSuccessState());
+    }).catchError((error){
+      print("error in ........ ${error.toString()}");
+      emit(GetAllListGiftsWalletErrorState());
     });
   }
 }

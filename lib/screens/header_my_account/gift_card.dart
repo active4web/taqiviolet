@@ -7,15 +7,29 @@ import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_network_image.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
-class GiftBalanceScreen extends StatelessWidget {
+class GiftBalanceScreen extends StatefulWidget {
   GiftBalanceScreen({Key? key}) : super(key: key);
+
+  @override
+  State<GiftBalanceScreen> createState() => _GiftBalanceScreenState();
+}
+
+class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
   final TextEditingController emailForRecipientController =
       TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController messageController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  final TextEditingController nameController = TextEditingController();
+
+  final TextEditingController messageController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+@override
+  void initState() {
+  GiftCubit.get(context).getAllListGiftsWalletData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GiftCubit, GiftState>(
@@ -46,25 +60,103 @@ class GiftBalanceScreen extends StatelessWidget {
                 statusBarColor: Colors.white,
                 statusBarIconBrightness: Brightness.dark),
           ),
-          body: Padding(
-            padding: EdgeInsets.all(20),
-            child: ListView.separated(
-              itemBuilder: (context, index) {
-                return Container(
-                  child: CustomNetworkImage(
-                    image: 'https://thumbs.dreamstime.com/z/fields-meadows-indan-forming-field-indan-imag-feald-indian-image-forming-170966228.jpg',
-                    border: BorderRadius.all(Radius.circular(10)),
-                    height: 180,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return SizedBox(
-                  height: 15,
-                );
-              },
-              itemCount: 10,
-            ),
+          body: ConditionalBuilder(
+            condition: state is! GetAllListGiftsWalletLoadingState,
+            fallback: (context) => Center(child: RefreshProgressIndicator()),
+            builder:(context){
+              return Padding(
+                padding: EdgeInsets.all(20),
+                child: ListView.separated(
+                  itemBuilder: (context, index) {
+                    return Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                       children: [
+                         CustomNetworkImage(
+                           image: '${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].image}',
+                           border: BorderRadius.all(Radius.circular(10)),
+                           height: 120,
+                           width: double.infinity,
+                         ),
+                         SizedBox(height: 10,),
+                         Column(
+                           crossAxisAlignment: CrossAxisAlignment.start,
+                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                           children: [
+                             Row(
+                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                               children: [
+                                 Row(
+                                   children: [
+                                     Text("price".tr() ,
+                                       style: TextStyle(
+                                         fontSize: 16,
+                                       ),),
+                                     Text(" : ${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].price}",
+                                       style: TextStyle(
+                                         fontSize: 22,
+                                         fontWeight: FontWeight.bold,
+                                       ),
+                                     ),
+                                   ],
+                                 ),
+                                 Row(
+                                   children: [
+                                     Text("value".tr() ,
+                                       style: TextStyle(
+                                         fontSize: 16,
+                                       ),),
+                                     Text(" : ${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].price}",
+                                       style: TextStyle(
+                                         fontSize: 18,
+                                       ),),
+                                   ],
+                                 ),
+
+                               ],
+                             ),
+                             Row(
+                               children: [
+                                 Text("sender".tr() ,
+                                   maxLines: 2,
+                                   overflow: TextOverflow.ellipsis,
+                                   style: TextStyle(
+                                     fontSize: 16,
+                                   ),),
+                                 Text(" : ${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].name}",
+                                   maxLines: 2,
+                                   overflow: TextOverflow.ellipsis,
+                                   style: TextStyle(
+                                     fontSize: 16,
+                                   ),),
+                               ],
+                             ),
+                             Text("${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].message}"*10,
+                               maxLines: 2,
+                               overflow: TextOverflow.ellipsis,
+                               style: TextStyle(
+                                 fontSize: 16,
+                               ),),
+                           ],
+                         ),
+                       ],
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(vertical: 10,),
+                      child: Container(
+                        height: 1,
+                        color: Colors.grey,
+                        width: double.infinity,
+                    ),
+                    );
+                  },
+                  itemCount: cubit.newListGiftsWalletModel!.data!.listgiftwallets!.length,
+                ),
+              );
+            },
           ),
 
           // اسكرينه الدفع

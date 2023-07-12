@@ -7,7 +7,7 @@ import 'package:safsofa/screens/check_out_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
- import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../cubits/cartCubit/cart_cubit.dart';
@@ -48,7 +48,7 @@ class CartScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                              /*  TextButton(
+                                /*  TextButton(
                                   onPressed: () =>
                                       cubit.emptyCartProductsServer(),
                                   child: Text(
@@ -64,7 +64,11 @@ class CartScreen extends StatelessWidget {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => Container(
-                                          height: MediaQuery.of(context).size.height * 0.8 / 2,
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.8 /
+                                              2,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -152,17 +156,17 @@ class CartScreen extends StatelessWidget {
                                                       ),
                                                       SizedBox(
                                                         width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
+                                                                    context)
+                                                                .size
+                                                                .width *
                                                             0.45,
                                                         child: Text(
                                                           "${"unitPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price} ${"SAR".tr()}",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500),
+                                                                  FontWeight
+                                                                      .w500),
                                                           maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,
@@ -170,37 +174,37 @@ class CartScreen extends StatelessWidget {
                                                       ),
                                                       SizedBox(
                                                         width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
+                                                                    context)
+                                                                .size
+                                                                .width *
                                                             0.45,
                                                         child: Text(
                                                           "${"numberOfUnit".tr()} ${cubit.myCartModel?.data?.listItem![index].quantity}",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500),
+                                                                  FontWeight
+                                                                      .w500),
                                                           maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
                                                       ),
-                                                     // TODO : SMART PRICE
+                                                      // TODO : SMART PRICE
                                                       cubit
-                                                                  .myCartModel
-                                                                  ?.data
-                                                                  ?.listItem![
-                                                                      index]
-                                                                  .smartPrice !=
-                                                              '' &&
-                                                          cubit
-                                                              .myCartModel
-                                                              ?.data
-                                                              ?.listItem![
-                                                          index]
-                                                              .smartPrice !=
-                                                              null
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  '' &&
+                                                              cubit
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  null
                                                           ? SizedBox(
                                                               width: MediaQuery.of(
                                                                           context)
@@ -223,96 +227,93 @@ class CartScreen extends StatelessWidget {
                                                             )
                                                           : SizedBox(),
                                                       cubit
-                                                          .myCartModel
-                                                          ?.data
-                                                          ?.listItem![
-                                                      index]
-                                                          .smartPrice !=
-                                                          ''  && cubit
-                                                          .myCartModel
-                                                          ?.data
-                                                          ?.listItem![
-                                                      index]
-                                                          .smartPrice !=
-                                                          null  ?
-
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
-                                                            0.45,
-                                                        child: Text(
-                                                          "${"finalPrice".tr()} ${
-                                                              cubit.myCartModel?.data?.listItem![index].price*
-                                                                  cubit.myCartModel?.data?.listItem![index].quantity +
-                                                                  double.parse(cubit.myCartModel?.data?.listItem![index].smartPrice) *
-                                                                      cubit.myCartModel?.data?.listItem![index].quantity
-                                                          } ${"SAR".tr()}",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ):
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
-                                                            0.45,
-                                                        child: Text(
-                                                          "${"finalPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price *
-                                                              cubit.myCartModel?.data?.listItem![index].quantity} ${"SAR".tr()}",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                      cubit
-                                                          .myCartModel
-                                                          ?.data
-                                                          ?.listItem![
-                                                      index]
-                                                          .smartPrice !=
-                                                          ''
-                                                          &&
-                                                          cubit
-                                                              .myCartModel
-                                                              ?.data
-                                                              ?.listItem![
-                                                          index]
-                                                              .smartPrice !=
-                                                              null
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  '' &&
+                                                              cubit
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  null
                                                           ? SizedBox(
-                                                        width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
-                                                            0.45,
-                                                        child: Text(
-                                                          "${"containSmartPrice".tr()}",
-                                                          style: TextStyle(
-                                                              fontSize:
-                                                              14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          maxLines: 2,
-                                                          overflow:
-                                                          TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      )
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                "${"finalPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price * cubit.myCartModel?.data?.listItem![index].quantity + double.parse(cubit.myCartModel?.data?.listItem![index].smartPrice) * cubit.myCartModel?.data?.listItem![index].quantity} ${"SAR".tr()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
+                                                          : SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                "${"finalPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price * cubit.myCartModel?.data?.listItem![index].quantity} ${"SAR".tr()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            ),
+                                                      cubit
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  '' &&
+                                                              cubit
+                                                                      .myCartModel
+                                                                      ?.data
+                                                                      ?.listItem![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  null
+                                                          ? SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                "${"containSmartPrice".tr()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
                                                           : SizedBox(),
                                                       SizedBox(
                                                         height: 5,
@@ -358,7 +359,7 @@ class CartScreen extends StatelessWidget {
                                                                     ?.data
                                                                     ?.listItem![
                                                                         index]
-                                                                    .cartId,
+                                                                    .cardId,
                                                                 product_quantity: (cubit
                                                                             .myCartModel
                                                                             ?.data
@@ -368,14 +369,28 @@ class CartScreen extends StatelessWidget {
                                                                     1);
                                                           },
                                                           onRemove: () {
-                                                            if ((cubit.myCartModel?.data?.listItem![index].quantity)!.toInt() > 1) {
+                                                            if ((cubit
+                                                                        .myCartModel
+                                                                        ?.data
+                                                                        ?.listItem![
+                                                                            index]
+                                                                        .quantity)!
+                                                                    .toInt() >
+                                                                1) {
                                                               cubit.addquantityServer(
-                                                                  cart_id: cubit.myCartModel?.data?.listItem![index].cartId,
-                                                                  product_quantity: (cubit.myCartModel?.data?.listItem![index].quantity)!.toInt() -
+                                                                  cart_id: cubit.myCartModel?.data?.listItem![index].cardId,
+                                                                  product_quantity: (cubit
+                                                                              .myCartModel
+                                                                              ?.data
+                                                                              ?.listItem![index]
+                                                                              .quantity)!
+                                                                          .toInt() -
                                                                       1);
                                                             }
-                                                            print("bbbbaaahhhhrrrrr");
-                                                            print("111111111111111111");
+                                                            print(
+                                                                "bbbbaaahhhhrrrrr");
+                                                            print(
+                                                                "111111111111111111");
                                                           }),
                                                     ],
                                                   ),
@@ -389,13 +404,14 @@ class CartScreen extends StatelessWidget {
                                                   children: [
                                                     IconButton(
                                                       onPressed: () {
-                                                        cubit
-                                                            .delItemFromCartServer(
+                                                        print(cubit.myCartModel!.data!.listItem![index].cardId!);
+                                                        print("asaas");
+                                                        cubit.delItemFromCartServer(
                                                           cartId: cubit
                                                               .myCartModel!
                                                               .data!
                                                               .listItem![index]
-                                                              .cartId!,
+                                                              .cardId!,
                                                         );
                                                       },
                                                       icon: Icon(
@@ -515,11 +531,12 @@ class CartScreen extends StatelessWidget {
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => Container(
-                                      //0.5/2
+                                          //0.5/2
                                           height: MediaQuery.of(context)
                                                   .size
                                                   .height *
-                                             0.7/2,
+                                              0.7 /
+                                              2,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
@@ -609,51 +626,12 @@ class CartScreen extends StatelessWidget {
                                                       ),
                                                       SizedBox(
                                                         width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
-                                                            0.45,
-                                                        child: Text(
-                                                          "${"unitPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].oneProdctPrice} ${"SAR".tr()}",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
-                                                            0.45,
-                                                        child: Text(
-                                                          "${"numberOfUnit".tr()} ${cubit.myCartlocalModel?.cartProducts![index].quantity}",
-                                                          style: TextStyle(
-                                                              fontSize: 14,
-                                                              fontWeight:
-                                                              FontWeight
-                                                                  .w500),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-
-                                                      cubit.myCartlocalModel?.cartProducts![index].withSmartFeature == true &&
-                                                          cubit.myCartlocalModel?.cartProducts![index].smartPrice != null ?
-                                                      SizedBox(
-                                                        width: MediaQuery.of(
                                                                     context)
                                                                 .size
                                                                 .width *
                                                             0.45,
                                                         child: Text(
-                                                          "${"smartPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].smartPrice} ${"SAR".tr()}",
+                                                          "${"unitPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].oneProdctPrice} ${"SAR".tr()}",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
@@ -663,50 +641,111 @@ class CartScreen extends StatelessWidget {
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
-                                                      )
-                                                      :SizedBox(),
+                                                      ),
+                                                      SizedBox(
+                                                        width: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .width *
+                                                            0.45,
+                                                        child: Text(
+                                                          "${"numberOfUnit".tr()} ${cubit.myCartlocalModel?.cartProducts![index].quantity}",
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ),
+
+                                                      cubit
+                                                                      .myCartlocalModel
+                                                                      ?.cartProducts![
+                                                                          index]
+                                                                      .withSmartFeature ==
+                                                                  true &&
+                                                              cubit
+                                                                      .myCartlocalModel
+                                                                      ?.cartProducts![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  null
+                                                          ? SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                "${"smartPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].smartPrice} ${"SAR".tr()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
 
                                                       SizedBox(
                                                         width: MediaQuery.of(
-                                                            context)
-                                                            .size
-                                                            .width *
+                                                                    context)
+                                                                .size
+                                                                .width *
                                                             0.45,
                                                         child: Text(
                                                           "${"finalPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].onePiecePrice * cubit.myCartlocalModel?.cartProducts![index].quantity} ${"SAR".tr()}",
                                                           style: TextStyle(
                                                               fontSize: 14,
                                                               fontWeight:
-                                                              FontWeight
-                                                                  .w500),
+                                                                  FontWeight
+                                                                      .w500),
                                                           maxLines: 2,
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
                                                       ),
-                                                  cubit.myCartlocalModel?.cartProducts![index].withSmartFeature == true &&
-                                                      cubit.myCartlocalModel?.cartProducts![index].smartPrice != null ?
-                                                   SizedBox(
-                                                  width: MediaQuery.of(
-                                                  context)
-                                                  .size
-                                                  .width *
-                                                  0.45,
-                                      child: Text(
-                                        "${"containSmartPrice".tr()}",
-                                        style: TextStyle(
-                                            fontSize:
-                                            14,
-                                            fontWeight:
-                                            FontWeight
-                                                .w500),
-                                        maxLines: 2,
-                                        overflow:
-                                        TextOverflow
-                                            .ellipsis,
-                                      ),
-                                    )
-                                        : SizedBox(),
+                                                      cubit
+                                                                      .myCartlocalModel
+                                                                      ?.cartProducts![
+                                                                          index]
+                                                                      .withSmartFeature ==
+                                                                  true &&
+                                                              cubit
+                                                                      .myCartlocalModel
+                                                                      ?.cartProducts![
+                                                                          index]
+                                                                      .smartPrice !=
+                                                                  null
+                                                          ? SizedBox(
+                                                              width: MediaQuery.of(
+                                                                          context)
+                                                                      .size
+                                                                      .width *
+                                                                  0.45,
+                                                              child: Text(
+                                                                "${"containSmartPrice".tr()}",
+                                                                style: TextStyle(
+                                                                    fontSize:
+                                                                        14,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500),
+                                                                maxLines: 2,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                              ),
+                                                            )
+                                                          : SizedBox(),
                                                       SizedBox(
                                                         height: 5,
                                                       ),
@@ -744,11 +783,26 @@ class CartScreen extends StatelessWidget {
 
                                                             cubit.addquantityLocally(
                                                                 index: index,
-                                                                product_id: cubit.myCartlocalModel?.cartProducts![index].productId,
-                                                                product_quantity: (cubit.myCartlocalModel?.cartProducts![index].quantity)!.toInt() + 1);
+                                                                product_id: cubit
+                                                                    .myCartlocalModel
+                                                                    ?.cartProducts![
+                                                                        index]
+                                                                    .productId,
+                                                                product_quantity: (cubit
+                                                                            .myCartlocalModel
+                                                                            ?.cartProducts![index]
+                                                                            .quantity)!
+                                                                        .toInt() +
+                                                                    1);
                                                           },
                                                           onRemove: () {
-                                                            if ((cubit.myCartlocalModel?.cartProducts![index].quantity)!.toInt() > 1) {
+                                                            if ((cubit
+                                                                        .myCartlocalModel
+                                                                        ?.cartProducts![
+                                                                            index]
+                                                                        .quantity)!
+                                                                    .toInt() >
+                                                                1) {
                                                               cubit.addquantityLocally(
                                                                   index: index,
                                                                   product_id: cubit

@@ -1,9 +1,8 @@
 class MyCartModel {
-  dynamic
-  status;
-  dynamic errNum;
-  dynamic msg;
-  GetData? data;
+  bool? status;
+  String? errNum;
+  String? msg;
+  Data? data;
 
   MyCartModel({this.status, this.errNum, this.msg, this.data});
 
@@ -11,7 +10,7 @@ class MyCartModel {
     status = json['status'];
     errNum = json['errNum'];
     msg = json['msg'];
-    data = json['data'] != null ? new GetData.fromJson(json['data']) : null;
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -26,13 +25,13 @@ class MyCartModel {
   }
 }
 
-class GetData {
-  dynamic cashback;
+class Data {
+  int? cashback;
   List<ListItem>? listItem;
 
-  GetData({this.cashback, this.listItem});
+  Data({this.cashback, this.listItem});
 
-  GetData.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     cashback = json['cashback'];
     if (json['list_item'] != null) {
       listItem = <ListItem>[];
@@ -53,11 +52,11 @@ class GetData {
 }
 
 class ListItem {
-  int? id;
-  int? cartId;
+  dynamic id;
   dynamic name;
   dynamic image;
   dynamic quantity;
+  dynamic cardId;
   dynamic smartPrice;
   dynamic price;
   dynamic features;
@@ -65,19 +64,19 @@ class ListItem {
   ListItem(
       {this.id,
         this.name,
-        this.cartId,
         this.image,
         this.quantity,
+        this.cardId,
         this.smartPrice,
         this.price,
         this.features});
 
   ListItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    cartId = json['cart_id'];
     name = json['name'];
     image = json['image'];
     quantity = json['quantity'];
+    cardId = json['card_id'];
     smartPrice = json['smart_price'];
     price = json['price'];
     features = json['features'];
@@ -86,10 +85,10 @@ class ListItem {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['cart_id'] = this.cartId;
     data['name'] = this.name;
     data['image'] = this.image;
     data['quantity'] = this.quantity;
+    data['card_id'] = this.cardId;
     data['smart_price'] = this.smartPrice;
     data['price'] = this.price;
     data['features'] = this.features;
