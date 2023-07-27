@@ -226,7 +226,8 @@ class NewPayScreenAfterGifts extends StatelessWidget {
                           Label(text: 'to'.tr(),),
                           CustomTextFormField(
                             controller: emailForRecipientController,
-                            text: 'enterTheRecipientEmailAddress'.tr(),
+                            keyboardType:TextInputType.number ,
+                            text: 'Phone'.tr(),
                           ),
                           SizedBox(
                             height: 15,

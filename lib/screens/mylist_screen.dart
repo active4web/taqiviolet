@@ -35,6 +35,7 @@ class _MyListScreenState extends State<MyListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(CacheHelper.getData("token"));
     ListsCubit cubit = ListsCubit.get(context);
     return WillPopScope(
       onWillPop: () async {

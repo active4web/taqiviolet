@@ -10,6 +10,7 @@ import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 
 import '../../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import '../../cubits/technicalSupporDetailstCubit/technical_suppor_detailst_state.dart';
@@ -26,178 +27,202 @@ class TechnicalSupportScreen extends StatelessWidget {
     TextEditingController comment = TextEditingController();
     TechnicalSupportCubit cubit = TechnicalSupportCubit.get(context);
     cubit.getContactData();
-    return BlocBuilder<TechnicalSupportCubit, TechnicalSupportState>(
+    return BlocConsumer<TechnicalSupportCubit, TechnicalSupportState>(
+      listener: (context, state){
+        if(state is ContactUsSendingSuccessState){
+          email.clear();
+           name.clear();
+          phone.clear();
+        comment.clear();
+        }
+      },
       builder: (context, state) {
         // TechnicalSupportCubit cubit = TechnicalSupportCubit.get(context);
         // state is TechnicalSupportInitial
         //     ? cubit.getContactData()
         //     : log("getdata");
 
+        var  formKey = GlobalKey<FormState>();
         return Scaffold(
           appBar: CustomAppBar(
             title: 'TechnicalSupport'.tr(),
           ),
-          body: state is! GetContactUsSuccessState
-              ? Center(
-                  child: CircularProgressIndicator(
-                    color: kDarkGoldColor,
-                  ),
-                )
-              : Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Text(
-                          'At Taqi Violet, we believe that our success depends on the satisfaction of our customers. Therefore, the customer service staff is happy to assist you and answer all your inquiries about our products through social media programs or through'
-                              .tr(),
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 16,
+          body:  Form(
+            key: formKey,
+            child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text(
+                            'At Taqi Violet, we believe that our success depends on the satisfaction of our customers. Therefore, the customer service staff is happy to assist you and answer all your inquiries about our products through social media programs or through'
+                                .tr(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Label(text: 'name'.tr()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomFormField(
-                          controller: name,
-                          label: "name".tr(),
-                            validate: (va){}
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Label(text: 'Email'.tr()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomFormField(
-                          controller: email,
-                          inputType: TextInputType.emailAddress,
-                          label: "Email".tr(),
-                            validate: (va){}
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Label(text: 'Phone'.tr()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomFormField(
-                          controller: phone,
-                          inputType: TextInputType.phone,
-                          label: "Phone".tr(),
-                            validate: (va){}
-                        ),
-                        SizedBox(
-                          height: 15,
-                        ),
-                        Label(text: 'Comment'.tr()),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        CustomFormField(
-                          controller: comment,
-                          minLines: 5,
-                          label: "Comment".tr(),
-                            validate: (va){}
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        CustomButton(
-                          onTap: () {
-                            cubit.sendContactUs(
-                                email: email.text,
-                                name: name.text,
-                                phone: phone.text,
-                                comment: comment.text);
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Label(text: 'name'.tr()),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomFormField(
+                            controller: name,
+                            label: "name".tr(),
+                              validate: (va){}
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Label(text: 'Email'.tr()),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomFormField(
+                            controller: email,
+                            inputType: TextInputType.emailAddress,
+                            label: "Email".tr(),
+                              validate: (va){
+
+                              }
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Label(text: 'Phone'.tr()),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomFormField(
+                            controller: phone,
+                            inputType: TextInputType.phone,
+                            label: "Phone".tr(),
+                              validate: (va){
+
+                              }
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          Label(text: 'Comment'.tr()),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomFormField(
+                            controller: comment,
+                            minLines: 5,
+                            label: "Comment".tr(),
+                              validate: (va){
+
+                              }
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          ConditionalBuilder(
+                            condition: state is ! ContactUsSendingLoadingState,
+                            fallback: (context){
+                              return Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            },
+                          builder: (context){
+                              return CustomButton(
+                                onTap: () {
+                                  if(formKey.currentState!.validate()){
+                                    cubit.sendContactUs(
+                                        email:   email.text,
+                                        name:    name.text,
+                                        phone:   phone.text,
+                                        comment: comment.text);
+                                  }
+                                },
+                                text: 'Send'.tr(),
+                                height: 50,
+                              );
                           },
-                          text: 'Send'.tr(),
-                          height: 50,
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            // Expanded(
-                            //   child: IconButton(
-                            //     onPressed: () async {
-                            //       await launch(
-                            //           'tel:+966${cubit.contactsData.data.phone.substring(5)}');
-                            //     },
-                            //     icon:
-                            //         Image.asset('assets/images/phoneicon.png'),
-                            //   ),
-                            // ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      'whatsapp://send?phone=+966${cubit.contactsData.data?.phone?.substring(5)}');
-                                },
-                                icon: Image.asset('assets/images/whatsapp.png'),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Expanded(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await launch(
+                              //           'tel:+966${cubit.contactsData.data.phone.substring(5)}');
+                              //     },
+                              //     icon:
+                              //         Image.asset('assets/images/phoneicon.png'),
+                              //   ),
+                              // ),
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await launch(
+                                        'whatsapp://send?phone=+966${cubit.contactsData.data?.phone?.substring(5)}');
+                                  },
+                                  icon: Image.asset('assets/images/whatsapp.png'),
+                                ),
                               ),
-                            ),
-                            Expanded(
-                              child: IconButton(
-                                onPressed: () async {
-                                  await launch(
-                                      'mailto:${cubit.contactsData.data?.mail}?subject=This is Subject Title&body=This is Body of Email');
-                                },
-                                icon: Image.asset('assets/images/gmail.png'),
+                              Expanded(
+                                child: IconButton(
+                                  onPressed: () async {
+                                    await launch(
+                                        'mailto:${cubit.contactsData.data?.mail}?subject=This is Subject Title&body=This is Body of Email');
+                                  },
+                                  icon: Image.asset('assets/images/gmail.png'),
+                                ),
                               ),
-                            ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //     onPressed: () async {
-                            //       await launch(
-                            //           cubit.contactsData.data.twitterlink);
-                            //     },
-                            //     icon: Image.asset('assets/images/twitter.png'),
-                            //   ),
-                            // ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //     onPressed: () async {
-                            //       await launch(
-                            //           cubit.contactsData.data.instagramlink);
-                            //     },
-                            //     icon:
-                            //         Image.asset('assets/images/instagram.png'),
-                            //   ),
-                            // ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //     onPressed: () async {
-                            //       await launch(
-                            //           cubit.contactsData.data.tiktoklink);
-                            //     },
-                            //     icon: Image.asset('assets/images/TikTok.png'),
-                            //   ),
-                            // ),
-                            // Expanded(
-                            //   child: IconButton(
-                            //     onPressed: () async {
-                            //       await launch(
-                            //           cubit.contactsData.data.youtubelink);
-                            //     },
-                            //     icon: Image.asset('assets/images/youtube.png'),
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  )),
+                              // Expanded(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await launch(
+                              //           cubit.contactsData.data.twitterlink);
+                              //     },
+                              //     icon: Image.asset('assets/images/twitter.png'),
+                              //   ),
+                              // ),
+                              // Expanded(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await launch(
+                              //           cubit.contactsData.data.instagramlink);
+                              //     },
+                              //     icon:
+                              //         Image.asset('assets/images/instagram.png'),
+                              //   ),
+                              // ),
+                              // Expanded(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await launch(
+                              //           cubit.contactsData.data.tiktoklink);
+                              //     },
+                              //     icon: Image.asset('assets/images/TikTok.png'),
+                              //   ),
+                              // ),
+                              // Expanded(
+                              //   child: IconButton(
+                              //     onPressed: () async {
+                              //       await launch(
+                              //           cubit.contactsData.data.youtubelink);
+                              //     },
+                              //     icon: Image.asset('assets/images/youtube.png'),
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    )),
+          ),
           floatingActionButton: state is! GetContactUsSuccessState
               ? SizedBox()
               : CacheHelper.getData('id') == null

@@ -94,13 +94,14 @@ class AboutScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Commercial Registration No: ".tr(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: kDarkGoldColor),
-                            ),
+                           Expanded(
+                             child:  Text(
+                             "Commercial Registration No: ".tr(),
+                             style: TextStyle(
+                                 fontWeight: FontWeight.w500,
+                                 fontSize: 18,
+                                 color: kDarkGoldColor),
+                           ),),
                             Text(
                               "205152080",
                               style: TextStyle(
@@ -118,12 +119,14 @@ class AboutScreen extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            Text(
-                              "Tax Registration No: ".tr(),
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 18,
-                                  color: kDarkGoldColor),
+                            Expanded(
+                              child: Text(
+                                "Tax Registration No: ".tr(),
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 18,
+                                    color: kDarkGoldColor),
+                              ),
                             ),
                             Text(
                               "310856446400003",

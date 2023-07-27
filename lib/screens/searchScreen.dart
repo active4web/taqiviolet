@@ -248,16 +248,19 @@ class SearchScreen extends StatelessWidget {
                                   .currentState!
                                   .validate()) {
                                 log('VALIDATED');
+                                log(SearchCubit.get(context).selectedValue!.id!.toString());
+                                log( fromPrice.text);
+                                log(toPrice.text);
+                                log(productName.text);
+                                log("mostafa do search");
                                 SearchCubit.get(context).getSearchData(
-                                    categoryId: SearchCubit.get(context)
-                                        .selectedValue!
-                                        .id!,
+                                    categoryId: SearchCubit.get(context).selectedValue!.id!,
                                     startPrice: fromPrice.text,
                                     endPrice: toPrice.text,
                                     productName: productName.text);
-                                productName.clear();
-                                fromPrice.clear();
-                                toPrice.clear();
+                                // productName.clear();
+                                // fromPrice.clear();
+                                // toPrice.clear();
                               }
                             },
                           ),

@@ -20,6 +20,7 @@ class ListsCubit extends Cubit<ListsState> {
 
   static ListsCubit get(context) => BlocProvider.of(context);
 
+
   MyListModel? listsModel;
   MyProductsDetailsModel? productDetailsModel;
   void getListsData() {
@@ -29,6 +30,8 @@ class ListsCubit extends Cubit<ListsState> {
       url: '/api/MyFav',
     ).then((value) {
       listsModel = MyListModel.fromJson(value.data);
+      print(value.data);
+      print("bahr");
       emit(ListsSuccessState());
     }).catchError((error) {
       emit(ListsErrorState());

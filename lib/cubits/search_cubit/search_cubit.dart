@@ -56,9 +56,11 @@ class SearchCubit extends Cubit<SearchStates> {
       'lang': CacheHelper.getData("language")
     }).then((value) {
       searchResults = SearchResultsModel.fromJson(value.data);
-      log(value.data.toString());
+      // log(value.data.toString());
+      print(value.data);
       emit(SuccessSearchResults());
     }).catchError((error) {
+      print("error ${error.toString()}");
       emit(ErrorSearchResults());
     });
   }

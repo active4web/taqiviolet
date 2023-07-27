@@ -14,6 +14,7 @@ class _CommonQuestionsScreenState extends State<CommonQuestionsScreen> {
   @override
   void initState() {
     CommonQuestionCubit.get(context).getCommonQuestion();
+    print("As");
     super.initState();
   }
 
@@ -110,7 +111,12 @@ class _CommonQuestionsScreenState extends State<CommonQuestionsScreen> {
             builder: (BuildContext context) {
               return Padding(
                 padding: const EdgeInsets.all(20),
-                child: ListView.separated(
+                child:
+                cubit.commonQuestionModel!.data!.questionsList!.length == 0 ?
+                    Center(
+                      child: Text("لا يوجد اسئلة"),
+                    ):
+                ListView.separated(
                   physics: BouncingScrollPhysics(),
                   itemBuilder: (context, mainIndex) {
                     return Column(

@@ -41,8 +41,9 @@ class TechnicalSupportCubit extends Cubit<TechnicalSupportState> {
       'message': comment,
     }).then((value) async {
       sendingModel = SendContactUsModel.fromJson(value.data);
+      print(value.data);
       emit(ContactUsSendingSuccessState());
-      emit(GetContactUsSuccessState());
+      // emit(GetContactUsSuccessState());
     }).catchError((error) {
       emit(ContactUsSendingErrorState());
     });

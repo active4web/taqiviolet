@@ -4,10 +4,11 @@ import 'package:easy_localization/src/public_ext.dart';
 class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final String text;
-
-  const CustomTextFormField(
+  TextInputType? keyboardType;
+    CustomTextFormField(
       {Key? key,
       required this.controller,
+        this.keyboardType,
        required this.text})
       : super(key: key);
 
@@ -15,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType:keyboardType ,
       validator: (value) {
         if (value!.isEmpty) {
           return 'thisFieldCanNotBeEmpty'.tr();

@@ -75,7 +75,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                          CustomNetworkImage(
                            image: '${cubit.newListGiftsWalletModel!.data!.listgiftwallets![index].image}',
                            border: BorderRadius.all(Radius.circular(10)),
-                           height: 120,
+                           height: 160,
                            width: double.infinity,
                          ),
                          SizedBox(height: 10,),
