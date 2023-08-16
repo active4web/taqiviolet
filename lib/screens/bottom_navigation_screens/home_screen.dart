@@ -24,6 +24,7 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../cubits/offerCubit/offer_cubit.dart';
 import '../../cubits/subCategory/sub_cat_cubit.dart';
+import '../../shared/components/custom_app_bar.dart';
 import '../../shared/components/store_components/product_cards.dart';
 import '../searchScreen.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -144,65 +145,71 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           child: Scaffold(
             backgroundColor: Color(0xfff6f6f6),
-            appBar: AppBar(
-              leading: Row(
-                children: [
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(CupertinoIcons.search, color: kLightGoldColor),
-                      onPressed: () {
-
-                        navigateTo(context, SearchScreen());
-                      },
+            // appBar: CustomAppBar(
+            //   title: 'Cart'.tr(),
+            // ),
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(70),
+              child: AppBar(
+                leading: Row(
+                  children: [
+                    SizedBox(
+                      width: 10,
                     ),
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(CupertinoIcons.search, color: kLightGoldColor),
+                        onPressed: () {
+
+                          navigateTo(context, SearchScreen());
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: IconButton(
+                        icon: Icon(CupertinoIcons.bell, color: kLightGoldColor),
+                        onPressed: () {
+                          if(kToken == null){
+                            AppCubit.get(context).selectedIndex = 3;
+                            navigateAndFinish(context, HomeLayout());
+                          }else
+                            navigateTo(context, NotificationsScreen());
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                toolbarHeight: MediaQuery.of(context).size.height / 10,
+                leadingWidth: 100,
+                title: Text('Home'.tr()),
+                centerTitle: true,
+                backgroundColor: Color(0xff393846),
+                systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Color(0xff393846),
+                    statusBarIconBrightness: Brightness.light
+                ) ,
+                ///Color(),// Colors.white,
+                elevation: 0,
+                titleTextStyle: TextStyle(
+                    color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 17),
+                shape: ContinuousRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(60),
+                    bottomLeft: Radius.circular(60),
+
                   ),
-                  Expanded(
-                    child: IconButton(
-                      icon: Icon(CupertinoIcons.bell, color: kLightGoldColor),
-                      onPressed: () {
-                        if(kToken == null){
-                          AppCubit.get(context).selectedIndex = 3;
-                          navigateAndFinish(context, HomeLayout());
-                        }else
-                          navigateTo(context, NotificationsScreen());
-                      },
+                ),
+                iconTheme: IconThemeData(color: kLightGoldColor),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: Image(
+                      image: AssetImage('assets/images/logoheader.png'),
                     ),
                   ),
                 ],
-              ),
-              toolbarHeight: MediaQuery.of(context).size.height / 10,
-              leadingWidth: 100,
-              title: Text('Home'.tr()),
-              centerTitle: true,
-              backgroundColor: Color(0xff393846),
-              systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Color(0xff393846),
-                  statusBarIconBrightness: Brightness.light
-              ) ,
-              ///Color(),// Colors.white,
-              elevation: 0,
-              titleTextStyle: TextStyle(
-                  color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 17),
-              shape: ContinuousRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(60),
-                  bottomLeft: Radius.circular(60),
 
-                ),
               ),
-              iconTheme: IconThemeData(color: kLightGoldColor),
-              actions: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Image(
-                    image: AssetImage('assets/images/logoheader.png'),
-                  ),
-                ),
-              ],
-
             ),
             // appBar: AppBar(
             //   systemOverlayStyle: SystemUiOverlayStyle(
@@ -273,6 +280,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       children: [
+                        SizedBox(
+                          height: 20,
+                        ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.5/2,
                           width: MediaQuery.of(context).size.width,
@@ -547,54 +557,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                           scrollDirection: Axis.horizontal,
                                           itemBuilder: (context, index) =>
                                               SizedBox(
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.4,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width /
-                                                    1.95,
+                                                height: MediaQuery.of(context).size.height * 0.4,
+                                                width: MediaQuery.of(context).size.width / 1.95,
                                                 child: VerticalProductCard(
                                                   isFavourite:
-                                                      AppCubit.get(context)
-                                                              .constructionLink
-                                                              ?.data
-                                                              ?.productList![index]
-                                                              .hasFavorites ==
-                                                          1,
-                                                  image: AppCubit.get(context)
-                                                      .constructionLink
-                                                      ?.data
-                                                      ?.productList![index]
-                                                      .image,
-                                                  productId: AppCubit.get(context)
-                                                      .constructionLink
-                                                      ?.data
-                                                      ?.productList![index]
-                                                      .id,
-                                                  productName:
-                                                      AppCubit.get(context)
-                                                          .constructionLink
-                                                          ?.data
-                                                          ?.productList![index]
-                                                          .name,
-                                                  oldPrice: AppCubit.get(context)
-                                                      .constructionLink
-                                                      ?.data
-                                                      ?.productList![index]
-                                                      .oldPrice,
-                                                  currentPrice:
-                                                      AppCubit.get(context)
-                                                          .constructionLink
-                                                          ?.data
-                                                          ?.productList![index]
-                                                          .currentPrice,
-                                                  totalRate: AppCubit.get(context)
-                                                      .constructionLink
-                                                      ?.data
-                                                      ?.productList![index]
-                                                      .hasReview,
+                                                      AppCubit.get(context).constructionLink?.data?.productList![index].hasFavorites == 1,
+                                                  image: AppCubit.get(context).constructionLink?.data?.productList![index].image,
+                                                  productId: AppCubit.get(context).constructionLink?.data?.productList![index].id,
+                                                  productName: AppCubit.get(context).constructionLink?.data?.productList![index].name,
+                                                  oldPrice: AppCubit.get(context).constructionLink?.data?.productList![index].oldPrice,
+                                                  currentPrice: AppCubit.get(context).constructionLink?.data?.productList![index].currentPrice,
+                                                  totalRate: AppCubit.get(context).constructionLink?.data?.productList![index].hasReview,
                                                   onFavPressed: () {
                                                     if (kToken != '' &&
                                                         kToken!.isNotEmpty) {
@@ -933,12 +906,20 @@ class OffersListView extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
+                        child: CustomNetworkImage(
+                          image:"${cubit?.offerModel?.data![index].image}",
+                          width: 120,
+                          border:BorderRadius.circular(20),
+                        ),
                         // width: MediaQuery.of(context).size.width / 1.9,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: NetworkImage(
-                                    "${cubit?.offerModel?.data![index].image}"))),
+                        // decoration: BoxDecoration(
+                        //     image: DecorationImage(
+                        //         fit: BoxFit.cover,
+                        //         image: NetworkImage(
+                        //             "${cubit?.offerModel?.data![index].image}",
+                        //         ),
+                        //     ),
+                        // ),
                       ),
                     ),
                     SizedBox(

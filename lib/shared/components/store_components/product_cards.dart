@@ -8,6 +8,7 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../../../models/my_products_details_model.dart';
 import '../../constants.dart';
+import '../custom_network_image.dart';
 import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
@@ -63,11 +64,18 @@ class VerticalProductCard extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Container(
-                    decoration: BoxDecoration(
-                      //    color: kBGColor,
-                      image: DecorationImage(image: NetworkImage("https://taqiviolet.com/public/images/product/jSJuJfaWrMJMgRQn17ld8ciKqTuKiVB81ZVN29iy.pngs")),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+                        child: CustomNetworkImage(
+                          image:"$image",
+                          width: 120,
+                          border:BorderRadius.circular(20),
+
+                        ),
+                    // decoration: BoxDecoration(
+                    //   //    color: kBGColor,
+                    //   image: DecorationImage(
+                    //       image: NetworkImage("https://taqiviolet.com/public/images/product/jSJuJfaWrMJMgRQn17ld8ciKqTuKiVB81ZVN29iy.pngs")),
+                    //   borderRadius: BorderRadius.circular(10),
+                    // ),
                   )),
                   SizedBox(
                     height: 10,
@@ -344,7 +352,7 @@ class HorizontalProductCard extends StatelessWidget {
                       Row(
                         children: [
                           Text(
-                            relatedProducts.oldPrice.toString(),
+                            relatedProducts.currentPrice.toString(),
                             style: TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.bold),
                           ),

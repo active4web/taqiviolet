@@ -168,7 +168,7 @@ class _PhoneRegisterScreenState extends State<PhoneRegisterScreen> {
                                 decoration: InputDecoration(
                                     filled: true,
                                     fillColor: Colors.white.withOpacity(0.4),
-                                    hintText: '123456789',
+                                    hintText: '56xxxxxxx',
                                     enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(color: Colors.white),
                                         borderRadius: BorderRadius.circular(34)),
