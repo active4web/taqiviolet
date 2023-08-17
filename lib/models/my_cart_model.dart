@@ -27,12 +27,16 @@ class MyCartModel {
 
 class Data {
   int? cashback;
+  int? totalCoupons;
+  int? totalGft;
   List<ListItem>? listItem;
 
-  Data({this.cashback, this.listItem});
+  Data({this.cashback, this.listItem ,this.totalCoupons,this.totalGft});
 
   Data.fromJson(Map<String, dynamic> json) {
     cashback = json['cashback'];
+    totalCoupons = json['total_coupons'];
+    totalGft = json['total_gift'];
     if (json['list_item'] != null) {
       listItem = <ListItem>[];
       json['list_item'].forEach((v) {
@@ -44,6 +48,8 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['cashback'] = this.cashback;
+    data['total_gift'] = this.totalGft;
+    data['total_coupons'] = this.totalCoupons;
     if (this.listItem != null) {
       data['list_item'] = this.listItem!.map((v) => v.toJson()).toList();
     }

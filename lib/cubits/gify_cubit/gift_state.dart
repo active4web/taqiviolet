@@ -5,6 +5,7 @@ abstract class GiftState {}
 class GiftInitial extends GiftState {}
 
 class ShowAndHideSelected extends GiftState {}
+class ChangePageIndexState extends GiftState {}
 
 class ChangeBorderPrice extends GiftState{}
 class ChangeBorderImage extends GiftState{}

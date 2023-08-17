@@ -60,6 +60,29 @@ class CartScreen extends StatelessWidget {
                                     ),
                                   ),
                                 ),*/
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      children: [
+                                        Text("coupons".tr()),
+                                        Text("${cubit.myCartModel!.data!.totalCoupons}"),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text("wallet".tr()),
+                                        Text("${cubit.myCartModel!.data!.totalGft}"),
+                                      ],
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text("cashback".tr()),
+                                        Text("${cubit.myCartModel!.data!.cashback}"),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                                 ListView.separated(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
@@ -922,7 +945,8 @@ class CartScreen extends StatelessWidget {
                   : Center(
                       child: CircularProgressIndicator(),
                     ),
-            ));
+            ),
+        );
       },
     );
   }

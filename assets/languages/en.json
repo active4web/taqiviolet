@@ -221,6 +221,7 @@
   "wallet": "Gift wallet",
   "giftCard": "Gift card",
   "rial": "Rl",
+  "code2": "gift",
   "noInternet":"Please check your internet and make sure the network is ready to work",
   "internet": "Internet",
   "noInternetBar": "No Internet",

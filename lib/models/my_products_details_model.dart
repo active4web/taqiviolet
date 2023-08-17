@@ -441,11 +441,13 @@ class ProductDetails {
   dynamic hascart;
   dynamic hasFavorites;
   dynamic hasRosters;
+  int? cartTotal;
   String? hasReviews;
 
   ProductDetails(
       {this.id,
       this.name,
+        this.cartTotal,
       this.smartType,
       this.nameSearch,
       this.oldPrice,
@@ -469,6 +471,7 @@ class ProductDetails {
 
   ProductDetails.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    cartTotal = json['cart_total'];
     smartType = json['smart_type'];
     name = json['name'];
     deliveryTime = json['delivery_time'];

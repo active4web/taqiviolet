@@ -121,20 +121,16 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                           child: Column(
                                                             children: [
                                                               Container(
-                                                                width: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.25,
-                                                                height: MediaQuery.of(
-                                                                            context)
-                                                                        .size
-                                                                        .width *
-                                                                    0.25,
+                                                                width: MediaQuery.of(context).size.width * 0.25,
+                                                                height: MediaQuery.of(context).size.width * 0.25,
                                                                 decoration: BoxDecoration(
+                                                                    // color: kBGColor,
                                                                     color: kBGColor,
                                                                     borderRadius: BorderRadius.circular(10),
-                                                                    image: DecorationImage(image: NetworkImage("${cubit.subCatDataList![index].image}"), fit: BoxFit.cover),
+                                                                    image: DecorationImage(
+                                                                        image: NetworkImage("${cubit.subCatDataList![index].image}"),
+                                                                        fit: BoxFit.contain,
+                                                                    ),
                                                                     border:
                                                                         // cubit
                                                                         //             .currentDepIndex ==

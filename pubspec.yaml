@@ -65,6 +65,8 @@ dev_dependencies:
   search_map_place_updated: ^0.0.4
   card_swiper: ^2.0.4
   intl:
+  badges: ^3.1.1
+
 flutter_icons:
   android: true
   ios: true
@@ -101,6 +103,11 @@ flutter:
         - asset: assets/fonts/Tajawal/Tajawal-Regular.ttf
         - asset: assets/fonts/Tajawal/Tajawal-Medium.ttf
         - asset: assets/fonts/Tajawal/Tajawal-Bold.ttf
+    - family: arial
+      fonts:
+        - asset: assets/fonts/arail/ArialCEMTBlack.ttf
+        - asset: assets/fonts/arail/ArialCEItalic.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

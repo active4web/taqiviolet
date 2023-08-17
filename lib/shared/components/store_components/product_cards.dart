@@ -66,7 +66,7 @@ class VerticalProductCard extends StatelessWidget {
                       child: Container(
                         child: CustomNetworkImage(
                           image:"$image",
-                          width: 120,
+                          // width: 120,
                           border:BorderRadius.circular(20),
 
                         ),
@@ -302,7 +302,7 @@ class HorizontalProductCard extends StatelessWidget {
         navigateTo(context, ProductDetailsScreen());
       },
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.22,
+        // height: MediaQuery.of(context).size.height * 0.22,
         margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 0.5)],
@@ -331,54 +331,60 @@ class HorizontalProductCard extends StatelessWidget {
               flex: 5,
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.45,
-                        child: Text(
-                          "${relatedProducts.name}",
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.45,
+                      child: Text(
+                        "${relatedProducts.name}",
+                        style: TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.w500),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          relatedProducts.currentPrice.toString(),
                           style: TextStyle(
-                              fontSize: 17, fontWeight: FontWeight.w500),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                              fontSize: 15, fontWeight: FontWeight.bold),
                         ),
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          Text(
-                            relatedProducts.currentPrice.toString(),
-                            style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        if(relatedProducts.oldPrice!=0)
+                        Text(
+                          relatedProducts.oldPrice.toString(),
+                          style: TextStyle(
+                            decoration: TextDecoration.lineThrough ,
+                              fontSize: 12,
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          // Text(
-                          //   relatedProducts.,
-                          //   style: TextStyle(
-                          //     fontSize: 15,
-                          //   ),
-                          // ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        children: [
-                          CustomRatingBar(
-                            rating: 3,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                        // Text(
+                        //   relatedProducts.,
+                        //   style: TextStyle(
+                        //     fontSize: 15,
+                        //   ),
+                        // ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 5,
+                    ),
+                    Row(
+                      children: [
+                        CustomRatingBar(
+                          rating: 3,
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),

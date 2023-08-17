@@ -36,6 +36,7 @@ class CheckOutScreen extends StatelessWidget {
         text: AppCubit.get(context).userInfo?.data?.address);
     CartCubit cartCubit = CartCubit.get(context);
 
+    var code2 = TextEditingController();
     // cartCubit.getAllLocationsOfCities();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {},
@@ -56,7 +57,7 @@ class CheckOutScreen extends StatelessWidget {
                     child: Text(
                       "deliveryData".tr(),
                       style: TextStyle(
-                        color: kDarkGoldColor,
+                        color: kCustomBlack,
                         fontWeight: FontWeight.w500,
                         fontSize: 20,
                       ),
@@ -159,7 +160,7 @@ class CheckOutScreen extends StatelessWidget {
                               Text(
                                 "Address".tr(),
                                 style: TextStyle(
-                                  color: kDarkGoldColor,
+                                  color: kCustomBlack,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w300,
                                 ),
@@ -177,7 +178,7 @@ class CheckOutScreen extends StatelessWidget {
                               SizedBox(height: 10),
                               Label(
                                 text: 'ChooseLocation'.tr(),
-                                fontColor: kDarkGoldColor,
+                                fontColor: kCustomBlack,
                               ),
                               // cubit.address != null
                               //     ? ListTile(
@@ -234,6 +235,7 @@ class CheckOutScreen extends StatelessWidget {
                               //     ),
                               //   ),
                               // ),
+
                               BlocProvider(
                                 create: (context) =>
                                     CartCubit()..getAllLocationsOfCities(),
@@ -262,7 +264,10 @@ class CheckOutScreen extends StatelessWidget {
                                                       // alignment:
                                                       //     AlignmentDirectional
                                                       //         .topStart,
-                                                      child: Text("${country.name}"),
+                                                      child: Text("${country.name}",
+                                                      style: TextStyle(
+                                                        fontSize: 5,
+                                                      ),),
                                                       value: country,
                                                     );
                                                   }).toList(),
@@ -328,7 +333,7 @@ class CheckOutScreen extends StatelessWidget {
                   Text(
                     "FullName".tr(),
                     style: TextStyle(
-                      color: kDarkGoldColor,
+                      color: kCustomBlack,
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
                     ),
@@ -348,7 +353,7 @@ class CheckOutScreen extends StatelessWidget {
                   Text(
                     "Phone".tr(),
                     style: TextStyle(
-                      color: kDarkGoldColor,
+                      color: kCustomBlack,
                       fontSize: 16,
                       fontWeight: FontWeight.w300,
                     ),
@@ -447,6 +452,23 @@ class CheckOutScreen extends StatelessWidget {
                     height: 20,
                   ),
                   PromoCodeTextField(),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text('code2'.tr()),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  CustomTextFormField(
+                    controller: code2,
+                    fillColor: Colors.grey.shade500,
+                    hintColor: Colors.black,
+                    textColor: Colors.black,
+                    cursorColor: kDarkGoldColor,
+                    keyboardType: TextInputType.phone,
+                    validate: (value){},
+
+                  ),
                   SizedBox(
                     height: 30,
                   ),
@@ -581,7 +603,7 @@ class PromoCodeTextField extends StatelessWidget {
                         ),
                       ),
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: kCustomBlack,
                           borderRadius: BorderRadius.circular(30)),
                     ),
                   ),

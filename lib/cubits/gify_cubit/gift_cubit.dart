@@ -16,6 +16,13 @@ class GiftCubit extends Cubit<GiftState> {
 
   bool isSelectedCheck = false;
 
+  int index = 1;
+  changePageIndex(newIndex)
+  {
+    index = newIndex;
+    emit(ChangePageIndexState());
+  }
+
   void changedSelectedCheck({required bool value}) {
     isSelectedCheck != isSelectedCheck;
     isSelectedCheck = value;

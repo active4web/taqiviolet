@@ -179,7 +179,7 @@ class MyApp extends StatelessWidget {
           locale: context.locale,
           theme: ThemeData(
             primarySwatch: Colors.blue,
-            fontFamily: 'Tajawal',
+            fontFamily: 'arial',
             textSelectionTheme:
             TextSelectionThemeData(cursorColor: Colors.black),
           ),
