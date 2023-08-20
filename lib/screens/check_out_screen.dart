@@ -44,7 +44,7 @@ class CheckOutScreen extends StatelessWidget {
         return Scaffold(
           key: cartCubit.scaffoldkey,
           appBar: CustomAppBar(
-            title: 'CheckOut'.tr(),
+            title: 'reservationConfirmation'.tr(),
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -543,7 +543,7 @@ class CheckOutScreen extends StatelessWidget {
                       }
                     },
                     height: 50,
-                    text: 'CheckOut'.tr(),
+                    text: 'reservationConfirmation'.tr(),
                   ),
                   SizedBox(
                     height: 30,
