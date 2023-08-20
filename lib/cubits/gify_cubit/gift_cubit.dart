@@ -5,6 +5,7 @@ import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../../models/NewListGiftsWalletModelOld.dart';
 import '../../models/new_list_gifts_wallet_model.dart';
 
 part 'gift_state.dart';
@@ -73,14 +74,14 @@ class GiftCubit extends Cubit<GiftState> {
   {
     emit(GetAllListGiftsWalletLoadingState());
     Mhelper.getData(url: "api/giftwallet",
-      token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvdGFxaXZpb2xldC5jb21cL1wvYXBpXC9sb2dpbiIsImlhdCI6MTY4ODgzNTY4NywibmJmIjoxNjg4ODM1Njg3LCJqdGkiOiJWR2V5a0JvRnFHSUFBaDE2Iiwic3ViIjoxNjksInBydiI6IjQxZWZiN2JhZDdmNmY2MzJlMjQwNWJkM2E3OTNiOGE2YmRlYzY3NzcifQ.iCrjN4gFwxvEm-JnzPOv2-OmWx8XYtI3s3CrXOtOtb4",
+      token: CacheHelper.getData('token'),
       query: {
       "lang" : "ar",
       },
     ).then((value){
       print(value.data);
       newListGiftsWalletModel = NewListGiftsWalletModel.fromJson(value.data);
-      print("samy------------");
+      print("mostafa new------------");
       print("newListGiftsWalletModel");
       emit(GetAllListGiftsWalletSuccessState());
     }).catchError((error){
@@ -88,4 +89,54 @@ class GiftCubit extends Cubit<GiftState> {
       emit(GetAllListGiftsWalletErrorState());
     });
   }
+
+
+  NewListGiftsWalletModelOld? newListGiftsWalletModelOld;
+  getAllListGiftsWalletDataOld()
+  {
+    emit(GetAllListGiftsWalletLoadingStateOld());
+    Mhelper.getData(url: "api/giftwallet_old",
+      token: CacheHelper.getData('token'),
+      query: {
+        "lang" : "ar",
+      },
+    ).then((value){
+      print(value.data);
+      newListGiftsWalletModelOld = NewListGiftsWalletModelOld.fromJson(value.data);
+      print("mostafa old ------------");
+      print("newListGiftsWalletModel");
+      emit(GetAllListGiftsWalletSuccessStateOld());
+    }).catchError((error){
+      print("error in ........ ${error.toString()}");
+      emit(GetAllListGiftsWalletErrorStateOld());
+    });
+  }
+
+
+
+  deleteGiftsWalletDataOld({
+    required int id,
+})
+  {
+    emit(DeleteGiftsWalletLoadingStateOld());
+    Mhelper.postData(url: "api/deletegiftwallet",
+      token: CacheHelper.getData('token'),
+      data: {
+      "id" : id,
+      },
+      query: {
+        "lang" : "ar",
+      },
+    ).then((value){
+      print(value.data);
+      newListGiftsWalletModelOld = NewListGiftsWalletModelOld.fromJson(value.data);
+      print("mostafa delete old ------------");
+      emit(DeleteGiftsWalletSuccessStateOld());
+    }).catchError((error){
+      print("error in ........ ${error.toString()}");
+      emit(DeleteGiftsWalletErrorStateOld());
+    });
+  }
+
+
 }

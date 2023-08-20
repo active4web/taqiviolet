@@ -18,6 +18,14 @@ class GetAllListGiftsWalletLoadingState extends GiftState{}
 class GetAllListGiftsWalletSuccessState extends GiftState{}
 class GetAllListGiftsWalletErrorState extends GiftState{}
 
+class GetAllListGiftsWalletLoadingStateOld extends GiftState{}
+class GetAllListGiftsWalletSuccessStateOld extends GiftState{}
+class GetAllListGiftsWalletErrorStateOld  extends GiftState{}
+
+class DeleteGiftsWalletLoadingStateOld extends GiftState{}
+class DeleteGiftsWalletSuccessStateOld extends GiftState{}
+class DeleteGiftsWalletErrorStateOld  extends GiftState{}
+
 class ShowCouponsDataFailure extends GiftState{
   final String error;
 
