@@ -146,7 +146,10 @@ class NewDetailsOrderAfter extends StatelessWidget {
                       onTap: () {
                         print("Ss");
                         cubit.makeOrderDetails(
+<<<<<<< HEAD
                           context: context,
+=======
+>>>>>>> origin/main
                           paymentStatus: 1,
                           paymentType: 1,
                           subTotal: subTotal,

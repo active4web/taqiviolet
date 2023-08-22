@@ -14,7 +14,6 @@ import 'package:path_provider/path_provider.dart';
 import 'package:safsofa/models/cart_models/remote_cart_model/cart_product_prices_model.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
-import '../../models/MakeOrderNewNewNewModel.dart';
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
 import '../../models/make_order_model.dart';
 import '../../models/my_cart_model.dart';
@@ -351,7 +350,7 @@ class CartCubit extends Cubit<CartState> {
         MakeOrderModel makeOrderModel = MakeOrderModel.fromJson(value.data);
         log("i add it");
         log(value.data.toString());
-        navigateReplacement(context, SuccessScr( makeOrderNewNewNewModel!));
+        navigateReplacement(context, SuccessScr(makeOrderModel));
       } else {
         showToast(
             text: value.data['msg'],
@@ -468,53 +467,5 @@ class CartCubit extends Cubit<CartState> {
   void chooseCity(ListCites choosenCity) {
     selectedCity = choosenCity;
     emit(CartSuccessState());
-  }
-
-
-  MakeOrderNewNewNewModel? makeOrderNewNewNewModel;
-  makeOrderDetails({
-    required BuildContext context,
-    required int paymentStatus,
-    required int paymentType,
-    required int subTotal,
-    required int countryId,
-    required int cityId,
-    required int promoCodeId,
-    required String phone,
-    required String name,
-    required String address,
-    required int deliveryType,
-    required String cashBack,
-    required String totalGift,
-})
-  {
-    emit(MakeOrderLoadingStateNew());
-    Mhelper.postData(
-        url: "api/make_order",
-      token: CacheHelper.getData("token"),
-      data: {
-        'payment_status': paymentStatus,
-        'payment_type': paymentType,
-        'sub_total': subTotal,
-        'country_id': countryId,
-        'city_id': cityId,
-        'promo_code_id': promoCodeId,
-        'phone': phone,
-        'name': name,
-        'address': address,
-        'delivery_type': deliveryType,
-        'cashback': cashBack,
-        'totalgift': totalGift,
-      },
-    ).then((value){
-      print(value.data);
-      makeOrderNewNewNewModel = MakeOrderNewNewNewModel.fromJson(value.data);
-      emit(MakeOrderSuccessStateNew());
-      navigateReplacement(context, SuccessScr(   makeOrderNewNewNewModel! ));
-      showToast(text: "${makeOrderNewNewNewModel!.msg}", color: Colors.green);
-    }).catchError((error){
-      print("errror in make order mostafa ${error.toString()}");
-      emit(MakeOrderErrorStateNew());
-    });
   }
 }
