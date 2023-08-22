@@ -281,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       padding: EdgeInsets.zero,
                       children: [
                         SizedBox(
-                          height: 20,
+                          height: 1,
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.5/2,

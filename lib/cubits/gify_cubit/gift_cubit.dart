@@ -5,7 +5,9 @@ import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
+import '../../models/GetAllNewProductsNewModel.dart';
 import '../../models/NewListGiftsWalletModelOld.dart';
+import '../../models/OldCouponsModel.dart';
 import '../../models/new_list_gifts_wallet_model.dart';
 
 part 'gift_state.dart';
@@ -56,11 +58,10 @@ class GiftCubit extends Cubit<GiftState> {
       token: CacheHelper.getData('token'),
       query: {
         'lang':CacheHelper.getData('language'),
-
       },
     ).then((value) {
-
       couponsModel = CouponsModel.fromJson(value.data);
+      print("mostafa كوبون");
       emit(ShowCouponsDataSuccess());
     }).catchError((error){
       emit(ShowCouponsDataFailure(error.toString()));
@@ -68,6 +69,25 @@ class GiftCubit extends Cubit<GiftState> {
     });
   }
 
+  OldCouponsModel? oldCouponsModel;
+  void showOldCouponsData() {
+    emit(ShowOldCouponsDataLoading());
+    Mhelper.postData(
+      url: '/api/MyCouponListold',
+      token: CacheHelper.getData('token'),
+      query: {
+        'lang':CacheHelper.getData('language'),
+      },
+    ).then((value) {
+      oldCouponsModel = OldCouponsModel.fromJson(value.data);
+      print("mostafa   كوبون قديمة");
+      print(oldCouponsModel!.data!.couponLists!.length);
+      emit(ShowOldCouponsDataSuccess());
+    }).catchError((error){
+      emit(ShowOldCouponsDataFailure(error.toString()));
+      print(error.toString());
+    });
+  }
 
   NewListGiftsWalletModel? newListGiftsWalletModel;
   getAllListGiftsWalletData()
@@ -138,5 +158,26 @@ class GiftCubit extends Cubit<GiftState> {
     });
   }
 
+
+  GetAllNewProductsNewModel? getAllNewProductsNewModel;
+  getAllNewProductsData()
+  {
+    emit(GetAllNewProductsLoadingStateOld());
+    Mhelper.getData(url: "api/get_all_products",
+      token: CacheHelper.getData('token'),
+      query: {
+        "lang" : "ar",
+      },
+    ).then((value){
+      print(value.data);
+      getAllNewProductsNewModel = GetAllNewProductsNewModel.fromJson(value.data);
+      print("mostafa products ------------");
+      print("get all new products");
+      emit(GetAllNewProductsSuccessStateOld());
+    }).catchError((error){
+      print("error in ........ ${error.toString()}");
+      emit(GetAllNewProductsErrorStateOld());
+    });
+  }
 
 }

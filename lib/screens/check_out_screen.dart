@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:adaptive_dialog/adaptive_dialog.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart ';
@@ -18,11 +18,21 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../cubits/cartCubit/cart_cubit.dart';
+import '../network/local/cache_helper.dart';
+import 'new_details_order_after.dart';
 
 int? countryId;
 int? cityId;
 
-class CheckOutScreen extends StatelessWidget {
+class CheckOutScreen extends StatefulWidget {
+  final int cashInCart;
+  final int giftInCart;
+  CheckOutScreen({required this.cashInCart,required this.giftInCart});
+  @override
+  State<CheckOutScreen> createState() => _CheckOutScreenState();
+}
+
+class _CheckOutScreenState extends State<CheckOutScreen> {
 
   @override
   Widget build(BuildContext context) {
@@ -37,10 +47,13 @@ class CheckOutScreen extends StatelessWidget {
     CartCubit cartCubit = CartCubit.get(context);
 
     var code2 = TextEditingController();
+    var code3 = TextEditingController();
     // cartCubit.getAllLocationsOfCities();
     return BlocConsumer<AppCubit, AppStates>(
+
       listener: (context, state) {},
       builder: (context, state) {
+        print(CacheHelper.getData('couponId'));
         return Scaffold(
           key: cartCubit.scaffoldkey,
           appBar: CustomAppBar(
@@ -371,6 +384,61 @@ class CheckOutScreen extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
+                  if(CacheHelper.getData('couponValue')!=null && CacheHelper.getData('couponId')!=null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("  لديك كوبون مجانى قيمته  ${CacheHelper.getData('couponValue')} %",
+                      style: TextStyle(
+                        color: Colors.green,
+                      ),),
+                      InkWell(
+                        onTap: (){
+                          showDialog(
+                            context: context,
+                            builder: (context){
+                              return AlertDialog(
+                                title: Text('حذف الكوبون المجانى'),
+                                content:  Text('هل تريد عدم استخدام الكوبون المجانى ؟'),
+                                actions: [
+                                  TextButton(
+                                    child: Text('الغاء'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                  TextButton(
+                                    child: Text('حذف'),
+                                    onPressed: () {
+                                     setState(() {
+                                       CacheHelper.removeData("couponValue");
+                                       CacheHelper.removeData("couponId");
+                                       CacheHelper.getData("couponId");
+                                       CacheHelper.getData("couponId");
+                                     });
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ],
+                              );
+                            }
+                          );
+                        },
+                        child: Container(
+                          height: 20,
+                          width: 20,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(100),
+                            color: Colors.red,
+                          ),
+                          child: Icon(Icons.close,
+                          color: Colors.white,
+                          size: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                   Divider(),
                   SizedBox(
                     height: 10,
@@ -455,12 +523,35 @@ class CheckOutScreen extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
+                  if(widget.giftInCart!=0)
                   Text('code2'.tr()),
+                  if(widget.giftInCart!=0)
                   SizedBox(
                     height: 10,
                   ),
+                  if(widget.giftInCart!=0)
                   CustomTextFormField(
                     controller: code2,
+                    fillColor: Colors.grey.shade500,
+                    hintColor: Colors.black,
+                    textColor: Colors.black,
+                    cursorColor: kDarkGoldColor,
+                    keyboardType: TextInputType.phone,
+                    validate: (value){},
+
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  if(widget.cashInCart!=0)
+                  Text('cashBack'.tr()),
+                  if(widget.cashInCart!=0)
+                  SizedBox(
+                    height: 10,
+                  ),
+                  if(widget.cashInCart!=0)
+                  CustomTextFormField(
+                    controller: code3,
                     fillColor: Colors.grey.shade500,
                     hintColor: Colors.black,
                     textColor: Colors.black,
@@ -496,51 +587,64 @@ class CheckOutScreen extends StatelessWidget {
                   ),
                   CustomButton(
                     onTap: () {
-                      if (addressOfReceiver.text.isEmpty) {
-                        showToast(
-                            text: "pleaseEnterTheAddress".tr(),
-                            color: Colors.red,
-                            location: ToastGravity.CENTER);
-                      } else if (nameOfReceiver.text.isEmpty) {
-                        showToast(
-                            text: "pleaseEnterTheName".tr(),
-                            color: Colors.red,
-                            location: ToastGravity.CENTER);
-                      } else if (phoneOfReceiver.text.isEmpty) {
-                        showToast(
-                            text: "pleaseEnterYourMobileNumber".tr(),
-                            color: Colors.red,
-                            location: ToastGravity.CENTER);
-                      } else if (countryId == null) {
-                        showToast(
-                            text: "pleaseSelectTheCountry".tr(),
-                            color: Colors.red,
-                            location: ToastGravity.CENTER);
-                      } else if (cityId == null) {
-                        showToast(
-                            text: "pleaseSelectACity".tr(),
-                            color: Colors.red,
-                            location: ToastGravity.CENTER);
-                      } else {
-                        cartCubit.make_order(
-                            payment_status:
-                                paymentMethod == PaymentMethod.offlinePayment
-                                    ? 1
-                                    : 0,
-                            payment_type:
-                                paymentMethod == PaymentMethod.offlinePayment
-                                    ? 1
-                                    : 0,
-                            deliveryType:
-                                receiveMethod == ReceiveMethod.fromHome ? 0 : 1,
-                            address: addressOfReceiver.text,
-                            name: nameOfReceiver.text,
-                            phone: phoneOfReceiver.text,
-                            orderPrice: cartCubit.total,
-                            countryId: countryId!,
-                            cityId: cityId!,
-                            context: context);
-                      }
+                      print("Ss");
+                      navigateTo(context, NewDetailsOrderAfter(
+                        subTotal: cartCubit.total.toInt(),
+                        cityId: cityId!,
+                        countryId: countryId!,
+                        promoCodeId:CacheHelper.getData('couponId')==null ? 0 : int.parse(CacheHelper.getData('couponId')) ,
+                        promoCodeValue:CacheHelper.getData('couponValue')==null ? 0 : int.parse(CacheHelper.getData('couponValue')) ,
+                        name: nameOfReceiver.text,
+                        phone: phoneOfReceiver.text,
+                        address: addressOfReceiver.text,
+                        gift: code2.text,
+                        cash: code3.text,
+                      ));
+                      // if (addressOfReceiver.text.isEmpty) {
+                      //   showToast(
+                      //       text: "pleaseEnterTheAddress".tr(),
+                      //       color: Colors.red,
+                      //       location: ToastGravity.CENTER);
+                      // } else if (nameOfReceiver.text.isEmpty) {
+                      //   showToast(
+                      //       text: "pleaseEnterTheName".tr(),
+                      //       color: Colors.red,
+                      //       location: ToastGravity.CENTER);
+                      // } else if (phoneOfReceiver.text.isEmpty) {
+                      //   showToast(
+                      //       text: "pleaseEnterYourMobileNumber".tr(),
+                      //       color: Colors.red,
+                      //       location: ToastGravity.CENTER);
+                      // } else if (countryId == null) {
+                      //   showToast(
+                      //       text: "pleaseSelectTheCountry".tr(),
+                      //       color: Colors.red,
+                      //       location: ToastGravity.CENTER);
+                      // } else if (cityId == null) {
+                      //   showToast(
+                      //       text: "pleaseSelectACity".tr(),
+                      //       color: Colors.red,
+                      //       location: ToastGravity.CENTER);
+                      // } else {
+                      //   cartCubit.make_order(
+                      //       payment_status:
+                      //           paymentMethod == PaymentMethod.offlinePayment
+                      //               ? 1
+                      //               : 0,
+                      //       payment_type:
+                      //           paymentMethod == PaymentMethod.offlinePayment
+                      //               ? 1
+                      //               : 0,
+                      //       deliveryType:
+                      //           receiveMethod == ReceiveMethod.fromHome ? 0 : 1,
+                      //       address: addressOfReceiver.text,
+                      //       name: nameOfReceiver.text,
+                      //       phone: phoneOfReceiver.text,
+                      //       orderPrice: cartCubit.total,
+                      //       countryId: countryId!,
+                      //       cityId: cityId!,
+                      //       context: context);
+                      // }
                     },
                     height: 50,
                     text: 'reservationConfirmation'.tr(),

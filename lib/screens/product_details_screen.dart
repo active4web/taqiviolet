@@ -71,6 +71,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           cubit.getProductDetails(
             productId: cubit.productDetailsModel!.data!.productDetails![0].id,
           );
+          showToast(text: "تمت اضافه المنتج بنجاح", color: Colors.green);
         }
       },
       builder: (context, state) {
@@ -207,13 +208,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 maxLines: null,
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 18),
+                                    fontSize: 16),
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         Row(
                           children: [
@@ -225,7 +226,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       .toString(),
                                   style: TextStyle(
                                       color: Color(0xffFE9C8F),
-                                      fontSize: 20),
+                                      fontSize: 18),
                                 ),
                                 SizedBox(
                                   width: 5,
@@ -234,7 +235,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   "SAR".tr(),
                                   style: TextStyle(
                                       color: Color(0xffFE9C8F),
-                                      fontSize: 20),
+                                      fontSize: 18),
                                 )
                               ],
                             ),
@@ -254,7 +255,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         color: Colors.grey,
                                         decoration:
                                         TextDecoration.lineThrough,
-                                        fontSize: 17),
+                                        fontSize: 14),
                                   ),
                                   SizedBox(
                                     width: 5,
@@ -265,14 +266,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         color: Colors.grey,
                                         decoration:
                                         TextDecoration.lineThrough,
-                                        fontSize: 17),
+                                        fontSize: 14),
                                   )
                                 ],
                               ),
                           ],
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         if (cubit.productDetailsModel?.data
                             ?.productDetails![0].smartPrice !=
@@ -301,7 +302,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         "${"priceSmartControlFeature".tr()}${cubit.productDetailsModel?.data?.productDetails![0].smartPrice} ${"SAR".tr()}",
                                         style: TextStyle(
                                             color: Color(0xffFE9C8F),
-                                            fontSize: 14),
+                                            fontSize: 12),
                                         maxLines: 1,
                                         overflow: TextOverflow.ellipsis,
                                       ),
@@ -330,7 +331,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                               SizedBox(
-                                width: 10,
+                                width: 7,
                               ),
                               if (cubit.productDetailsModel?.data
                                   ?.productDetails![0].oldPrice !=
@@ -345,7 +346,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           color: Colors.grey,
                                           decoration:
                                           TextDecoration.lineThrough,
-                                          fontSize: 17),
+                                          fontSize: 14),
                                     ),
                                     SizedBox(
                                       width: 5,
@@ -356,7 +357,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                           color: Colors.grey,
                                           decoration:
                                           TextDecoration.lineThrough,
-                                          fontSize: 17),
+                                          fontSize: 14),
                                     )
                                   ],
                                 ),
@@ -369,7 +370,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ?.productDetails![0].smartPrice !=
                                 null)
                           SizedBox(
-                            height: 8,
+                            height: 5,
                           ),
                         if (
                         cubit.productDetailsModel?.data?.productDetails![0].smartPrice != 0 &&
@@ -401,7 +402,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ],
                           ),
                         SizedBox(
-                          height: 5,
+                          height: 3,
                         ),
                         Row(
                           children: [
@@ -410,15 +411,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green.shade300,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 2,
-                        ),
-
+                        
                         // Row(
                         //   children: [
                         //     Text(
@@ -432,7 +430,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         //   ],
                         // ),
                         SizedBox(
-                          height: 8,
+                          height: 5,
                         ),
                         Row(
                           children: [
@@ -441,13 +439,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               style: TextStyle(
                                 fontWeight: FontWeight.w300,
                                 color: Colors.green.shade300,
-                                fontSize: 14,
+                                fontSize: 12,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 8,
+                          height: 5,
                         ),
                         // if (cubit.productDetailsModel?.data
                         //             ?.productDetails![0].smartPrice !=
@@ -494,7 +492,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ?.productDetails![0].smartPrice !=
                                 null)
                           SizedBox(
-                            height: 8,
+                            height: 5,
                           ),
                         Row(
                           children: [
@@ -522,18 +520,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               'soldOut'.tr(),
                               style: TextStyle(
                                 color: Colors.red,
-                                fontSize: 20,
+                                fontSize: 17,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         CounterRow(
-                          fontSize: 20,
-                          containerSize: 36,
+                          fontSize: 16,
+                          containerSize: 30,
                           quantity: quantity.toString(),
                           onAdd: () {
                             if (quantity <
@@ -555,7 +553,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           },
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         if (cubit.productDetailsModel!.data!.productsize!
                             .isNotEmpty)
@@ -633,7 +631,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         if (cubit.productDetailsModel!.data!.productsize!
                             .isNotEmpty)
                           SizedBox(
-                            height: 20,
+                            height: 10,
                           ),
                         Row(
                           children: [
@@ -1341,20 +1339,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ],
                         ),
                         SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Label(
                           text: 'ProductDetails'.tr(),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         Text(
                           "${cubit.productDetailsModel?.data?.productDetails![0].details}",
                           style: TextStyle(color: Colors.black54),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         if (cubit.productDetailsModel!.data!
                             .productfeatures!.length >
@@ -1366,7 +1364,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             .productfeatures!.length >
                             0)
                           SizedBox(
-                            height: 10,
+                            height: 7,
                           ),
                         if (cubit.productDetailsModel!.data!
                             .productfeatures!.length >
@@ -1403,11 +1401,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             .productfeatures!.length >
                             0)
                           SizedBox(
-                            height: 10,
+                            height: 7,
                           ),
                         Divider(),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         GestureDetector(
                           onTap: () {
@@ -1446,17 +1444,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         Divider(),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Label(
                           text: 'RelatedProducts'.tr(),
                         ),
                         SizedBox(
-                          height: 10,
+                          height: 7,
                         ),
                         Container(
                           height: MediaQuery.of(context).size.height * 0.22,

@@ -468,4 +468,48 @@ class CartCubit extends Cubit<CartState> {
     selectedCity = choosenCity;
     emit(CartSuccessState());
   }
+
+
+  makeOrderDetails({
+    required int paymentStatus,
+    required int paymentType,
+    required int subTotal,
+    required int countryId,
+    required int cityId,
+    required int promoCodeId,
+    required String phone,
+    required String name,
+    required String address,
+    required int deliveryType,
+    required String cashBack,
+    required String totalGift,
+})
+  {
+    emit(MakeOrderLoadingStateNew());
+    Mhelper.postData(
+        url: "api/make_order",
+      token: CacheHelper.getData("token"),
+      data: {
+        'payment_status': paymentStatus,
+        'payment_type': paymentType,
+        'sub_total': subTotal,
+        'country_id': countryId,
+        'city_id': cityId,
+        'promo_code_id': promoCodeId,
+        'phone': phone,
+        'name': name,
+        'address': address,
+        'delivery_type': deliveryType,
+        'cashback': cashBack,
+        'totalgift': totalGift,
+      },
+    ).then((value){
+      print(value.data);
+      emit(MakeOrderSuccessStateNew());
+      showToast(text: "okay", color: Colors.green);
+    }).catchError((error){
+      print("errror in make order mostafa ${error.toString()}");
+      emit(MakeOrderErrorStateNew());
+    });
+  }
 }
