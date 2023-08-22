@@ -59,7 +59,7 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                 child: SingleChildScrollView(
                   physics: BouncingScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(5),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -100,12 +100,12 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                           style: TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
-                            fontSize: 18,
+                            fontSize: 16,
                           ),
                           textAlign: TextAlign.start,
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 12,
                         ),
                         GridView.builder(
                           shrinkWrap: true,
@@ -113,7 +113,7 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                           itemCount: cubit.newListCardsModel!.data!.listcards!.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 1 / 1.4,
+                              childAspectRatio: 1 / 1.1,
                               mainAxisSpacing: 2.0,
                               crossAxisSpacing: 6.0),
                           itemBuilder: (context, index) =>
@@ -132,46 +132,43 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                                       CustomNetworkImage(
                                         image: '${cubit.newListCardsModel!.data!.listcards![index].image}',
                                         border: BorderRadius.all(Radius.circular(10)),
-                                        height: 130,
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      Row(
-                                        children: [
-                                          Text('theValue'.tr(),
-                                            style: TextStyle(
-                                              color: Colors.black,
-                                              fontSize: 16,
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Text(' ${cubit.newListCardsModel!.data!.listcards![index].counts} ${'rS'.tr()}',
-                                              style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 16,
-                                              ),
-                                            ),
-                                          ),
-
-                                        ],
+                                        height: 100,
                                       ),
                                       SizedBox(
                                         height: 5,
                                       ),
                                       Row(
                                         children: [
+                                          Text('theValue'.tr(),
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          Expanded(
+                                            child: Text(' ${cubit.newListCardsModel!.data!.listcards![index].counts} ${'rS'.tr()}',
+                                              style: TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ),
+
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
                                           Text('thePrice'.tr(),
                                             style: TextStyle(
                                               color: Colors.black,
-                                              fontSize: 16,
+                                              fontSize: 14,
                                             ),
                                           ),
                                           Expanded(
                                             child: Text(' ${cubit.newListCardsModel!.data!.listcards![index].price} ${'rS'.tr()}',
                                               style: TextStyle(
                                                 color: Colors.black,
-                                                fontSize: 16,
+                                                fontSize: 14,
                                               ),
                                             ),
                                           ),

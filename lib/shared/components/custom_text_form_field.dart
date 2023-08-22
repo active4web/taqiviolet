@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintText,
     this.icon,
     this.controller,
+    this.readOnly = false,
     this.keyboardType = TextInputType.text,
     this.fillColor = Colors.white,
     this.hintColor = Colors.white54,
@@ -27,6 +28,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color hintColor;
   final Color textColor;
   final Color cursorColor;
+    bool readOnly = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,7 @@ class CustomTextFormField extends StatelessWidget {
       //height: 50,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: TextFormField(
+        readOnly: readOnly,
         keyboardType: keyboardType,
         controller: controller,
         validator: (T){

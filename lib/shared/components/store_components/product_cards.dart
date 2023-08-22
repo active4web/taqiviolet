@@ -1,11 +1,13 @@
 import 'dart:developer';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../models/my_products_details_model.dart';
 import '../../constants.dart';
 import '../custom_network_image.dart';
@@ -39,10 +41,7 @@ class VerticalProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // log("image      $image");
-    // log("image      $productId");
-    // log("price      $price");
-    // log("discount      $discount");
+
     return GestureDetector(
       onTap: //onclick
 
@@ -64,12 +63,43 @@ class VerticalProductCard extends StatelessWidget {
                 children: [
                   Expanded(
                       child: Container(
-                        child: CustomNetworkImage(
-                          image:"$image",
-                          // width: 120,
-                          border:BorderRadius.circular(20),
+                        child: CachedNetworkImage(
+                          imageUrl: "$image",
+                          imageBuilder: (context, imageProvider) => Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              image: DecorationImage(
+                                image: imageProvider,
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ),
 
+                          ///=== is dark baseColor = grey[800]! & hightLightColor = grey[850]! ===///
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: Colors.grey.shade400,
+                            highlightColor: Colors.grey,
+                            child: Container(
+                              height: 180,
+                              // width: width,
+                              decoration: BoxDecoration(
+                                color: Colors.black,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+                          ),
+                          errorWidget: (context, url, error) => const Icon(Icons.error),
+                          height: 180,
+                          fit: BoxFit.cover,
+                          // width: width,
                         ),
+                        // child: CustomNetworkImage(
+                        //
+                        //   image:"$image",
+                        //   // width: 120,
+                        //   border:BorderRadius.circular(20),
+                        //
+                        // ),
                     // decoration: BoxDecoration(
                     //   //    color: kBGColor,
                     //   image: DecorationImage(
@@ -314,10 +344,46 @@ class HorizontalProductCard extends StatelessWidget {
               flex: 3,
               child: Container(
                 width: 100,
+                child: CachedNetworkImage(
+                  imageUrl: "${relatedProducts.image}",
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ),
+                  placeholder: (context, url) => Shimmer.fromColors(
+                    baseColor: Colors.grey.shade400,
+                    highlightColor: Colors.grey,
+                    child: Container(
+                      height: 180,
+                      // width: width,
+                      decoration: BoxDecoration(
+                        color: Colors.black,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  height: 180,
+                  fit: BoxFit.cover,
+                  // width: width,
+                ),
+                // child: CustomNetworkImage(
+                //
+                //   image:"${relatedProducts.image}",
+                //   height: 100,
+                //   width: 100,
+                //
+                //   border:BorderRadius.circular(20),
+                // ),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  image: DecorationImage(
-                      image: NetworkImage("${relatedProducts.image}")),
+                  // image: DecorationImage(
+                  //     image: NetworkImage("${relatedProducts.image}")),
                   borderRadius: BorderRadius.horizontal(
                     right: Radius.circular(10),
                   ),

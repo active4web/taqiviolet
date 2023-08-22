@@ -5,11 +5,15 @@ import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:safsofa/shared/defaults.dart';
+import '../models/MakeOrderNewNewNewModel.dart';
 import '../models/make_order_model.dart';
 
 class SuccessScr extends StatelessWidget {
-  SuccessScr(this.makeOrderModel);
-  final MakeOrderModel makeOrderModel;
+  SuccessScr(
+      // this.makeOrderModel,
+      this.makeOrderNewNewNewModel);
+  // final MakeOrderModel makeOrderModel;
+  final MakeOrderNewNewNewModel makeOrderNewNewNewModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +32,7 @@ class SuccessScr extends StatelessWidget {
             height: 20,
           ),
           Text(
-            "${"orderNo".tr()} #${makeOrderModel.data?.codeOrder}",
+            "${"orderNo".tr()} #${makeOrderNewNewNewModel.data}",
             style: TextStyle(
               color: Colors.blue,
               fontWeight: FontWeight.bold,
@@ -55,11 +59,13 @@ class SuccessScr extends StatelessWidget {
                 Expanded(
                   child: CustomButton(
                     text: 'sendagift'.tr(),
-                    onTap: () => navigateTo(
-                        context,
-                        SendAGiftScreen(
-                          orderId: makeOrderModel.data?.id,
-                        )),
+                    onTap: (){
+                      // navigateTo(
+                      //     context,
+                      //     SendAGiftScreen(
+                      //       orderId: makeOrderNewNewNewModel.data?.id,
+                      //     )),
+                    }
                   ),
                 ),
               ],

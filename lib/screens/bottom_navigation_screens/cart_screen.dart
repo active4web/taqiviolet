@@ -63,12 +63,12 @@ class CartScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      children: [
-                                        Text("coupons".tr()),
-                                        Text("${cubit.myCartModel!.data!.totalCoupons}"),
-                                      ],
-                                    ),
+                                    // Column(
+                                    //   children: [
+                                    //     Text("coupons".tr()),
+                                    //     Text("${cubit.myCartModel!.data!.totalCoupons}"),
+                                    //   ],
+                                    // ),
                                     Column(
                                       children: [
                                         Text("wallet".tr()),
@@ -511,7 +511,10 @@ class CartScreen extends StatelessWidget {
                                   height: 50,
                                   text: 'CheckOut'.tr(),
                                   onTap: () {
-                                    navigateTo(context, CheckOutScreen());
+                                    navigateTo(context, CheckOutScreen(
+                                      cashInCart: int.parse("${cubit.myCartModel!.data!.cashback}"),
+                                      giftInCart: int.parse("${cubit.myCartModel!.data!.totalGft}"),
+                                    ));
                                   },
                                 ),
                                 SizedBox(

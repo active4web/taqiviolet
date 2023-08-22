@@ -218,6 +218,7 @@
   "chooseSmartControlFeature":"Choose the self control feature.",
   "commonQuestions": "Common Questions",
   "coupons": "Coupons",
+  "orderDetails2": "Order Details",
   "cashback": "Cashback",
   "wallet": "Gift wallet",
   "giftCard": "Gift card",
@@ -268,8 +269,8 @@
   "introductionList": "We have improved and replaced the My Favorites List feature! You can now create different lists, and share them with your friends! We have saved your current favorite products in a private list. We have improved and replaced the My Favorites List feature."
 
 ,
-  "product": "product"
-,
+  "product": "product",
+  "products": "All Products",
   "updateIn": "update in"
 
 
