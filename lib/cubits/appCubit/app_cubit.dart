@@ -390,6 +390,7 @@ class AppCubit extends Cubit<AppStates> {
     });
   }
 
+  // هنا بنتجيب كل قوائم المفضلة
   FavoritesListsModel? favListModelOfProdDetails;
 
   void getFavListDataOfProdDetails() {
@@ -451,7 +452,6 @@ class AppCubit extends Cubit<AppStates> {
       if (value.data['status']) {
         productDetailsModel?.data?.productDetails![0].hasFavorites = 1;
         emit(GetConstructionSuccessState());
-        Navigator.of(context).pop();
       } else {
         showToast(text: value.data['msg'], color: Colors.red);
       }

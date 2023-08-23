@@ -80,34 +80,20 @@ class _MyListScreenState extends State<MyListScreen> {
                                       physics: BouncingScrollPhysics(),
                                       child: Center(
                                         child: Padding(
-                                          padding: EdgeInsets.only(
-                                              right: 20,
-                                              left: 20,
-                                              top: 20,
-                                              bottom: MediaQuery.of(context)
-                                                  .viewInsets
-                                                  .bottom),
+                                          padding: EdgeInsets.only(right: 20, left: 20, top: 20, bottom: MediaQuery.of(context).viewInsets.bottom),
                                           child: Column(
                                             children: <Widget>[
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.all(8.0),
+                                              Padding(padding: const EdgeInsets.all(8.0),
                                                 child: Row(
                                                   children: [
-                                                    const Text(
-                                                        'انشاء قائمة جديدة'),
+                                                    const Text('انشاء قائمة جديدة'),
                                                     Spacer(),
                                                     IconButton(
                                                         onPressed: () {
                                                           cubit.postlistsData(
-                                                              listName:
-                                                                  _textEditingController
-                                                                      .text);
-
-                                                          _textEditingController
-                                                              .clear();
-                                                          Navigator.pop(
-                                                              context);
+                                                              listName: _textEditingController.text);
+                                                          _textEditingController.clear();
+                                                          Navigator.pop(context);
                                                         },
                                                         icon:
                                                             Icon(Icons.close)),
@@ -280,9 +266,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                         ));
                                       },
                                       child: Text(
-                                          cubit.listsModel!.data!.list![index]
-                                              .listName
-                                              .toString(),
+                                          cubit.listsModel!.data!.list![index].listName.toString(),
                                           style: TextStyle(
                                             color: Colors.black,
                                             fontSize: 15,
@@ -353,14 +337,14 @@ class _MyListScreenState extends State<MyListScreen> {
                                 SizedBox(
                                   height: 5,
                                 ),
+                                if(cubit.listsModel!.data!.list![index].totalProducts!=0 )
                                 InkWell(
                                   child: Row(
                                     children: [
                                       cubit.listsModel!.data!.list![index].listImg1 != null
                                           ? Expanded(
                                         child: CustomNetworkImage(
-                                          image:
-                                          cubit.listsModel!.data!.list![index].listImg1.toString(),
+                                          image: cubit.listsModel!.data!.list![index].listImg1.toString(),
                                           border: BorderRadius.circular(10),
                                           height: 200,
                                         ),

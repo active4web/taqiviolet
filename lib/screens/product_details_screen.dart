@@ -73,6 +73,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           );
           showToast(text: "تمت اضافه المنتج بنجاح", color: Colors.green);
         }
+        if(state is GetConstructionSuccessState){
+          showToast(text: "تمت اضافه المنتج بنجاح", color: Colors.green);
+        }
       },
       builder: (context, state) {
         log("99999999999999999999999999999999999999999   $state");
@@ -644,7 +647,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ?
                               Container(
                                 width: 100,
-
                                 decoration: BoxDecoration(
                                     color: Color(0xff393846),
                                     borderRadius: BorderRadius.circular(35)),
@@ -677,7 +679,23 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               //   text: 'shoppingCart'.tr(),
                               // )
                                   :
+                                  state is AddToCartSuccessState ? Container(
+                                    width: 100,
+                                    decoration: BoxDecoration(
+                                        color: Color(0xff393846),
+                                        borderRadius: BorderRadius.circular(35)),
+                                    child: IconButton(
+                                      onPressed: () {
+                                        navigateTo(context, CartScreen());
+                                      },
+                                      icon:Icon(
+                                        Icons.shopping_cart,
+                                        size: 25,
+                                        color: kLightGoldColor,
+                                      ),
+                                    ),
 
+                                  ):
                               Expanded(
                                 child: CustomButton(
                                   onTap: () {
@@ -836,18 +854,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               onPressed: () {
                                 if (kToken != null &&
                                     kToken!.isNotEmpty) {
-                                  if (cubit
-                                      .productDetailsModel
-                                      ?.data
-                                      ?.productDetails![0]
-                                      .hasFavorites ==
-                                      1) {
+                                  if (cubit.productDetailsModel?.data?.productDetails![0].hasFavorites == 1) {
                                     cubit.removeProductDetailsFavorite(
-                                        prodId: cubit
-                                            .productDetailsModel
-                                            ?.data
-                                            ?.productDetails![0]
-                                            .id);
+                                        prodId: cubit.productDetailsModel?.data?.productDetails![0].id);
                                   } else {
                                     ///////////////////////////////////////////////////
 
@@ -866,76 +875,44 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                 padding: EdgeInsets.symmetric(
                                                     horizontal:
                                                     MediaQuery.of(
-                                                        context)
-                                                        .size
-                                                        .width /
-                                                        60,
-                                                    vertical: MediaQuery.of(
-                                                        context)
-                                                        .size
-                                                        .height /
-                                                        70),
+                                                        context).size.width / 60,
+                                                    vertical: MediaQuery.of(context).size.height / 70),
                                                 child: state
                                                 is GetProductDetailsSuccessState
                                                     ? Column(
-                                                  mainAxisSize:
-                                                  MainAxisSize
-                                                      .min,
+                                                  mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    Align(
-                                                      alignment:
-                                                      AlignmentDirectional
-                                                          .center,
-                                                      child: Text(
-                                                        "addToOneOfYourFavoriteLists"
-                                                            .tr(),
-                                                        textAlign:
-                                                        TextAlign
-                                                            .center,
-                                                        style: TextStyle(
-                                                            color:
-                                                            kDarkGoldColor,
-                                                            fontSize:
-                                                            22,
-                                                            fontWeight:
-                                                            FontWeight.w600),
+                                                    Align(alignment: AlignmentDirectional.center,
+                                                      child: Text("addToOneOfYourFavoriteLists".tr(),
+                                                        textAlign: TextAlign.center,
+                                                        style: TextStyle(color: kCustomBlack,
+                                                            fontSize: 22,
+                                                            fontWeight: FontWeight.w600),
                                                       ),
                                                     ),
                                                     SizedBox(
-                                                      height: MediaQuery.of(
-                                                          context)
-                                                          .size
-                                                          .height /
-                                                          35,
+                                                      height: MediaQuery.of(context).size.height / 35,
                                                     ),
                                                     SizedBox(
                                                       height: 80,
-                                                      child:
-                                                      ListView(
+                                                      child: ListView(
                                                         scrollDirection:
                                                         Axis.horizontal,
                                                         children: [
-                                                          if (cubit
-                                                              .favListModelOfProdDetails!
-                                                              .data!
-                                                              .isNotEmpty)
-                                                            SizedBox(
-                                                              height:
-                                                              80,
+                                                          if (cubit.favListModelOfProdDetails!.data!.isNotEmpty)
+                                                            SizedBox(height: 80,
                                                               child:
                                                               ListView.separated(
-                                                                physics:
-                                                                NeverScrollableScrollPhysics(),
-                                                                shrinkWrap:
-                                                                true,
+                                                                physics: NeverScrollableScrollPhysics(),
+                                                                shrinkWrap: true,
                                                                 scrollDirection:
                                                                 Axis.horizontal,
                                                                 itemCount:
                                                                 cubit.favListModelOfProdDetails!.data!.length,
-                                                                itemBuilder:
-                                                                    (context, index) {
+                                                                itemBuilder: (context, index) {
                                                                   return InkWell(
                                                                     onTap: () {
+                                                                      print(cubit.favListModelOfProdDetails!.data![index].iD);
                                                                       cubit.addFavProductToFavListProdDetails(
                                                                         listId: cubit.favListModelOfProdDetails?.data![index].iD,
                                                                         productId: cubit.productDetailsModel?.data?.productDetails![0].id,
@@ -946,12 +923,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                       direction: Axis.vertical,
                                                                       crossAxisAlignment: WrapCrossAlignment.center,
                                                                       children: [
+                                                                        // تم تعديل الصوورة
                                                                         CustomNetworkImage(
-                                                                          image: '${cubit.favListModelOfProdDetails?.data![index].image}',
+                                                                          image: cubit.favListModelOfProdDetails?.data![index].image ==null ?
+                                                                          "https://img.freepik.com/free-photo/side-view-hand-pouring-coffee-cup_23-2149703752.jpg?w=1380&t=st=1692799770~exp=1692800370~hmac=37430a00eeb04960f95e92262675ef0794b64cc253fcefe5d7234c51b9223de1" :
+                                                                          '${cubit.favListModelOfProdDetails?.data![index].image}',
                                                                           height: 60,
                                                                           width: 60,
                                                                           border: BorderRadius.circular(16),
-                                                                        ), /*
+                                                                        ),
+                                                                        /*
                                                                                     Container(
                                                                                       width: 60,
                                                                                       height: 60,
@@ -967,21 +948,16 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                                       ),
                                                                                     ),
 */
-                                                                        ConstrainedBox(
-                                                                          constraints: BoxConstraints(
-                                                                            maxWidth: 70,
+
+                                                                        Text("${cubit.favListModelOfProdDetails?.data![index].name}",
+                                                                          style: TextStyle(
+                                                                            color: kCustomBlack,
+                                                                            fontWeight: FontWeight.w400,
                                                                           ),
-                                                                          child: Text(
-                                                                            "${cubit.favListModelOfProdDetails?.data![index].name}",
-                                                                            style: TextStyle(
-                                                                              color: kDarkGoldColor,
-                                                                              fontWeight: FontWeight.w400,
-                                                                            ),
-                                                                            textAlign: TextAlign.center,
-                                                                            maxLines: 1,
-                                                                            overflow: TextOverflow.ellipsis,
-                                                                          ),
-                                                                        )
+                                                                          textAlign: TextAlign.center,
+                                                                          maxLines: 1,
+                                                                          overflow: TextOverflow.ellipsis,
+                                                                        ),
                                                                       ],
                                                                     ),
                                                                   );
@@ -992,14 +968,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                     ),
                                                               ),
                                                             ),
-                                                          if (cubit
-                                                              .favListModelOfProdDetails!
-                                                              .data!
-                                                              .isNotEmpty)
-                                                            SizedBox(
-                                                              width:
-                                                              MediaQuery.of(context).size.width / 60,
-                                                            ),
+                                                          if (cubit.favListModelOfProdDetails!.data!.isNotEmpty)
+                                                            SizedBox(width: MediaQuery.of(context).size.width / 60,),
                                                           InkWell(
                                                             onTap:
                                                                 () {
@@ -1030,7 +1000,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                                       Text(
                                                                                         "newList".tr(),
                                                                                         textAlign: TextAlign.center,
-                                                                                        style: TextStyle(color: kDarkGoldColor, fontSize: 22, fontWeight: FontWeight.w600),
+                                                                                        style: TextStyle(color: kCustomBlack, fontSize: 22, fontWeight: FontWeight.w600),
                                                                                       ),
                                                                                       Spacer(),
                                                                                       IconButton(
@@ -1079,7 +1049,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                                                     controller: listName,
                                                                                     fillColor: Colors.grey,
                                                                                     hintColor: Colors.black87,
-                                                                                    textColor: kDarkGoldColor,
+                                                                                    textColor: kCustomBlack,
                                                                                     validate: (value) {
                                                                                       if (value!.isEmpty) {
                                                                                         return 'thisFieldCanNotBeEmpty'.tr();

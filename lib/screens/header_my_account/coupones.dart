@@ -91,27 +91,23 @@ class _CouponesScreenState extends State<CouponesScreen> {
             ),
             ),
               if(cubit.index==1)
-                cubit.couponsModel!.data!.couponLists!.length==0 ?
-                Center(child: Text(" لا يوجد كوبونات حاليا",
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),),):
               Expanded(
                 child: ConditionalBuilder(
                   condition: state is! ShowCouponsDataLoading && state is ! ShowOldCouponsDataLoading,
-                  builder: (context) => ListView.separated(
+                  builder: (context) =>
+                  cubit.couponsModel!.data!.couponLists!.length==0 ?
+                  Center(child: Text(" لا يوجد كوبونات حاليا",
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),),):
+                      ListView.separated(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return
-                        // cubit.couponsModel!.data!.couponLists!.length==0 ?
-                        // Center(
-                        //     child: Image(
-                        //         image:
-                        //         AssetImage('assets/images/empty_cart.png')))
-                        //     :
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8),
-                          child: Card(
+                          child:
+                          Card(
                             // elevation: 8,
                             color:
                             // cubit.couponsModel!.data!.couponLists![index].status =='1'? Colors.white :
@@ -245,17 +241,23 @@ class _CouponesScreenState extends State<CouponesScreen> {
                 ),
               ),
               if(cubit.index==2)
-                cubit.oldCouponsModel!.data!.couponLists!.length==0 ?
-                Center(child: Text(" لا يوجد كوبونات مستخدمه حاليا",
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),),):
               Expanded(
                 child: ConditionalBuilder(
                   condition: state is! ShowCouponsDataLoading && state is ! ShowOldCouponsDataLoading,
-                  builder: (context) => ListView.separated(
+                  builder: (context) =>
+                  cubit.oldCouponsModel!.data!.couponLists!.length==0 ?
+                  Center(child: Text(" لا يوجد كوبونات حاليا",
+                    style: TextStyle(
+                      fontSize: 25,
+                    ),),):
+                      ListView.separated(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
+                      return  cubit.oldCouponsModel!.data!.couponLists!.length==0 ?
+                      Center(child: Text(" لا يوجد كوبونات مستخدمه حاليا",
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),),):
                         // cubit.couponsModel!.data!.couponLists!.length==0 ?
                         // Center(
                         //     child: Image(

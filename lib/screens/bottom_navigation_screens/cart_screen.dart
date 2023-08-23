@@ -509,7 +509,7 @@ class CartScreen extends StatelessWidget {
                                 ),
                                 CustomButton(
                                   height: 50,
-                                  text: 'CheckOut'.tr(),
+                                  text: 'Next'.tr(),
                                   onTap: () {
                                     navigateTo(context, CheckOutScreen(
                                       cashInCart: int.parse("${cubit.myCartModel!.data!.cashback}"),
@@ -914,7 +914,7 @@ class CartScreen extends StatelessWidget {
                                 ),
                                 CustomButton(
                                   height: 50,
-                                  text: 'CheckOut'.tr(),
+                                  text: 'Next'.tr(),
                                   onTap: () {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(

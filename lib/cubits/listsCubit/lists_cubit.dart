@@ -31,7 +31,8 @@ class ListsCubit extends Cubit<ListsState> {
     ).then((value) {
       listsModel = MyListModel.fromJson(value.data);
       print(value.data);
-      print("bahr");
+      print(listsModel!.data!.list!.length);
+      print("bahr fav");
       emit(ListsSuccessState());
     }).catchError((error) {
       emit(ListsErrorState());
@@ -61,14 +62,19 @@ class ListsCubit extends Cubit<ListsState> {
     });
   }
 
-  void postlistsData({String? listName}) {
+  void postlistsData({String? listName , int? productId}) {
     emit(ListsLoadingState());
     Mhelper.postData(
         token: CacheHelper.getData("token"),
-        url: createRosterURL,
-        data: {"name": listName}).then((value) {
+        // url: createRosterURL,
+        url: "api/addfavlist",
+        data: {
+          "name": listName,
+          if(productId!=null)
+          "prod_id": productId,
+        }).then((value) {
+          print("mostafa do it ");
       getListsData();
-
       emit(ListsSuccessState());
     }).catchError((error) {
       emit(ListsErrorState());

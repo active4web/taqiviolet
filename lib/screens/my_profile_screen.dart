@@ -65,7 +65,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         },
           builder: (context, state) {
         if (state is GetdataprofileInitialSuccessState) {
-          address.text = cubit.getDataProfileModel!.data!.address!;
+          address.text = cubit.getDataProfileModel!.data!.address!=null ? cubit.getDataProfileModel!.data!.address!: "";
           name.text = cubit.getDataProfileModel!.data!.name!;
           cubit.getDataProfileModel?.data?.phone != null
               ? phone.text = cubit.getDataProfileModel!.data!.phone!

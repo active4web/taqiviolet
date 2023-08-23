@@ -1,6 +1,5 @@
 import 'dart:developer';
-import 'package:adaptive_dialog/adaptive_dialog.dart';
-import 'package:easy_localization/src/public_ext.dart';
+ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/material.dart ';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -647,7 +646,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       // }
                     },
                     height: 50,
-                    text: 'reservationConfirmation'.tr(),
+                    text: 'Next'.tr(),
                   ),
                   SizedBox(
                     height: 30,

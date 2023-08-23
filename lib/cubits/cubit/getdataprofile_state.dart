@@ -30,3 +30,8 @@ final String error;
 
   ResetPasswordErrorState(this.error);
 }
+
+
+class UpdateProfileLoadingState extends GetdataprofileState{}
+class UpdateProfileSuccessState extends GetdataprofileState{}
+class UpdateProfileErrorState extends GetdataprofileState{}

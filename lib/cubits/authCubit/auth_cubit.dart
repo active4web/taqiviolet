@@ -232,16 +232,11 @@ class AuthCubit extends Cubit<AuthStates> {
     }).then((value) {
       log(value.data.toString());
       if (value.data['status'] == true) {
-        phoneRegisterSuccessResponse =
-            RegisterSuccessModel.fromJson(value.data);
-        CacheHelper.setData(
-            key: 'userInfo',
-            value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
-        CacheHelper.setData(
-            key: 'token', value: phoneRegisterSuccessResponse?.data?.token);
+        phoneRegisterSuccessResponse = RegisterSuccessModel.fromJson(value.data);
+        CacheHelper.setData(key: 'userInfo', value: jsonEncode(RegisterSuccessModel.fromJson(value.data)));
+        CacheHelper.setData(key: 'token', value: phoneRegisterSuccessResponse?.data?.token);
         if (CacheHelper.getData('localCart') != null) {
-          addLocalDataOfCartToServer(
-              token: (phoneRegisterSuccessResponse?.data?.token)!);
+          addLocalDataOfCartToServer(token: (phoneRegisterSuccessResponse?.data?.token)!);
         }
         //     CacheHelper.setData(key: 'token', value: phoneRegisterSuccessResponse.data.token);
         // kToken = CacheHelper.getData('token');

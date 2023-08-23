@@ -34,8 +34,7 @@ class _PhoneRegisterScreenState extends State<PhoneRegisterScreen> {
 
   TextEditingController regPhPasswordController = TextEditingController();
 
-  TextEditingController confirmRegPhPasswordController =
-      TextEditingController();
+  TextEditingController confirmRegPhPasswordController = TextEditingController();
 
   // bool passwordValidate = false;
 
@@ -53,9 +52,7 @@ class _PhoneRegisterScreenState extends State<PhoneRegisterScreen> {
         builder: (context, state) {
           AuthCubit cubit = AuthCubit.get(context);
           if (state is PhoneSignupSuccessState) {
-            CacheHelper.setData(
-                    key: 'token', value: state.signUpModel.data?.token)
-                .then((value) {
+            CacheHelper.setData(key: 'token', value: state.signUpModel.data?.token).then((value) {
               kToken = CacheHelper.getData('token');
               AppCubit.get(context).getCache();
               navigateAndFinish(context, HomeLayout());
@@ -197,11 +194,12 @@ class _PhoneRegisterScreenState extends State<PhoneRegisterScreen> {
                                 hintText: 'Address'.tr(),
                                 controller: regPhAddressController,
                                 validate: ( value) {
-                                  if (value!.isEmpty) {
-                                    return 'thisFieldCanNotBeEmpty'.tr();
-                                  } else {
-                                    return null;
-                                  }
+                                  return null;
+                                  // if (value!.isEmpty) {
+                                  //   return 'thisFieldCanNotBeEmpty'.tr();
+                                  // } else {
+                                  //   return null;
+                                  // }
                                 },
                               ),
                               SizedBox(

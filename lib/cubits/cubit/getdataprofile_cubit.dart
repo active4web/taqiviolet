@@ -113,16 +113,23 @@ class GetdataprofileCubit extends Cubit<GetdataprofileState> {
   }
 
   void postDataProfile({phone, id, name, email, address}) async {
+    emit(UpdateProfileLoadingState());
     Mhelper.postData(url: editProfile, data: {
       "phone": phone,
       "id": id,
       "name": name,
       "email": email,
       "address": address,
-      "image": await MultipartFile.fromFile(imageFile!.path,
-          filename: imageFile?.name.split('/').last)
+      // "image": await MultipartFile.fromFile(imageFile!.path,
+      //     filename: imageFile?.name.split('/').last)
     }).then((value) {
+      print(value.data);
+      showToast(text: "${value.data["msg"]}", color: Colors.green);
+      emit(UpdateProfileSuccessState());
        getdataprofileCData();
+    }).catchError((error){
+      emit(UpdateProfileErrorState());
+      print("error in update profile ${error.toString()}");
     });
   }
 
