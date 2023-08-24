@@ -60,11 +60,11 @@ class SuccessScr extends StatelessWidget {
                   child: CustomButton(
                     text: 'sendagift'.tr(),
                     onTap: (){
-                      // navigateTo(
-                      //     context,
-                      //     SendAGiftScreen(
-                      //       orderId: makeOrderNewNewNewModel.data?.id,
-                      //     )),
+                      navigateTo(
+                          context,
+                          SendAGiftScreen(
+                            orderId: makeOrderNewNewNewModel.data?.id,
+                          ));
                     }
                   ),
                 ),

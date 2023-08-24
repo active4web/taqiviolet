@@ -53,14 +53,28 @@ class TechnicalSupportScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20),
                     child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'At Taqi Violet, we believe that our success depends on the satisfaction of our customers. Therefore, the customer service staff is happy to assist you and answer all your inquiries about our products through social media programs or through'
+                            'text1'
+                                .tr(),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Text(
+                            'text2'
                                 .tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               fontSize: 16,
+                              color: Colors.red
                             ),
                           ),
                           SizedBox(

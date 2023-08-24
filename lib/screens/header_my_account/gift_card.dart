@@ -84,7 +84,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                             cubit.changePageIndex(cubit.index=1);
                           },
                           child: Container(
-                            height: 50,
+                            height: 30,
                             color: cubit.index==1 ? kCustomBlack : Colors.transparent,
                             child: Center(
                               child: Text("الحالى",
@@ -101,7 +101,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                             cubit.changePageIndex(cubit.index=2);
                           },
                           child: Container(
-                            height: 50,
+                            height: 30,
                             color: cubit.index==2 ? kCustomBlack : Colors.transparent,
                             child: Center(
                               child: Text("القديم",

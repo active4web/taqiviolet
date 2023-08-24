@@ -34,6 +34,7 @@ class _VideoServerDisplayState extends State<VideoServerDisplay> {
   void dispose() {
     // Ensure disposing of the VideoPlayerController to free up resources.
     _controller?.dispose();
+    _controller?.pause();
 
     super.dispose();
   }

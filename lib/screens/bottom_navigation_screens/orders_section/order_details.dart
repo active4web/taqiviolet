@@ -60,130 +60,140 @@ class OrderDetailsSCR extends StatelessWidget {
                         ListView.separated(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
-                          itemCount:
-                              cubit.orderDetails!.data!.listProducts!.length,
+                          itemCount: cubit.orderDetails!.data!.listProducts!.length,
                           itemBuilder: (context, pos) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(5.0),
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipRRect(
+                            return Row(
+                              children: [
+                                Icon(
+                                  Icons.check_circle,
+                                ),
+                                SizedBox(width: 5,),
+                                Expanded(
+                                  child: Container(
+                                    decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(8),
-                                      child: Image(
-                                        image: NetworkImage(
-                                          "${cubit.orderDetails?.data?.listProducts![pos].image}",
-                                        ),
-                                        height: 110,
-                                        width: 110,
-                                      ),
                                     ),
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    Expanded(
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
                                         children: [
-                                          Text(
-                                            "${cubit.orderDetails?.data?.listProducts![pos].name}",
-                                            maxLines: 2,
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              overflow: TextOverflow.ellipsis,
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(8),
+                                            child: Image(
+                                              image: NetworkImage(
+                                                "${cubit.orderDetails?.data?.listProducts![pos].image}",
+                                              ),
+                                              height: 110,
+                                              width: 110,
                                             ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${"quantity".tr()}: ',
-                                                style: TextStyle(
-                                                    color: kDarkGoldColor,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                "${cubit.orderDetails?.data?.listProducts![pos].qty.toString()}",
-                                                style: TextStyle(fontSize: 16),
-                                              ),
-                                            ],
+                                          SizedBox(
+                                            width: 8,
                                           ),
-                                          Row(
-                                            children: [
-                                              Text(
-                                                '${"price".tr()}: ',
-                                                style: TextStyle(
-                                                    color: kDarkGoldColor,
-                                                    fontSize: 16),
-                                              ),
-                                              Text(
-                                                '${cubit.orderDetails?.data?.listProducts![pos].price} ${"SAR".tr()}',
-                                                style: TextStyle(fontSize: 16),
-                                              ),
-                                            ],
-                                          ),
-                                          if (cubit
-                                                      .orderDetails
-                                                      ?.data
-                                                      ?.listProducts![pos]
-                                                      .productRate ==
-                                                  0 &&
-                                              cubit.orderDetails?.data
-                                                      ?.orderDetails?.status ==
-                                                  "3")
-                                            Align(
-                                              alignment: AlignmentDirectional
-                                                  .bottomEnd,
-                                              child: TextButton(
-                                                onPressed: () {
-                                                  Navigator.of(context)
-                                                      .push(MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        AddReviewScreen(
-                                                      prodId: cubit
-                                                          .orderDetails
-                                                          ?.data
-                                                          ?.listProducts![pos]
-                                                          .productId,
-                                                      orderId: cubit
-                                                          .orderDetails
-                                                          ?.data
-                                                          ?.orderDetails
-                                                          ?.id,
-                                                    ),
-                                                  ))
-                                                      .then((value) {
-                                                    if (value) {
-                                                      cubit.getOrderDetails(
-                                                          id!, false);
-                                                    }
-                                                  });
-                                                },
-                                                child: Text(
-                                                  "rate".tr(),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${cubit.orderDetails?.data?.listProducts![pos].name}",
+                                                  maxLines: 2,
                                                   style: TextStyle(
-                                                    color: kDarkGoldColor,
-                                                    fontSize: 17,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontSize: 18,
+                                                    overflow: TextOverflow.ellipsis,
                                                   ),
                                                 ),
-                                              ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '${"quantity".tr()}: ',
+                                                      style: TextStyle(
+                                                          color: kCustomBlack,
+                                                          fontSize: 16),
+                                                    ),
+                                                    Text(
+                                                      "${cubit.orderDetails?.data?.listProducts![pos].qty.toString()}",
+                                                      style: TextStyle(fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  children: [
+                                                    Text(
+                                                      '${"price".tr()}: ',
+                                                      style: TextStyle(
+                                                          color: kCustomBlack,
+                                                          fontSize: 16),
+                                                    ),
+                                                    Text(
+                                                      '${cubit.orderDetails?.data?.listProducts![pos].price} ${"SAR".tr()}',
+                                                      style: TextStyle(fontSize: 16),
+                                                    ),
+                                                  ],
+                                                ),
+                                                if (cubit
+                                                            .orderDetails
+                                                            ?.data
+                                                            ?.listProducts![pos]
+                                                            .productRate ==
+                                                        0 &&
+                                                    cubit.orderDetails?.data
+                                                            ?.orderDetails?.status ==
+                                                        "3")
+                                                  Align(
+                                                    alignment: AlignmentDirectional
+                                                        .bottomEnd,
+                                                    child: TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .push(MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              AddReviewScreen(
+                                                            prodId: cubit
+                                                                .orderDetails
+                                                                ?.data
+                                                                ?.listProducts![pos]
+                                                                .productId,
+                                                            orderId: cubit
+                                                                .orderDetails
+                                                                ?.data
+                                                                ?.orderDetails
+                                                                ?.id,
+                                                          ),
+                                                        ))
+                                                            .then((value) {
+                                                          if (value) {
+                                                            cubit.getOrderDetails(
+                                                                id!, false);
+                                                          }
+                                                        });
+                                                      },
+                                                      child: Text(
+                                                        "rate".tr(),
+                                                        style: TextStyle(
+                                                          color: kDarkGoldColor,
+                                                          fontSize: 17,
+                                                          fontWeight: FontWeight.w600,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ],
                                             ),
+                                          ),
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ),
                                 ),
-                              ),
+
+                              ],
                             );
                           },
-                          separatorBuilder: (context, index) => SizedBox(
-                            height: 15,
+                          separatorBuilder: (context, index) => Container(
+                            width: double.infinity,
+                            height: 2,
                           ),
                         ),
                         SizedBox(

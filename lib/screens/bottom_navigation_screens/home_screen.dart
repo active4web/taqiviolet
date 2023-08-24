@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: 22,
+                              fontSize: 12,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -191,7 +191,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ///Color(),// Colors.white,
                 elevation: 0,
                 titleTextStyle: TextStyle(
-                    color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 17),
+                    color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 18),
                 shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(60),
@@ -204,7 +204,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Image(
-                      image: AssetImage('assets/images/logoheader.png'),
+                      image: AssetImage('assets/images/download.png',),
+                      height: 70,
+                      width: 70,
                     ),
                   ),
                 ],
@@ -394,11 +396,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(
                                     flex: 220,
                                     child: HomeCard(
-                                      index: 2,
+                                      index: 3,
                                       cubit: cubit,
-                                      title: "${cubit.homeMainCatList![2].name}",
+                                      title: "${cubit.homeMainCatList![3].name}",
                                       //cubit.homeMainCatList[1].name.ar,
-                                      image: "${cubit.homeMainCatList![2].image}",
+                                      image: "${cubit.homeMainCatList![3].image}",
                                     ),
                                   ),
                                   SizedBox(
@@ -423,10 +425,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 children: [
                                   Expanded(
                                       child: HomeCard(
-                                    index: 3,
+                                    index: 2,
                                     cubit: cubit,
-                                    title: "${cubit.homeMainCatList![3].name}",
-                                    image: "${cubit.homeMainCatList![3].image}",
+                                    title: "${cubit.homeMainCatList![2].name}",
+                                    image: "${cubit.homeMainCatList![2].image}",
                                   )),
                                 ],
                               ),
@@ -620,7 +622,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                 child: Text(
                                                                                   "addToOneOfYourFavoriteLists".tr(),
                                                                                   textAlign: TextAlign.center,
-                                                                                  style: TextStyle(color: kDarkGoldColor, fontSize: 22, fontWeight: FontWeight.w600),
+                                                                                  style: TextStyle(color: kDarkGoldColor, fontSize: 12, fontWeight: FontWeight.w600),
                                                                                 ),
                                                                               ),
                                                                               SizedBox(
@@ -937,7 +939,7 @@ class OffersListView extends StatelessWidget {
                           Text(
                             "${cubit?.offerModel?.data![index].content}",
                             style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.w500),
+                                fontSize: 8, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                           ),
                         ],
@@ -991,14 +993,14 @@ class ShowOffersCard extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       color: kDarkGoldColor,
-                      fontSize: 13,
+                      fontSize: 8,
                       fontWeight: FontWeight.bold),
                 ),
                 Text(
                   'DiscountsAndOffers'.tr(),
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: 13,
+                    fontSize: 8,
                   ),
                 ),
                 CustomButton(
@@ -1099,13 +1101,16 @@ class HomeCard extends StatelessWidget {
                   )),
               child: Padding(
                 padding: const EdgeInsets.all(4),
-                child: Text(
-                  "${title}",
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    overflow: TextOverflow.ellipsis,
+                child: Center(
+                  child: Text(
+                    "${title}",
+                    maxLines: 1,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      // fontWeight: FontWeight.bold,
+                      overflow: TextOverflow.ellipsis,
+                    ),
                   ),
                 ),
               ),
@@ -1138,7 +1143,9 @@ class LocalHomeCard extends StatelessWidget {
             Text(
               "${title}",
               style:
-                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                  TextStyle(color: Colors.white,
+                      // fontWeight: FontWeight.bold
+                  ),
             ),
           ],
         ),

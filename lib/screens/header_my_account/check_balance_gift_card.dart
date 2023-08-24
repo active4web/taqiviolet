@@ -113,7 +113,7 @@ class CheckBalanceGiftCardScreen extends StatelessWidget {
                           itemCount: cubit.newListCardsModel!.data!.listcards!.length,
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 2,
-                              childAspectRatio: 1 / 1.1,
+                              childAspectRatio: 1 / 0.95,
                               mainAxisSpacing: 2.0,
                               crossAxisSpacing: 6.0),
                           itemBuilder: (context, index) =>

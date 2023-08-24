@@ -143,6 +143,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                             children: [
                               Row(
                                 children: [
+
                                   Expanded(
                                     child: InkWell(
                                       onTap: (){
@@ -150,12 +151,12 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                             context, CouponesScreen());
                                       },
                                       child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
+                                          SizedBox(height: 5,),
                                           Text('1',
                                               style: TextStyle(fontSize: 17)),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
+                                          SizedBox(height: 5,),
                                           Text('coupons'.tr(),
                                               style: TextStyle(fontSize: 17)),
                                         ],
@@ -169,13 +170,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         //     context, MyCouponsScreen());
                                       },
                                       child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           Text(
                                               '${cubit.myAccountData?.data?.bonus=="" ? 0 : cubit.myAccountData?.data?.bonus} ${ "rial".tr()}',
                                               style: TextStyle(fontSize: 17)),
-                                          SizedBox(
-                                            height: 5,
-                                          ),
                                           Text('cashback'.tr(),
                                               style: TextStyle(fontSize: 17)),
                                         ],
