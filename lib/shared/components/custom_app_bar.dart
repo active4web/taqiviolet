@@ -19,6 +19,9 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
     return PreferredSize(
       preferredSize: const Size.fromHeight(70),
       child: AppBar(
+        leading: icon,
+        toolbarHeight: MediaQuery.of(context).size.height / 10,
+        leadingWidth: 100,
         title: Text("${title}"),
         backgroundColor: Color(0xff393846),
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -41,11 +44,14 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Image(
-              image: AssetImage('assets/images/logoheader.png'),
+              image: AssetImage('assets/images/CjNXMk2j7aZvFbC5k5LbDOoBhYylZTRxrSx4jSVU.png',
+              ),
+              height: 70,
+              width: 70,
             ),
           )
         ],
-        leading: icon,
+
       ),
     );
   }

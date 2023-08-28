@@ -204,7 +204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Image(
-                      image: AssetImage('assets/images/download.png',),
+                      image: AssetImage('assets/images/CjNXMk2j7aZvFbC5k5LbDOoBhYylZTRxrSx4jSVU.png',),
                       height: 70,
                       width: 70,
                     ),
