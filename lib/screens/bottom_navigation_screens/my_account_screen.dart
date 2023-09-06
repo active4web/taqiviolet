@@ -22,6 +22,7 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../Lists.dart';
+import '../new/partner_screen.dart';
 
 class MyAccountScreen extends StatefulWidget {
   @override
@@ -322,7 +323,26 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                   ),
                                 ],
                               ),
-
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: TextChip(
+                                        text: 'التقارير'.tr(),
+                                        onTap: () {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      PartnerScreen()));
+                                          /*  cubit.getUserAccountData(
+                                              loading: false);*/
+                                        }),
+                                  ),
+                                ],
+                              ),
                               // Padding(
                               //   padding: EdgeInsets.symmetric(
                               //       horizontal:

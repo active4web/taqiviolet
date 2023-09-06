@@ -172,8 +172,6 @@ class LoginScreen extends StatelessWidget {
                         textColor: Colors.black,
                         onTap: () => navigateTo(context, RegisterChoiceScreen()),
                       ),
-
-
                     ],
                   ),
                 ),
