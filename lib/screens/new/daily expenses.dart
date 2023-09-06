@@ -3,8 +3,8 @@ import 'package:flutter/services.dart';
 
 import '../../shared/constants.dart';
 
-class CustodiesScreen extends StatelessWidget {
-  const CustodiesScreen({Key? key}) : super(key: key);
+class dailyExpensesScreen extends StatelessWidget {
+  const dailyExpensesScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +35,7 @@ class CustodiesScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "العهد",
+                "المصاريف اليومية",
                 style: TextStyle(
                     color: kLightGoldColor, fontSize: 17),
               ),
@@ -70,25 +70,25 @@ class CustodiesScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "رقم العهدة",
+                      "الرقم",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "التفاصيل",
+                      "السبب",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "اجمالى العهدة",
+                      "الاجمالى",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "تاريخ الشراء",
+                      "التاريخ",
                       style: TextStyle(
                           fontSize: 10
                       ),

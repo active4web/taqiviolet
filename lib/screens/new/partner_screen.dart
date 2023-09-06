@@ -2,6 +2,7 @@ import 'package:flutter/material.dart%20';
 import 'package:flutter/services.dart';
 import 'package:safsofa/screens/new/Commitments_Screen.dart';
 import 'package:safsofa/screens/new/CustodiesScreen.dart';
+import 'package:safsofa/screens/new/daily%20expenses.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../shared/constants.dart';
@@ -101,14 +102,14 @@ class PartnerScreen extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                       onTap: (){
-                        navigateTo(context, PartnerOrdersScreen());
+                        navigateTo(context, dailyExpensesScreen());
                       },
                       child: Container(
                         child:  Center(
                           child: Text(
-                            "التكليف",
+                            "المصاريف اليومية",
                             style: TextStyle(
-                              fontSize: 25,
+                              fontSize: 23,
                               color: Colors.black87,
                             ),
                           ),
