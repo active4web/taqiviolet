@@ -70,31 +70,25 @@ class InventoryScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "الرقم",
+                      "الكمية المتبقية",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "السبب",
+                      "الكمية المباعة",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "الاجمالى",
+                      "سعر المنتج",
                       style: TextStyle(
                           fontSize: 10
                       ),
                     ),
                     Text(
-                      "التاريخ",
-                      style: TextStyle(
-                          fontSize: 10
-                      ),
-                    ),
-                    Text(
-                      "الصورة",
+                      "صورة المنتج",
                       style: TextStyle(
                           fontSize: 10
                       ),
@@ -141,12 +135,6 @@ class InventoryScreen extends StatelessWidget {
                                     mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        "1"*5,
-                                        style: TextStyle(
-                                            fontSize: 10
-                                        ),
-                                      ),
                                       Text(
                                         "1"*5,
                                         style: TextStyle(
