@@ -96,7 +96,7 @@ class CommitmentsScreen extends StatelessWidget {
                   child:SvgPicture.asset("assets/images/Group 345.svg"),
                 ),
                 SizedBox(height: 10,),
-                Text("تكاليف الرأس مالية"),
+                Text("تكاليف تشغيلية"),
               ],
             ),
             Column(
@@ -112,7 +112,7 @@ class CommitmentsScreen extends StatelessWidget {
                   child:SvgPicture.asset("assets/images/Group 345.svg"),
                 ),
                 SizedBox(height: 10,),
-                Text("تكاليف الرأس مالية"),
+                Text("تكاليف تأسيسية"),
               ],
             ),
           ],

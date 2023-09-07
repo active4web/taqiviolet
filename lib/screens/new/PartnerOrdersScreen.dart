@@ -73,31 +73,25 @@ class PartnerOrdersScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
+                      "سعر المنتج",
+                      style: TextStyle(
+                          fontSize: 10
+                      ),
+                    ),
+                    Text(
+                      "ابعاد المنتج",
+                      style: TextStyle(
+                          fontSize: 10
+                      ),
+                    ),
+                    Text(
+                      "وزن المنتج",
+                      style: TextStyle(
+                          fontSize: 10
+                      ),
+                    ),
+                    Text(
                       "اسم المنتج",
-                      style: TextStyle(
-                          fontSize: 10
-                      ),
-                    ),
-                    Text(
-                      "السعر الحالى",
-                      style: TextStyle(
-                          fontSize: 10
-                      ),
-                    ),
-                    Text(
-                      "السعر القديم",
-                      style: TextStyle(
-                          fontSize: 10
-                      ),
-                    ),
-                    Text(
-                      "المميزات",
-                      style: TextStyle(
-                          fontSize: 10
-                      ),
-                    ),
-                    Text(
-                      "الحالة",
                       style: TextStyle(
                           fontSize: 10
                       ),
@@ -151,37 +145,32 @@ class PartnerOrdersScreen extends StatelessWidget {
                                 MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    "1",
+                                    "1"*4,
                                     style: TextStyle(
                                         fontSize: 10
                                     ),
                                   ),
 
                                   Text(
-                                    "1",
+                                      "1"*4,
                                     style: TextStyle(
                                         fontSize: 10
                                     ),
                                   ),
 
                                   Text(
-                                    "1",
+                                    "1"*4,
                                     style: TextStyle(
                                         fontSize: 10
                                     ),
                                   ),
                                   Text(
-                                    "1",
+                                    "1"*4,
                                     style: TextStyle(
                                         fontSize: 10
                                     ),
                                   ),
-                                  Text(
-                                    "تعديل",
-                                    style: TextStyle(
-                                        fontSize: 10
-                                    ),
-                                  ),
+
                                   Image.asset("assets/images/ec.png",
                                   height: 50,
                                   width: 50,

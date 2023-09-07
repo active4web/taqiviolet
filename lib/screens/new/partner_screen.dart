@@ -73,6 +73,33 @@ class PartnerScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text("المتبقى"),
+                      Text("200"),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("الربح"),
+                      Text("200"),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      Text("رأس المال"),
+                      Text("200"),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 20,),
             Row(
               children: [
                 Expanded(
@@ -297,7 +324,6 @@ class PartnerScreen extends StatelessWidget {
               ],
             ),
             SizedBox(height: 10,),
-
           ],
         ),
       ),
