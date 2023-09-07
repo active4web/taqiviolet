@@ -7,7 +7,9 @@ import 'package:safsofa/shared/defaults.dart';
 
 import '../../shared/constants.dart';
 import 'CapitalScreen.dart';
+import 'InventoryScreen.dart';
 import 'PartnerOrdersScreen.dart';
+import 'financial_reports_screen.dart';
 
 class PartnerScreen extends StatelessWidget {
   const PartnerScreen({Key? key}) : super(key: key);
@@ -158,7 +160,7 @@ class PartnerScreen extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                       onTap: (){
-                        navigateTo(context, PartnerOrdersScreen());
+                        navigateTo(context, InventoryScreen());
                       },
                       child: Container(
                         child:  Center(
@@ -188,7 +190,7 @@ class PartnerScreen extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                       onTap: (){
-                        navigateTo(context, PartnerOrdersScreen());
+                        // navigateTo(context, PartnerOrdersScreen());
                       },
                       child: Container(
                         child:  Center(
@@ -244,12 +246,12 @@ class PartnerScreen extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                       onTap: (){
-                        navigateTo(context, CapitalScreen());
+
                       },
                       child: Container(
                         child:  Center(
                           child: Text(
-                            "رائس المال",
+                            "المصاريف",
                             style: TextStyle(
                               fontSize: 25,
                               color: Colors.black87,
@@ -270,7 +272,7 @@ class PartnerScreen extends StatelessWidget {
                 Expanded(
                     child: InkWell(
                       onTap: (){
-                        navigateTo(context, PartnerOrdersScreen());
+                        navigateTo(context, FinancialReportsScreen());
                       },
                       child: Container(
                         child:  Center(
@@ -294,6 +296,8 @@ class PartnerScreen extends StatelessWidget {
                     )),
               ],
             ),
+            SizedBox(height: 10,),
+
           ],
         ),
       ),
