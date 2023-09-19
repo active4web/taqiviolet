@@ -1,0 +1,10 @@
+part of 'order_received_item_in_list_cubit.dart';
+
+@immutable
+abstract class OrderReceivedItemInListState {}
+
+class OrderReceivedItemInListInitial extends OrderReceivedItemInListState {}
+
+class OrderReceivedItemInListLoadingState extends OrderReceivedItemInListState{}
+class OrderReceivedItemInListSuccessState extends OrderReceivedItemInListState{}
+class OrderReceivedItemInListErrorState extends OrderReceivedItemInListState{}
