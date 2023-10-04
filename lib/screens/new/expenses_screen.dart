@@ -34,19 +34,19 @@ class ExpensesScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           CustomTitle(
-                            title: "البند",
+                            title: "clause".tr(),
                           ),
                           Padding(
                             padding:  EdgeInsets.only(right: 15.0.w),
                             child: CustomTitle(
-                              title: "القيمه",
+                              title: "value".tr(),
                             ),
                           ),
                           CustomTitle(
-                            title: 'التاريخ',
+                            title: 'date'.tr(),
                           ),
                           CustomTitle(
-                            title: 'الصورة',
+                            title: 'image'.tr(),
                           ),
                         ],
                       ),
@@ -104,7 +104,7 @@ class ExpensesScreen extends StatelessWidget {
 
 Widget CustomText({required String text}) {
   return Padding(
-    padding:  EdgeInsets.only(right: 8.0.w),
+    padding:  EdgeInsets.symmetric(horizontal: 8.0.w),
     child: Text(
       text,
       style: TextStyle(fontSize: 10.sp),

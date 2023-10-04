@@ -33,6 +33,7 @@ class Data {
   String? lang;
   String? address;
   String? token;
+  int?type;
 
   Data(
       {this.name,
@@ -41,7 +42,7 @@ class Data {
         this.phone,
         this.lang,
         this.address,
-        this.token});
+        this.token,this.type});
 
   Data.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -51,6 +52,7 @@ class Data {
     lang = json['lang'];
     address = json['address'];
     token = json['token'];
+    type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,6 +64,7 @@ class Data {
     data['lang'] = this.lang;
     data['address'] = this.address;
     data['token'] = this.token;
+    data['type'] = this.type;
     return data;
   }
 }

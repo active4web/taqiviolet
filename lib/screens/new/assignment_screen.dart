@@ -48,25 +48,26 @@ class AssignmentScreen extends StatelessWidget {
                           MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "الاسم",
+                              "theName".tr(),
                               style: TextStyle(fontSize: 10),
                             ),
+                            SizedBox(width: 10,),
                             Padding(
-                              padding: EdgeInsets.only(right: 60.0.w),
+                              padding: EdgeInsets.symmetric(horizontal: 30.0.w),
                               child: Text(
-                                "السعر",
+                                "price".tr(),
                                 style: TextStyle(fontSize: 10.sp),
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(right: 30.0.w),
+                              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                               child: Text(
-                                "الصورة",
+                                "image".tr(),
                                 style: TextStyle(fontSize: 10.sp),
                               ),
                             ),
                             Text(
-                              "المزيد",
+                              "More".tr(),
                               style: TextStyle(fontSize: 10.sp),
                             ),
                           ],

@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:125012533288:android:cab3dadd833a272016151d",
         "android_client_info": {
-          "package_name": "active4web.com.safsofa"
+          "package_name": "active4web.com.taqi"
         }
       },
       "oauth_client": [
@@ -17,7 +17,7 @@
           "client_id": "125012533288-2b1851h4a4qvpibsi16pnabinjmjr6id.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "active4web.com.safsofa",
+            "package_name": "active4web.com.taqi",
             "certificate_hash": "fd7465182e00b8502a67150639b042711da16cf2"
           }
         },

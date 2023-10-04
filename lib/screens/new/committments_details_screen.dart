@@ -48,8 +48,9 @@ class _CommitmentsDetailsScreenState extends State<CommitmentsDetailsScreen> {
                               fontSize: 10.sp
                           ),
                         ),
+                        SizedBox(width: 10,),
                         Padding(
-                          padding:  EdgeInsets.only(right: 40.0.w),
+                          padding:  EdgeInsets.symmetric(horizontal: 15.0.w),
                           child: Text(
                             "assignment".tr(),
                             style: TextStyle(
@@ -60,7 +61,7 @@ class _CommitmentsDetailsScreenState extends State<CommitmentsDetailsScreen> {
                         Padding(
                           padding:  EdgeInsets.only(right: 10.0.w),
                           child: Text(
-                            "التاريخ".tr(),
+                            "date".tr(),
                             style: TextStyle(
                                 fontSize: 10.sp
                             ),

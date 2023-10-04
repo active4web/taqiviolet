@@ -63,6 +63,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await CacheHelper.init();
+
   await EasyLocalization.ensureInitialized();
   Mhelper.init();
   await FirebaseMessaging.instance.getToken().then((value) {

@@ -84,7 +84,7 @@ class PushNotificationManagger {
     });
   }
 
-  static Future<void> showNotification({
+  static Future<void>  showNotification({
     required RemoteMessage message,
     required FlutterLocalNotificationsPlugin fln,
     String? payload,

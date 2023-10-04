@@ -277,6 +277,8 @@ class AuthCubit extends Cubit<AuthStates> {
       if (value.data['status'] == true) {
         loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
         CacheHelper.setData(key: 'id', value: loginSuccessResponse?.data?.id);
+        CacheHelper.setData(key: 'type', value: loginSuccessResponse?.data?.type);
+        print("hhhhhhhhhhhhhhhhhh${value.data}");
         CacheHelper.setData(
             key: 'token', value: loginSuccessResponse?.data?.token);
         CacheHelper.setData(
@@ -311,6 +313,7 @@ class AuthCubit extends Cubit<AuthStates> {
       token: kToken,
     ).then((value) {
       if (value.data['status']) {
+        CacheHelper.removeData('type');
         CacheHelper.removeData('userInfo');
         CacheHelper.removeData('token');
         CacheHelper.removeData('id');

@@ -298,7 +298,12 @@
   "basicQuantity": "Basic quantity",
   "quantitySold": "Quantity sold",
   "remaining": "Remaining",
-  "productImage": "Product Image"
+  "productImage": "Product Image",
+  "image": "Image",
+  "date": "Date",
+  "status": "Status",
+  "theName": "Name"
+
 
 
 

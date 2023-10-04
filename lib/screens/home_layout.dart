@@ -75,7 +75,7 @@ class HomeLayout extends StatelessWidget {
             index: cubit.selectedIndex,
           )*/
               ,
-              bottomNavigationBar: SizedBox(height:75.5.h,child: CustomBottomNavigationBar()),
+              bottomNavigationBar: SizedBox(height:80.5.h,child: CustomBottomNavigationBar()),
             )
     );
   }}

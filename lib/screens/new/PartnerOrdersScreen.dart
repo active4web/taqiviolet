@@ -41,41 +41,42 @@ class PartnerOrdersScreen extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10.w),
                       child: Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Padding(
                             padding:  EdgeInsets.symmetric(horizontal: 30.0.w),
                             child: Text(
-                              "اسم المنتج",
+                              "productName".tr(),
                               style: TextStyle(
                                   fontSize: 10.sp
                               ),
                             ),
                           ),
                           Padding(
-                            padding:  EdgeInsets.only(right: 50.0.w),
+                            padding:  EdgeInsets.symmetric(horizontal: 25.0.w),
                             child: Text(
-                              "السعر",
+                              "price".tr(),
                               style: TextStyle(
                                   fontSize: 10.sp
                               ),
                             ),
                           ),
                           Padding(
-                            padding:  EdgeInsets.symmetric(horizontal: 35.0.w),
+                            padding:  EdgeInsets.symmetric(horizontal: 0.0.w),
                             child: Text(
-                              "الصورة",
+                              "image".tr(),
                               style: TextStyle(
                                   fontSize: 10.sp
                               ),
                             ),
                           ),
+                          SizedBox(width: 10.w,),
                           GestureDetector(
                             onTap: (){
                               showDialog(
                                 context: context,
                                 builder: (ctx) => AlertDialog(
-                                  title:  Text("الحاله"),
+                                  title:  Text("status".tr()),
                                   content: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -113,7 +114,7 @@ class PartnerOrdersScreen extends StatelessWidget {
                             child: Row(
                               children: [
                                 Text(
-                                  "الحاله",
+                                  "status".tr(),
                                   style: TextStyle(
                                       fontSize: 10
                                   ),

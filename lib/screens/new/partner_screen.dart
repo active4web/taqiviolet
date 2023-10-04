@@ -32,7 +32,7 @@ class PartnerScreen extends StatelessWidget {
               SizedBox(height: 20.h,),
               Row(
                 children: [
-                  itemPartner(title: 'reportsRequests'.tr(),onTap: (){
+                  itemPartner(title: 'reportsRequests'.tr(),image: 'assets/images/reportsRequests.png',onTap: (){
                     navigateTo(context, PartnerOrdersScreen());
                   }),
                   SizedBox(width: 10.w,),
@@ -109,11 +109,11 @@ class PartnerScreen extends StatelessWidget {
                   //         ),
                   //       ),
                   //     )),
-                  itemPartner(title: 'commitments'.tr(),onTap: (){
+                  itemPartner(title: 'commitments'.tr(),image: 'assets/images/commitments.png',onTap: (){
                     navigateTo(context, CommitmentsScreen());
                   }),
                   SizedBox(width: 10.w,),
-                  itemPartner(title: 'inventory'.tr(),onTap: (){
+                  itemPartner(title: 'inventory'.tr(),image: 'assets/images/inventory.png',onTap: (){
                     navigateTo(context, InventoryScreen());
 
                   }),
@@ -121,18 +121,18 @@ class PartnerScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  itemPartner(title: 'financialReports'.tr(),onTap: (){
+                  itemPartner(title: 'financialReports'.tr(),image: 'assets/images/financialReports.png',onTap: (){
                     navigateTo(context, FinancialReportsScreen());
 
                   }),
                   SizedBox(width: 10.w,),
 
-                  itemPartner(title: 'expenses'.tr(),onTap: (){
+                  itemPartner(title: 'expenses'.tr(),image: 'assets/images/expenses.png',onTap: (){
                     navigateTo(context, ExpensesScreen());
 
                   }),
                   SizedBox(width: 10.w,),
-                  itemPartner(title: 'assignment'.tr(),onTap: (){
+                  itemPartner(title: 'assignment'.tr(),image: 'assets/images/assignment.png',onTap: (){
                     navigateTo(context, AssignmentScreen());
 
                   }),
@@ -151,20 +151,20 @@ class PartnerScreen extends StatelessWidget {
   }
 }
 
-Widget itemPartner({void Function()? onTap,required String title}){
+Widget itemPartner({void Function()? onTap,required String title,required String image}){
   return Column(
     children: [
       InkWell(
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.all(10.r),
-          height: 100.h,
-          width: 100.w,
+          height: 80.h,
+          width: 80.w,
           decoration: BoxDecoration(
             color: kLightGoldColor,
             borderRadius: BorderRadius.circular(10.r),
           ),
-          child:SvgPicture.asset("assets/images/Group 345.svg"),
+          child:Image.asset(image),
         ),
       ),
       SizedBox(height: 10.h,),

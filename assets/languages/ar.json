@@ -292,7 +292,11 @@
   "basicQuantity": "الكمية الاساسيه",
   "quantitySold": "الكمية المباعه",
   "remaining": "المتبقي",
-  "productImage": "صورة المنتج"
+  "productImage": "صورة المنتج",
+  "image": "الصورة",
+  "date": "التاريخ",
+  "status": "الحالة",
+  "theName": "الاسم"
 
 
 }

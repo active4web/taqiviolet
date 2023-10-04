@@ -21,6 +21,7 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../network/local/cache_helper.dart';
 import '../new/partner_screen.dart';
 
 class MyAccountScreen extends StatefulWidget {
@@ -316,7 +317,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       text: 'ShareApp'.tr(),
                                       onTap: () {
                                         Share.share(
-                                            'https://play.google.com/store/apps/details?id=active4web.com.safsofa');
+                                            'https://play.google.com/store/apps/details?id=active4web.com.taqi');
                                       },
                                     ),
                                   ),
@@ -325,6 +326,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               SizedBox(
                                 height: 20,
                               ),
+                              if(CacheHelper.getData('type')==0)
                               Row(
                                 children: [
 
