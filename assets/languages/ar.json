@@ -306,5 +306,9 @@
   "identifier": "",
   "meta": {},
   "schemaVersion": 0,
-  "newOffers": "احدث العروض"
+  "newOffers": "احدث العروض",
+  "title": "العنوان",
+  "inbox": "رسائلي",
+  "outbox": "المرسله",
+  "message": "الرساله"
 }

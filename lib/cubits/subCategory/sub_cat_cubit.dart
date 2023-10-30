@@ -10,6 +10,8 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 import '../../models/ProductModel.dart';
+import '../../models/search_results_model.dart';
+import '../../network/local/cache_helper.dart';
 
 part 'sub_cat_state.dart';
 
@@ -172,6 +174,29 @@ class SubCatCubit extends Cubit<SubCatState> {
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
       }
+    });
+  }
+
+  SearchResultsModel? searchResults;
+  void getSearchData(
+      {required int categoryId,
+        String? productName}) {
+    emit(SearchLoadingState());
+    Mhelper.postData(url: '/api/searchByPrice', data: {
+      'category_id': categoryId,
+      'productName': productName
+    }, query: {
+      'lang': CacheHelper.getData("language")
+    }).then((value) {
+
+      productFromCatModel = ProductFromCatModel.fromJson(value.data);
+      productFromCatList = productFromCatModel?.data;
+      // log(value.data.toString());
+      print(value.data);
+      emit(SearchSuccessState());
+    }).catchError((error) {
+      print("error ${error.toString()}");
+      emit(SearchErrorState());
     });
   }
 }

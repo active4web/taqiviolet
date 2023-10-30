@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/search_cubit/search_cubit.dart';
 import 'package:safsofa/cubits/search_cubit/search_state.dart';
+import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -239,6 +240,7 @@ class SearchScreen extends StatelessWidget {
                           SizedBox(
                             height: height / 35,
                           ),
+                          state is LoadingSearchResults?CustomCircularProgress():
                           CustomButton(
                             height: height / 18,
                             text: "Search".tr(),
@@ -269,13 +271,11 @@ class SearchScreen extends StatelessWidget {
                           ),
                           SearchCubit.get(context).searchResults != null
                               ? state is SuccessSearchResults
-                                  ? GridView.builder(
+                                  ?SearchCubit.get(context).searchResults!.data!.isEmpty ?Center(child: Text("No Products Found")) :GridView.builder(
                                       shrinkWrap: true,
                                       physics: NeverScrollableScrollPhysics(),
                                       itemCount: SearchCubit.get(context)
-                                          .searchResults!
-                                          .data!
-                                          .length,
+                                          .searchResults?.data?.length??0,
                                       gridDelegate:
                                           SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 2,
@@ -287,32 +287,32 @@ class SearchScreen extends StatelessWidget {
                                         onclick: () {},
                                         isFavourite: SearchCubit.get(context)
                                                 .searchResults
-                                                ?.data![index]
+                                                ?.data?[index]
                                                 .hasFavorites ==
                                             1,
                                         totalRate: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
-                                            .reviewRate,
+                                            ?.data?[index]
+                                            .reviewRate??'',
                                         image: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
+                                            ?.data?[index]
                                             .image,
                                         currentPrice: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
+                                            ?.data?[index]
                                             .currentPrice,
                                         oldPrice: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
+                                            ?.data?[index]
                                             .oldPrice,
                                         productName: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
+                                            ?.data?[index]
                                             .name,
                                         productId: SearchCubit.get(context)
                                             .searchResults
-                                            ?.data![index]
+                                            ?.data?[index]
                                             .id,
                                         onFavPressed: () {
                                           if (kToken != null &&
@@ -334,9 +334,7 @@ class SearchScreen extends StatelessWidget {
                                     )
                                   : state is! SelectItem
                                       ? Center(
-                                          child: CircularProgressIndicator(
-                                            color: kDarkGoldColor,
-                                          ),
+                                          child: SizedBox.shrink(),
                                         )
                                       : SizedBox()
                               : SizedBox()

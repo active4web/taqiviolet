@@ -309,5 +309,9 @@
   "homepage": "",
   "identifier": "",
   "meta": {},
-  "schemaVersion": 0
+  "schemaVersion": 0,
+  "title": "title",
+  "inbox": "Inbox",
+  "outbox": "Outbox",
+  "message": "Message"
 }

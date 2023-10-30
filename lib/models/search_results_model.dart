@@ -72,18 +72,18 @@ class ResultData {
   }
   int? id;
   String? name;
-  int? oldPrice;
-  int? currentPrice;
+  num? oldPrice;
+  num? currentPrice;
   String? details;
   String? quantity;
-  int? subCategoryId;
-  int? categoryId;
-  int? isActive;
-  int? storeId;
+  num? subCategoryId;
+  num? categoryId;
+  num? isActive;
+  num? storeId;
   String? createdAt;
   String? updatedAt;
   String? image;
-  int? hasFavorites;
+  num? hasFavorites;
   String? reviewRate;
 
 /*  Map<String, dynamic> toJson() {

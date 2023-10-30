@@ -84,7 +84,7 @@ class AboutScreen extends StatelessWidget {
                               ),
                             ],
                           ),
-                          itemCount: cubit.aboutModel!.data!.length,
+                          itemCount: cubit.aboutModel!.data!.length-1,
                         ),
                         Divider(
                           thickness: 1,

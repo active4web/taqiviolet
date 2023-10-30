@@ -7,9 +7,8 @@ import 'package:safsofa/screens/new/mail_screen/presentation/screen/main_mail_sc
 
 import 'package:safsofa/screens/new/mail_screen/presentation/widgets/get_all_users.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
-import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/constants.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../../../../../shared/components/custom_app_bar.dart';
 import '../../../../../../shared/components/custom_text_form_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,7 +160,7 @@ class _MainMailScreenState extends State<MainMailScreen>
                                     return 'يجب ادخال رقم المحمول';
                                   }
                                 },
-                                hintText: "رقم المحمول",
+                                hintText: "Phone".tr(),
                                 hintColor: Colors.black,
                                 fillColor: Colors.grey.shade400,
                                 keyboardType: TextInputType.phone),

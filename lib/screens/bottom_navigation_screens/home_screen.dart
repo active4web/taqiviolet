@@ -1150,9 +1150,7 @@ class HomeCard extends StatelessWidget {
 
     // cubit.getAllDepartments(
     //     catId: cubit.homeScreenModel.result.allCategories[index].catId);
-    log('${cubit?.homeMainCatList![index].id.toString()}');
-    print('iiiiii${cubit?.homeMainCatList![index].id.toString()}');
-   print("0"*100);
+    print(cubit!.homeMainCatList![index].id.toString());
     navigateTo(
         context,
         index == 4
@@ -1161,11 +1159,9 @@ class HomeCard extends StatelessWidget {
               )
             : DisplayProductsScreen(
                 hasDepartments:
-                    cubit?.homeMainCatList![index].hasSubCategories == 1
-                        ? true
-                        : false,
+                false,
                 categoryName: "${cubit?.homeMainCatList![index].name}",
-                category_id: cubit!.homeMainCatList![index].id.toString(),
+                category_id: cubit!.homeMainCatList![index].id,
               ));
   }
 

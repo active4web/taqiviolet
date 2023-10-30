@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/cubits/search_cubit/search_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
@@ -22,7 +23,7 @@ class DisplayProductsScreen extends StatefulWidget {
     this.category_id,
   });
 
-  final String? category_id;
+  final int? category_id;
   final String? categoryName;
   final hasDepartments;
 
@@ -35,6 +36,7 @@ bool ProductFromSubCat = false;
 class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
   ScrollController _scrollController = new ScrollController();
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var searchController=TextEditingController();
 
   @override
   void initState() {
@@ -63,6 +65,11 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
         return Scaffold(
             backgroundColor: Colors.white,
             appBar: CustomAppBarWithSearch(
+              controller: searchController,
+                onChange: (value){
+                print(widget.category_id);
+               cubit.getSearchData(categoryId: widget.category_id??0,productName: value);
+                },
                 colorIcon: kDarkGoldColor,
                 title: widget.categoryName,
                 colorAB: Colors.white),
@@ -73,16 +80,8 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                   )
                 : state is ProductLoading
                     ? Center(child: CircularProgressIndicator())
-                    : cubit.productFromCatList!.length == 0
-                        ? Center(
-                            child: Text(
-                            'NoProducts'.tr(),
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20,
-                                color: Colors.grey),
-                          ))
-                        : SingleChildScrollView(
+                    :
+                        SingleChildScrollView(
                             child: Padding(
                               padding: MediaQuery.of(context).viewInsets,
                               child: widget.hasDepartments
@@ -101,7 +100,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                         .size
                                                         .height *
                                                     0.20,
-                                                child: ListView.separated(
+                                                child:ListView.separated(
                                                     physics:
                                                         AlwaysScrollableScrollPhysics(),
                                                     scrollDirection:

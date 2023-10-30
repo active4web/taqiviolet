@@ -293,8 +293,8 @@ class NewPayScreenAfterGifts extends StatelessWidget {
                                       message: messageController.text,
                                       senderName: nameController.text,
                                       price: price.toString(),
-                                      imgId: cubit.newImageId!,
-                                      priceId: cubit.newPriceId!,
+                                      imgId: cubit.newImageId??0,
+                                      priceId: cubit.newPriceId??0,
                                     );
                                     print('object');
                                   } else {

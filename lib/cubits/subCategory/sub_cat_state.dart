@@ -24,4 +24,9 @@ class FavoritesListLoading extends SubCatState {}
 class RemoveFromFavoriteSuccess extends SubCatState {}
 class AddToFavoriteSuccess extends SubCatState {}
 
+
+class SearchLoadingState extends SubCatState{}
+class SearchErrorState extends SubCatState{}
+class SearchSuccessState extends SubCatState{}
+
 ///TODO:End of SubCat States

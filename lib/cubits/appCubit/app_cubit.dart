@@ -534,7 +534,7 @@ class AppCubit extends Cubit<AppStates> {
     emit(GetHomeScreenLoadingState());
     Mhelper.getData(
       url:
-          'https://taqiviolet.com/api/categories?store_id=34&lang=${kLanguage}',
+          'https://taqi.axistrading.com.sa/api/categories?store_id=34&lang=${kLanguage}',
     ).then((value) {
       log("the data of ${value.data}");
       homeScreenMainCatModel =
