@@ -30,7 +30,7 @@ class ContactUsScreen extends StatelessWidget {
 
         return Scaffold(
           appBar: CustomAppBar(
-            title: 'ContactUs'.tr(),
+            title: 'newOffers'.tr(),
           ),
           body: SingleChildScrollView(
             child: Padding(

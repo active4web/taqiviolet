@@ -27,12 +27,14 @@ class Mhelper {
   static Future<Response> getData({
     required String url,
     Map<String, dynamic>? query,
+    dynamic data,
     token,
   }) async {
     dio.options.headers["authorization"] = "Bearer $token";
     return await dio.get(
       url,
       queryParameters: query,
+      data:data,
     );
   }
 

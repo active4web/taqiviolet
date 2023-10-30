@@ -19,16 +19,12 @@ class InspirationCubit extends Cubit<InspirationStates> {
         url: inspiration,
         query: {'lang': kLanguage})
         .then((value) async {
-          print('Bishoooo1111');
       _inspirationModel = InspirationModel.fromJson(value.data);
-      print('Bishoooo1111');
-      print(_inspirationModel!.data![0].iD);
       inspirationData = _inspirationModel!.data!;
       log(inspirationData[0].urlLink.toString());
       emit(GetInspirationSuccessState());
     }).catchError((error) {
-      log('=' * 10 + 'error in inspiration' + '=' * 10);
-      log('*' * 10 + error.toString() + '*' * 10);
+      print("hhhhhhhhhhhhhhhhhhhhhhhh $error");
       emit(GetInspirationErrorState());
     });
   }

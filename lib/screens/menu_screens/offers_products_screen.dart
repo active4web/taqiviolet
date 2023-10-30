@@ -60,7 +60,7 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                               log("000000000000000000000000");
                               log("000000000000000000000000     ${cubit.productOffers?.data![index].id}");
                               appCubit.getProductDetails(
-                                productId: cubit.productOffers?.data![index].id,
+                                productId: cubit.productOffers?.data![index].id!.toInt(),
                               );
                               navigateTo(context, ProductDetailsScreen());
                             },
@@ -77,14 +77,14 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                             // oldPrice: cubit
                             //     .productsModel.result.allProducts[index].oldPrice,
                             productName: cubit.productOffers?.data![index].name,
-                            productId: cubit.productOffers?.data![index].id,
+                            productId: cubit.productOffers?.data![index].id!.toInt(),
                             onFavPressed: () {
                               if (kToken != null && kToken!.isNotEmpty) {
                                 // isFavourite = !isFavourite;
                                 // log(cubit.productOffers?.data![index].id.toString() +
                                 //     "DDDDD");
                                 cubit.updateFavorite(
-                                    prodId: (cubit.productOffers?.data![index].id)!);
+                                    prodId: (cubit.productOffers?.data![index].id)!.toInt());
                                 // cubit.emit(ChangeIconColor());
                               } else {
                                 showToast(

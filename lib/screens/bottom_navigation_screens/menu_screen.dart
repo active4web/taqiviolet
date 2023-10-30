@@ -2,6 +2,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
@@ -48,7 +49,7 @@ class MenuScreen extends StatelessWidget {
               builder: (context, state) {
                 return SingleChildScrollView(
                   child: Padding(
-                    padding: const EdgeInsets.all(30),
+                    padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 20.h),
                     child: Column(
                       children: [
                         Container(
@@ -62,7 +63,7 @@ class MenuScreen extends StatelessWidget {
                           ),
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -93,7 +94,7 @@ class MenuScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -133,7 +134,7 @@ class MenuScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -226,7 +227,7 @@ class MenuScreen extends StatelessWidget {
                           ],
                         ),
                         SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Row(
                           children: [
@@ -244,7 +245,7 @@ class MenuScreen extends StatelessWidget {
                             ),
                             Expanded(
                               child: MenuTile(
-                                label: 'ContactUs'.tr(),
+                                label: 'newOffers'.tr(),
                                 image: AssetImage('assets/images/phone.png'),
                                 onTap: () {
                                   navigateTo(context, ContactUsScreen());
@@ -285,9 +286,7 @@ class MenuScreen extends StatelessWidget {
                                   ),
                           ],
                         ),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.11,
-                        )
+
                       ],
                     ),
                   ),

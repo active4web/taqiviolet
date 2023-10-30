@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:safsofa/screens/new/Commitments_Screen.dart';
 import 'package:safsofa/screens/new/expenses_screen.dart';
+import 'package:safsofa/screens/new/mail_screen/presentation/screen/main_mail_screen/main_mail_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -139,8 +140,14 @@ class PartnerScreen extends StatelessWidget {
 
                 ],
               ),
+              Row(
+                children: [
+                  itemPartner(title: 'صندوق البريد',image: 'assets/images/financialReports.png',onTap: (){
+                    navigateTo(context, MainMailScreen());
 
-
+                  }),
+                ],
+              ),
               SizedBox(height: 10.h,),
 
             ],

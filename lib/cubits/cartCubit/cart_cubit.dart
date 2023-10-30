@@ -29,7 +29,7 @@ class CartCubit extends Cubit<CartState> {
 
   static CartCubit get(context) => BlocProvider.of(context);
 
-  double total = 0;
+  late double total ;
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
 
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
@@ -40,7 +40,7 @@ class CartCubit extends Cubit<CartState> {
       emit(CartLoadingState());
     }
     emit(CartLoadingState());
-    total = 0;
+     total = 0;
     Mhelper.getData(
         url: myCartURL,
         token: CacheHelper.getData("token"),
@@ -157,9 +157,10 @@ class CartCubit extends Cubit<CartState> {
   CartProductsPricesModel? productCartPrices;
 
   getLocalCartData() {
+     // total =0;
     emit(CartLoadingState());
-    total =0;
     if (CacheHelper.getData('localCart') != null) {
+      total=0;
       Map<String, dynamic> json = jsonDecode(CacheHelper.getData('localCart'));
       myCartlocalModel = CartLocalModel.fromJson(json);
       String productIds = '';
@@ -300,7 +301,7 @@ class CartCubit extends Cubit<CartState> {
     myCartlocalModel?.cartProducts?.clear();
     cartProducts?.cartProducts?.clear();
     CacheHelper.removeData('localCart');
-    total = 0.0;
+     total = 0.0;
     cartCount = 0;
     CacheHelper.setData(key: 'cartCount', value: cartCount);
     cartCountControlller.add(cartCount);

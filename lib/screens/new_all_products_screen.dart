@@ -132,7 +132,10 @@ class _NewAllProductsScreenState extends State<NewAllProductsScreen> {
                                                       itemBuilder: (context, index) {
                                                         return InkWell(
                                                           onTap: () {
-                                                            SubCatCubit.get(context).addFavProductToFavList(listId: SubCatCubit.get(context).favListModel!.data![index].iD!, productId: cubit.getAllNewProductsNewModel!.data![index].id!, index: index, context: context);
+                                                            SubCatCubit.get(context).addFavProductToFavList(
+                                                              index: index,
+                                                                listId: SubCatCubit.get(context).favListModel!.data![index].iD!,
+                                                                productId: cubit.getAllNewProductsNewModel!.data![index].id!, context: context);
                                                           },
                                                           child: Wrap(
                                                             direction: Axis.vertical,

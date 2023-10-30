@@ -95,7 +95,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                 child: ConditionalBuilder(
                   condition: state is! ShowCouponsDataLoading && state is ! ShowOldCouponsDataLoading,
                   builder: (context) =>
-                  cubit.couponsModel!.data!.couponLists!.length==0 ?
+                  cubit.couponsModel?.data?.couponLists?.length==0 ?
                   Center(child: Text(" لا يوجد كوبونات حاليا",
                     style: TextStyle(
                       fontSize: 25,

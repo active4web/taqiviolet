@@ -8,9 +8,14 @@ import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/shared/components/custom_bottom_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
-class HomeLayout extends StatelessWidget {
+class HomeLayout extends StatefulWidget {
   const HomeLayout({Key? key}) : super(key: key);
 
+  @override
+  State<HomeLayout> createState() => _HomeLayoutState();
+}
+
+class _HomeLayoutState extends State<HomeLayout>with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
@@ -75,7 +80,12 @@ class HomeLayout extends StatelessWidget {
             index: cubit.selectedIndex,
           )*/
               ,
-              bottomNavigationBar: SizedBox(height:80.5.h,child: CustomBottomNavigationBar()),
+              bottomNavigationBar:  CustomBottomNavigationBar(),
             )
     );
-  }}
+  }
+
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true
+  ;}

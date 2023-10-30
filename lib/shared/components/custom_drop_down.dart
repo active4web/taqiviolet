@@ -11,7 +11,7 @@ class CustomDropDown<T> extends StatelessWidget {
   final List<DropdownMenuItem<T>> items;
   final dynamic Function(T) onChanged;
 
-  final Function? validate;
+  String? Function(T?)? validate ;
   CustomDropDown({
     required this.hintText,
     required this.items,
@@ -25,6 +25,7 @@ class CustomDropDown<T> extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
+
       style: TextStyle(
         color: textColor,
         fontFamily: 'Tajawal',
@@ -82,9 +83,7 @@ class CustomDropDown<T> extends StatelessWidget {
       // dropdownDecoration: BoxDecoration(
       //   borderRadius: BorderRadius.circular(10),
       // ),
-      validator: (va){
-       return validate!(va);
-      },
+      validator:validate,
       onChanged: (v){
        return onChanged(v as T);
       },

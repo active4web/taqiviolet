@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
@@ -28,22 +29,25 @@ import '../../shared/components/custom_app_bar.dart';
 import '../../shared/components/store_components/product_cards.dart';
 import '../searchScreen.dart';
 import 'package:card_swiper/card_swiper.dart';
+
 class HomeScreen extends StatefulWidget {
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
- final GlobalKey<RefreshIndicatorState> _globalKey = GlobalKey<RefreshIndicatorState>();
- @override
- void dispose() {
-   _globalKey.currentState?.dispose(); // 👈 dispose the key here
-   super.dispose();
- }
+  final GlobalKey<RefreshIndicatorState> _globalKey =
+      GlobalKey<RefreshIndicatorState>();
+
+  @override
+  void dispose() {
+    _globalKey.currentState?.dispose(); // 👈 dispose the key here
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-
-   print("5"*20);
+    print("5" * 20);
     AppCubit cubit = AppCubit.get(context);
     var offerCubit = OfferCubit.get(context);
     offerCubit.getOfferData();
@@ -137,10 +141,9 @@ class _HomeScreenState extends State<HomeScreen> {
       builder: (context, state) {
         // state is AppInitial ?? cubit.fetchData();
         return WillPopScope(
-          onWillPop: ()async {
+          onWillPop: () async {
             displayLogoutDialog(
-                context, "closeApplication".tr(), "wantExit".tr()
-          );
+                context, "closeApplication".tr(), "wantExit".tr());
             return true;
           },
           child: Scaffold(
@@ -158,9 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Expanded(
                       child: IconButton(
-                        icon: Icon(CupertinoIcons.search, color: kLightGoldColor),
+                        icon:
+                            Icon(CupertinoIcons.search, color: kLightGoldColor),
                         onPressed: () {
-
                           navigateTo(context, SearchScreen());
                         },
                       ),
@@ -169,10 +172,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: IconButton(
                         icon: Icon(CupertinoIcons.bell, color: kLightGoldColor),
                         onPressed: () {
-                          if(kToken == null){
+                          if (kToken == null) {
                             AppCubit.get(context).selectedIndex = 3;
                             navigateAndFinish(context, HomeLayout());
-                          }else
+                          } else
                             navigateTo(context, NotificationsScreen());
                         },
                       ),
@@ -186,17 +189,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 backgroundColor: Color(0xff393846),
                 systemOverlayStyle: SystemUiOverlayStyle(
                     statusBarColor: Color(0xff393846),
-                    statusBarIconBrightness: Brightness.light
-                ) ,
+                    statusBarIconBrightness: Brightness.light),
+
                 ///Color(),// Colors.white,
                 elevation: 0,
                 titleTextStyle: TextStyle(
-                    color: kLightGoldColor, fontFamily: 'Tajawal', fontSize: 18),
+                    color: kLightGoldColor,
+                    fontFamily: 'Tajawal',
+                    fontSize: 18),
                 shape: ContinuousRectangleBorder(
                   borderRadius: BorderRadius.only(
                     bottomRight: Radius.circular(60),
                     bottomLeft: Radius.circular(60),
-
                   ),
                 ),
                 iconTheme: IconThemeData(color: kLightGoldColor),
@@ -204,13 +208,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Image(
-                      image: AssetImage('assets/images/CjNXMk2j7aZvFbC5k5LbDOoBhYylZTRxrSx4jSVU.png',),
+                      image: AssetImage(
+                        'assets/images/CjNXMk2j7aZvFbC5k5LbDOoBhYylZTRxrSx4jSVU.png',
+                      ),
                       height: 70,
                       width: 70,
                     ),
                   ),
                 ],
-
               ),
             ),
             // appBar: AppBar(
@@ -273,12 +278,12 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : RefreshIndicator(
-              key: _globalKey,
-                  onRefresh:() async{
-                  return AppCubit.get(context).fetchData();
-                  } ,
-                  child: ListView(
-              physics: BouncingScrollPhysics(),
+                    key: _globalKey,
+                    onRefresh: () async {
+                      return AppCubit.get(context).fetchData();
+                    },
+                    child: ListView(
+                      physics: BouncingScrollPhysics(),
                       shrinkWrap: true,
                       padding: EdgeInsets.zero,
                       children: [
@@ -286,28 +291,29 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 1,
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height * 0.5/2,
+                          height: MediaQuery.of(context).size.height * 0.5 / 2,
                           width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(color: Color(0xfff6f6f6),),
-                          child:
-                          Swiper(
+                          decoration: BoxDecoration(
+                            color: Color(0xfff6f6f6),
+                          ),
+                          child: Swiper(
                               autoplay: true,
-                              itemCount:cubit.homeBannersList!.length,
+                              itemCount: cubit.homeBannersList!.length,
                               pagination: const SwiperPagination(
                                 alignment: Alignment.bottomCenter,
                                 builder: DotSwiperPaginationBuilder(
                                   color: Colors.grey,
-                                  activeColor:kDarkGoldColor ,
+                                  activeColor: kDarkGoldColor,
                                 ),
                               ),
                               duration: 600,
                               itemBuilder: (context, index) {
                                 return CustomNetworkImage(
-                                    image:"${cubit.homeBannersList![index].image}",
-                                    width: 120,
-                                    border:BorderRadius.circular(20),
-
-                                  );
+                                  image:
+                                      "${cubit.homeBannersList![index].image}",
+                                  width: 120,
+                                  border: BorderRadius.circular(20),
+                                );
 
                                 Container(
                                   decoration: BoxDecoration(
@@ -372,6 +378,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 20,
                         ),
+                        SizedBox(
+                          height: 100.h,
+                          child: ListView.builder(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                              scrollDirection: Axis.horizontal,itemBuilder: (context,index)=>SizedBox(
+                            width: 85.w,
+                            child: FeatureItem(image: cubit.featuresImages[index],title: cubit.featuresTitles[index],subTitle: cubit.featuresSubTitles[index],),
+                          ),itemCount: cubit.featuresSubTitles.length),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           child: Column(
@@ -380,7 +398,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               Row(
                                 children: [
                                   Expanded(
-                                      child: HomeCard(
+                                    child: HomeCard(
                                     index: 0,
                                     cubit: cubit,
                                     title: "${cubit.homeMainCatList![0].name}",
@@ -396,11 +414,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Expanded(
                                     flex: 220,
                                     child: HomeCard(
+                                      isActive: false,
+                                      isFeature: true,
+                                      onTap: (){},
                                       index: 3,
                                       cubit: cubit,
-                                      title: "${cubit.homeMainCatList![3].name}",
+                                      title:
+                                          "${cubit.homeMainCatList![3].name}",
                                       //cubit.homeMainCatList[1].name.ar,
-                                      image: "${cubit.homeMainCatList![3].image}",
+                                      image:
+                                          "${cubit.homeMainCatList![3].image}",
                                     ),
                                   ),
                                   SizedBox(
@@ -411,9 +434,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                     child: HomeCard(
                                       index: 1,
                                       cubit: cubit,
-                                      title: "${cubit.homeMainCatList![1].name}",
+                                      title:
+                                          "${cubit.homeMainCatList![1].name}",
                                       //cubit.homeMainCatList[1].name.ar,
-                                      image: "${cubit.homeMainCatList![1].image}",
+                                      image:
+                                          "${cubit.homeMainCatList![1].image}",
                                     ),
                                   ),
                                 ],
@@ -458,7 +483,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         index: 4,
                                         isFeature: true,
                                         // cubit: cubit,
-                                        title: "Inspiration and creativity".tr(),
+                                        title:
+                                            "Inspiration and creativity".tr(),
                                         onTap: () {
                                           navigateTo(
                                               context,
@@ -470,7 +496,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                         //cubit.homeMainCatList[1].name.ar,
                                         //  jhdudhfiurhfirci
-                                        image: "${cubit.constructionLink?.data?.inspirationImage}"
+                                        image:
+                                            "${cubit.constructionLink?.data?.inspirationImage}"
 
                                         //  cubit.homeMainCatList[2].image
                                         //'https://taqiviolet.com/public/images/inspiration/47hFDvRXrgNpYoenB4H8TazwQISSnSpE1ZORkBuN.jpeg',
@@ -516,10 +543,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   .constructionLink
                                   ?.data
                                   ?.videoLink,
-                            )
-
-
-                            ),
+                            )),
                         SizedBox(
                           height: 30,
                         ),
@@ -528,7 +552,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Column(
                             children: [
                               InkWell(
-                                onTap: () => navigateTo(context, OffersScreen()),
+                                onTap: () =>
+                                    navigateTo(context, OffersScreen()),
                                 child: Label(
                                   text: "OffersAndDiscounts".tr(),
                                 ),
@@ -553,35 +578,83 @@ class _HomeScreenState extends State<HomeScreen> {
                               state is GetConstructionSuccessState ||
                                       cubit.constructionLink?.data != null
                                   ? SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                          0.4,
-                                      child: ListView.separated(
-                                          scrollDirection: Axis.horizontal,
-                                          itemBuilder: (context, index) =>
-                                              SizedBox(
-                                                height: MediaQuery.of(context).size.height * 0.4,
-                                                width: MediaQuery.of(context).size.width / 1.95,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+        0.4,
+        child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) =>
+        SizedBox(
+        height: MediaQuery.of(context)
+                                                        .size
+                                                        .height *
+                                                    0.4,
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width /
+                                                    1.95,
                                                 child: VerticalProductCard(
-                                                  isFavourite:
-                                                      AppCubit.get(context).constructionLink?.data?.productList![index].hasFavorites == 1,
-                                                  image: AppCubit.get(context).constructionLink?.data?.productList![index].image,
-                                                  productId: AppCubit.get(context).constructionLink?.data?.productList![index].id,
-                                                  productName: AppCubit.get(context).constructionLink?.data?.productList![index].name,
-                                                  oldPrice: AppCubit.get(context).constructionLink?.data?.productList![index].oldPrice,
-                                                  currentPrice: AppCubit.get(context).constructionLink?.data?.productList![index].currentPrice,
-                                                  totalRate: AppCubit.get(context).constructionLink?.data?.productList![index].hasReview,
+                                                  isFavourite: AppCubit.get(
+                                                              context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .hasFavorites ==
+                                                      1,
+                                                  image: AppCubit.get(context)
+                                                      .constructionLink
+                                                      ?.data
+                                                      ?.productList![index]
+                                                      .image,
+                                                  productId:
+                                                      AppCubit.get(context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .id,
+                                                  productName:
+                                                      AppCubit.get(context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .name,
+                                                  oldPrice:
+                                                      AppCubit.get(context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .oldPrice,
+                                                  currentPrice:
+                                                      AppCubit.get(context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .currentPrice,
+                                                  totalRate:
+                                                      AppCubit.get(context)
+                                                          .constructionLink
+                                                          ?.data
+                                                          ?.productList![index]
+                                                          .hasReview,
                                                   onFavPressed: () {
                                                     if (kToken != '' &&
                                                         kToken!.isNotEmpty) {
                                                       if (AppCubit.get(context)
                                                               .constructionLink
                                                               ?.data
-                                                              ?.productList![index]
+                                                              ?.productList![
+                                                                  index]
                                                               .hasFavorites ==
                                                           1) {
                                                         AppCubit.get(context)
                                                             .removeFavoriteHome(
-                                                          prodId:( AppCubit.get(context).constructionLink?.data?.productList![index].id)!,
+                                                          prodId: (AppCubit.get(
+                                                                  context)
+                                                              .constructionLink
+                                                              ?.data
+                                                              ?.productList![
+                                                                  index]
+                                                              .id)!,
                                                           index: index,
                                                         );
                                                       } else {
@@ -601,8 +674,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                 listener:
                                                                     (context,
                                                                         state) {},
-                                                                builder: (context,
-                                                                    state) {
+                                                                builder:
+                                                                    (context,
+                                                                        state) {
                                                                   return Padding(
                                                                     padding: EdgeInsets.symmetric(
                                                                         horizontal:
@@ -710,7 +784,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                                                         fillColor: Colors.grey,
                                                                                                         hintColor: Colors.black87,
                                                                                                         textColor: kDarkGoldColor,
-                                                                                                        validate: (value){},
+                                                                                                        validate: (value) {},
                                                                                                       ),
                                                                                                       SizedBox(
                                                                                                         height: MediaQuery.of(context).size.height / 50,
@@ -860,12 +934,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
+                        SizedBox(height: 10.h,),
+                        Center(child: Text('خدماتنا',style: TextStyle(
+                          fontSize: 18.sp,fontWeight: FontWeight.bold
+                        ),),),
+                        SizedBox(height: 10.h,),
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.12,
-                        )
+                          height: 200.h,
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
+                            child: Row(
+                              children: [
+                                ServicesItem(image: 'assets/images/services1.png', title: 'نصنع المنتج المناسب لك من المنصنع مباشرة اليك', subTitle: 'أطلب المنتج المناسب لك من قسم الصناعة والحرف اليدوية ونوصله لك في مكانك بمدة لا تزيد 60 يوم'),
+                                SizedBox(width: 20.w,),
+                                ServicesItem(image: 'assets/images/services2.png', title: 'التوصيل', subTitle: 'وصلها لك بكل سهولة المدن الرائيسة خلال ثلاث ايام ( المنطقة الشرقية - الرياض - جدة ) ويمكنك متابعة شحنتك من التطبيق والموقع'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: 200.h,
+                          child: Padding(
+                            padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
+                            child: Row(
+                              children: [
+                                ServicesItem(image: 'assets/images/services3.png', title: 'أخذ فكرة و أطلب وستلم', subTitle: 'أكتشف المنتج المناسب لك من قسم الأفكار والألهام وأطلب أونلاين عن طريق الموقع او التطبيقات الخاصة تاقي فيولت واستلم طلبك خلال ثلاثة أيام'),
+                                SizedBox(width: 20.w,),
+                                ServicesItem(image: 'assets/images/services4.png', title: 'تستلمها سليمة', subTitle: 'جميع منتجاتنا مؤمنة تستلمها سليمة ويحقلك تسترجع المنتج اذا كان غير سليم'),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.20,
+                        ),
+
                       ],
                     ),
-                ),
+                  ),
           ),
         );
       },
@@ -884,7 +990,7 @@ class _HomeScreenState extends State<HomeScreen> {
 class OffersListView extends StatelessWidget {
   const OffersListView({
     this.cubit,
-  }) ;
+  });
 
   final AppCubit? cubit;
 
@@ -909,9 +1015,9 @@ class OffersListView extends StatelessWidget {
                     Expanded(
                       child: Container(
                         child: CustomNetworkImage(
-                          image:"${cubit?.offerModel?.data![index].image}",
+                          image: "${cubit?.offerModel?.data![index].image}",
                           width: 120,
-                          border:BorderRadius.circular(20),
+                          border: BorderRadius.circular(20),
                         ),
                         // width: MediaQuery.of(context).size.width / 1.9,
                         // decoration: BoxDecoration(
@@ -957,7 +1063,6 @@ class OffersListView extends StatelessWidget {
 }
 
 class ShowOffersCard extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -1029,15 +1134,16 @@ class HomeCard extends StatelessWidget {
     this.image,
     required this.index,
     this.cubit,
-    this.isFeature = false,
-  }) ;
+    this.isFeature = false, this.isActive=true,
+  });
 
   final Function? onTap;
-  final String ?title;
+  final String? title;
   final String? image;
   final int index;
   final AppCubit? cubit;
   final bool isFeature;
+  final bool isActive;
 
   Future<void> onPress(BuildContext context) async {
     SubCatCubit.get(context).productFromCatList?.clear();
@@ -1045,7 +1151,8 @@ class HomeCard extends StatelessWidget {
     // cubit.getAllDepartments(
     //     catId: cubit.homeScreenModel.result.allCategories[index].catId);
     log('${cubit?.homeMainCatList![index].id.toString()}');
-    log("-" * 100);
+    print('iiiiii${cubit?.homeMainCatList![index].id.toString()}');
+   print("0"*100);
     navigateTo(
         context,
         index == 4
@@ -1065,58 +1172,56 @@ class HomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: isFeature
-          ?
-      (){
-        onTap!();
-      }
-          : () {
-              onPress(context);
-            },
-      child:
-
-
-      Container(
-        alignment: AlignmentDirectional.bottomCenter,
-        height: MediaQuery.of(context).size.height * 0.2,
-        // padding: EdgeInsets.all(20),
-        child: Stack(
+        onTap: isFeature
+            ? () {
+                onTap!();
+              }
+            : () {
+                onPress(context);
+              },
+        child: Container(
           alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            CustomNetworkImage(
-              image: image ?? 'https://bit.ly/34h4E7D',
-              border: BorderRadius.circular(20),
-            ),
-            Container(
-              alignment: AlignmentDirectional.bottomCenter,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height / 25,
-              decoration: BoxDecoration(
-                //Color(0xff3A4652)
-                //Color(0xff5f5c7d)
-                  color: Color(0xff393846),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )),
-              child: Padding(
-                padding: const EdgeInsets.all(4),
-                child: Center(
-                  child: Text(
-                    "${title}",
-                    maxLines: 1,
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 12,
-                      // fontWeight: FontWeight.bold,
-                      overflow: TextOverflow.ellipsis,
+          height: MediaQuery.of(context).size.height * 0.2,
+          // padding: EdgeInsets.all(20),
+          child: Stack(
+            alignment: AlignmentDirectional.bottomCenter,
+            children: [
+              CustomNetworkImage(
+                isActive: isActive,
+                image: image ?? 'https://bit.ly/34h4E7D',
+                border: BorderRadius.circular(20),
+              ),
+              Container(
+                alignment: AlignmentDirectional.bottomCenter,
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height / 25,
+                decoration: BoxDecoration(
+                    //Color(0xff3A4652)
+                    //Color(0xff5f5c7d)
+                    color: Color(0xff393846),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    )),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Center(
+                    child: Text(
+                      "${title}",
+                      maxLines: 1,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        // fontWeight: FontWeight.bold,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
-        ),));
+              )
+            ],
+          ),
+        ));
   }
 }
 
@@ -1136,19 +1241,72 @@ class LocalHomeCard extends StatelessWidget {
         padding: EdgeInsets.all(20),
         decoration: BoxDecoration(
             color: Colors.black87,
-            image: DecorationImage(fit: BoxFit.cover, image: AssetImage("${image}")),
+            image: DecorationImage(
+                fit: BoxFit.cover, image: AssetImage("${image}")),
             borderRadius: BorderRadius.circular(20)),
         child: Column(
           children: [
             Text(
               "${title}",
-              style:
-                  TextStyle(color: Colors.white,
-                      // fontWeight: FontWeight.bold
-                  ),
+              style: TextStyle(
+                color: Colors.white,
+                // fontWeight: FontWeight.bold
+              ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class FeatureItem extends StatelessWidget {
+  const FeatureItem({super.key, required this.image, required this.title, required this.subTitle});
+
+  final String image;
+  final String title;
+  final String subTitle;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(child: Image.asset(image,)),
+          SizedBox(height: 5.h,),
+          Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),),
+          Expanded(
+            child: Text(subTitle,maxLines: 2,overflow:TextOverflow.ellipsis,textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 10.sp
+            ),),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class ServicesItem extends StatelessWidget {
+  const ServicesItem({super.key, required this.image, required this.title, required this.subTitle});
+
+  final String image;
+  final String title;
+  final String subTitle;
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Expanded(child: Image.asset(image,)),
+          SizedBox(height: 10.h,),
+          Center(child: Text(title,textAlign: TextAlign.center,maxLines: 2,style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold),)),
+          SizedBox(height: 5.h,),
+          Expanded(
+            child: Text(subTitle,maxLines: 5,overflow:TextOverflow.ellipsis,textAlign: TextAlign.center,style: TextStyle(
+                fontSize: 10.sp
+            ),),
+          ),
+        ],
       ),
     );
   }

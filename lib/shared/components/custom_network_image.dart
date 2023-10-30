@@ -9,6 +9,7 @@ class CustomNetworkImage extends StatelessWidget {
   final double width;
   final double height;
   final BorderRadiusGeometry? border;
+  final bool isActive;
 
   const CustomNetworkImage({
     Key? key,
@@ -16,6 +17,7 @@ class CustomNetworkImage extends StatelessWidget {
     this.width = double.infinity,
     this.height = 180,
     this.border,
+    this.isActive=true,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,12 @@ class CustomNetworkImage extends StatelessWidget {
             image: imageProvider,
             fit: BoxFit.cover,
           ),
+        ),child: Container(
+        decoration: BoxDecoration(
+            color:isActive?Colors.transparent:Colors.black.withOpacity(.6),
+          borderRadius: BorderRadius.circular(20)
         ),
+      ),
       ),
 
       ///=== is dark baseColor = grey[800]! & hightLightColor = grey[850]! ===///

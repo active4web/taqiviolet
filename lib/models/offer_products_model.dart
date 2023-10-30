@@ -33,23 +33,23 @@ class OfferProductsModel {
 }
 
 class Data {
-  int? id;
+  num? id;
   String? name;
   String? nameSearch;
-  int? oldPrice;
-  int? currentPrice;
-  String? smartPrice;
+  num? oldPrice;
+  num? currentPrice;
+  num? smartPrice;
   String? details;
   String? quantity;
-  int? subCategoryId;
-  int? categoryId;
-  int? isActive;
-  int? storeId;
+  num? subCategoryId;
+  num? categoryId;
+  num? isActive;
+  num? storeId;
   String? createdAt;
   String? updatedAt;
   String? image;
-  int? hasFavorites;
-  int? hasRosters;
+  num? hasFavorites;
+  num? hasRosters;
   String? hasReviews;
   String? reviewComment;
 

@@ -21,6 +21,7 @@ import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/push_notifcation.dart';
+import 'package:safsofa/screens/new/mail_screen/presentation/controller/mail_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/infraction_screen/controller/infraction_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/receipt_record_screen/controller/receipt_record_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/starting_wotk_from_screen/controller/starting_work_cubit.dart';
@@ -69,7 +70,9 @@ Future<void> main() async {
   await FirebaseMessaging.instance.getToken().then((value) {
     CacheHelper.setData(key: 'FCM', value: value);
   });
-
+  print(CacheHelper.getData('FCM'));
+  //
+  // CacheHelper.setData(key: 'FCM', value: 'value');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await PushNotificationManagger.initialize(flutterLocalNotificationsPlugin);
 
@@ -87,9 +90,6 @@ Future<void> main() async {
     kLanguage = await CacheHelper.getData('language');
   }
 
-  log('$kToken');
-  BlocOverrides.runZoned(
-        () {
       runApp(
         EasyLocalization(
             supportedLocales: [Locale('en'), Locale('ar'), Locale('it')],
@@ -100,9 +100,8 @@ Future<void> main() async {
             fallbackLocale: Locale('ar'),
             child: Phoenix(child: MyApp())),
       );
-    },
-    blocObserver: MyBlocObserver(),
-  );
+
+  Bloc.observer=MyBlocObserver();
 }
 
 class MyApp extends StatelessWidget {
@@ -186,6 +185,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => StartingWorkCubit()),
               BlocProvider(create: (context) => VacationCubit()),
               BlocProvider(create: (context) => CommitmentsCubit()),
+              BlocProvider(create: (context) => MailCubit()),
             ],
             child:
                  MaterialApp(

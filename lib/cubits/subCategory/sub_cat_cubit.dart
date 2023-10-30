@@ -29,7 +29,6 @@ class SubCatCubit extends Cubit<SubCatState> {
     await Mhelper.getData(
         url: SubCatEndPoint + CatId, query: {'lang': kLanguage}).then((value) {
       subCatDataModel = SubCatDataModel.fromJson(value.data);
-      log(value.data.toString());
       subCatDataList = subCatDataModel?.date;
       log('${subCatDataList![0].name}');
       emit(HomeSubCatSuccess());
@@ -54,16 +53,13 @@ class SubCatCubit extends Cubit<SubCatState> {
       token: kToken,
       query: {"category_id": ProId, 'lang': kLanguage},
     ).then((value) {
-      log(value.data.toString());
       productFromCatModel = ProductFromCatModel.fromJson(value.data);
-
-      log('${productFromCatModel?.data}');
       productFromCatList = productFromCatModel?.data;
-      log('$productFromCatList');
       emit(ProductSuccess());
+      print("1"*100);
+      print(productFromCatList!.length);
     }).catchError((err) {
       emit(ProductError());
-      log("///Home Err:${err.toString()}");
     });
   }
 
@@ -80,7 +76,7 @@ class SubCatCubit extends Cubit<SubCatState> {
           if (productFromCatList![i].id == prodId) {
             if (productFromCatList![i].hasFavorites == 0) {
               productFromCatList![i].hasFavorites = 1;
-              emit(ProductSuccess());
+              emit(RemoveFromFavoriteSuccess());
               break;
             } else {
               productFromCatList![i].hasFavorites = 0;
@@ -89,6 +85,7 @@ class SubCatCubit extends Cubit<SubCatState> {
             }
           }
         }
+
       }
     });
   }
@@ -155,8 +152,7 @@ class SubCatCubit extends Cubit<SubCatState> {
   void addFavProductToFavList(
       {required int listId,
       required int productId,
-      required int index,
-      required BuildContext context}) {
+      required BuildContext context,required index}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -169,9 +165,10 @@ class SubCatCubit extends Cubit<SubCatState> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        productFromCatList![index].hasFavorites = 1;
-        emit(ProductSuccess());
-        Navigator.pop(context);
+         productFromCatList![index].hasFavorites = 1;
+        emit(AddToFavoriteSuccess());
+        // getFavListData();
+         Navigator.pop(context);
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
       }

@@ -269,9 +269,9 @@
   "descriListshare": "Share the lists with your friends and family so they can know which products to shop for!",
   "introList": "Introducing \"My Lists\"",
   "new": "new",
-  "introductionList": "We have improved and replaced the My Favorites List feature! You can now create different lists, and share them with your friends! We have saved your current favorite products in a private list. We have improved and replaced the My Favorites List feature."
+  "introductionList": "We have improved and replaced the My Favorites List feature! You can now create different lists, and share them with your friends! We have saved your current favorite products in a private list. We have improved and replaced the My Favorites List feature.",
+  "NoProducts": "There are no products",
 
-,
   "product": "product",
   "products": "All Products",
   "updateIn": "update in"
@@ -302,24 +302,12 @@
   "image": "Image",
   "date": "Date",
   "status": "Status",
-  "theName": "Name"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "theName": "Name",
+  "author": "",
+  "config": {},
+  "createAt": "",
+  "homepage": "",
+  "identifier": "",
+  "meta": {},
+  "schemaVersion": 0
 }

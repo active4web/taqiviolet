@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/cubits/gify_cubit/gift_cubit.dart';
 
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/my_orders_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
@@ -155,7 +156,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
                                           SizedBox(height: 5,),
-                                          Text('1',
+                                          Text(GiftCubit.get(context).couponsModel?.data?.couponLists!.length.toString()??'0',
                                               style: TextStyle(fontSize: 17)),
                                           SizedBox(height: 5,),
                                           Text('coupons'.tr(),

@@ -125,7 +125,7 @@ class AuthCubit extends Cubit<AuthStates> {
   // }
 
 
-  String MobToken = CacheHelper.getData('FCM');
+   String MobToken = CacheHelper.getData('FCM');
 
   // Future<void> getDataInBackground(RemoteMessage message) async {
   //   log("${message.data.toString()}");

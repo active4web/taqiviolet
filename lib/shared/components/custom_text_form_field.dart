@@ -16,37 +16,46 @@ class CustomTextFormField extends StatelessWidget {
     this.hintColor = Colors.white54,
     this.textColor = Colors.white,
     this.cursorColor = Colors.white,
-  required  this.validate,
+  required  this.validate, this.maxLines=1,
+     this.onChanged,
+     this.onFieldSubmitted,
+     this.check=false
   });
 
   final String? hintText;
   final IconData? icon;
   final TextEditingController? controller;
   final TextInputType keyboardType;
- final String? Function(String? val) validate;
+ final String? Function(String?)? validate;
   final Color fillColor;
   final Color hintColor;
   final Color textColor;
   final Color cursorColor;
     bool readOnly = false;
-
+    bool check;
+    final int? maxLines;
+void Function(String)? onChanged;
+   void Function(String)? onFieldSubmitted;
   @override
   Widget build(BuildContext context) {
     return Container(
       //height: 50,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: TextFormField(
+        onFieldSubmitted:onFieldSubmitted ,
+        onChanged: onChanged,
+        maxLines:maxLines ,
         readOnly: readOnly,
         keyboardType: keyboardType,
         controller: controller,
-        validator: (T){
-        return  validate(T);
-        },
+        validator: validate
+        ,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         style: TextStyle(color: textColor, fontFamily: 'Tajawal'),
         cursorColor: cursorColor,
         decoration: InputDecoration(
           hintText: hintText,
+          suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):SizedBox.shrink(),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(34)),

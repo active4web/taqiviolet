@@ -15,11 +15,12 @@ class CustomBottomNavigationBar extends StatelessWidget {
         AppCubit cubit = AppCubit.get(context);
         return ClipRRect(
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.r), topRight: Radius.circular(30.r),),
+              topLeft: Radius.circular(30), topRight: Radius.circular(30),),
           child: BottomAppBar(
             color: Color(0xff393846),
             shape: const CircularNotchedRectangle(),
             child: BottomNavigationBar(
+              iconSize: 22,
               type: BottomNavigationBarType.fixed,
               elevation: 0,
               backgroundColor: Color(0xff393846)

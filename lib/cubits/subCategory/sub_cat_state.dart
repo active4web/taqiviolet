@@ -21,5 +21,7 @@ class ProductSuccess extends SubCatState {}
 
 class ProductError extends SubCatState {}
 class FavoritesListLoading extends SubCatState {}
+class RemoveFromFavoriteSuccess extends SubCatState {}
+class AddToFavoriteSuccess extends SubCatState {}
 
 ///TODO:End of SubCat States

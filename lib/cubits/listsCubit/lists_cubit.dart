@@ -46,7 +46,7 @@ class ListsCubit extends Cubit<ListsState> {
     emit(DetailsListLoadingState());
     Mhelper.postData(
       token: CacheHelper.getData("token"),
-      url: '/api/MyFavList',
+      url: 'api/MyFavList',
       data:{
         "id":id
       }
@@ -101,9 +101,10 @@ class ListsCubit extends Cubit<ListsState> {
     emit(ListsLoadingState());
     Mhelper.postData(
         token: CacheHelper.getData("token"),
-        url: '/api/deletefavproduct',
+        url: 'api/deletefavproduct',
         data: {"id": id}).then((value) {
-      postDetailsListsData(id: id);
+       postDetailsListsData(id: id);
+       getListsData();
       emit(ListsSuccessState());
     }).catchError((error) {
       emit(ListsErrorState());

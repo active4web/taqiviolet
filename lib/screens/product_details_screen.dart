@@ -278,6 +278,79 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         SizedBox(
                           height: 7,
                         ),
+                        Row(
+                          children: [
+                            Text(
+                              "تكلفة الشحن: ",
+                              maxLines: null,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "42 ${"SAR".tr()}",
+                                maxLines: null,
+                                style: TextStyle(
+                                    color: Color(0xffFE9C8F),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "الوزن: ",
+                              maxLines: null,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "42 ",
+                                maxLines: null,
+                                style: TextStyle(
+                                    color: Color(0xffFE9C8F),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+                         Row(
+                          children: [
+                            Text(
+                              "الابعاد: ",
+                              maxLines: null,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16),
+                            ),
+                            Expanded(
+                              child: Text(
+                                "الطول 50   العرض 20   ",
+                                maxLines: null,
+                                style: TextStyle(
+                                    color: Color(0xffFE9C8F),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 7,
+                        ),
+
                         if (cubit.productDetailsModel?.data
                             ?.productDetails![0].smartPrice !=
                             0 &&
@@ -652,7 +725,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     borderRadius: BorderRadius.circular(35)),
                                 child: IconButton(
                                   onPressed: () {
-                                    navigateTo(context, CartScreen());
+                                    AppCubit.get(context).selectedIndex=2;
+                                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeLayout()), (route) => false);
+
                                   },
                                   icon:Icon(
                                     Icons.shopping_cart,
@@ -679,14 +754,18 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               //   text: 'shoppingCart'.tr(),
                               // )
                                   :
-                                  state is AddToCartSuccessState ? Container(
+                                  state is AddToCartSuccessState
+                                      ?
+                                Container(
                                     width: 100,
                                     decoration: BoxDecoration(
                                         color: Color(0xff393846),
                                         borderRadius: BorderRadius.circular(35)),
                                     child: IconButton(
                                       onPressed: () {
-                                        navigateTo(context, CartScreen());
+                                        AppCubit.get(context).selectedIndex=2;
+                                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>HomeLayout()), (route) => false);
+
                                       },
                                       icon:Icon(
                                         Icons.shopping_cart,
@@ -857,7 +936,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   if (cubit.productDetailsModel?.data?.productDetails![0].hasFavorites == 1) {
                                     cubit.removeProductDetailsFavorite(
                                         prodId: cubit.productDetailsModel?.data?.productDetails![0].id);
-                                  } else {
+                                  }
+                                  else {
                                     ///////////////////////////////////////////////////
 
                                     TextEditingController listName =

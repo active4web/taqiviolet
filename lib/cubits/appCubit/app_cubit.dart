@@ -39,6 +39,32 @@ class AppCubit extends Cubit<AppStates> {
 
   static AppCubit get(context) => BlocProvider.of(context);
 
+
+
+  List<String>featuresImages=[
+
+    'assets/images/ourFeature4.png',
+    'assets/images/ourFeature3.png',
+    'assets/images/ourFeature2.png',
+    'assets/images/ourFutures1.png',
+  ];
+  List<String>featuresTitles=[
+    '24/24 خدمه عملاء',
+    'دفع امن',
+    'شحن مجاني',
+    '3 يوم استرداد',
+  ];
+  List<String>featuresSubTitles=[
+    'دعم متخصص',
+    'آمن ومضمون 100%',
+    'للطلبات اكثر من 5000 ريال',
+    'يمكنك الاستردار 3 أيام من الشراء',
+  ];
+
+
+
+
+
   List<Widget> screens = [
   HomeScreen(),
     MyListScreen(), // StoresScreen(), // OffersScreen(), // ChatsScreen(),
