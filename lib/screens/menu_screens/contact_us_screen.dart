@@ -1,6 +1,7 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/cubits/cubit/getdataprofile_cubit.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
@@ -23,7 +24,13 @@ class ContactUsScreen extends StatelessWidget {
     TechnicalSupportCubit technicalSupportDetailsCubit =
         TechnicalSupportCubit.get(context);
     technicalSupportDetailsCubit.getContactData();
-    return BlocBuilder<ContactCubit, ContactUs>(
+    return BlocConsumer<ContactCubit, ContactUs>(
+      listener: (context,state){
+        if(state is PostContactUsSuccessState){
+          email.clear();
+
+        }
+      },
       builder: (context, state) {
         ContactCubit cubit = ContactCubit.get(context);
         // state is AboutInitial ? cubit.getAbout():log("getdata");
@@ -120,8 +127,8 @@ class ContactUsScreen extends StatelessWidget {
                             // cubit.query["name"] = name.text;
                             // cubit.query["phone"] = phone.text;
                             // cubit.query["message"] = message.text;
-                            cubit.query["email"] = email.text;
-                            cubit.postContactUs();
+                            cubit.postContactUs(email: email.text);
+
                             // if (cubit.formKey.currentState.validate()) {
                             //
                             //   // if (cubit.subscribeModel.msg

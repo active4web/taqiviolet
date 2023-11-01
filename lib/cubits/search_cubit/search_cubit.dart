@@ -49,9 +49,9 @@ class SearchCubit extends Cubit<SearchStates> {
     emit(LoadingSearchResults());
     Mhelper.postData(url: '/api/searchByPrice', data: {
       'category_id': categoryId,
-      'start_price': startPrice,
-      'end_price': endPrice,
-      'productName': productName
+      'start_price': startPrice??'',
+      'end_price': endPrice??'',
+      'productName': productName??''
     }, query: {
       'lang': CacheHelper.getData("language")
     }).then((value) {

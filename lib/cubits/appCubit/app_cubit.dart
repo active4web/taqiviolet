@@ -19,6 +19,7 @@ import 'package:safsofa/models/offer_model.dart';
 import 'package:safsofa/models/product_reviews_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
+import 'package:safsofa/models/services_model/services_model.dart';
 import 'package:safsofa/models/user_profile_data_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
@@ -61,7 +62,19 @@ class AppCubit extends Cubit<AppStates> {
     'يمكنك الاستردار 3 أيام من الشراء',
   ];
 
-
+  ServicesModel? servicesModel;
+Future<void>getHomeServices()async{
+  emit(GetHomeServicesLoadingState());
+  final response=await Mhelper.getData(url: 'api/details-services',query: {
+    'lang':kLanguage
+  });
+  if(response.data['status']){
+    servicesModel=ServicesModel.fromJson(response.data);
+    emit(GetHomeServicesSuccessState());
+  }else{
+  emit(GetHomeServicesErrorState());
+  }
+}
 
 
 
@@ -776,52 +789,45 @@ class AppCubit extends Cubit<AppStates> {
   void getAllNotifications() {
     emit(GetAllNotificationsLoadingState());
     Mhelper.getData(
-            url: getallnotifications + CacheHelper.getData('id').toString())
+            url: getallnotifications,token: CacheHelper.getData('token'))
         .then((value) {
       if (value.data["status"] == true) {
         notificationsListModel = NotificationsListModel.fromJson(value.data);
-        // print(notificationsListModel.toJson());
+         print(value.data);
         emit(GetAllNotificationsSuccessState());
       } else
         emit(GetAllNotificationsErrorState());
+      print(value.data);
     }).catchError((error) {
+      print(error);
       emit(GetAllNotificationsErrorState());
       log(error.toString());
     });
   }
 
-  void delAllNotifications() {
-    emit(GetAllNotificationsLoadingState());
-    Mhelper.postData(url: dellallnotifications, data: {
-      "client_id": CacheHelper.getData('id'),
-    }).then((value) {
-      //  print(value.data);
-      if (value.data["status"] == true) {
-        getAllNotifications();
-        // emit(GetAllNotificationsSuccessState());
-      } else
-        emit(GetAllNotificationsErrorState());
-    }).catchError((error) {
-      emit(GetAllNotificationsErrorState());
-      log(error.toString());
-    });
+  void readAllNotifications() async{
+    emit(ReadAllNotificationLoadingState());
+   final response=await Mhelper.postData(url: getallnotifications, data: {
+    },token: CacheHelper.getData('token'));
+   if(response.data['status']){
+     getAllNotifications();
+     emit(ReadAllNotificationSuccessState());
+   }
+   else{
+     emit(ReadAllNotificationErrorState());
+   }
   }
 
-  void deloneNotifications(id) {
-    emit(GetAllNotificationsLoadingState());
-    Mhelper.postData(url: getonenotifications + id.toString(), data: {
-      "id": id,
-    }).then((value) {
-      // print(value.data);
-      if (value.data["status"] == true) {
-        getAllNotifications();
-        //   emit(GetAllNotificationsSuccessState());
-      } else
-        emit(GetAllNotificationsErrorState());
-    }).catchError((error) {
-      emit(GetAllNotificationsErrorState());
-      log(error.toString());
-    });
+  void readOneNotification(id) async{
+    emit(ReadOneNotificationLoadingState());
+   final response=await Mhelper.postData(url: getallnotifications + "/$id", data: {
+    },token: CacheHelper.getData('token'));
+    if(response.data['status']){
+      emit(ReadOneNotificationSuccessState());
+      getAllNotifications();
+    }else{
+     emit(ReadOneNotificationErrorState());
+    }
   }
 
   void addToCartServer(

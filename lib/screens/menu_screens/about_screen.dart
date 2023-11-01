@@ -42,9 +42,9 @@ class AboutScreen extends StatelessWidget {
                                   Text(
                                     "${cubit.aboutModel?.data![index].title}",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.bold,
                                         fontSize: 18,
-                                        color: kDarkGoldColor),
+                                        color: kCustomBlack),
                                   ),
                                 ],
                               ),
@@ -100,7 +100,7 @@ class AboutScreen extends StatelessWidget {
                              style: TextStyle(
                                  fontWeight: FontWeight.w500,
                                  fontSize: 18,
-                                 color: kDarkGoldColor),
+                                 color: kCustomBlack),
                            ),),
                             Text(
                               "205152080",
@@ -125,7 +125,7 @@ class AboutScreen extends StatelessWidget {
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 18,
-                                    color: kDarkGoldColor),
+                                    color: kCustomBlack),
                               ),
                             ),
                             Text(

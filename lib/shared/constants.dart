@@ -6,50 +6,51 @@ import 'package:safsofa/shared/router.dart';
 
 // const String kBaseURL = 'https://safsfurniture.com/';
 //const String MBaseUrl = "https://safsoofa.amlakyeg.com/";
-const String MBaseUrl = "https://taqi.axistrading.com.sa/";
+const String MBaseUrl = "https://taqiviolet.com/";
+// const String MBaseUrl = "https://taqi.axistrading.com.sa/";
 String? kToken = null;
 String? kLanguage;
 int cartCount = 0;
 
 StreamController<int> cartCountControlller = StreamController.broadcast();
 // /*****************All End Point***********************/
-const String offersEndpoint = "/api/offers";
-const String offersEndpoint2 = "/api/get_all_offers";
-const String blogEndpoint = "/api/blogs";
-const String homeMainCatEndPoint = "/api/categories?store_id=34&lang=ar";
-const String homeMainBannerEndPoint = "/api/banners";
-const String SubCatEndPoint = "/api/subCategory?";
-const String productEndPoint = "/api/products";
-const String dataFromStores = "/api/common_question";
-// const String dataFromstories = "/api/stories";
-const String dataFromPrivacyPolicy = "/api/privacyPolicy";
-const String privacyPolicyDetailsUrl = "/api/get_pages";
-const String dataFromcontacts = "/api/contacts";
+const String offersEndpoint = "api/offers";
+const String offersEndpoint2 = "api/get_all_offers";
+const String blogEndpoint = "api/blogs";
+const String homeMainCatEndPoint = "api/categories?store_id=34&lang=ar";
+const String homeMainBannerEndPoint = "api/banners";
+const String SubCatEndPoint = "api/subCategory?";
+const String productEndPoint = "api/products";
+const String dataFromStores = "api/common_question";
+// const String dataFromstories = "api/stories";
+const String dataFromPrivacyPolicy = "api/privacyPolicy";
+const String privacyPolicyDetailsUrl = "api/get_pages";
+const String dataFromcontacts = "api/contacts";
 // const String dataFromabout="api/policy?type=2&lang=";
-const String dataFromabout = "/api/pagesFooter";
-// const String datasupports = "/api/supports";
-const String datasupports = "/api/subscribe";
-const String inspiration = '/api/inspiration';
-const String dataFromAllStores = "/api/allStores/";
-const String dataFromallSupports = "/api/allSupports";
-const String dataFromalldetailsSupport = "/api/detailsSupport?message=";
+const String dataFromabout = "api/pagesFooter";
+// const String datasupports = "api/supports";
+const String datasupports = "api/subscribe";
+const String inspiration = 'api/inspiration';
+const String dataFromAllStores = "api/allStores/";
+const String dataFromallSupports = "api/allSupports";
+const String dataFromalldetailsSupport = "api/detailsSupport?message=";
 const String authRegister = "api/register";
-const String authLogin = "/api/login";
-const String authLogOut = "/api/logout";
-const String userProfile = "/api/profile";
-const String editProfile = "/api/editProfile";
-const String getallnotifications = "/api/notifications?client_id=";
-const String getonenotifications = "/api/DeleteNotification?id=";
-const String dellallnotifications = "/api/DeleteAllNotification";
-const String productDetails = "/api/productDetails?";
-const String AddToCartURL = "/api/AddToCart";
+const String authLogin = "api/login";
+const String authLogOut = "api/logout";
+const String userProfile = "api/profile";
+const String editProfile = "api/editProfile";
+const String getallnotifications = "api/notifications";
+const String getonenotifications = "api/DeleteNotification?id=";
+const String dellallnotifications = "api/DeleteAllNotification";
+const String productDetails = "api/productDetails?";
+const String AddToCartURL = "api/AddToCart";
 const String myCartURL = "api/myCart";
-const String sumItemCartURL = "/api/sumItemCart";
-const String delItem = "/api/deleteItemCart?id=";
+const String sumItemCartURL = "api/sumItemCart";
+const String delItem = "api/deleteItemCart?id=";
 const String make_orderURL = "api/make_order";
 const String promoCodeURL = "api/PromoCode";
-const String commonQuestionUrl = "/api/faqlist";//
-const String answerCommonQuestionUrl = "/api/faqlist_answer";//
+const String commonQuestionUrl = "api/faqlist";//
+const String answerCommonQuestionUrl = "api/faqlist_answer";//
 
 const String waitingOrdersURL = "api/waiting_myOrders";
 const String currentOrdersURL = "api/current_myOrders";

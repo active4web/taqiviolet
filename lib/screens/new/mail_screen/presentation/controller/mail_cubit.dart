@@ -45,7 +45,7 @@ Future<void> sendMail()async {
         "phone": phoneController.text,
         "content": messageController.text,
       });
-
+print("ahmed herer${response.data}");
   if (response.data['status']) {
     // if(response.data['success']==false){
     //   emit(SendEmailSuccessWithExceptionState(message: response.data['data']));
@@ -61,7 +61,10 @@ Future<void> sendMail()async {
     messageController.clear();
     searchPhoneModel=null;
   } else {
-
+    if(response.data['errors'].containsKey('phone')){
+      ToastConfig.showToast(msg: response.data['errors']['phone'], toastStates: ToastStates.error);
+      phoneController.clear();
+    }
     emit(SendEmailErrorState(error: response.data['message']));
   }
 }

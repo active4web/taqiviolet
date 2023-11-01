@@ -16,7 +16,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class MainMailScreen extends StatefulWidget {
   MainMailScreen({Key? key}) : super(key: key);
 
-  TextEditingController controller = TextEditingController();
+  // TextEditingController controller = TextEditingController();
 
   @override
   State<MainMailScreen> createState() => _MainMailScreenState();
@@ -41,7 +41,7 @@ class _MainMailScreenState extends State<MainMailScreen>
       endDrawer: const PmDrawer(),
 */
       appBar: CustomAppBar(
-        title: "صندوق البريد",
+        title: "mailBox".tr(),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -55,13 +55,13 @@ class _MainMailScreenState extends State<MainMailScreen>
               children: [
                 TabBar(controller: cubit.tabController, tabs: [
                   Tab(
-                    text: "المرسله",
+                    text: "outbox".tr(),
                   ),
                   Tab(
-                    text: "رسائلي",
+                    text: "inbox".tr(),
                   ),
                   Tab(
-                    text: "ارسال",
+                    text: "Send".tr(),
                   ),
                 ]),
                 Expanded(
@@ -198,7 +198,7 @@ class _MainMailScreenState extends State<MainMailScreen>
                                     return 'يجب ادخال عنوان الرساله';
                                   }
                                 },
-                                hintText: "العنوان",
+                                hintText: "title".tr(),
                                 hintColor: Colors.black,
                                 fillColor: Colors.grey.shade400,
                                 keyboardType: TextInputType.emailAddress),
@@ -214,7 +214,7 @@ class _MainMailScreenState extends State<MainMailScreen>
                                   return 'يجب ادخال محتوى الرساله';
                                 }
                               },
-                              hintText: "الرساله",
+                              hintText: "message".tr(),
                               hintColor: Colors.black,
                               fillColor: Colors.grey.shade400,
                               keyboardType: TextInputType.emailAddress,
@@ -243,7 +243,7 @@ class _MainMailScreenState extends State<MainMailScreen>
                                           child: state is SendEmailLoadingState
                                               ? CustomCircularProgress()
                                               : Text(
-                                                  "ارسال",
+                                                  "Send".tr(),
                                                   style: TextStyle(
                                                       color: kDarkGoldColor,
                                                       fontWeight:

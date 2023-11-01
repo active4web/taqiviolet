@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<RefreshIndicatorState> _globalKey =
       GlobalKey<RefreshIndicatorState>();
 
+  @override
+  void initState() {
+    AppCubit.get(context).getHomeServices();
+    super.initState();
+  }
   @override
   void dispose() {
     _globalKey.currentState?.dispose(); // 👈 dispose the key here
@@ -384,8 +390,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: EdgeInsets.symmetric(horizontal: 20.w),
                               scrollDirection: Axis.horizontal,itemBuilder: (context,index)=>SizedBox(
                             width: 85.w,
-                            child: FeatureItem(image: cubit.featuresImages[index],title: cubit.featuresTitles[index],subTitle: cubit.featuresSubTitles[index],),
-                          ),itemCount: cubit.featuresSubTitles.length),
+                            child: FeatureItem(image: cubit.servicesModel?.data?.details?[index].image??'',title: cubit.servicesModel?.data?.details?[index].title??'',subTitle: cubit.servicesModel?.data?.details?[index].description??'',),
+                          ),itemCount: cubit.servicesModel?.data?.details?.length??0),
                         ),
                         SizedBox(
                           height: 10,
@@ -935,7 +941,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                         SizedBox(height: 10.h,),
-                        Center(child: Text('خدماتنا',style: TextStyle(
+                        Center(child: Text('ourServices'.tr(),style: TextStyle(
                           fontSize: 18.sp,fontWeight: FontWeight.bold
                         ),),),
                         SizedBox(height: 10.h,),
@@ -945,9 +951,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
                             child: Row(
                               children: [
-                                ServicesItem(image: 'assets/images/services1.png', title: 'نصنع المنتج المناسب لك من المنصنع مباشرة اليك', subTitle: 'أطلب المنتج المناسب لك من قسم الصناعة والحرف اليدوية ونوصله لك في مكانك بمدة لا تزيد 60 يوم'),
+                                ServicesItem(image: cubit.servicesModel?.data?.services?[0].image??'', title: cubit.servicesModel?.data?.services?[0].title??'', subTitle:cubit.servicesModel?.data?.services?[0].description??''),
                                 SizedBox(width: 20.w,),
-                                ServicesItem(image: 'assets/images/services2.png', title: 'التوصيل', subTitle: 'وصلها لك بكل سهولة المدن الرائيسة خلال ثلاث ايام ( المنطقة الشرقية - الرياض - جدة ) ويمكنك متابعة شحنتك من التطبيق والموقع'),
+                                ServicesItem(image: cubit.servicesModel?.data?.services?[1].image??'', title: cubit.servicesModel?.data?.services?[1].title??'', subTitle:cubit.servicesModel?.data?.services?[1].description??''),
                               ],
                             ),
                           ),
@@ -958,9 +964,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
                             child: Row(
                               children: [
-                                ServicesItem(image: 'assets/images/services3.png', title: 'أخذ فكرة و أطلب وستلم', subTitle: 'أكتشف المنتج المناسب لك من قسم الأفكار والألهام وأطلب أونلاين عن طريق الموقع او التطبيقات الخاصة تاقي فيولت واستلم طلبك خلال ثلاثة أيام'),
+                                ServicesItem(image: cubit.servicesModel?.data?.services?[2].image??'', title: cubit.servicesModel?.data?.services?[2].title??'', subTitle:cubit.servicesModel?.data?.services?[2].description??''),
                                 SizedBox(width: 20.w,),
-                                ServicesItem(image: 'assets/images/services4.png', title: 'تستلمها سليمة', subTitle: 'جميع منتجاتنا مؤمنة تستلمها سليمة ويحقلك تسترجع المنتج اذا كان غير سليم'),
+                                ServicesItem(image: cubit.servicesModel?.data?.services?[3].image??'', title: cubit.servicesModel?.data?.services?[3].title??'', subTitle:cubit.servicesModel?.data?.services?[3].description??''),
                               ],
                             ),
                           ),
@@ -1268,7 +1274,7 @@ class FeatureItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(child: Image.asset(image,)),
+          Expanded(child: Image.network('$MBaseUrl$image',)),
           SizedBox(height: 5.h,),
           Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),),
           Expanded(
@@ -1293,7 +1299,15 @@ class ServicesItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Expanded(child: Image.asset(image,)),
+          Expanded(child:
+          CachedNetworkImage(
+            imageUrl: '$MBaseUrl$image',
+            fit: BoxFit.cover,
+            placeholder: (context, url) => Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          )
+
+          ),
           SizedBox(height: 10.h,),
           Center(child: Text(title,textAlign: TextAlign.center,maxLines: 2,style: TextStyle(fontSize: 14.sp,fontWeight: FontWeight.bold),)),
           SizedBox(height: 5.h,),

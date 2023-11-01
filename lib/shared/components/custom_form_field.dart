@@ -37,7 +37,7 @@ class CustomFormField extends StatelessWidget {
             )
           ]),
       child: TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
         controller: controller,
         obscureText: isSecured,
         keyboardType: inputType,

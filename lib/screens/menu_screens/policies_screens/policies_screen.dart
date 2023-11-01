@@ -68,7 +68,7 @@ class PoliciesScreen extends StatelessWidget {
                                     "${cubit.policies![index].title}",
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
-                                      color: kDarkGoldColor,
+                                      color: kCustomBlack,
                                       fontWeight: FontWeight.w500,
                                       fontSize: 18,
                                     ),

@@ -1,16 +1,12 @@
-import 'dart:ui';
 import 'package:easy_localization/src/public_ext.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/listsCubit/lists_cubit.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/mylist_details.dart';
-import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/screens/register_screens/register_choice_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_network_image.dart';
@@ -263,6 +259,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                         cubit.postDetailsListsData(id: cubit.listsModel?.data?.list?[index].listId);
                                     navigateTo(context, MyListDetailsScreen(
                                           nameList: "${cubit.listsModel?.data?.list?[index].listName}",
+                                      listId:cubit.listsModel?.data?.list?[index].listId
                                         ));
                                       },
                                       child: Text(
@@ -478,6 +475,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                   onTap: (){
                                     cubit.postDetailsListsData(id: cubit.listsModel?.data?.list?[index].listId);
                                     navigateTo(context, MyListDetailsScreen(
+                                      listId: cubit.listsModel?.data?.list?[index].listId,
                                       nameList: "${cubit.listsModel?.data?.list?[index].listName}",
                                     ));
                                   },

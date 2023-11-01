@@ -12,7 +12,11 @@ class ContactUsSendingSuccessState extends TechnicalSupportState {}
 
 class ContactUsSendingLoadingState extends TechnicalSupportState {}
 
-class ContactUsSendingErrorState extends TechnicalSupportState {}
+class ContactUsSendingErrorState extends TechnicalSupportState {
+  String error;
+
+  ContactUsSendingErrorState(this.error);
+}
 //
 // class GetTechnicalSupportLoadingState extends TechnicalSupportState{}
 //

@@ -43,12 +43,17 @@ class Mhelper {
       Map<String, dynamic>? query,
         dynamic data,
       token}) async {
-    dio.options.headers["authorization"] = "Bearer $token";
-    return dio.post(
-      url,
-      queryParameters: query,
-      data: data,
-    );
+   try{
+     dio.options.headers["authorization"] = "Bearer $token";
+     return await dio.post(
+       url,
+       queryParameters: query,
+       data: data,
+     );
+   }catch(e){
+     print("errrrrrrrrrrrrrrrrrrrror$e");
+
+   }
   }
 
   static Future<dynamic> postRawData(

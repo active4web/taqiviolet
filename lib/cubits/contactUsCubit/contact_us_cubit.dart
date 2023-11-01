@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 
 import '../../models/subscribe_model.dart';
 import '../../network/remote/dio_Mhelper.dart';
@@ -16,16 +18,19 @@ class ContactCubit extends Cubit<ContactUs> {
 
   Map<String, dynamic> query = {};
   var formKey = GlobalKey<FormState>();
-  SubscribeModel? subscribeModel;
-  void postContactUs() {
+  // SubscribeModel? subscribeModel;
+  void postContactUs({required String email})async {
     emit(PostContactUsState());
-    Mhelper.postData(url: datasupports, data: query).then((value) {
-      subscribeModel == SubscribeModel.fromJson(value.data);
-      log('*' * 10 + (subscribeModel!.msg!) + '*' * 10);
-      emit(PostContactUsSuccessState());
-    }).catchError((err) {
-      log("ERR:$err");
+   final response=await Mhelper.postData(url: datasupports, data: {'email':email});
+   if(response.data['status']){
+     print(response.data);
+     emit(PostContactUsSuccessState());
+     ToastConfig.showToast(msg: response.data['message'], toastStates: ToastStates.success);
+
+   }
+   else {
+     ToastConfig.showToast(msg: response.data['errors']["email"], toastStates: ToastStates.error);
       emit(PostContactUsErrorState());
-    });
+    };
   }
 }

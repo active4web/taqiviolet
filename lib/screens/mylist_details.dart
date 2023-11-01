@@ -12,10 +12,10 @@ import 'package:safsofa/shared/defaults.dart';
 class MyListDetailsScreen extends StatelessWidget {
   const MyListDetailsScreen({
     Key? key,
-    required this.nameList,
+    required this.nameList, required this.listId,
   }) : super(key: key);
   final String nameList;
-
+  final int listId;
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ListsCubit, ListsState>(
@@ -191,6 +191,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                     TextButton(
                                                       onPressed: () {
                                                         cubit.deleteProductList(
+                                                         listId: listId,
                                                             id: cubit
                                                                 .detailsMyListModel!
                                                                 .data!

@@ -1,6 +1,7 @@
 
 import 'dart:developer';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/cubits/technicalSupportCubit/technical_support_state.dart';
 import 'package:safsofa/models/send_contact_us_model.dart';
@@ -30,23 +31,29 @@ class TechnicalSupportCubit extends Cubit<TechnicalSupportState> {
   }
 
   SendContactUsModel? sendingModel;
+  var  formKey = GlobalKey<FormState>();
 
   void sendContactUs(
       {String? name, String? phone, String? email, String? comment}) async {
     emit(ContactUsSendingLoadingState());
-    await Mhelper.postData(url: "/api/contactUs", data: {
+   final response= await Mhelper.postData(url: "/api/contactUs", data: {
       'name': name,
       'phone': phone,
       'email': email,
       'message': comment,
-    }).then((value) async {
-      sendingModel = SendContactUsModel.fromJson(value.data);
-      print(value.data);
-      emit(ContactUsSendingSuccessState());
-      // emit(GetContactUsSuccessState());
-    }).catchError((error) {
-      emit(ContactUsSendingErrorState());
     });
+    if(response.data['status']){
+      sendingModel = SendContactUsModel.fromJson(response.data);
+      emit(ContactUsSendingSuccessState());
+    }
+    else {
+      formKey.currentState?.validate();
+       emit(ContactUsSendingErrorState(''));
+      if(response.data['errors'].containsKey('email')){
+      emit(ContactUsSendingErrorState(response.data['errors']['email']));
+      formKey.currentState?.validate();
+      }
+    };
   }
 
   ///Get Data From stories

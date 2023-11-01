@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/chat_screen.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_form_field.dart';
@@ -34,6 +36,7 @@ class TechnicalSupportScreen extends StatelessWidget {
            name.clear();
           phone.clear();
         comment.clear();
+        ToastConfig.showToast(msg: 'success', toastStates: ToastStates.success);
         }
       },
       builder: (context, state) {
@@ -42,13 +45,12 @@ class TechnicalSupportScreen extends StatelessWidget {
         //     ? cubit.getContactData()
         //     : log("getdata");
 
-        var  formKey = GlobalKey<FormState>();
         return Scaffold(
           appBar: CustomAppBar(
             title: 'TechnicalSupport'.tr(),
           ),
           body:  Form(
-            key: formKey,
+            key: cubit.formKey,
             child: Padding(
                     padding: const EdgeInsets.all(20),
                     child: SingleChildScrollView(
@@ -87,7 +89,11 @@ class TechnicalSupportScreen extends StatelessWidget {
                           CustomFormField(
                             controller: name,
                             label: "name".tr(),
-                              validate: (va){}
+                              validate: (va){
+                                if(va!.trim().isEmpty){
+                                  return 'The name is required';
+                                }
+                              }
                           ),
                           SizedBox(
                             height: 15,
@@ -101,7 +107,12 @@ class TechnicalSupportScreen extends StatelessWidget {
                             inputType: TextInputType.emailAddress,
                             label: "Email".tr(),
                               validate: (va){
-
+                              if(va!.trim().isEmpty){
+                                return 'The email is required';
+                              }
+                               else if(state is ContactUsSendingErrorState){
+                                return state.error.toString();
+                              }
                               }
                           ),
                           SizedBox(
@@ -116,7 +127,9 @@ class TechnicalSupportScreen extends StatelessWidget {
                             inputType: TextInputType.phone,
                             label: "Phone".tr(),
                               validate: (va){
-
+                                if(va!.trim().isEmpty){
+                                  return 'The phone is required';
+                                }
                               }
                           ),
                           SizedBox(
@@ -131,7 +144,9 @@ class TechnicalSupportScreen extends StatelessWidget {
                             minLines: 5,
                             label: "Comment".tr(),
                               validate: (va){
-
+                                if(va!.trim().isEmpty){
+                                  return 'The Comment is required';
+                                }
                               }
                           ),
                           SizedBox(
@@ -147,13 +162,14 @@ class TechnicalSupportScreen extends StatelessWidget {
                           builder: (context){
                               return CustomButton(
                                 onTap: () {
-                                  if(formKey.currentState!.validate()){
+                                  // formKey.currentState!.validate();
+
                                     cubit.sendContactUs(
                                         email:   email.text,
                                         name:    name.text,
                                         phone:   phone.text,
                                         comment: comment.text);
-                                  }
+
                                 },
                                 text: 'Send'.tr(),
                                 height: 50,

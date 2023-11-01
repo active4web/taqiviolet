@@ -443,12 +443,14 @@ class HorizontalProductCard extends StatelessWidget {
                     SizedBox(
                       height: 5,
                     ),
-                    Row(
-                      children: [
-                        CustomRatingBar(
-                          rating: 3,
-                        ),
-                      ],
+                    Expanded(
+                      child: Row(
+                        children: [
+                          CustomRatingBar(
+                            rating: 3,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),

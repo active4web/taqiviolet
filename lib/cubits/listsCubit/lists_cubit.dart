@@ -97,13 +97,13 @@ class ListsCubit extends Cubit<ListsState> {
   }
 
 
-  void deleteProductList({required int id}) {
+  void deleteProductList({required int id,required int listId}) {
     emit(ListsLoadingState());
     Mhelper.postData(
         token: CacheHelper.getData("token"),
         url: 'api/deletefavproduct',
         data: {"id": id}).then((value) {
-       postDetailsListsData(id: id);
+        postDetailsListsData(id: listId);
        getListsData();
       emit(ListsSuccessState());
     }).catchError((error) {

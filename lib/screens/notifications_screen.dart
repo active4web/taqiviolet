@@ -10,12 +10,21 @@ import 'package:safsofa/screens/register_screens/login_screen.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/constants.dart';
 
-class NotificationsScreen extends StatelessWidget {
+class NotificationsScreen extends StatefulWidget {
 
+  @override
+  State<NotificationsScreen> createState() => _NotificationsScreenState();
+}
+
+class _NotificationsScreenState extends State<NotificationsScreen> {
+  @override
+  void initState() {
+    AppCubit.get(context)..getAllNotifications();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     AppCubit cubit = AppCubit.get(context);
-    cubit.getAllNotifications();
     return Scaffold(
             appBar: CustomAppBar(
               title: "notifications".tr(),
@@ -50,7 +59,7 @@ class NotificationsScreen extends StatelessWidget {
                                             TextStyle(color: Color(0xffD0021B)),
                                       ),
                                       onPressed: () {
-                                        cubit.delAllNotifications();
+                                        cubit.readAllNotifications();
                                       },
                                     )
                                   ],
@@ -83,7 +92,7 @@ class NotificationsScreen extends StatelessWidget {
                                       physics: NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) => InkWell(
                                         onLongPress: () {
-                                          cubit.deloneNotifications(cubit
+                                          cubit.readOneNotification(cubit
                                               .notificationsListModel
                                               ?.data![index]
                                               .id);
@@ -112,9 +121,9 @@ class NotificationsScreen extends StatelessWidget {
                                             child: Text(cubit
                                                 .notificationsListModel!
                                                 .data![index]
-                                                .createdAt
+                                                .body
                                                 .toString()
-                                                .substring(0, 10)),
+                                                ),
                                           ),
                                         ),
                                       ),

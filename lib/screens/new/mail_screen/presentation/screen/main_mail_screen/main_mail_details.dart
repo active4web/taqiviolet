@@ -151,7 +151,7 @@ class _MainMailDetailsScreenState extends State<MainMailDetailsScreen> {
                           cubit.replayMessage(id: widget.id);
                         }
                       },
-                      child:Transform.rotate(angle: 180 * 3.1 / 180,child: Icon(Icons.send,color: Colors.white,size: 30,))
+                      child:kLanguage=='en'?Icon(Icons.send,color: Colors.white,size: 30,) :Transform.rotate(angle: 180 * 3.09 / 180,child: Icon(Icons.send,color: Colors.white,size: 30,))
                       // Image.asset('assets/images/download.png',height: 30,),
                     ),
                     Form(

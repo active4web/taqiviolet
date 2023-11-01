@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../constants.dart';
 
@@ -21,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
       child: AppBar(
         leading: icon,
         toolbarHeight: MediaQuery.of(context).size.height / 10,
-        leadingWidth: 100,
+        leadingWidth: 80.w,
         title: Text("${title}"),
         backgroundColor: Color(0xff393846),
         systemOverlayStyle: SystemUiOverlayStyle(

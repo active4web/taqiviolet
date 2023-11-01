@@ -139,7 +139,7 @@ class PoliciesDetailsScreen extends StatelessWidget {
                         Text(
                           "${PoliciesCubit.get(context).policyDetails?.data![index].title}",
                           style: TextStyle(
-                            color: kDarkGoldColor,
+                            color: kCustomBlack,
                             fontSize: MediaQuery.of(context).size.width / 19,
                             fontWeight: FontWeight.w600,
                           ),

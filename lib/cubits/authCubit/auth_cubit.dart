@@ -294,7 +294,7 @@ class AuthCubit extends Cubit<AuthStates> {
       if (value.data['status'] == false) {
         loginFailedResponse = FailedResponseModel.fromJson(value.data);
 
-        emit(LoginErrorState(value.data['msg']));
+         emit(LoginErrorState(value.data['msg']));
       }
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));

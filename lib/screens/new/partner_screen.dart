@@ -142,7 +142,7 @@ class PartnerScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  itemPartner(title: 'صندوق البريد',image: 'assets/images/financialReports.png',onTap: (){
+                  itemPartner(title: "mailBox".tr(),image: 'assets/images/financialReports.png',onTap: (){
                     navigateTo(context, MainMailScreen());
 
                   }),

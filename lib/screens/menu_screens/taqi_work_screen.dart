@@ -50,7 +50,7 @@ class TaqiWorkScreen extends StatelessWidget {
                                         style: TextStyle(
                                             fontWeight: FontWeight.w500,
                                             fontSize: 18,
-                                            color: kDarkGoldColor),
+                                            color: kCustomBlack),
                                       ),
                                     ],
                                   ),
@@ -65,8 +65,12 @@ class TaqiWorkScreen extends StatelessWidget {
                                     if (index == 0)
                                       InkWell(
                                         onTap: () async {
-                                          await launch(
-                                              "https://taqiviolet.com/employment-Form");
+                                          await launchUrl(
+                                            Uri(
+                                              scheme: 'https',host: 'taqiviolet.com',path:'employment-Form'
+                                            )
+
+                                          );
                                         },
                                         child: Text(
                                           "ourAvailableJobs".tr(),

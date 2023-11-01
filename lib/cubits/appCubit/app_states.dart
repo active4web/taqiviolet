@@ -93,6 +93,19 @@ class GetAllNotificationsSuccessState extends AppStates {}
 
 class GetAllNotificationsErrorState extends AppStates {}
 
+class ReadAllNotificationLoadingState extends AppStates {}
+
+class ReadAllNotificationSuccessState extends AppStates {}
+
+class ReadAllNotificationErrorState extends AppStates {}
+
+class ReadOneNotificationLoadingState extends AppStates {}
+
+class ReadOneNotificationSuccessState extends AppStates {}
+
+class ReadOneNotificationErrorState extends AppStates {}
+
+
 class AddToCartErrorState extends AppStates {}
 
 class AddToCartLoadingState extends AppStates {}
@@ -140,3 +153,8 @@ class DeleteAccountDataErrorState extends AppStates {
 
   DeleteAccountDataErrorState(this.error);
 }
+
+
+class GetHomeServicesSuccessState extends AppStates{}
+class GetHomeServicesErrorState extends AppStates{}
+class GetHomeServicesLoadingState extends AppStates{}

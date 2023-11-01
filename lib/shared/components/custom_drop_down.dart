@@ -25,13 +25,11 @@ class CustomDropDown<T> extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return DropdownButtonFormField2(
-
       style: TextStyle(
         color: textColor,
         fontFamily: 'Tajawal',
         overflow: TextOverflow.ellipsis,
       ),
-
       decoration: InputDecoration(
         contentPadding: EdgeInsets.zero,
         hintText: hintText,
