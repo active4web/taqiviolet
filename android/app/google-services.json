@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "426444514091",
+    "project_id": "taqi-3a08d",
+    "storage_bucket": "taqi-3a08d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:426444514091:android:5f64ccbf0834a622465b6e",
+        "android_client_info": {
+          "package_name": "active4web.com.taqi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkENoeot7QWK_OupI6vbQQnQP1h3r37WE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
