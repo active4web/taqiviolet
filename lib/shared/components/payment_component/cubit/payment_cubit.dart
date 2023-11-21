@@ -31,9 +31,9 @@ class PaymentCubit extends Cubit<PaymentState> {
     ];
     apms.add(PaymentSdkAPms.AMAN);
     final configuration = PaymentSdkConfigurationDetails(
-        profileId: "105601",
-        serverKey: "SWJN6WHN6M-JHGZHWGRB9-W2BDN6LZWT",
-        clientKey: "CTKMVK-VB9B6H-T9HVTR-9MTQHB",
+        profileId: "105193",
+        serverKey: "SNJN6WHN6D-JHDW66RW2T-LD9TTHGBJ9",
+        clientKey: "CBKMVK-VBNH6H-DVGGRV-TG9GRP",
         cartId: billingDetails.orderId,
         cartDescription: "Flowers",
         merchantName: "Flowers Store",

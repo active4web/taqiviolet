@@ -11,6 +11,7 @@ import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/cartCubit/cart_cubit.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
+import 'package:safsofa/screens/add_review_screen.dart';
 import 'package:safsofa/screens/check_out_screen.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
 import 'dart:async';
@@ -19,6 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_state.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 import '../../../main.dart';
 
@@ -104,6 +106,12 @@ class _PaymentComponentState extends State<PaymentComponent> {
           if (state is PaymentSuccessState) {
             var cubit = PaymentCubit.get(context);
             showToast(text: "Payment Successfully", color: Colors.green);
+            if(kToken != null && kToken!.isNotEmpty){
+              CartCubit.get(context)..getServerCartData();
+            }else{
+              CartCubit.get(context)..getLocalCartData();
+            }
+            navigateTo(context, AddReviewScreen());
           }
         },
         builder: (context, state) {
@@ -146,7 +154,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
                             borderRadius: BorderRadius.circular(20.r)),
                         child: Center(
                           child: Text(
-                            'Order Now',
+                            'orderNow'.tr(),
                             style: TextStyle(color: kDarkGoldColor),
                           ),
                         )),

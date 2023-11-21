@@ -331,5 +331,7 @@
   "numericCharacter": "1 Numeric character",
   "specialCharacter": "1 Special character",
   "recommended": "Recommended Products",
-  "postNumber": "Post Number"
+  "postNumber": "Post Number",
+  "orderNow": "Order Now",
+  "addReview": "Add review +"
 }

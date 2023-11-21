@@ -170,7 +170,7 @@ class MenuScreen extends StatelessWidget {
                                             child: Icon(
                                               Icons.wb_incandescent_outlined,
                                               color: kLightGoldColor,
-                                              size: 30,
+                                              size: 18.r,
                                             )),
                                         SizedBox(
                                           height: 5,
@@ -210,7 +210,7 @@ class MenuScreen extends StatelessWidget {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceAround,
                                       children: [
-                                        Icon(Icons.question_mark,
+                                        Icon(Icons.question_mark,size: 18.r,
                                             color: kLightGoldColor),
                                         SizedBox(
                                           height: 5,
@@ -328,7 +328,7 @@ class MenuTile extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.all(10),
-        height: MediaQuery.of(context).size.height * 0.13,
+        height: MediaQuery.of(context).size.height * 0.12,
         decoration: BoxDecoration(
             color: Color(0xff393846),
             border: Border.all(color: kLightGoldColor),
@@ -338,7 +338,7 @@ class MenuTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: MediaQuery.of(context).size.height * 0.02,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: image,
@@ -350,7 +350,7 @@ class MenuTile extends StatelessWidget {
               Text(
                 "${label}",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: kLightGoldColor,fontSize: 13.sp),
+                style: TextStyle(color: kLightGoldColor,fontSize: 13  .sp),
               )
             ],
           ),

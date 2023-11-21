@@ -6,6 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/screens/home_layout.dart';
+import 'package:safsofa/shared/constants.dart';
 
 import '../shared/components/custom_button.dart';
 import '../shared/components/custom_label.dart';
@@ -40,6 +43,16 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         },
     child: SafeArea(
       child: Scaffold(
+        appBar: AppBar(
+          leading: IconButton(
+            onPressed: (){
+              AppCubit.get(context).selectedIndex=0;
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>
+              HomeLayout()
+              ), (route) => false);
+            }, icon: Icon(kLanguage=='en'?Icons.arrow_back_ios_new_outlined:Icons.arrow_forward_ios_outlined),
+          ),
+        ),
         body: Padding(
           padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
           child: ListView(

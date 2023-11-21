@@ -47,6 +47,7 @@ import 'cubits/my_orders_cubit.dart';
 import 'cubits/onbordingCubit/onboarding_cubit.dart';
 import 'cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
 import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
+import 'cubits/reviews_cubit/cubit/reviews_comments_cubit.dart';
 import 'cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
 import 'models/cart_models/cart_local_model/cart_local_model.dart';
@@ -119,6 +120,10 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (context) => OrderReceivedItemInListCubit(),
               ),
+              BlocProvider(
+                create: (context) => ReviewsCommentsCubit(),
+              ),
+
               BlocProvider(
                 create: (context) => OrderReceivedCubit(),
               ),

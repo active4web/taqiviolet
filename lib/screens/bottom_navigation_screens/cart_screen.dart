@@ -52,7 +52,7 @@ class CartScreen extends StatelessWidget {
           body: Visibility(
             visible: kToken != null && kToken!.isNotEmpty,
             //true >>cart data from server, //false >>cart data loaded locally
-            child: cubit.myCartModel != null
+            child: cubit.myCartModel != null||state is !CartLoadingState
                 ? cubit.myCartModel!.data!.listItem!.isNotEmpty
                     ? SingleChildScrollView(
                         child: Padding(

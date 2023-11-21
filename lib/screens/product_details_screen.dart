@@ -1708,12 +1708,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               .data!
                                               .productfeatures!
                                               .length),
+                                    SizedBox(height: 10.h,),
                                     if (cubit.productDetailsModel!.data!
                                             .productfeatures!.length >
                                         0)
-                                      SizedBox(
-                                        height: 7,
-                                      ),
+
                                     CommentsComponent(id: cubit
                                         .productDetailsModel
                                         ?.data
