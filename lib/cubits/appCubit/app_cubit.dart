@@ -1040,7 +1040,9 @@ Future<void>getHomeServices()async{
   EmptyImageModel? emptyImages;
   Future<void>getEmptyImages()async{
     emit(GetImagesLoadingState());
-    final response=await Mhelper.getData(url: 'api/new-settings');
+    final response=await Mhelper.getData(url: 'api/new-settings',query: {
+      'lang':kLanguage
+    });
     if(response.data['status']){
       emptyImages=EmptyImageModel.fromJson(response.data);
       emit(GetImagesSuccessState());

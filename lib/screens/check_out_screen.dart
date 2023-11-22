@@ -326,7 +326,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             vertical: 8,
                                                           ),
                                                           hintText:
-                                                          'البحث عن الدولة....',
+                                                          'searchCountry'.tr(),
                                                           hintStyle:
                                                           const TextStyle(
                                                               fontSize:
@@ -644,7 +644,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                             vertical: 8,
                                                           ),
                                                           hintText:
-                                                          'البحث عن المدينه...',
+                                                          'searchCity'.tr(),
                                                           hintStyle:
                                                           const TextStyle(
                                                               fontSize:

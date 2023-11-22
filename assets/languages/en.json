@@ -333,5 +333,24 @@
   "recommended": "Recommended Products",
   "postNumber": "Post Number",
   "orderNow": "Order Now",
-  "addReview": "Add review +"
+  "addReview": "Add review +",
+  "productArrive": "The product will arrive within: ",
+  "addProductSuccess": "Add product Success",
+  "shippingCharges": "Shipping charges: ",
+  "discountCode": "Discount code",
+  "have": "have",
+  "dontHaveCash": "don't have cash back",
+  "searchCountry": "Search country",
+  "searchCity": "Search city",
+  "unusedCoupons": "Unused coupons",
+  "usedCoupons": "Used coupons",
+  "noCoupons": "There are no coupons currently",
+  "Apply": "Apply",
+  "current": "Current",
+  "old": "Old",
+  "noGifts": "There are no gifts",
+  "noQuestions": "No questions"
+
+
+
 }

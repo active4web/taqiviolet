@@ -55,7 +55,7 @@ class CustomResetPasswordProfile extends StatelessWidget {
                   suffixOnPressed!();
                 })
                 : null,
-            hintTextDirection: TextDirection.rtl),
+           ),
 
       ),
     );

@@ -58,7 +58,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                       height: 50,
                       color: cubit.index==1 ? kCustomBlack : Colors.transparent,
                       child: Center(
-                        child: Text("قسائم غير مستخدمة",
+                        child: Text("unusedCoupons".tr(),
                           style: TextStyle(
                             color: cubit.index==1 ? Colors.white : Colors.black87,
                           ),),
@@ -75,7 +75,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                       height: 50,
                       color: cubit.index==2 ? kCustomBlack : Colors.transparent,
                       child: Center(
-                        child: Text("قسائم مستخدمة",
+                        child: Text("usedCoupons".tr(),
                           style: TextStyle(
                             color: cubit.index==2 ? Colors.white : Colors.black87,
                           ),),
@@ -95,7 +95,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                   condition: state is! ShowCouponsDataLoading && state is ! ShowOldCouponsDataLoading,
                   builder: (context) =>
                   cubit.couponsModel?.data?.couponLists?.length==0 ?
-                  Center(child: Text(" لا يوجد كوبونات حاليا",
+                  Center(child: Text("noCoupons".tr(),
                     style: TextStyle(
                       fontSize: 25,
                     ),),):
@@ -142,7 +142,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                                                 width: 80,
                                                 color: Color(0xff393846),
                                                 child: Center(
-                                                  child: Text("تقديم",
+                                                  child: Text("Apply".tr(),
                                                   style: TextStyle(
                                                     color: Colors.white
                                                   ),),
@@ -245,7 +245,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                   condition: state is! ShowCouponsDataLoading && state is ! ShowOldCouponsDataLoading,
                   builder: (context) =>
                   cubit.oldCouponsModel!.data!.couponLists!.length==0 ?
-                  Center(child: Text(" لا يوجد كوبونات حاليا",
+                  Center(child: Text("noCoupons".tr(),
                     style: TextStyle(
                       fontSize: 25,
                     ),),):
@@ -253,7 +253,7 @@ class _CouponesScreenState extends State<CouponesScreen> {
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) {
                       return  cubit.oldCouponsModel!.data!.couponLists!.length==0 ?
-                      Center(child: Text(" لا يوجد كوبونات مستخدمه حاليا",
+                      Center(child: Text("noCoupons".tr(),
                         style: TextStyle(
                           fontSize: 25,
                         ),),):

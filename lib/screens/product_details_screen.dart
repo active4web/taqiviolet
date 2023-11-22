@@ -72,10 +72,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           cubit.getProductDetails(
             productId: cubit.productDetailsModel!.data!.productDetails![0].id,
           );
-          showToast(text: "تمت اضافه المنتج بنجاح", color: Colors.green);
+          showToast(text: "addProductSuccess".tr(), color: Colors.green);
         }
         if (state is GetConstructionSuccessState) {
-          showToast(text: "تمت اضافه المنتج بنجاح", color: Colors.green);
+          showToast(text: "addProductSuccess".tr(), color: Colors.green);
         }
       },
       builder: (context, state) {
@@ -341,7 +341,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            "تكلفة الشحن: ",
+                                            "shippingCharges".tr(),
                                             maxLines: null,
                                             style: TextStyle(
                                                 fontWeight: FontWeight.w500,
@@ -586,7 +586,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       Row(
                                         children: [
                                           Text(
-                                            'المنتج سوف يصل في خلال: ',
+                                            'productArrive'.tr(),
                                             style: TextStyle(
                                               fontWeight: FontWeight.w300,
                                               color: Colors.green.shade300,

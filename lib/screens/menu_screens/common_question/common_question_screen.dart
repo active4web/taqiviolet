@@ -114,7 +114,7 @@ class _CommonQuestionsScreenState extends State<CommonQuestionsScreen> {
                 child:
                 cubit.commonQuestionModel!.data!.questionsList!.length == 0 ?
                     Center(
-                      child: Text("لا يوجد اسئلة"),
+                      child: Text("noQuestions".tr()),
                     ):
                 ListView.separated(
                   physics: BouncingScrollPhysics(),

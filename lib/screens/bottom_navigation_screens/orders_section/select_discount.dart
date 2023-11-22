@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/cartCubit/cart_cubit.dart';
-import 'package:safsofa/cubits/order/order_cubit.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/cashback.dart';
 import 'package:safsofa/screens/searchScreen.dart';
-
+import 'package:easy_localization/easy_localization.dart';
 import '../../../cubits/cartCubit/cart_state.dart';
 import '../../check_out_screen.dart';
 
@@ -22,13 +21,13 @@ class SelectDiscount extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: SortItem(title: 'كود الخصم', isActive: cubit.promo,onTap: (){
+                  child: SortItem(title: 'discountCode'.tr(), isActive: cubit.promo,onTap: (){
                     cubit.promoActive();
                     cubit.promoCode.clear();
                   },),
                 ),
                 Expanded(
-                  child: SortItem(title: 'الكاش باك', isActive: cubit.cache,onTap: (){
+                  child: SortItem(title: 'cashBack'.tr(), isActive: cubit.cache,onTap: (){
                     cubit.cacheActive();
                     cubit.cashback.clear();
                   },),

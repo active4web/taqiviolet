@@ -153,8 +153,8 @@ class MenuScreen extends StatelessWidget {
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.13,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * 0.13,
                                   decoration: BoxDecoration(
                                       color: Color(0xff393846),
                                       border:
@@ -198,8 +198,8 @@ class MenuScreen extends StatelessWidget {
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(10),
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.13,
+                                  // height:
+                                  //     MediaQuery.of(context).size.height * 0.13,
                                   decoration: BoxDecoration(
                                       color: Color(0xff393846),
                                       border:
@@ -328,7 +328,7 @@ class MenuTile extends StatelessWidget {
       },
       child: Container(
         padding: EdgeInsets.all(10),
-        height: MediaQuery.of(context).size.height * 0.12,
+        // height: MediaQuery.of(context).size.height * 0.12,
         decoration: BoxDecoration(
             color: Color(0xff393846),
             border: Border.all(color: kLightGoldColor),
@@ -338,7 +338,7 @@ class MenuTile extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               Container(
-                height: MediaQuery.of(context).size.height * 0.02,
+                height: MediaQuery.of(context).size.height * 0.05,
                 decoration: BoxDecoration(
                     image: DecorationImage(
                   image: image,

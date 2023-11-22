@@ -43,6 +43,9 @@ class OfferCubit extends Cubit<OfferState> {
     emit(GetOfferLoadingState2());
     Mhelper.getData(
       url: offersEndpoint2,
+      query: {
+        'lang':kLanguage
+      }
     ).then((value) {
       print("222222222222222mostafa --------------------------------");
       newOfferModel = NewOfferModel.fromJson(value.data);

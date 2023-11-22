@@ -23,7 +23,7 @@ class CashBack extends StatelessWidget {
               if (cubit.myCartModel!.data!.cashback == 0)
                 Padding(
                   padding:  EdgeInsets.symmetric(horizontal:20.w),
-                  child: Text('ليس لديك كاش باك'),
+                  child: Text('dontHaveCash'.tr()),
                 ),
               if (cubit.myCartModel!.data!.cashback != 0)
                 SizedBox(
@@ -32,7 +32,7 @@ class CashBack extends StatelessWidget {
               if (cubit.myCartModel!.data!.cashback != 0)
               Padding(
                 padding:  EdgeInsets.symmetric(horizontal:20.w),
-                child: Text('لديك ${cubit.myCartModel!.data!.cashback} كاش باك'),
+                child: Text('${'have'.tr()} ${cubit.myCartModel!.data!.cashback} ${'cashBack'.tr()}'),
               ),
               if (cubit.myCartModel!.data!.cashback != 0)
                 CustomTextFormField(

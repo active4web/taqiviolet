@@ -29,7 +29,7 @@ class CustomNetworkImage extends StatelessWidget {
           borderRadius: border,
           image: DecorationImage(
             image: imageProvider,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),child: Container(
         decoration: BoxDecoration(

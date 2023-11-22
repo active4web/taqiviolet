@@ -87,7 +87,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                             height: 30,
                             color: cubit.index==1 ? kCustomBlack : Colors.transparent,
                             child: Center(
-                              child: Text("الحالى",
+                              child: Text("current".tr(),
                                 style: TextStyle(
                                   color: cubit.index==1 ? Colors.white : Colors.black87,
                                 ),),
@@ -104,7 +104,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                             height: 30,
                             color: cubit.index==2 ? kCustomBlack : Colors.transparent,
                             child: Center(
-                              child: Text("القديم",
+                              child: Text("old".tr(),
                                 style: TextStyle(
                                   color: cubit.index==2 ? Colors.white : Colors.black87,
                                 ),),
@@ -127,7 +127,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                             padding: EdgeInsets.all(20),
                             child:
                             cubit.newListGiftsWalletModel?.data?.listgiftwallets?.length==0 ?
-                                Center(child: Text(" لا يوجد هدايا حاليا",
+                                Center(child: Text("noGifts".tr(),
                                 style: TextStyle(
                                   fontSize: 25,
                                 ),),):
@@ -233,7 +233,7 @@ class _GiftBalanceScreenState extends State<GiftBalanceScreen> {
                           padding: EdgeInsets.all(20),
                           child:
                           cubit.newListGiftsWalletModelOld?.data?.listgiftwallets?.length==0 ?
-                          Center(child: Text(" لا يوجد هدايا حاليا",
+                          Center(child: Text("noGifts".tr(),
                             style: TextStyle(
                               fontSize: 25,
                             ),),):

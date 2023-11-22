@@ -45,6 +45,9 @@ class ListsCubit extends Cubit<ListsState> {
     Mhelper.postData(
       token: CacheHelper.getData("token"),
       url: 'api/MyFavList',
+      query: {
+        'lang':kLanguage
+      },
       data:{
         "id":id
       }

@@ -330,7 +330,30 @@
   "recommended": "المنتجات المقترحه",
   "postNumber": "الرقم البريدي",
   "orderNow": "ادفع الان",
-  "addReview": "اضافة تقييم +"
+  "addReview": "اضافة تقييم +",
+  "productArrive": "المنتج سوف يصل في خلال: ",
+  "addProductSucess": "تمت اضافت المنتج بنجاح",
+  "shippingCharges": "تكلفة الشحن: ",
+  "discountCode": "كود الخصم",
+  "have": "لديك",
+  "dontHaveCash": "ليس لديك كاش باك",
+  "searchCountry": "البحث عن الدولة",
+  "searchCity": "البحث عن المدينة",
+  "unusedCoupons": "قسائم غير مستخدمة",
+  "usedCoupons": "قسائم مستخدمة",
+  "noCoupons": " لا يوجد كوبونات حاليا",
+  "Apply": "تقديم",
+  "current": "الحالي",
+  "old": "القديم",
+  "noGifts": "لا يوجد هدايا حاليا",
+  "noQuestions": "لا يوجد اسئلة"
+
+
+
+
+
+
+
 
 
 
