@@ -5,7 +5,9 @@ class CustomSearchBar extends StatelessWidget {
   TextEditingController? controller;
   void Function(String)? onChange;
   final Function? function;
-  CustomSearchBar({@required this.border, this.controller, this.onChange, this.function});
+  final void Function()? iconSearchOnTap;
+  final void Function(String)? onSaved;
+  CustomSearchBar({@required this.border, this.controller, this.onChange, this.function, this.onSaved, this.iconSearchOnTap});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,6 +17,7 @@ class CustomSearchBar extends StatelessWidget {
           textAlign: TextAlign.start,
           controller: controller,
           onChanged: onChange,
+          onFieldSubmitted:onSaved ,
           // textDirection: TextDirection.rtl,
           decoration: InputDecoration(
               fillColor: Colors.white,
@@ -32,9 +35,7 @@ class CustomSearchBar extends StatelessWidget {
                 icon: Icon(
                   Icons.search,
                   color: Colors.black,
-                ), onPressed: () {
-                  function!();
-              },
+                ), onPressed:iconSearchOnTap
               ),
               contentPadding: EdgeInsets.all(10)),
         ),

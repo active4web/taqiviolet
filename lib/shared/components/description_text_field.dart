@@ -5,8 +5,9 @@ class DescriptionTextField extends StatelessWidget {
   final String ?hintText;
   int maxLines ;
   Widget? suffixIcon;
+  final String? Function(String?)? validator;
   DescriptionTextField(
-      {this.controller, this.hintText, this.maxLines= 1, this.suffixIcon});
+      {this.controller, this.hintText, this.maxLines= 1, this.suffixIcon, this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +17,7 @@ class DescriptionTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           border: Border.all(color: Colors.grey)),
       child: TextFormField(
+        validator: validator,
         controller: controller,
         minLines: 4,
         maxLines: maxLines,

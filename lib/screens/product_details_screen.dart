@@ -51,7 +51,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(CacheHelper.getData("token"));
+
+    print('aaaaaaaaaadddddddddddd${AppCubit.get(context)
+        .productDetailsModel
+        ?.data
+        ?.productDetails![0]
+        .hasFavorites}');
 
     String featureSize = '';
     PageController pageController = new PageController();
@@ -1605,12 +1610,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   color: Colors.black);
                                             }
                                           },
-                                          icon: cubit
+                                          icon: AppCubit.get(context)
                                                       .productDetailsModel
                                                       ?.data
                                                       ?.productDetails![0]
-                                                      .hasFavorites ==
-                                                  1
+                                                      .hasFavorites==1
                                               ? Icon(
                                                   Icons.bookmark_add,
                                                   size: 35,

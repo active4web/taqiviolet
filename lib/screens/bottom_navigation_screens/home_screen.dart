@@ -66,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
         if (state is GetConstructionSuccessState) {
-          if ((cubit.constructionLink?.data?.orderId)!.toInt() > 0) {
+          if (cubit.constructionLink?.data?.orderId!=null) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showDialog(
                   context: context,
@@ -114,7 +114,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               InkWell(
                                 onTap: () => navigateReplacement(
                                     context,
-                                    AddReviewScreen()),
+                                    AddReviewScreen(
+                                      orderId: cubit.constructionLink?.data?.orderId??0,
+                                    )),
                                 child: Container(
                                   alignment: AlignmentDirectional.center,
                                   decoration: BoxDecoration(

@@ -50,13 +50,21 @@ ReviewsCommentsModel? allReviews;
   }
   Future<void> addProductReview({required int id})async{
     emit(ProductReviewLoading());
+    List uploadList = [];
+    if (images != null && images!.isNotEmpty) {
+      for (int i = 0; i < images!.length; i++) {
+        MultipartFile multipartFile = MultipartFile.fromFileSync(
+          images![i].path,
+        );
+        uploadList.add([multipartFile]);
+      }
+    }
     final response=await Mhelper.postData(url: 'api/reviews',token: kToken, data: FormData.fromMap(
         {
           "rate":rate,
           "product_id":id,
           "comment":commentController.text,
-          // if(images!=null)
-          // "img[]":images==null?null:await MultipartFile.fromFile(images?[0].path ?? '')
+          if (uploadList.isNotEmpty) "img": await uploadList
         }
     ));
     if(response.data['status']){

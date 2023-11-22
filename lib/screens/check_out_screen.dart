@@ -706,21 +706,21 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     ),
                                                   ),
                                                     buttonStyleData:
-                                                            const ButtonStyleData(
+                                                             ButtonStyleData(
                                                           padding: EdgeInsets
                                                               .symmetric(
                                                                   horizontal:
-                                                                      16),
-                                                          height: 40,
-                                                          width: 200,
+                                                                      16.w),
+                                                          height: 50.h,
+                                                          width: 200.w,
                                                         ),
                                                         dropdownStyleData:
-                                                            const DropdownStyleData(
-                                                          maxHeight: 200,
+                                                        DropdownStyleData(
+                                                          maxHeight: 200.h,
                                                         ),
                                                         menuItemStyleData:
-                                                            const MenuItemStyleData(
-                                                          height: 30,
+                                                             MenuItemStyleData(
+                                                          height: 40.h,
                                                         ),
                                                   items:  cartCubit
                                                           .allCities!

@@ -5,17 +5,13 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/search_cubit/search_cubit.dart';
 import 'package:safsofa/cubits/search_cubit/search_state.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
-import 'package:safsofa/shared/components/custom_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
-import '../../models/homeModel/main_cat_model.dart';
 import '../shared/components/custom_app_bar.dart';
 import '../shared/components/custom_button.dart';
 
@@ -355,7 +351,7 @@ class SearchScreen extends StatelessWidget {
                           ),
                           SearchCubit.get(context).categories.isEmpty? Center(child: LinearProgressIndicator()):GridView.builder(
                             shrinkWrap: true,
-                              itemCount: 4,
+                              itemCount: SearchCubit.get(context).categories.length,
                               itemBuilder: (context,index)=>SortItem(title: SearchCubit.get(context).categories[index].name??'', isActive: SearchCubit.get(context).activeCatIndex==index,
                           onTap: (){
                             SearchCubit.get(context).changeCatIndex(index: index);
@@ -364,7 +360,7 @@ class SearchScreen extends StatelessWidget {
                           },
                           ), gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            childAspectRatio: 4.9,
+                            childAspectRatio: 4.5,
                             crossAxisSpacing: 3,
                             mainAxisSpacing: 3
                           ), ),
@@ -435,19 +431,19 @@ class SearchScreen extends StatelessWidget {
                                   SearchCubit.get(context).changeIndex(value: 1);
                                 },),
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(width: 5.w,),
                               Expanded(
                                 child: SortItem(title: 'minP'.tr(),isActive: SearchCubit.get(context).index==2,onTap: (){
                                   SearchCubit.get(context).changeIndex(value: 2);
                                 },),
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(width: 5.w,),
                               Expanded(
                                 child: SortItem(title: 'newest'.tr(),isActive: SearchCubit.get(context).index==3,onTap: (){
                                   SearchCubit.get(context).changeIndex(value: 3);
                                 },),
                               ),
-                              SizedBox(width: 10,),
+                              SizedBox(width: 5.w,),
                               Expanded(
                                 child: SortItem(title: 'oldest'.tr(),isActive: SearchCubit.get(context).index==4,onTap: (){
                                   SearchCubit.get(context).changeIndex(value: 4);
@@ -669,14 +665,15 @@ class SortItem extends StatelessWidget {
     return InkWell(
       onTap:onTap ,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 5,vertical: 3),
+        padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 3.h),
         decoration: BoxDecoration(
             color: isActive?kCustomBlack:Colors.white,
-            border: Border.all(width: .5,color:isActive? Color(0xff6d5aa6):kDarkGoldColor)
+            border: Border.all(width: .5.w,color:isActive? Color(0xff6d5aa6):kDarkGoldColor)
         ),
         child: Center(
           child: Text(title,style: TextStyle(
             color: isActive?Colors.white:kCustomBlack,
+            fontSize: 12.sp
           ),),
         ),
       ),

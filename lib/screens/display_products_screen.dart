@@ -66,7 +66,10 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
             backgroundColor: Colors.white,
             appBar: CustomAppBarWithSearch(
               controller: searchController,
-                onChange: (value){
+                iconSearchOnTap: (){
+                  cubit.getSearchData(categoryId: widget.category_id??0,productName: searchController.text);
+                },
+                onSaved: (value){
                 print(widget.category_id);
                cubit.getSearchData(categoryId: widget.category_id??0,productName: value);
                 },

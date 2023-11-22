@@ -6,6 +6,7 @@ import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
+import 'package:safsofa/models/update_order_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_state.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -106,8 +107,10 @@ class PaymentCubit extends Cubit<PaymentState> {
   }
 
 
-
+UpdateOrderModel? order;
+  int?orderId;
 Future<void> updateOrder({required BillingDetails paymentModel,required PaymentModel paymentModel2})async{
+  orderId=int.parse(paymentModel.orderId);
   emit(UpdateOrderLoadingState());
   print("aaaaaaaaaaaaaaaaaaaa${paymentModel.countryId}");
   print("aaaaaaaaaaaaaaaaaaaa${paymentModel.orderId}");
@@ -128,6 +131,7 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
     },token: kToken);
 
     if(response.data["status"]){
+      order=UpdateOrderModel.fromJson(response.data);
       emit(UpdateOrderSuccessState());
     }else{
       emit(UpdateOrderErrorState());

@@ -14,16 +14,18 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
       this.colorIcon = Colors.white,
        this.controller,
         this.function,
-       this.onChange})
+       this.onChange, this.onSaved, this.iconSearchOnTap})
        ;
 
   final String? title;
+  final void Function()? iconSearchOnTap;
   Color? colorAB;
   final bool withFilter;
   final Function? function;
   Color colorIcon;
   TextEditingController? controller;
   void Function(String)? onChange;
+  final void Function(String?)? onSaved;
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
@@ -91,6 +93,8 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
                   border: colorIcon,
                   controller: controller,
                   onChange: onChange,
+                      onSaved:onSaved ,
+                      iconSearchOnTap: iconSearchOnTap,
                 )),
               ],
             ),

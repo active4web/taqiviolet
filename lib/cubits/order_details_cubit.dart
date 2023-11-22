@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
@@ -43,39 +44,61 @@ class OrderDetailsCubit extends Cubit<OrderDetailsState> {
     });
   }
 
-  Future<Response> addReviewForProduct({
-    required int productId,
-    required int orderId,
-    required String rate,
-    required String comment,
-    required List<XFile> reviewImages,
-  }) async {
-    log('Rating value: ${rate}');
-    emit(OrderDetailsLoadingState());
-    List uploadList = [];
-    if (reviewImages != null && reviewImages.isNotEmpty) {
-      for (int i = 0; i < reviewImages.length; i++) {
-        MultipartFile multipartFile = MultipartFile.fromFileSync(
-          reviewImages[i].path,
-        );
-        uploadList.add([multipartFile]);
-      }
-    }
-    var response =
-        await Mhelper.postData(token: kToken, url: 'api/reviews', data: {
-      "rate": rate,
-      "product_id": "$productId",
-      "comment": comment,
-      "order_id": "$orderId",
-      if (uploadList.isNotEmpty) "img": await uploadList,
-    }, query: {
-      'lang': kLanguage,
-    });
-    if (response.data['status']) {
-      emit(OrderDetailsSuccessState());
-    } else {
-      emit(OrderDetailsErrorState());
-    }
-    return response;
+  var formKey=GlobalKey<FormState>();
+double? rate;
+
+  changeRate({required double value}){
+    rate=value;
+    emit(ChangeRateState());
   }
+  var commentController=TextEditingController();
+  Future<void>addReviewForOrder({required int id})async{
+    emit(AddReviewForOrderLoading());
+    final response=await Mhelper.postData(url: 'api/orders/rate-order/$id',token: kToken,data: {
+      "_method":"put",
+      "rate_status":rate,
+      "rate_comment":commentController.text
+    });
+    if(response.data['status']){
+      emit(AddReviewForOrderSuccess());
+    }else{
+      emit(AddReviewForOrderError());
+    }
+  }
+
+  // Future<Response> addReviewForProduct({
+  //   required int productId,
+  //   required int orderId,
+  //   required String rate,
+  //   required String comment,
+  //   required List<XFile> reviewImages,
+  // }) async {
+  //   log('Rating value: ${rate}');
+  //   emit(OrderDetailsLoadingState());
+  //   List uploadList = [];
+  //   if (reviewImages != null && reviewImages.isNotEmpty) {
+  //     for (int i = 0; i < reviewImages.length; i++) {
+  //       MultipartFile multipartFile = MultipartFile.fromFileSync(
+  //         reviewImages[i].path,
+  //       );
+  //       uploadList.add([multipartFile]);
+  //     }
+  //   }
+  //   var response =
+  //       await Mhelper.postData(token: kToken, url: 'api/reviews', data: {
+  //     "rate": rate,
+  //     "product_id": "$productId",
+  //     "comment": comment,
+  //     "order_id": "$orderId",
+  //     if (uploadList.isNotEmpty) "img": await uploadList,
+  //   }, query: {
+  //     'lang': kLanguage,
+  //   });
+  //   if (response.data['status']) {
+  //     emit(OrderDetailsSuccessState());
+  //   } else {
+  //     emit(OrderDetailsErrorState());
+  //   }
+  //   return response;
+  // }
 }

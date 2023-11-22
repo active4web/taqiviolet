@@ -1,199 +1,156 @@
-
-
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
+import 'package:safsofa/cubits/order_details_cubit.dart';
 import 'package:safsofa/screens/home_layout.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/shared/constants.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../shared/components/custom_button.dart';
 import '../shared/components/custom_label.dart';
 import '../shared/components/description_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 
+class AddReviewScreen extends StatelessWidget {
+  const AddReviewScreen({super.key, required this.orderId});
 
-class AddReviewScreen extends StatefulWidget {
-  const AddReviewScreen({super.key});
-
-  @override
-  State<AddReviewScreen> createState() => _AddReviewScreenState();
-}
-
-class _AddReviewScreenState extends State<AddReviewScreen> {
-  TextEditingController commentController = TextEditingController();
-  List<XFile>? images;
-
-  Future geImageGallery1() async {
-    images = await ImagePicker().pickMultiImage();
-    setState(() {});
-  }
-
-  double rating = 0;
+  final int orderId;
   @override
   Widget build(BuildContext context) {
+    print(" order id  $orderId");
     return WillPopScope(
         onWillPop: () async {
           Navigator.pop(context, true);
           return true;
         },
-    child: SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          leading: IconButton(
-            onPressed: (){
-              AppCubit.get(context).selectedIndex=0;
-              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>
-              HomeLayout()
-              ), (route) => false);
-            }, icon: Icon(kLanguage=='en'?Icons.arrow_back_ios_new_outlined:Icons.arrow_forward_ios_outlined),
-          ),
-        ),
-        body: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
-          child: ListView(
-            children: [
-              SizedBox(height: 20.h,),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.12,
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image:
-                        AssetImage('assets/images/AddReview.png'))),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Center(
-                child: RatingBar.builder(
-                  initialRating: rating,
-                  minRating: 1,
-                  itemSize: 40,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  glowColor: Color(0xffF3E184),
-                  unratedColor: Color(0xffCFD8DC),
-                  itemPadding:
-                  EdgeInsets.symmetric(horizontal: 1, vertical: 5),
-                  onRatingUpdate: (value) {
-                    setState(() {
-                      rating = value;
-                    });
+        child: SafeArea(
+          child: BlocProvider(
+            create: (context) => OrderDetailsCubit(),
+            child: Scaffold(
+              appBar: AppBar(
+                leading: IconButton(
+                  onPressed: () {
+                    AppCubit
+                        .get(context)
+                        .selectedIndex = 0;
+                    Navigator.pushAndRemoveUntil(
+                        context, MaterialPageRoute(builder: (context) =>
+                        HomeLayout()
+                    ), (route) => false);
                   },
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star_rate_rounded,
-                    color: Color(0xffF3E184),
-                  ),
+                  icon: Icon(kLanguage == 'en'
+                      ? Icons.arrow_back_ios_new_outlined
+                      : Icons.arrow_forward_ios_outlined),
                 ),
               ),
-              SizedBox(
-                height: 30,
-              ),
-            Label(
-              text: 'Comment'.tr(),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            DescriptionTextField(
-              hintText: "Write your comment on the product".tr(),
-              controller: commentController,
-              maxLines: 6,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            Text('ProductImages'.tr(),style: TextStyle(
-              fontWeight: FontWeight.bold
-            ),),
-            InkWell(
-              onTap: () => geImageGallery1(),
-              child: Icon(Icons.add_a_photo_outlined),
-            ),
-            if (images != null && images!.isNotEmpty)
-                 SizedBox(
-          height: MediaQuery.of(context).size.height / 5,
-          child: ListView.separated(
-            padding: EdgeInsets.symmetric(
-                horizontal:
-                MediaQuery.of(context).size.width / 60),
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (context, index) => ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Stack(
-                children: [
-                  Image(
-                    height:
-                    MediaQuery.of(context).size.width / 2,
-                    width:
-                    MediaQuery.of(context).size.width / 2,
-                    image: FileImage(
-                      File(images![index].path),
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        images?.removeAt(index);
-                      });
-                    },
-                    child: CircleAvatar(
-                      backgroundColor:
-                      Colors.white.withOpacity(0.7),
-                      child: Icon(
-                        Icons.close,
-                        color: Colors.black,
+              body: BlocConsumer<OrderDetailsCubit, OrderDetailsState>(
+                listener: (context, state) {
+                  if(state is AddReviewForOrderSuccess){
+                    ToastConfig.showToast(msg: 'sucess', toastStates: ToastStates.success);
+                    AppCubit
+                        .get(context)
+                        .selectedIndex = 0;
+                    Navigator.pushAndRemoveUntil(
+                        context, MaterialPageRoute(builder: (context) =>
+                        HomeLayout()
+                    ), (route) => false);
+                  }
+                },
+                builder: (context, state) {
+                  var cubit=OrderDetailsCubit.get(context);
+                  return Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: Form(
+                      key: cubit.formKey,
+                      child: ListView(
+                        children: [
+                          SizedBox(height: 20.h,),
+                          Container(
+                            height: MediaQuery
+                                .of(context)
+                                .size
+                                .height * 0.12,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image:
+                                    AssetImage('assets/images/AddReview.png'))),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Center(
+                            child: RatingBar.builder(
+                              initialRating: cubit.rate??0.0,
+                              minRating: 1,
+                              itemSize: 40,
+                              direction: Axis.horizontal,
+                              allowHalfRating: true,
+                              itemCount: 5,
+                              glowColor: Color(0xffF3E184),
+                              unratedColor: Color(0xffCFD8DC),
+                              itemPadding:
+                              EdgeInsets.symmetric(horizontal: 1, vertical: 5),
+                              onRatingUpdate: (value) {
+                               cubit.changeRate(value: value);
+                              },
+                              itemBuilder: (context, _) =>
+                                  Icon(
+                                    Icons.star_rate_rounded,
+                                    color: Color(0xffF3E184),
+                                  ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Label(
+                            text: 'Comment'.tr(),
+                          ),
+                          SizedBox(
+                            height: 15,
+                          ),
+                          DescriptionTextField(
+                            validator: (value){
+                              if(value!.isEmpty){
+                                return 'comment is required';
+                              }
+                            },
+                            hintText: "Write your comment on the product".tr(),
+                            controller: cubit.commentController,
+                            maxLines: 6,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          state is AddReviewForOrderLoading?Center(
+                            child: CircularProgressIndicator(),
+                          ):
+                          CustomButton(
+                            height: 50.h,
+                            text: 'AddReview'.tr(),
+                            onTap: () {
+                              cubit.formKey.currentState?.validate();
+                              cubit.addReviewForOrder(id: orderId);
+                            },
+                          ),
+                          SizedBox(height: 20.h),
+
+                        ],
                       ),
                     ),
-                  )
-                ],
+                  );
+                },
               ),
             ),
-            separatorBuilder: (context, index) => SizedBox(
-              width: MediaQuery.of(context).size.width / 30,
-            ),
-            itemCount: images!.length,
-          ),),
-              SizedBox(height: 20.h,),
-              CustomButton(
-              height: 50.h,
-                  text: 'AddReview'.tr(),
-                onTap: (){},
-              ),
-              SizedBox(height:20.h),
-
-            ],
           ),
-        ),
-      ),
-    )
+        )
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // import 'dart:io';
 //

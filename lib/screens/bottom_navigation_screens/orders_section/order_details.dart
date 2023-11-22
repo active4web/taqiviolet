@@ -155,11 +155,11 @@ class OrderDetailsSCR extends StatelessWidget {
                                                             //     ?.data
                                                             //     ?.listProducts![pos]
                                                             //     .productId,
-                                                            // orderId: cubit
-                                                            //     .orderDetails
-                                                            //     ?.data
-                                                            //     ?.orderDetails
-                                                            //     ?.id,
+                                                            orderId: cubit
+                                                                .orderDetails
+                                                                ?.data
+                                                                ?.orderDetails
+                                                                ?.id??0
                                                           ),
                                                         ))
                                                             .then((value) {

@@ -105,13 +105,16 @@ class _PaymentComponentState extends State<PaymentComponent> {
         listener: (context, state) {
           if (state is PaymentSuccessState) {
             var cubit = PaymentCubit.get(context);
+            navigateTo(context, AddReviewScreen(
+                orderId:PaymentCubit.get(context).orderId??0
+            ));
             showToast(text: "Payment Successfully", color: Colors.green);
             if(kToken != null && kToken!.isNotEmpty){
               CartCubit.get(context)..getServerCartData();
             }else{
               CartCubit.get(context)..getLocalCartData();
             }
-            navigateTo(context, AddReviewScreen());
+
           }
         },
         builder: (context, state) {
