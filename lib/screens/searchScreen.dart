@@ -96,7 +96,7 @@ class SearchScreen extends StatelessWidget {
                                               filled: true,
                                               enabledBorder: OutlineInputBorder(
                                                 borderSide: const BorderSide(
-                                                  color: kDarkGoldColor,
+                                                  color: kCustomBlack,
                                                 ),
                                                 borderRadius: BorderRadius.all(
                                                   Radius.circular(width / 25),
@@ -668,7 +668,8 @@ class SortItem extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 5.w,vertical: 3.h),
         decoration: BoxDecoration(
             color: isActive?kCustomBlack:Colors.white,
-            border: Border.all(width: .5.w,color:isActive? Color(0xff6d5aa6):kDarkGoldColor)
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(width: 1.w,color: kCustomBlack)
         ),
         child: Center(
           child: Text(title,style: TextStyle(

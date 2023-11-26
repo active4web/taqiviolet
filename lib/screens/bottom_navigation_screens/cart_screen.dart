@@ -60,18 +60,18 @@ class CartScreen extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                               TextButton(
-                                  onPressed: () =>
-                                      cubit.emptyCartProductsServer(),
-                                  child: Text(
-                                    "emptyCart".tr(),
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w700,
-                                    ),
-                                  ),
-                                ),
+                               // TextButton(
+                               //    onPressed: () =>
+                               //        cubit.emptyCartProductsServer(),
+                               //    child: Text(
+                               //      "emptyCart".tr(),
+                               //      style: TextStyle(
+                               //        color: Colors.red,
+                               //        fontSize: 18,
+                               //        fontWeight: FontWeight.w700,
+                               //      ),
+                               //    ),
+                               //  ),
                               // Row(
                               //   mainAxisAlignment:
                               //       MainAxisAlignment.spaceBetween,
@@ -98,16 +98,17 @@ class CartScreen extends StatelessWidget {
                               //     ),
                               //   ],
                               // ),
-                                 ListView.separated(
-                                   shrinkWrap: true,
+                              ListView.separated(
+                                    shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) => Container(
-                                          height:170.h,
+                                          height:140.h,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               borderRadius:
                                                   BorderRadius.circular(10)),
                                           child: Row(
+
                                             children: [
                                               Expanded(
                                                 flex: 3,
@@ -129,7 +130,7 @@ class CartScreen extends StatelessWidget {
                                                 flex: 5,
                                                 child: Padding(
                                                   padding: const EdgeInsets.only(
-                                                      bottom: 10, top: 20),
+                                                      bottom: 0, top: 5),
                                                   child: Column(
 
                                                     crossAxisAlignment:
@@ -375,44 +376,19 @@ class CartScreen extends StatelessWidget {
                                                       //     ),
                                                       //   ],
                                                       // ),
-                                                      SizedBox(height: 10.h,),
-                                                      CounterRow(
-                                                          quantity: cubit
-                                                              .myCartModel!
-                                                              .data!
-                                                              .listItem![index]
-                                                              .quantity
-                                                              .toString(),
-                                                          onAdd: () {
-                                                            // print("999999999999999999");
-                                                            // int.parse(cubit.myCartModel.data[index].quantity)+1;
-                                                            //
-                                                            // print(  int.parse(cubit.myCartModel.data[index].quantity)+1);
-                                                            cubit.addquantityServer(
-                                                                cart_id: cubit
-                                                                    .myCartModel
-                                                                    ?.data
-                                                                    ?.listItem![
-                                                                        index]
-                                                                    .cardId,
-                                                                product_quantity: (cubit
-                                                                            .myCartModel
-                                                                            ?.data
-                                                                            ?.listItem![
-                                                                                index]
-                                                                            .quantity)!
-                                                                        .toInt() +
-                                                                    1);
-                                                          },
-                                                          onRemove: () {
-                                                            if ((cubit
-                                                                        .myCartModel
-                                                                        ?.data
-                                                                        ?.listItem![
-                                                                            index]
-                                                                        .quantity)!
-                                                                    .toInt() >
-                                                                1) {
+                                                      Expanded(
+                                                        child: CounterRow(
+                                                            quantity: cubit
+                                                                .myCartModel!
+                                                                .data!
+                                                                .listItem![index]
+                                                                .quantity
+                                                                .toString(),
+                                                            onAdd: () {
+                                                              // print("999999999999999999");
+                                                              // int.parse(cubit.myCartModel.data[index].quantity)+1;
+                                                              //
+                                                              // print(  int.parse(cubit.myCartModel.data[index].quantity)+1);
                                                               cubit.addquantityServer(
                                                                   cart_id: cubit
                                                                       .myCartModel
@@ -423,16 +399,42 @@ class CartScreen extends StatelessWidget {
                                                                   product_quantity: (cubit
                                                                               .myCartModel
                                                                               ?.data
-                                                                              ?.listItem![index]
+                                                                              ?.listItem![
+                                                                                  index]
                                                                               .quantity)!
-                                                                          .toInt() -
+                                                                          .toInt() +
                                                                       1);
-                                                            }
-                                                            print(
-                                                                "bbbbaaahhhhrrrrr");
-                                                            print(
-                                                                "111111111111111111");
-                                                          }),
+                                                            },
+                                                            onRemove: () {
+                                                              if ((cubit
+                                                                          .myCartModel
+                                                                          ?.data
+                                                                          ?.listItem![
+                                                                              index]
+                                                                          .quantity)!
+                                                                      .toInt() >
+                                                                  1) {
+                                                                cubit.addquantityServer(
+                                                                    cart_id: cubit
+                                                                        .myCartModel
+                                                                        ?.data
+                                                                        ?.listItem![
+                                                                            index]
+                                                                        .cardId,
+                                                                    product_quantity: (cubit
+                                                                                .myCartModel
+                                                                                ?.data
+                                                                                ?.listItem![index]
+                                                                                .quantity)!
+                                                                            .toInt() -
+                                                                        1);
+                                                              }
+                                                              print(
+                                                                  "bbbbaaahhhhrrrrr");
+                                                              print(
+                                                                  "111111111111111111");
+                                                            }),
+                                                      ),
                                                     ],
                                                   ),
                                                 ),
@@ -470,7 +472,7 @@ class CartScreen extends StatelessWidget {
                                           ),
                                         ),
                                     separatorBuilder: (context, index) =>
-                                        Divider(),
+                                      SizedBox(height: 5.h,),
                                     itemCount: cubit
                                         .myCartModel!.data!.listItem!.length),
                               Visibility(visible: true, child: Divider()),
@@ -523,13 +525,13 @@ class CartScreen extends StatelessWidget {
                               // ),
                               Divider(),
                               SizedBox(
-                                height: 10,
+                                height: 10.h,
                               ),
 
                               if (cubit.myCartModel?.data?.cashback != 0 &&
                                   cubit.myCartModel?.data?.cashback != null)
                                 SizedBox(
-                                  height: 5,
+                                  height: 5.h,
                                 ),
                               Row(
                                 mainAxisAlignment:
@@ -542,20 +544,20 @@ class CartScreen extends StatelessWidget {
                                     '${cubit.total} ${"SAR".tr()}',
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: 15.sp,
                                         color: Colors.black54),
                                   )
                                 ],
                               ),
                               SizedBox(
-                                height: 10,
+                                height: 10.h,
                               ),
                               Divider(),
                               SizedBox(
-                                height: 20,
+                                height: 10.h,
                               ),
                               CustomButton(
-                                height: 50,
+                                height: 40.h,
                                 text: 'Next'.tr(),
                                 onTap: () {
                                   cubit.makeNewOrder();

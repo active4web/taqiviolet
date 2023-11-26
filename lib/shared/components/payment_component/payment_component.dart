@@ -13,6 +13,7 @@ import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/add_review_screen.dart';
 import 'package:safsofa/screens/check_out_screen.dart';
+import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
 import 'dart:async';
 import 'dart:io' show Platform;
@@ -156,7 +157,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
                             color: kCustomBlack,
                             borderRadius: BorderRadius.circular(20.r)),
                         child: Center(
-                          child: Text(
+                          child:state is PaymentLoadingState? CustomCircularProgress():Text(
                             'orderNow'.tr(),
                             style: TextStyle(color: kDarkGoldColor),
                           ),

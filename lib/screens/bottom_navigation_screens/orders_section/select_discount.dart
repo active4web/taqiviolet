@@ -26,6 +26,7 @@ class SelectDiscount extends StatelessWidget {
                     cubit.promoCode.clear();
                   },),
                 ),
+                SizedBox(width: 5.w,),
                 Expanded(
                   child: SortItem(title: 'cashBack'.tr(), isActive: cubit.cache,onTap: (){
                     cubit.cacheActive();

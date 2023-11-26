@@ -511,14 +511,8 @@ class _PhoneRegisterScreenState extends State<PhoneRegisterScreen> {
                                       gradient: kGoldGradient,
                                       textColor: Colors.black,
                                       onTap: () {
+                                        print("phone${regPhPhoneContoller.text}");
                                         if (formRegPhone.currentState!.validate() ) {
-                                          log("""
-                                              ${regPhAddressController.text},
-                                              ${regPhNameController.text},
-                                              ${EasyLocalization.of(context)!.currentLocale.toString()},
-                                                ${countryCode}${regPhPhoneContoller.text},
-                                                  ${cubit.MobToken}
-                                              """);
                                           cubit.registerWithPhone(
                                             lang: EasyLocalization.of(context)
                                                 ?.currentLocale

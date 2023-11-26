@@ -388,6 +388,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 60.h,
                           child: ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.symmetric(horizontal: 22.w),
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (context, index) => SizedBox(
@@ -1683,9 +1684,7 @@ class FeatureItem extends StatelessWidget {
             child: Image.network(
           '$MBaseUrl$image',
         )),
-        SizedBox(
-          height: 5.h,
-        ),
+
         Expanded(
             child: Text(
           title,

@@ -60,6 +60,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     required BillingDetails billingDetailsData,
     required ShippingDetails shippingDetailsData
 }) async {
+    emit(PaymentLoadingState());
     FlutterPaytabsBridge.startCardPayment(generateConfig(billingDetailsData,shippingDetailsData), (event) {
 
       // emit(PaymentErrorState());

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 
@@ -60,7 +61,7 @@ class CustomTextFormField extends StatelessWidget {
 
         cursorColor: cursorColor,
         decoration: InputDecoration(
-
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
           hintText: hintText,
           suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):SizedBox.shrink(),
           enabledBorder: OutlineInputBorder(
