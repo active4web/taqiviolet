@@ -556,6 +556,11 @@ class CartScreen extends StatelessWidget {
                               SizedBox(
                                 height: 10.h,
                               ),
+                              state is MakeNewOrderLoadingState?Center(
+                                child: CircularProgressIndicator(
+                                  color: kCustomBlack,
+                                ),
+                              ):
                               CustomButton(
                                 height: 40.h,
                                 text: 'Next'.tr(),

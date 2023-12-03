@@ -47,6 +47,7 @@ class MyOrdersData {
   String? userPhone;
   String? orderDate;
   String? orderDeliveryDate;
+  dynamic itemCount;
 
   MyOrdersData({
     this.id,
@@ -84,6 +85,7 @@ class MyOrdersData {
     userPhone = json['userphone'];
     orderDate = json['order_date'];
     orderDeliveryDate = json['delivery_date'];
+    itemCount = json['items_count'];
   }
 
 // Map<String, dynamic> toJson() {

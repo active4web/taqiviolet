@@ -61,9 +61,9 @@ class CustomTextFormField extends StatelessWidget {
 
         cursorColor: cursorColor,
         decoration: InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
           hintText: hintText,
-          suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):SizedBox.shrink(),
+          suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):null,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(34)),
@@ -125,6 +125,7 @@ class CustomPasswordFormField extends StatelessWidget {
               autovalidateMode: AutovalidateMode.onUserInteraction,
               style: TextStyle(color: Colors.white),
               decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
                 hintText: hintText,
                 errorStyle: errorStyle,
                 errorMaxLines: 2,

@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:426444514091:android:56212be1fa6d010b465b6e",
+        "android_client_info": {
+          "package_name": "active4web.com.safsofa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBkENoeot7QWK_OupI6vbQQnQP1h3r37WE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:426444514091:android:5f64ccbf0834a622465b6e",
         "android_client_info": {
           "package_name": "active4web.com.taqi"

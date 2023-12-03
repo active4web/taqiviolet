@@ -26,11 +26,11 @@ class Data {
   String? image;
   String? imageMop;
   String? description;
-  int? isActive;
+  num? isActive;
   String? createdAt;
   String? updatedAt;
-  int? storeId;
-  int? hasSubCategories;
+  num? storeId;
+  num? hasSubCategories;
 
   Data(
       {this.id,
@@ -74,8 +74,8 @@ class Data {
 }
 
 class Msg {
-  int? maxPrice;
-  int? minPrice;
+  num? maxPrice;
+  num? minPrice;
 
   Msg({this.maxPrice, this.minPrice});
 

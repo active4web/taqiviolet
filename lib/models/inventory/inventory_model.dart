@@ -32,14 +32,14 @@ class InventoryModel {
 
 class Data {
   String? image;
-  int? productId;
+  num? productId;
   String? productName;
-  int? productOldPrice;
-  double? productCurrentPrice;
+  num? productOldPrice;
+  num? productCurrentPrice;
   String? productQuantity;
   String? productQuantityOrignal;
-  int? productSerialNo;
-  int? productQuantitySold;
+  num? productSerialNo;
+  num? productQuantitySold;
 
   Data(
       {this.image,

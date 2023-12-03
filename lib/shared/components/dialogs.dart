@@ -28,7 +28,7 @@ Future<Future> displayLogoutDialog(
                       style: TextStyle(fontFamily: "Tajawal", fontSize: 13))),
               CupertinoButton(
                   onPressed: () {
-                    Navigator.of(context).pop(true);
+                   Navigator.of(context).pop(true);
                   },
                   child: Text(
                       currentLanguage.languageCode == 'ar'

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/my_orders_cubit.dart';
 import 'package:safsofa/models/my_orders_model.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/pending_orders_screen.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -46,10 +47,11 @@ class PreviousOrdersScreen extends StatelessWidget {
         ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  log("myOrders ${cubit.previousOrders?.data?.length}");
 
-                  return OrderStatusCard(
-                      myOrdersData: cubit.previousOrders!.data![index]);
+                  return CustomOrder(myOrdersData: cubit.previousOrders!.data![index],
+                  status: 2,);
+                    // OrderStatusCard(
+                    //   myOrdersData: cubit.previousOrders!.data![index]);
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 4,

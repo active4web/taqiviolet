@@ -7,6 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/my_orders_cubit.dart';
 import 'package:safsofa/models/my_orders_model.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/pending_orders_screen.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -49,8 +50,9 @@ class CurrentOrdersScreen extends StatelessWidget {
                 itemBuilder: (context, index) {
                   log("myOrders ${cubit.currentOrders?.data?.length}");
 
-                  return OrderStatusCard(
-                      myOrdersData: cubit.currentOrders!.data![index]);
+                  return CustomOrder( myOrdersData: cubit.currentOrders!.data![index],status: 1,);
+                    // OrderStatusCard(
+                    //   myOrdersData: cubit.currentOrders!.data![index]);
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 4,

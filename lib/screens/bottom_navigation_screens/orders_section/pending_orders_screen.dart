@@ -43,11 +43,12 @@ class PendingOrdersScreen extends StatelessWidget {
           ],
         ):
         ListView.separated(
+          shrinkWrap: true,
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  log("myOrders ${cubit.waitingOrders?.data?.length}");
-                  return OrderStatusCard(
-                      myOrdersData: cubit.waitingOrders!.data![index]);
+                  return CustomOrder(myOrdersData:cubit.waitingOrders!.data![index],);
+                    // OrderStatusCard(
+                    //   myOrdersData: cubit.waitingOrders!.data![index]);
                 },
                 separatorBuilder: (context, index) => SizedBox(
                       height: 4,
@@ -198,6 +199,97 @@ class StatusChip extends StatelessWidget {
           style: TextStyle(
               color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
         ),
+      ),
+    );
+  }
+}
+
+class CustomOrder extends StatelessWidget {
+  const CustomOrder({super.key, this.myOrdersData, this.status});
+  final MyOrdersData? myOrdersData;
+  final int? status;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(10.r),
+      decoration: BoxDecoration(
+        color: Colors.grey.shade100,
+        borderRadius: BorderRadius.circular(5.r),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Text('رقم الطلب: ',style: TextStyle(
+
+                        fontWeight: FontWeight.bold
+                    ),),
+                    Text(myOrdersData?.codeOrder??''),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('اجمالي الطلب: ',style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),),
+                    Expanded(child: Text(myOrdersData?.total.toString()??'')),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('عدد المنتجات: ',style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),),
+                    Text(myOrdersData?.itemCount.toString()??''),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text('تاريخ الطلب: ',style: TextStyle(
+                        fontWeight: FontWeight.bold
+                    ),),
+                    Expanded(child: Text(myOrdersData?.orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+
+          Column(
+            children: [
+              InkWell(
+                onTap: (){
+                },
+                child: Container(
+                  padding: EdgeInsets.all(5.r),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5.r),
+                      color: kCustomBlack),
+                  child: Text(
+                   status==1?'جاري تجهيزه' :status==2?'تم توصيله':status==4?"معلق":'قيد التجهيز',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 5.h,
+              ),
+              TextButton(onPressed: (){
+                navigateTo(context, OrderDetailsSCR(
+                  id: myOrdersData?.id,
+                ));
+              }, child: Text(
+                'تفاصيل الطلب',style: TextStyle(
+                  color: kCustomBlack,fontWeight: FontWeight.bold
+              ),
+              ))
+            ],
+          )
+        ],
       ),
     );
   }

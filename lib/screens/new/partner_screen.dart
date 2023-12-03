@@ -8,11 +8,12 @@ import 'package:safsofa/screens/new/mail_screen/presentation/screen/main_mail_sc
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/defaults.dart';
 
+import '../../network/local/cache_helper.dart';
 import '../../shared/constants.dart';
 import 'InventoryScreen.dart';
 import 'PartnerOrdersScreen.dart';
 import 'assignment_screen.dart';
-import 'financial_reports_screen.dart';
+import 'financial_reports_screen/financial_reports_screen.dart';
 
 class PartnerScreen extends StatelessWidget {
   const PartnerScreen({Key? key}) : super(key: key);
@@ -31,6 +32,7 @@ class PartnerScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 20.h,),
+              if(CacheHelper.getData('type')==0)
               Row(
                 children: [
                   itemPartner(title: 'reportsRequests'.tr(),image: 'assets/images/reportsRequests.png',onTap: (){
@@ -122,17 +124,21 @@ class PartnerScreen extends StatelessWidget {
               ),
               Row(
                 children: [
-                  itemPartner(title: 'financialReports'.tr(),image: 'assets/images/financialReports.png',onTap: (){
+
+                  itemPartner(title: 'sales'.tr(),image: 'assets/images/financialReports.png',onTap: (){
                     navigateTo(context, FinancialReportsScreen());
 
                   }),
+                  if(CacheHelper.getData('type')==0)
                   SizedBox(width: 10.w,),
-
+                  if(CacheHelper.getData('type')==0)
                   itemPartner(title: 'expenses'.tr(),image: 'assets/images/expenses.png',onTap: (){
                     navigateTo(context, ExpensesScreen());
 
                   }),
+                  if(CacheHelper.getData('type')==0)
                   SizedBox(width: 10.w,),
+                  if(CacheHelper.getData('type')==0)
                   itemPartner(title: 'assignment'.tr(),image: 'assets/images/assignment.png',onTap: (){
                     navigateTo(context, AssignmentScreen());
 
@@ -140,6 +146,7 @@ class PartnerScreen extends StatelessWidget {
 
                 ],
               ),
+              if(CacheHelper.getData('type')==0)
               Row(
                 children: [
                   itemPartner(title: "mailBox".tr(),image: 'assets/images/financialReports.png',onTap: (){

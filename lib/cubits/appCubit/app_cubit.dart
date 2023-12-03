@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +17,7 @@ import 'package:safsofa/models/homeModel/main_cat_model.dart' as homeMainCat;
 import 'package:safsofa/models/homeModel/main_home_banner.dart';
 import 'package:safsofa/models/notifications_list_model.dart';
 import 'package:safsofa/models/offer_model.dart';
-import 'package:safsofa/models/product_reviews_model.dart';
+import 'package:safsofa/models/offers_model.dart';
 import 'package:safsofa/models/products_model.dart';
 import 'package:safsofa/models/recommended_product_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
@@ -64,6 +64,19 @@ class AppCubit extends Cubit<AppStates> {
     'يمكنك الاستردار 3 أيام من الشراء',
   ];
 
+  OffersModel? offer;
+  Future<void>getOffers()async{
+    emit(CheckOfferLoadingState());
+    final response=await Mhelper.getData(url: 'api/checkoffer');
+    if(response.data['status']){
+      offer=OffersModel.fromJson(response.data);
+      print("hhhhhhhhhhhhhhhhhh ${offer?.data?.promoCodeName??''}");
+      emit(CheckOfferSuccessState());
+
+    }else{
+      emit(CheckOfferErrorState());
+    }
+  }
   ServicesModel? servicesModel;
 Future<void>getHomeServices()async{
   emit(GetHomeServicesLoadingState());
@@ -266,17 +279,27 @@ Future<void>getHomeServices()async{
   // YoutubePlayerController videoController;
   ConstructionLinkModel? constructionLink = ConstructionLinkModel();
 
-  void getConstructionData() {
+  Future<void> getConstructionData() async{
     emit(GetConstructionLoadingState());
-    Mhelper.getData(url: 'api/construction_link', token: kToken, query: {
+    final response=await Mhelper.getData(url: 'api/construction_link', token: kToken, query: {
       'lang': kLanguage,
-    }).then((value) {
-      constructionLink = ConstructionLinkModel.fromJson(value.data);
-      emit(GetConstructionSuccessState());
-    }).then((error) {
-      print("errorrrrrr: ${error.toString()}");
-      emit(GetConstructionErrorState());
     });
+    if(response.data['status']){
+      constructionLink = ConstructionLinkModel.fromJson(response.data);
+      print(response.data);
+      emit(GetConstructionSuccessState());
+    }else{
+      print(response.data);
+      emit(GetConstructionErrorState());
+    }
+    // .then((value) {
+    //   constructionLink = ConstructionLinkModel.fromJson(value.data);
+    //   emit(GetConstructionSuccessState());
+    // }).then((error) {
+    //
+    //   print("errorrrrrrششششششششششش: ${error.toString()}");
+    //   emit(GetConstructionErrorState());
+    // });
   }
 
   void removeFavoriteHome({required int prodId, required int index}) {
@@ -514,9 +537,7 @@ Future<void>getHomeServices()async{
     Mhelper.getData(url: homeMainBannerEndPoint).then((value) {
       homeScreenMainCatBannerModel =
           HomeScreenMainCatBannerModel.fromJson(value.data);
-      log(value.data.toString());
       homeBannersList = homeScreenMainCatBannerModel?.data;
-      log(homeBannersList![0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
@@ -533,13 +554,10 @@ Future<void>getHomeServices()async{
     emit(HomeMainCatLoading());
     Mhelper.getData(url: offersEndpoint).then((value) {
       offerModel = OfferModel.fromJson(value.data);
-      log(value.data.toString());
       // offerDataList = offerModel.data;
-      log(homeBannersList![0].image.toString());
       emit(HomeMainCatSuccess());
     }).catchError((err) {
       emit(HomeMainCatError());
-      log("///Home Err:${err.toString()}");
     });
   }
 
@@ -555,11 +573,9 @@ Future<void>getHomeServices()async{
       homeScreenMainCatModel =
           homeMainCat.HomeScreenMainCatModel.fromJson(value.data);
       homeMainCatList = homeScreenMainCatModel?.data;
-      log("000000000000000000000000000000000000000000000000");
       emit(GetHomeScreenSuccessState());
     }).catchError((error) {
       emit(GetHomeScreenErrorState());
-      log("8888888888888888888888888888888888888888888888888888888888    $error");
       log(error.toString());
     });
   }

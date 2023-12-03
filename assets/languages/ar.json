@@ -207,7 +207,7 @@
   "cancelled": "مٌلغي",
   "rejected": "مرفوض",
   "quantity": "الكميه",
-  "deliveryCost": "تكلفه الشحن",
+  "deliveryCost": "تكلفه التوصيل",
   "discountValue": "قيمة الخصم",
   "paymentMethod": "طريقة الدفع",
   "rate": "تقييم",
@@ -333,7 +333,7 @@
   "addReview": "اضافة تقييم +",
   "productArrive": "المنتج سوف يصل في خلال: ",
   "addProductSucess": "تمت اضافت المنتج بنجاح",
-  "shippingCharges": "تكلفة الشحن: ",
+  "shippingCharges": "تكلفة التوصيل: ",
   "discountCode": "كود الخصم",
   "have": "لديك",
   "dontHaveCash": "ليس لديك كاش باك",
@@ -346,7 +346,8 @@
   "current": "الحالي",
   "old": "القديم",
   "noGifts": "لا يوجد هدايا حاليا",
-  "noQuestions": "لا يوجد اسئلة"
+  "noQuestions": "لا يوجد اسئلة",
+  "sales": "المبيعات"
 
 
 

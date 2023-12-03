@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/current_orders_screen.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/holding_orders_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/pending_orders_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/previous_orders_screen.dart';
 
@@ -24,16 +25,21 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       text: "pendingOrders".tr(),
     ),
     Tab(
-      text: "currentOrders".tr(),
+      text: "الحالية".tr(),
     ),
     Tab(
-      text: "previousOrders".tr(),
+      text: "المعلقة".tr(),
+    ),
+
+    Tab(
+      text: "السابقة".tr(),
     ),
   ];
 
   List<Widget> tabBarsContent =  [
     PendingOrdersScreen(),
     CurrentOrdersScreen(),
+    HoldingOrdersScreen(),
     PreviousOrdersScreen(),
   ];
   MyOrdersModel? waitingOrders;
@@ -81,6 +87,30 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       emit(MyOrdersErrorState());
     });
   }
+
+  MyOrdersModel? holdingOrder;
+  void getHoldingOrders() {
+    emit(MyOrdersLoadingState());
+
+    Mhelper.getData(
+      token: CacheHelper.getData("token"),
+      url: 'api/pending-orders',
+      query: {
+        'lang': kLanguage,
+      },
+    ).then((value) {
+      holdingOrder = MyOrdersModel.fromJson(value.data);
+      log("my order 000000000000000000000000000000000000");
+      // log('${currentOrders.toJson()}');
+      log("my order 000000000000000000000000000000000000");
+      emit(MyOrdersSuccessState());
+    }).catchError((error) {
+      log(error.toString());
+      emit(MyOrdersErrorState());
+    });
+  }
+
+
 
   MyOrdersModel? previousOrders;
   void getMyPreviousOrders() {

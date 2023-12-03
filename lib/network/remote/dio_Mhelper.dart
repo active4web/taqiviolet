@@ -31,6 +31,8 @@ class Mhelper {
     token,
   }) async {
     dio.options.headers["authorization"] = "Bearer $token";
+    // dio.options.headers["accept"] = "application/json";
+    // dio.options.headers["content-type"] = "application/json";
     return await dio.get(
       url,
       queryParameters: query,
@@ -38,7 +40,7 @@ class Mhelper {
     );
   }
 
-  static Future<dynamic> postData(
+  static Future<Response> postData(
       {required String url,
       Map<String, dynamic>? query,
         dynamic data,
@@ -52,7 +54,7 @@ class Mhelper {
      );
    }catch(e){
      print("errrrrrrrrrrrrrrrrrrrror$e");
-
+     rethrow;
    }
   }
 

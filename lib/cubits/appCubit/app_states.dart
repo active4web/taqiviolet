@@ -167,3 +167,7 @@ class GetRecommendedSuccessState extends AppStates{}
 class GetRecommendedErrorState extends AppStates{}
 class GetRecommendedLoadingState extends AppStates{}
 
+class CheckOfferSuccessState extends AppStates{}
+class CheckOfferErrorState extends AppStates{}
+class CheckOfferLoadingState extends AppStates{}
+

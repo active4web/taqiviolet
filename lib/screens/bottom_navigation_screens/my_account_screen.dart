@@ -326,7 +326,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              if(CacheHelper.getData('type')==0)
+                              if(CacheHelper.getData('type')==0||CacheHelper.getData('type')==2)
                               Row(
                                 children: [
 

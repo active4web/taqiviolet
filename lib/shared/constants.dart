@@ -6,8 +6,8 @@ import 'package:safsofa/shared/router.dart';
 
 // const String kBaseURL = 'https://safsfurniture.com/';
 //const String MBaseUrl = "https://safsoofa.amlakyeg.com/";
-// const String MBaseUrl = "https://taqiviolet.com/";
-const String MBaseUrl = "https://taqi.axistrading.com.sa/";
+const String MBaseUrl = "https://taqiviolet.com/";
+// const String MBaseUrl = "https://taqi.axistrading.com.sa/";
 String? kToken = null;
 String? kLanguage;
 int cartCount = 0;

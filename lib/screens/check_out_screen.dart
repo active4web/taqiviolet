@@ -350,6 +350,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                           searchValue);
                                                     },
                                                   ),
+                                                onMenuStateChange:
+                                                    (isOpen){
+                                                  if(!isOpen){
+                                                    textEditingController.clear();
+                                                  }
+                                                },
                                                   hint:  Text(
                                                           "country".tr(),
                                                           style: TextStyle(
@@ -602,6 +608,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       return 'this filed is required';
                                                     }
                                                   },
+                                                  isDense:true,
                                                   isExpanded: true,
                                                   onChanged: (value){
                                                     cartCubit.chooseCity(
@@ -668,6 +675,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                           searchValue);
                                                     },
                                                   ),
+                                                  onMenuStateChange:
+                                                      (isOpen){
+                                                    if(!isOpen){
+                                                      textEditingController.clear();
+                                                    }
+                                                  },
+                                                  value: cartCubit.selectedCity,
                                                   hint:  Text(
                                                           "city".tr(),
                                                           style: TextStyle(
@@ -976,72 +990,70 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 105.h,
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "postNumber".tr(),
-                                  style: TextStyle(
-                                    color: kCustomBlack,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "postNumber".tr(),
+                                style: TextStyle(
+                                  color: kCustomBlack,
+                                  fontSize: 14.sp,
+                                  fontWeight: FontWeight.w300,
                                 ),
-                                CustomTextFormField(
-                                  controller: cartCubit.zibCode,
-                                  fillColor: Colors.grey.shade500,
-                                  hintColor: Colors.black,
-                                  textColor: Colors.black,
-                                  onChanged: (value){
-                                    setState((){});
-                                  },
-                                  cursorColor: kDarkGoldColor,
-                                  keyboardType: TextInputType.phone,
-                                  validate: (value) {
-                                    if (value!.isEmpty) {
-                                      return "this field is required";
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                              CustomTextFormField(
+                                controller: cartCubit.zibCode,
+                                fillColor: Colors.grey.shade500,
+                                hintColor: Colors.black,
+                                textColor: Colors.black,
+                                onChanged: (value){
+                                  setState((){});
+                                },
+                                cursorColor: kDarkGoldColor,
+                                keyboardType: TextInputType.phone,
+                                validate: (value) {
+                                  if (value!.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                          Expanded(
-                            flex: 2,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Phone".tr(),
-                                  style: TextStyle(
-                                    color: kCustomBlack,
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w300,
-                                  ),
+                        ),
+                        Expanded(
+                          flex: 2,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+
+                            children: [
+                              Text(
+                                "Phone".tr(),
+                                style: TextStyle(
+                                  color: kCustomBlack,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w300,
                                 ),
-                                CustomTextFormField(
-                                  controller: cartCubit.phoneOfReceiver,
-                                  fillColor: Colors.grey.shade500,
-                                  hintColor: Colors.black,
-                                  textColor: Colors.black,
-                                  cursorColor: kDarkGoldColor,
-                                  keyboardType: TextInputType.phone,
-                                  validate: (value) {
-                                    if (value!.isEmpty) {
-                                      return "this field is required";
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
+                              ),
+                              CustomTextFormField(
+                                controller: cartCubit.phoneOfReceiver,
+                                fillColor: Colors.grey.shade500,
+                                hintColor: Colors.black,
+                                textColor: Colors.black,
+                                cursorColor: kDarkGoldColor,
+                                keyboardType: TextInputType.phone,
+                                validate: (value) {
+                                  if (value!.isEmpty) {
+                                    return "this field is required";
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     Divider(),
                     SizedBox(

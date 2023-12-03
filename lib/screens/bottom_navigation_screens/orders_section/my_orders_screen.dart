@@ -25,7 +25,7 @@ class _MyOrdersScreenState extends State<MyOrdersScreen>
       appBar: CustomAppBar(
         title: 'Orders'.tr(),
       ),
-      body: ListView(
+      body: Column(
         children: [
           Container(
             height: height / 15,
@@ -33,15 +33,14 @@ class _MyOrdersScreenState extends State<MyOrdersScreen>
             color: Colors.white,
             child: TabBar(
               labelColor: kCustomBlack,
-              // isScrollable: true,
+               isScrollable: true,
               indicatorColor: kCustomBlack,
               unselectedLabelColor: Colors.black,
               controller: _tabController,
               tabs: MyOrdersCubit.get(context).tabs,
             ),
           ),
-          SizedBox(
-            height: (height - (height / 15)),
+          Expanded(
             child: TabBarView(
               controller: _tabController,
               children: MyOrdersCubit.get(context).tabBarsContent,

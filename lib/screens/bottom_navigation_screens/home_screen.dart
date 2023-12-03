@@ -15,6 +15,8 @@ import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/menu_screens/offers_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/screens/notifications_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -27,7 +29,6 @@ import 'package:safsofa/shared/defaults.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../cubits/offerCubit/offer_cubit.dart';
 import '../../cubits/subCategory/sub_cat_cubit.dart';
-import '../../shared/components/custom_app_bar.dart';
 import '../../shared/components/store_components/product_cards.dart';
 import '../searchScreen.dart';
 import 'package:card_swiper/card_swiper.dart';
@@ -40,10 +41,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<RefreshIndicatorState> _globalKey =
       GlobalKey<RefreshIndicatorState>();
-
+bool isPopped=false;
   @override
   void initState() {
-    AppCubit.get(context).getHomeServices();
+    AppCubit.get(context)..getHomeServices();
+    var offerCubit = OfferCubit.get(context);
+    offerCubit.getOfferData();
+    offerCubit.getOfferData2();
     if (kToken != null) {
       AppCubit.get(context).getRecommendedProducts();
     }
@@ -61,12 +65,241 @@ class _HomeScreenState extends State<HomeScreen> {
     print("5" * 20);
     AppCubit cubit = AppCubit.get(context);
     var offerCubit = OfferCubit.get(context);
-    offerCubit.getOfferData();
-    offerCubit.getOfferData2();
+    // offerCubit.getOfferData();
+    // offerCubit.getOfferData2();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-        if (state is GetConstructionSuccessState) {
-          if (cubit.constructionLink?.data?.orderId!=null) {
+          if (state is CheckOfferSuccessState&&cubit.offer?.data?.keyOffer==1) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              showDialog(
+                barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    Future.delayed(
+                      const Duration(seconds: 10),
+                          () {
+                    if(isPopped==false){
+                      print("End 11111111111111111111111111");
+                      print(cubit.offer?.data?.promoCodeName??'');
+                      Navigator.pop(context);
+                    }
+                          // if (state is GetConstructionSuccessState&&cubit.constructionLink?.data?.orderId!=null) {
+                          //   WidgetsBinding.instance.addPostFrameCallback((_) {
+                          //     showDialog(
+                          //         context: context,
+                          //         builder: (context) {
+                          //           return AlertDialog(
+                          //             content: Column(
+                          //               mainAxisSize: MainAxisSize.min,
+                          //               children: [
+                          //                 Text(
+                          //                   "pleaseRateYourPreviousOrder".tr(),
+                          //                   textAlign: TextAlign.center,
+                          //                   style: TextStyle(
+                          //                     color: Colors.black,
+                          //                     fontSize: 12,
+                          //                     fontWeight: FontWeight.bold,
+                          //                   ),
+                          //                 ),
+                          //                 SizedBox(
+                          //                   height: 20,
+                          //                 ),
+                          //                 Row(
+                          //                   mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          //                   children: [
+                          //                     InkWell(
+                          //                       onTap: () => Navigator.pop(context),
+                          //                       child: Container(
+                          //                         alignment: AlignmentDirectional.center,
+                          //                         decoration: BoxDecoration(
+                          //                           color:
+                          //                           Colors.grey.shade200.withOpacity(0.6),
+                          //                           borderRadius: BorderRadius.circular(8),
+                          //                         ),
+                          //                         child: Padding(
+                          //                           padding: EdgeInsets.all(12),
+                          //                           child: Text(
+                          //                             "cancel".tr(),
+                          //                             style: TextStyle(
+                          //                               color: Colors.red,
+                          //                               fontWeight: FontWeight.w500,
+                          //                             ),
+                          //                           ),
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                     InkWell(
+                          //                       onTap: () => navigateReplacement(
+                          //                           context,
+                          //                           AddReviewScreen(
+                          //                             orderId: cubit.constructionLink?.data?.orderId??0,
+                          //                           )),
+                          //                       child: Container(
+                          //                         alignment: AlignmentDirectional.center,
+                          //                         decoration: BoxDecoration(
+                          //                           color: Colors.green.withOpacity(0.6),
+                          //                           borderRadius: BorderRadius.circular(8),
+                          //                         ),
+                          //                         child: Padding(
+                          //                           padding: EdgeInsets.all(12),
+                          //                           child: Text(
+                          //                             "rate".tr(),
+                          //                             style: TextStyle(
+                          //                               color: Colors.white,
+                          //                               fontWeight: FontWeight.w500,
+                          //                             ),
+                          //                           ),
+                          //                         ),
+                          //                       ),
+                          //                     ),
+                          //                   ],
+                          //                 ),
+                          //               ],
+                          //             ),
+                          //           );
+                          //         });
+                          //   });
+                          // }
+                      },
+                    );
+                    return AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      insetPadding: EdgeInsets.zero,
+                      contentPadding: EdgeInsets.zero,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      content: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Stack(
+                            children: [
+                              InkWell(
+                                onTap: ()async{
+                                  await Clipboard.setData(ClipboardData(text:cubit.offer?.data?.promoCodeName??'')).then((value) {
+                                    ToastConfig.showToast(msg: "تم نسخ الكود بنجاح", toastStates: ToastStates.success);
+                                    print('vaaaaaaaaaaaaaaaaaaa ${cubit.offer?.data?.promoCodeName}');
+                                    Navigator.pop(context);
+                                    setState(() {
+                                      isPopped=true;
+                                    });
+                                  });
+
+                                },
+                                child: CustomNetworkImage(
+                                  height: 400.h,
+                                  isActive: true,
+                                  image: cubit.offer?.data?.offerImage??'',
+                                  border: BorderRadius.circular(10.r),
+                                ),
+                              ),
+                              Positioned(
+                                  top: 5.h,
+                                  right: 10.w,
+                                  child: InkWell(
+                                    onTap: (){
+                                      Navigator.pop(context);
+                                      setState(() {
+                                        isPopped=true;
+                                      });
+                                      // if(state is GetConstructionSuccessState){
+                                      //   if (cubit.constructionLink?.data?.orderId!=null) {
+                                      //     WidgetsBinding.instance.addPostFrameCallback((_) {
+                                      //       showDialog(
+                                      //           context: context,
+                                      //           builder: (context) {
+                                      //             return AlertDialog(
+                                      //               content: Column(
+                                      //                 mainAxisSize: MainAxisSize.min,
+                                      //                 children: [
+                                      //                   Text(
+                                      //                     "pleaseRateYourPreviousOrder".tr(),
+                                      //                     textAlign: TextAlign.center,
+                                      //                     style: TextStyle(
+                                      //                       color: Colors.black,
+                                      //                       fontSize: 12,
+                                      //                       fontWeight: FontWeight.bold,
+                                      //                     ),
+                                      //                   ),
+                                      //                   SizedBox(
+                                      //                     height: 20,
+                                      //                   ),
+                                      //                   Row(
+                                      //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      //                     children: [
+                                      //                       InkWell(
+                                      //                         onTap: () => Navigator.pop(context),
+                                      //                         child: Container(
+                                      //                           alignment: AlignmentDirectional.center,
+                                      //                           decoration: BoxDecoration(
+                                      //                             color:
+                                      //                             Colors.grey.shade200.withOpacity(0.6),
+                                      //                             borderRadius: BorderRadius.circular(8),
+                                      //                           ),
+                                      //                           child: Padding(
+                                      //                             padding: EdgeInsets.all(12),
+                                      //                             child: Text(
+                                      //                               "cancel".tr(),
+                                      //                               style: TextStyle(
+                                      //                                 color: Colors.red,
+                                      //                                 fontWeight: FontWeight.w500,
+                                      //                               ),
+                                      //                             ),
+                                      //                           ),
+                                      //                         ),
+                                      //                       ),
+                                      //                       InkWell(
+                                      //                         onTap: () => navigateReplacement(
+                                      //                             context,
+                                      //                             AddReviewScreen(
+                                      //                               orderId: cubit.constructionLink?.data?.orderId??0,
+                                      //                             )),
+                                      //                         child: Container(
+                                      //                           alignment: AlignmentDirectional.center,
+                                      //                           decoration: BoxDecoration(
+                                      //                             color: Colors.green.withOpacity(0.6),
+                                      //                             borderRadius: BorderRadius.circular(8),
+                                      //                           ),
+                                      //                           child: Padding(
+                                      //                             padding: EdgeInsets.all(12),
+                                      //                             child: Text(
+                                      //                               "rate".tr(),
+                                      //                               style: TextStyle(
+                                      //                                 color: Colors.white,
+                                      //                                 fontWeight: FontWeight.w500,
+                                      //                               ),
+                                      //                             ),
+                                      //                           ),
+                                      //                         ),
+                                      //                       ),
+                                      //                     ],
+                                      //                   ),
+                                      //                 ],
+                                      //               ),
+                                      //             );
+                                      //           });
+                                      //     });
+                                      //   }
+                                      // }
+                                    },
+                                    child: Container(
+                                      padding: EdgeInsets.all(2),
+                                      decoration: BoxDecoration(
+                                        color: Colors.red,
+                                        borderRadius: BorderRadius.circular(5)
+                                      ),
+                                      child: Icon(Icons.close,color: Colors.white,size: 20,),
+                                    ),
+                                  ))
+                            ],
+                          ),
+
+                        ],
+                      ),
+                    );
+                  });
+            });
+          }
+          else if (State is GetConstructionSuccessState&&cubit.constructionLink?.data?.orderId!=null&&cubit.offer?.data?.keyOffer!=1) {
             WidgetsBinding.instance.addPostFrameCallback((_) {
               showDialog(
                   context: context,
@@ -96,7 +329,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   alignment: AlignmentDirectional.center,
                                   decoration: BoxDecoration(
                                     color:
-                                        Colors.grey.shade200.withOpacity(0.6),
+                                    Colors.grey.shade200.withOpacity(0.6),
                                     borderRadius: BorderRadius.circular(8),
                                   ),
                                   child: Padding(
@@ -143,7 +376,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   });
             });
           }
-        }
+
+
       },
       builder: (context, state) {
         // state is AppInitial ?? cubit.fetchData();

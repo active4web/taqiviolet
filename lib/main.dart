@@ -19,8 +19,10 @@ import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
 import 'package:safsofa/cubits/policiesCubit/policies_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
+import 'package:safsofa/firebase_options.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/push_notifcation.dart';
+import 'package:safsofa/screens/new/financial_reports_screen/cubit/financial_reports_cubit.dart';
 import 'package:safsofa/screens/new/mail_screen/presentation/controller/mail_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/infraction_screen/controller/infraction_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/receipt_record_screen/controller/receipt_record_cubit.dart';
@@ -65,15 +67,19 @@ FlutterLocalNotificationsPlugin();
 bool? isPaid;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
 
   await EasyLocalization.ensureInitialized();
   Mhelper.init();
   await FirebaseMessaging.instance.getToken().then((value) {
     CacheHelper.setData(key: 'FCM', value: value);
+  }).catchError((error){
+    print("errorrrr : $error");
   });
-  print(CacheHelper.getData('FCM'));
+
+
+  print("fire token: ${CacheHelper.getData('FCM')}");
   //
   // CacheHelper.setData(key: 'FCM', value: 'value');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
@@ -120,6 +126,10 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (context) => OrderReceivedItemInListCubit(),
               ),
+               BlocProvider(
+                create: (context) => FinancialReportsCubit(),
+              ),
+
               BlocProvider(
                 create: (context) => ReviewsCommentsCubit(),
               ),
@@ -180,7 +190,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (context) => TaqiWorkCubit(),
               ),
-              BlocProvider(create: (context) => AppCubit()..getEmptyImages()),
+              BlocProvider(create: (context) => AppCubit()..getEmptyImages()..getOffers()),
               BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
               BlocProvider(create: (context) => HomeCubit()),
               BlocProvider(create: (context) => CouponesCubit()),
