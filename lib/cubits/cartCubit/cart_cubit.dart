@@ -41,9 +41,11 @@ class CartCubit extends Cubit<CartState> {
   TextEditingController zibCode = TextEditingController();
 
   getServerCartData({bool withLoading = true}) {
-    if (withLoading) {
-      emit(CartLoadingState());
-    }
+    myCartModel=null;
+    myCartlocalModel=null;
+    // if (withLoading) {
+    //   emit(CartLoadingState());
+    // }
     emit(CartLoadingState());
      total = 0;
     Mhelper.getData(
@@ -163,6 +165,7 @@ class CartCubit extends Cubit<CartState> {
 
   getLocalCartData() {
      // total =0;
+    myCartlocalModel=null;
     emit(CartLoadingState());
     if (CacheHelper.getData('localCart') != null) {
       total=0;

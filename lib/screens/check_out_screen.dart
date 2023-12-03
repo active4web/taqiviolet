@@ -359,7 +359,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   hint:  Text(
                                                           "country".tr(),
                                                           style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 14.sp,
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             color:
@@ -394,20 +394,20 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     ),
                                                   ),
                                                   buttonStyleData:
-                                                          const ButtonStyleData(
+                                                           ButtonStyleData(
                                                         padding: EdgeInsets
                                                             .symmetric(
-                                                                horizontal: 16),
-                                                        height: 40,
-                                                        width: 200,
+                                                                horizontal: 16.w),
+                                                        height: 40.h,
+                                                        width: 200.w,
                                                       ),
                                                       dropdownStyleData:
-                                                          const DropdownStyleData(
-                                                        maxHeight: 200,
+                                                           DropdownStyleData(
+                                                        maxHeight: 200.h,
                                                       ),
                                                       menuItemStyleData:
-                                                          const MenuItemStyleData(
-                                                        height: 30,
+                                                           MenuItemStyleData(
+                                                        height: 30.h,
                                                       ),
                                                   items:  cartCubit
                                                         .allCitiesLocation!
@@ -685,7 +685,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   hint:  Text(
                                                           "city".tr(),
                                                           style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 14.sp,
                                                             fontWeight:
                                                                 FontWeight.bold,
                                                             color: Theme.of(
@@ -725,7 +725,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                               .symmetric(
                                                                   horizontal:
                                                                       16.w),
-                                                          height: 50.h,
+                                                          height: 40.h,
                                                           width: 200.w,
                                                         ),
                                                         dropdownStyleData:
@@ -1174,10 +1174,10 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           text: 'Total'.tr(),
                         ),
                         Text(
-                          '${cartCubit.newOrder?.data?.total}',
+                          '${cartCubit.newOrder?.data?.total} ${"SAR".tr()}',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               color: Colors.black54),
                         ),
                       ],

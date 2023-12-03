@@ -18,9 +18,20 @@ import '../../network/local/cache_helper.dart';
 import '../../shared/components/custom_text_form_field.dart';
 import 'orders_section/select_discount.dart';
 
-class CartScreen extends StatelessWidget {
-  var code2 = TextEditingController();
-  var code3 = TextEditingController();
+class CartScreen extends StatefulWidget {
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  @override
+  void initState() {
+    kToken != null && kToken!.isNotEmpty
+        ? CartCubit.get(context).getServerCartData()
+        : CartCubit.get(context).getLocalCartData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     //  if(CartCubit.get(context).state is CartStateInitial) CartCubit.get(context).getCartData();
@@ -28,10 +39,7 @@ class CartScreen extends StatelessWidget {
 
     // if(CartCubit.get(context).state is CartStateInitial) cubit.getCartData();
     //   cubit.getCartData();
-    log("getCartData");
-    kToken != null && kToken!.isNotEmpty
-        ? cubit.getServerCartData()
-        : cubit.getLocalCartData();
+
     return BlocConsumer<CartCubit, CartState>(
       listener: (context, state) {
         if(state is MakeNewOrderSuccessState){
@@ -53,7 +61,7 @@ class CartScreen extends StatelessWidget {
             visible: kToken != null && kToken!.isNotEmpty,
             //true >>cart data from server, //false >>cart data loaded locally
             child: cubit.myCartModel != null||state is !CartLoadingState
-                ? cubit.myCartModel!.data!.listItem!.isNotEmpty
+                ? cubit.myCartModel?.data?.listItem?.isNotEmpty??cubit.myCartModel?.data?.listItem!=[]
                     ? SingleChildScrollView(
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 22.w),
