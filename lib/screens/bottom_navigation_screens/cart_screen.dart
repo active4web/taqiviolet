@@ -482,7 +482,7 @@ class _CartScreenState extends State<CartScreen> {
                                     separatorBuilder: (context, index) =>
                                       SizedBox(height: 5.h,),
                                     itemCount: cubit
-                                        .myCartModel!.data!.listItem!.length),
+                                        .myCartModel?.data?.listItem?.length??0),
                               Visibility(visible: true, child: Divider()),
 
                               SelectDiscount(),
@@ -636,17 +636,14 @@ class _CartScreenState extends State<CartScreen> {
                                   physics: NeverScrollableScrollPhysics(),
                                   itemBuilder: (context, index) => Container(
                                         //0.5/2
-                                        height:
-                                            MediaQuery.of(context).size.height *
-                                                0.7 /
-                                                2,
+                                        height:140.h,
                                         decoration: BoxDecoration(
                                             color: Colors.white,
                                             borderRadius:
                                                 BorderRadius.circular(10)),
                                         child: Row(
                                           children: [
-                                            Flexible(
+                                            Expanded(
                                               flex: 3,
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -655,22 +652,22 @@ class _CartScreenState extends State<CartScreen> {
                                                       image: NetworkImage(
                                                           "${cubit.myCartlocalModel?.cartProducts![index].productImage}")),
                                                   borderRadius:
-                                                      BorderRadius.circular(10),
+                                                      BorderRadius.circular(10.r),
                                                 ),
                                               ),
                                             ),
                                             SizedBox(
-                                              width: 20,
+                                              width: 10.w,
                                             ),
-                                            Flexible(
+                                            Expanded(
                                               flex: 5,
                                               child: Padding(
                                                 padding: const EdgeInsets.only(
-                                                    bottom: 10, top: 20),
+                                                    bottom: 1, top: 5),
                                                 child: Column(
                                                   mainAxisAlignment:
                                                       MainAxisAlignment
-                                                          .spaceBetween,
+                                                          .start,
                                                   crossAxisAlignment:
                                                       CrossAxisAlignment.start,
                                                   children: [
@@ -692,38 +689,36 @@ class _CartScreenState extends State<CartScreen> {
                                                             .ellipsis,
                                                       ),
                                                     ),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
+                                                    SizedBox(height: 5.h,),
 
                                                     ///To:do///
-                                                    Row(
-                                                      children: [
-                                                        Text(
-                                                          "${(cubit.myCartlocalModel?.cartProducts![index].onePiecePrice).toString()}",
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        SizedBox(
-                                                          width: 5,
-                                                        ),
-                                                        Text(
-                                                          "SAR".tr(),
-                                                          style: TextStyle(
-                                                              fontSize: 18,
-                                                              color: Colors
-                                                                  .black54,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                      ],
-                                                    ),
+                                                    // Row(
+                                                    //   children: [
+                                                    //     Text(
+                                                    //       "${(cubit.myCartlocalModel?.cartProducts![index].onePiecePrice).toString()}",
+                                                    //       style: TextStyle(
+                                                    //           fontSize: 18,
+                                                    //           color: Colors
+                                                    //               .black54,
+                                                    //           fontWeight:
+                                                    //               FontWeight
+                                                    //                   .w500),
+                                                    //     ),
+                                                    //     SizedBox(
+                                                    //       width: 5,
+                                                    //     ),
+                                                    //     Text(
+                                                    //       "SAR".tr(),
+                                                    //       style: TextStyle(
+                                                    //           fontSize: 18,
+                                                    //           color: Colors
+                                                    //               .black54,
+                                                    //           fontWeight:
+                                                    //               FontWeight
+                                                    //                   .w500),
+                                                    //     ),
+                                                    //   ],
+                                                    // ),
                                                     SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
@@ -742,6 +737,7 @@ class _CartScreenState extends State<CartScreen> {
                                                             .ellipsis,
                                                       ),
                                                     ),
+                                                    SizedBox(height: 5.h,),
                                                     SizedBox(
                                                       width:
                                                           MediaQuery.of(context)
@@ -760,7 +756,7 @@ class _CartScreenState extends State<CartScreen> {
                                                             .ellipsis,
                                                       ),
                                                     ),
-
+                                                    SizedBox(height: 5.h,),
                                                     cubit
                                                                     .myCartlocalModel
                                                                     ?.cartProducts![
@@ -844,31 +840,30 @@ class _CartScreenState extends State<CartScreen> {
                                                             ),
                                                           )
                                                         : SizedBox(),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          "${cubit.myCartlocalModel?.cartProducts![index].quantity.toString()}",
-                                                          style: TextStyle(
-                                                              fontSize: 12,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: Colors
-                                                                  .black54),
-                                                        ),
-                                                        Container(
-                                                          height: 20,
-                                                          width: 1,
-                                                          color: Colors.black26,
-                                                        ),
-                                                      ],
-                                                    ),
+
+                                                    SizedBox(height: 5.h,),
+                                                    // Row(
+                                                    //   mainAxisAlignment:
+                                                    //       MainAxisAlignment
+                                                    //           .spaceBetween,
+                                                    //   children: [
+                                                    //     Text(
+                                                    //       "${cubit.myCartlocalModel?.cartProducts![index].quantity.toString()}",
+                                                    //       style: TextStyle(
+                                                    //           fontSize: 12,
+                                                    //           fontWeight:
+                                                    //               FontWeight
+                                                    //                   .w500,
+                                                    //           color: Colors
+                                                    //               .black54),
+                                                    //     ),
+                                                    //     Container(
+                                                    //       height: 20,
+                                                    //       width: 1,
+                                                    //       color: Colors.black26,
+                                                    //     ),
+                                                    //   ],
+                                                    // ),
                                                     CounterRow(
                                                         quantity:
                                                             "${cubit.myCartlocalModel?.cartProducts![index].quantity.toString()}",
@@ -955,9 +950,6 @@ class _CartScreenState extends State<CartScreen> {
                                       Divider(),
                                   itemCount: cubit
                                       .myCartlocalModel!.cartProducts!.length),
-                              SizedBox(
-                                height: 20,
-                              ),
                               Divider(),
                               SizedBox(
                                 height: 10,
@@ -970,10 +962,10 @@ class _CartScreenState extends State<CartScreen> {
                                     text: 'Total'.tr(),
                                   ),
                                   Text(
-                                    cubit.total.toStringAsFixed(2),
+                                    "${cubit.total.toStringAsFixed(2)} ${'rial'.tr()}",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        fontSize: 18.sp,
                                         color: Colors.black54),
                                   )
                                 ],

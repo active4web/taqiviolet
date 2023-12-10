@@ -170,4 +170,5 @@ class GetRecommendedLoadingState extends AppStates{}
 class CheckOfferSuccessState extends AppStates{}
 class CheckOfferErrorState extends AppStates{}
 class CheckOfferLoadingState extends AppStates{}
+class IsShow extends AppStates{}
 

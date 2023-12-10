@@ -63,6 +63,11 @@ class AppCubit extends Cubit<AppStates> {
     'للطلبات اكثر من 5000 ريال',
     'يمكنك الاستردار 3 أيام من الشراء',
   ];
+  bool isShowD=false;
+  changeShow(){
+    isShowD=true;
+    emit(IsShow());
+  }
 
   OffersModel? offer;
   Future<void>getOffers()async{
@@ -567,7 +572,7 @@ Future<void>getHomeServices()async{
     emit(GetHomeScreenLoadingState());
     Mhelper.getData(
       url:
-          'https://taqi.axistrading.com.sa/api/categories?store_id=34&lang=${kLanguage}',
+          'api/categories?store_id=34&lang=${kLanguage}',
     ).then((value) {
       log("the data of ${value.data}");
       homeScreenMainCatModel =

@@ -17,7 +17,7 @@ class Label extends StatelessWidget {
         Text(
           "${text}",
           style: TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 16.sp, color: fontColor),
+             fontSize: 16.sp, color: fontColor),
         )
       ],
     );

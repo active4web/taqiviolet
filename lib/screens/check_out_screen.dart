@@ -2,7 +2,7 @@ import 'dart:developer';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart ';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -957,7 +957,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       cursorColor: kDarkGoldColor,
                       validate: (value) {
                         if (value!.isEmpty) {
-                          return "this field is required";
+                          return ;
                         }
                       },
                     ),
@@ -986,7 +986,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       keyboardType: TextInputType.emailAddress,
                       validate: (value) {
                         if (value!.isEmpty) {
-                          return "this field is required";
+                          return "thisFieldIsRequired".tr();
                         }
                       },
                     ),
@@ -1016,13 +1016,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 keyboardType: TextInputType.phone,
                                 validate: (value) {
                                   if (value!.isEmpty) {
-                                    return "this field is required";
+                                    return "thisFieldIsRequired".tr();
                                   }
                                 },
                               ),
                             ],
                           ),
                         ),
+                        SizedBox(width: 5.w,),
                         Expanded(
                           flex: 2,
                           child: Column(
@@ -1043,10 +1044,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 hintColor: Colors.black,
                                 textColor: Colors.black,
                                 cursorColor: kDarkGoldColor,
+                                suffix: Container(
+                                  width: 20.w,
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(20.r)
+                                  ),
+                                  
+                                    child: Center(child: Text('966+'))),
                                 keyboardType: TextInputType.phone,
                                 validate: (value) {
                                   if (value!.isEmpty) {
-                                    return "this field is required";
+                                    return "thisFieldIsRequired".tr();
+                                  }
+
+                                  else if(value.length!=9){
+                                    return 'يجب ادخال رقم جوال صحيح';
                                   }
                                 },
                               ),
@@ -1192,7 +1205,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           total:
                               num.parse(cartCubit.newOrder?.data?.total ?? ''),
                           cartId: cartCubit.newOrder?.data?.id ?? '',
-                          phone: cartCubit.phoneOfReceiver.text,
+                          phone: '966${cartCubit.phoneOfReceiver.text}',
                           name: cartCubit.nameOfReceiver.text,
                           address: cartCubit.addressOfReceiver.text,
                           country: cartCubit.selectedCountry,

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:safsofa/screens/register_screens/email_register_screen.dart';
 import 'package:safsofa/screens/register_screens/phone_register_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';

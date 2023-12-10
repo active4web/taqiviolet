@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
-import 'package:safsofa/cubits/authCubit/auth_states.dart';
+
 
 import '../constants.dart';
 
 class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final IconData? icon;
+  final Widget? suffix;
   final TextEditingController? controller;
   final TextInputType keyboardType;
   final String? Function(String?)? validate;
@@ -36,7 +35,7 @@ class CustomTextFormField extends StatelessWidget {
   required  this.validate, this.maxLines=1,
      this.onChanged,
      this.onFieldSubmitted,
-     this.check=false
+     this.check=false, this.suffix
   });
 
 
@@ -55,7 +54,7 @@ class CustomTextFormField extends StatelessWidget {
 
         validator: validate
         ,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
+        // autovalidateMode: AutovalidateMode.onUserInteraction,
         style: TextStyle(color: textColor, fontFamily: 'Tajawal',
             fontSize: fontSize),
 
@@ -63,7 +62,7 @@ class CustomTextFormField extends StatelessWidget {
         decoration: InputDecoration(
           contentPadding: EdgeInsets.symmetric(horizontal: 10.w,vertical: 10.h),
           hintText: hintText,
-          suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):null,
+          suffixIcon: check?Icon(Icons.check_circle,color: Colors.green,):suffix,
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.white),
               borderRadius: BorderRadius.circular(34)),
@@ -105,58 +104,49 @@ class CustomPasswordFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthCubit(),
-      child: BlocConsumer<AuthCubit, AuthStates>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          AuthCubit cubit = AuthCubit.get(context);
-          return Container(
-            //height: 50,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-            child: TextFormField(
-              controller: controller,
-              cursorColor: Colors.white,
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: isPassword,
-              validator: (v){
-                return validation!(v!);
-              },
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              style: TextStyle(color: Colors.white),
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
-                hintText: hintText,
-                errorStyle: errorStyle,
-                errorMaxLines: 2,
-                hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
-                suffixIcon: suffixIcon != null
-                    ? IconButton(
-                    icon: Icon(
-                      suffixIcon,
-                      color: kLightGoldColor,
-                    ),
-                    onPressed: () {
-                      suffixOnPressed!();
-
-                    })
-                    : null,
-                filled: true,
-                fillColor: Colors.white.withOpacity(0.4),
-                isDense: true,
-                focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(30)),
-                enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.white),
-                    borderRadius: BorderRadius.circular(30)),
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
-          );
+    return Container(
+      //height: 50,
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+      child: TextFormField(
+        controller: controller,
+        cursorColor: Colors.white,
+        keyboardType: TextInputType.visiblePassword,
+        obscureText: isPassword,
+        validator: (v){
+          return validation!(v!);
         },
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        style: TextStyle(color: Colors.white),
+        decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(horizontal: 10.w),
+          hintText: hintText,
+          errorStyle: errorStyle,
+          errorMaxLines: 2,
+          hintStyle: TextStyle(color: Colors.white54, fontSize: 14),
+          suffixIcon: suffixIcon != null
+              ? IconButton(
+              icon: Icon(
+                suffixIcon,
+                color: kLightGoldColor,
+              ),
+              onPressed: () {
+                suffixOnPressed!();
+
+              })
+              : null,
+          filled: true,
+          fillColor: Colors.white.withOpacity(0.4),
+          isDense: true,
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(30)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+              borderRadius: BorderRadius.circular(30)),
+          border: OutlineInputBorder(
+              borderSide: BorderSide.none,
+              borderRadius: BorderRadius.circular(30)),
+        ),
       ),
     );
   }

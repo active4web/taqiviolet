@@ -35,8 +35,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
 
   @override
   void initState() {
+    if(kToken!=null){
     GiftCubit.get(context).showCouponsData();
-    AppCubit.get(context).getUserAccountData();
+    AppCubit.get(context).getUserAccountData();}
     super.initState();
   }
 
@@ -175,9 +176,18 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       child: Column(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: [
-                                          Text(
-                                              '${cubit.myAccountData?.data?.bonus=="" ? 0 : cubit.myAccountData?.data?.bonus} ${ "rial".tr()}',
-                                              style: TextStyle(fontSize: 17)),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                  '${cubit.myAccountData?.data?.bonus=="" ? 0 : cubit.myAccountData?.data?.bonus} ',
+                                                  style: TextStyle(fontSize: 17)),
+                                              Text(
+                                                  '${ "rial".tr()}',
+                                                  style: TextStyle(fontSize: 12)),
+                                            ],
+                                          ),
+                                          SizedBox(height: 5,),
                                           Text('cashback'.tr(),
                                               style: TextStyle(fontSize: 17)),
                                         ],

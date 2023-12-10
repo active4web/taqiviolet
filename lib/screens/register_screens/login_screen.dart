@@ -15,6 +15,7 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
 class LoginScreen extends StatelessWidget {
+  LoginScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +34,8 @@ class LoginScreen extends StatelessWidget {
             navigateAndFinish(context, HomeLayout());
           });
         } else if (state is LoginErrorState) {
-          showToast(text: state.errorMessage, color: Colors.red);
+
+           showToast(text: state.errorMessage, color: Colors.red);
         }
       },
       builder: (context, state) {
@@ -144,6 +146,7 @@ class LoginScreen extends StatelessWidget {
                               gradient: kGoldGradient,
                               textColor: Colors.black,
                               onTap: () {
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 if(_formKey.currentState!.validate()){
                                   cubit.login(
                                       language: EasyLocalization.of(context)
@@ -184,4 +187,6 @@ class LoginScreen extends StatelessWidget {
       },
     );
   }
+
+
 }

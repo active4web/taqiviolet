@@ -26,7 +26,9 @@ class _MyListScreenState extends State<MyListScreen> {
 
   @override
   void initState() {
-    ListsCubit.get(context).getListsData();
+    if(kToken!=null){
+      ListsCubit.get(context).getListsData();
+    }
     super.initState();
   }
 
@@ -187,7 +189,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                           Text(
                                             "introList".tr(),
                                             style: TextStyle(
-                                              fontSize: 16,
+                                              fontSize: 14.sp,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.blue,
                                             ),

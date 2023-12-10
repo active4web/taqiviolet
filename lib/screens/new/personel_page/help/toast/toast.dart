@@ -2,6 +2,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 
+import '../../../../../shared/constants.dart';
+
 class ToastConfig{
 
   static showToast({
@@ -24,7 +26,7 @@ Color chooseToastColor(ToastStates state) {
   Color color;
   switch (state) {
     case ToastStates.success:
-      color = Colors.green;
+      color = kCustomBlack;
       break;
     case ToastStates.error:
       color =  Colors.red;

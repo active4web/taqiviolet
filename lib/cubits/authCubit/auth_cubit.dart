@@ -7,11 +7,12 @@ import 'package:safsofa/models/failed_request_model.dart';
 import 'package:safsofa/models/register_success_model.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:safsofa/shared/defaults.dart';
 
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
-import '../../screens/home_layout.dart';
+import '../../shared/defaults.dart';
 import 'auth_states.dart';
 
 class AuthCubit extends Cubit<AuthStates> {
@@ -125,7 +126,7 @@ class AuthCubit extends Cubit<AuthStates> {
   // }
 
 
-   String MobToken = CacheHelper.getData('FCM');
+    // String MobToken = CacheHelper.getData('FCM');
 
   // Future<void> getDataInBackground(RemoteMessage message) async {
   //   log("${message.data.toString()}");
@@ -272,7 +273,6 @@ class AuthCubit extends Cubit<AuthStates> {
     }, query: {
       'lang': kLanguage,
     }).then((value) {
-      log(value.data.toString());
       if (value.data['status'] == true) {
         loginSuccessResponse = RegisterSuccessModel.fromJson(value.data);
         CacheHelper.setData(key: 'id', value: loginSuccessResponse?.data?.id);
@@ -286,23 +286,19 @@ class AuthCubit extends Cubit<AuthStates> {
           addLocalDataOfCartToServer(
               token: (loginSuccessResponse?.data?.token)!);
         }
-
         emit(LoginSuccessState(loginSuccessResponse!));
       }
       if (value.data['status'] == false) {
         loginFailedResponse = FailedResponseModel.fromJson(value.data);
-
-         emit(LoginErrorState(value.data['msg']));
+        emit(LoginErrorState(value.data['msg']));
       }
     }).catchError((error) {
       emit(LoginErrorState(error.toString()));
-      log(error.toString());
     });
     // });
   }
 
   Future<void> logOut()async {
-    print("hhhhhhhhhhhhhhhhhhhhhhhhhh ${ CacheHelper.getData('token')}");
     emit(LogoutLoadingState());
    final response=await Mhelper.postData(
       url: authLogOut,
@@ -331,14 +327,12 @@ class AuthCubit extends Cubit<AuthStates> {
         query: {
           'lang': kLanguage,
         }).then((value) {
-      log('Bisho==>${value.data}');
       if (value.data['status']) {
         CacheHelper.removeData('localCart');
         CacheHelper.removeData('cartCount');
         cartCount = 0;
       }
     }).catchError((error) {
-      log('Error on sending local cart data: ${error}');
     });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import '../cubits/cartCubit/cart_cubit.dart';
 import '../cubits/cartCubit/cart_state.dart';
 import '../shared/components/custom_app_bar.dart';

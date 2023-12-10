@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
 import 'package:safsofa/screens/new/mail_screen/presentation/widgets/custom_appbar.dart';
@@ -84,7 +85,7 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                           child: CircularProgressIndicator(
                           color: kDarkGoldColor,
                         ))
-                      : GridView.builder(
+                      :cubit.productOffers?.data?.isNotEmpty??cubit.productOffers?.data!=[]? GridView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: cubit.productOffers!.data!.length,
@@ -132,7 +133,23 @@ class _OffersProductsScreenState extends State<OffersProductsScreen> {
                               }
                             },
                           ),
+                        ):Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/2.5,
+                      ),
+                      Center(
+                        child: Text(
+                          'noOffer'.tr(),
+                          style: TextStyle(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey.shade400
+                          ),
                         ),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),

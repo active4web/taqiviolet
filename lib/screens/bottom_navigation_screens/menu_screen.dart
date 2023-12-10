@@ -17,7 +17,7 @@ import 'package:safsofa/screens/menu_screens/offers_screen.dart';
 import 'package:safsofa/screens/menu_screens/policies_screens/policies_screen.dart';
 import 'package:safsofa/screens/menu_screens/taqi_work_screen.dart';
 import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
- import 'package:safsofa/shared/components/dialogs.dart';
+import 'package:safsofa/shared/components/dialogs.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 
@@ -34,240 +34,229 @@ class MenuScreen extends StatelessWidget {
           return true;
         },
         child: Scaffold(
-          backgroundColor: Color(0xff393846),
-          appBar: AppBar(
-            systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: Color(0xff393846),
-                statusBarIconBrightness: Brightness.light),
-            toolbarHeight: 0.0,
-            elevation: 0.0,
-          ),
-          body: BlocProvider(
-            create: (context) => AuthCubit(),
-            child: BlocConsumer<AuthCubit, AuthStates>(
-              listener: (context, state) {
-                // TODO: implement listener
-              },
-              builder: (context, state) {
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding:  EdgeInsets.symmetric(horizontal: 30.w,vertical: 15.h),
-                    child: Column(
+            backgroundColor: Color(0xff393846),
+            appBar: AppBar(
+              systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Color(0xff393846),
+                  statusBarIconBrightness: Brightness.light),
+              toolbarHeight: 0.0,
+              elevation: 0.0,
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      width: MediaQuery.of(context).size.width * 0.6,
+                      decoration: BoxDecoration(
+                        color: Color(0xff393846),
+                        image: DecorationImage(
+                          image: AssetImage('assets/images/logo.png'),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
                       children: [
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.6,
-                          decoration: BoxDecoration(
-                            color: Color(0xff393846),
-                            image: DecorationImage(
-                              image: AssetImage('assets/images/logo.png'),
+                        Expanded(
+                          flex: 3,
+                          child: MenuTile(
+                            label: "This is Taqi Violet".tr(),
+                            image: AssetImage(
+                                'assets/images/mainlogoheadericon.png'),
+                            onTap: () {
+                              navigateTo(context, AboutScreen());
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: MenuTile(
+                            label: "workingAtTaqiViolet".tr(),
+                            image: AssetImage('assets/images/crown.png'),
+                            onTap: () {
+                              navigateTo(context, TaqiWorkScreen());
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MenuTile(
+                            label: 'Offers'.tr(),
+                            image: AssetImage('assets/images/offers.png'),
+                            onTap: () {
+                              navigateTo(context, OffersScreen());
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: MenuTile(
+                            label: 'Language'.tr(),
+                            image: AssetImage('assets/images/language.png'),
+                            onTap: () {
+                              navigateTo(context, LanguageScreen());
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: MenuTile(
+                            label: 'Policies'.tr(),
+                            image: AssetImage('assets/images/blog.png'),
+                            onTap: () {
+                              navigateTo(context, PoliciesScreen());
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: GestureDetector(
+                            onTap: () {
+                              navigateTo(
+                                  context,
+                                  DisplayInspirationProducts(
+                                    categoryName:
+                                        'Inspiration and creativity'.tr(),
+                                  ));
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              // height:
+                              //     MediaQuery.of(context).size.height * 0.13,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff393846),
+                                  border: Border.all(color: kLightGoldColor),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    RotatedBox(
+                                        quarterTurns: 2,
+                                        child: Icon(
+                                          Icons.wb_incandescent_outlined,
+                                          color: kLightGoldColor,
+                                          size: 18.r,
+                                        )),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Inspiration and creativity'.tr(),
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: kLightGoldColor),
+                                    )
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         SizedBox(
-                          height: 10,
+                          width: 10,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: MenuTile(
-                                label: "This is Taqi Violet".tr(),
-                                image: AssetImage(
-                                    'assets/images/mainlogoheadericon.png'),
-                                onTap: () {
-                                  navigateTo(context, AboutScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: MenuTile(
-                                label: "workingAtTaqiViolet".tr(),
-                                image: AssetImage('assets/images/crown.png'),
-                                onTap: () {
-                                  navigateTo(context, TaqiWorkScreen());
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: MenuTile(
-                                label: 'Offers'.tr(),
-                                image: AssetImage('assets/images/offers.png'),
-                                onTap: () {
-                                  navigateTo(context, OffersScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: MenuTile(
-                                label: 'Language'.tr(),
-                                image: AssetImage('assets/images/language.png'),
-                                onTap: () {
-                                  navigateTo(context, LanguageScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: MenuTile(
-                                label: 'Policies'.tr(),
-                                image: AssetImage('assets/images/blog.png'),
-                                onTap: () {
-                                  navigateTo(context, PoliciesScreen());
-                                },
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 4,
-                              child: GestureDetector(
-                                onTap: () {
-                                  navigateTo(
-                                      context,
-                                      DisplayInspirationProducts(
-                                        categoryName:
-                                            'Inspiration and creativity'.tr(),
-                                      ));
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  // height:
-                                  //     MediaQuery.of(context).size.height * 0.13,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff393846),
-                                      border:
-                                          Border.all(color: kLightGoldColor),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        RotatedBox(
-                                            quarterTurns: 2,
-                                            child: Icon(
-                                              Icons.wb_incandescent_outlined,
-                                              color: kLightGoldColor,
-                                              size: 18.r,
-                                            )),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          'Inspiration and creativity'.tr(),
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: kLightGoldColor),
-                                        )
-                                      ],
+                        Expanded(
+                          flex: 3,
+                          child: GestureDetector(
+                            onTap: () {
+                              navigateTo(context, CommonQuestionsScreen());
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              // height:
+                              //     MediaQuery.of(context).size.height * 0.13,
+                              decoration: BoxDecoration(
+                                  color: Color(0xff393846),
+                                  border: Border.all(color: kLightGoldColor),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceAround,
+                                  children: [
+                                    Icon(Icons.question_mark,
+                                        size: 18.r, color: kLightGoldColor),
+                                    SizedBox(
+                                      height: 5,
                                     ),
-                                  ),
+                                    Text(
+                                      "${"commonQuestions".tr()}",
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(color: kLightGoldColor),
+                                    )
+                                  ],
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              flex: 3,
-                              child: GestureDetector(
-                                onTap: () {
-                                  navigateTo(context, CommonQuestionsScreen());
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(10),
-                                  // height:
-                                  //     MediaQuery.of(context).size.height * 0.13,
-                                  decoration: BoxDecoration(
-                                      color: Color(0xff393846),
-                                      border:
-                                          Border.all(color: kLightGoldColor),
-                                      borderRadius: BorderRadius.circular(10)),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        Icon(Icons.question_mark,size: 18.r,
-                                            color: kLightGoldColor),
-                                        SizedBox(
-                                          height: 5,
-                                        ),
-                                        Text(
-                                          "${"commonQuestions".tr()}",
-                                          textAlign: TextAlign.center,
-                                          style:
-                                              TextStyle(color: kLightGoldColor),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: MenuTile(
+                            label: 'TechnicalSupport'.tr(),
+                            image: AssetImage('assets/images/support.png'),
+                            onTap: () {
+                              navigateTo(context, TechnicalSupportScreen());
+                            },
+                          ),
                         ),
                         SizedBox(
-                          height: 10,
+                          width: 10,
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: MenuTile(
-                                label: 'TechnicalSupport'.tr(),
-                                image: AssetImage('assets/images/support.png'),
-                                onTap: () {
-                                  navigateTo(context, TechnicalSupportScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                              child: MenuTile(
-                                label: 'newOffers'.tr(),
-                                image: AssetImage('assets/images/phone.png'),
-                                onTap: () {
-                                  navigateTo(context, ContactUsScreen());
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            kToken != null
-                                ? Expanded(
-                                    child: MenuTile(
+                        Expanded(
+                          child: MenuTile(
+                            label: 'newOffers'.tr(),
+                            image: AssetImage('assets/images/phone.png'),
+                            onTap: () {
+                              navigateTo(context, ContactUsScreen());
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        kToken != null
+                            ? Expanded(
+                                child: BlocBuilder<AuthCubit, AuthStates>(
+                                  builder: (context, state) {
+                                    return MenuTile(
                                       label: 'LogOut'.tr(),
                                       image: AssetImage(
                                           'assets/images/log out.png'),
                                       onTap: () {
-
-                                        AuthCubit.get(context)
-                                            .logOut();
+                                        AuthCubit.get(context).logOut();
                                         AppCubit.get(context).selectedIndex = 0;
                                         CacheHelper.removeData('type');
                                         CacheHelper.removeData('userInfo');
@@ -277,33 +266,31 @@ class MenuScreen extends StatelessWidget {
                                         navigateAndFinish(
                                             context, HomeLayout());
                                       },
-                                    ),
-                                  )
-                                : Expanded(
-                                    child: MenuTile(
-                                      label: 'Login'.tr(),
-                                      image: AssetImage(
-                                          'assets/images/log out.png'),
-                                      onTap: () {
-                                        // navigateTo(context, LoginScreen());
-                                        AppCubit.get(context).selectedIndex = 3;
-                                        navigateAndFinish(
-                                            context, HomeLayout());
-                                      },
-                                    ),
-                                  ),
-                          ],
-                        ),
-                        SizedBox(height: 100.h,)
-
+                                    );
+                                  },
+                                ),
+                              )
+                            : Expanded(
+                                child: MenuTile(
+                                  label: 'Login'.tr(),
+                                  image:
+                                      AssetImage('assets/images/log out.png'),
+                                  onTap: () {
+                                    // navigateTo(context, LoginScreen());
+                                    AppCubit.get(context).selectedIndex = 3;
+                                    navigateAndFinish(context, HomeLayout());
+                                  },
+                                ),
+                              ),
                       ],
                     ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
+                    SizedBox(
+                      height: 100.h,
+                    )
+                  ],
+                ),
+              ),
+            )),
       ),
     );
   }
@@ -350,7 +337,7 @@ class MenuTile extends StatelessWidget {
               Text(
                 "${label}",
                 textAlign: TextAlign.center,
-                style: TextStyle(color: kLightGoldColor,fontSize: 13  .sp),
+                style: TextStyle(color: kLightGoldColor, fontSize: 13.sp),
               )
             ],
           ),

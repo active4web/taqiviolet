@@ -1,5 +1,4 @@
  import 'dart:convert';
-import 'dart:developer';
 import 'package:devicelocale/devicelocale.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,7 +32,6 @@ import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:safsofa/shared/router.dart';
-import 'dart:developer' as developer;
 import 'cubits/OrderReceived/order_received_cubit.dart';
 import 'cubits/aboutCubit/about_cubit.dart';
 import 'cubits/authCubit/auth_cubit.dart';
@@ -67,19 +65,19 @@ FlutterLocalNotificationsPlugin();
 bool? isPaid;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await CacheHelper.init();
-
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   Mhelper.init();
-  await FirebaseMessaging.instance.getToken().then((value) {
-    CacheHelper.setData(key: 'FCM', value: value);
-  }).catchError((error){
-    print("errorrrr : $error");
-  });
+  String fireToken=await FirebaseMessaging.instance.getToken().toString();
+  CacheHelper.setData(key: 'FCM', value: fireToken);
+  // await FirebaseMessaging.instance.getToken().then((value) {
+  //   CacheHelper.setData(key: 'FCM', value: value);
+  // }).catchError((error){
+  //   print("errorrrr : $error");
+  // });
 
 
-  print("fire token: ${CacheHelper.getData('FCM')}");
   //
   // CacheHelper.setData(key: 'FCM', value: 'value');
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);

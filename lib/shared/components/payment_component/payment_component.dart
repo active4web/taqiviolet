@@ -1,5 +1,5 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';

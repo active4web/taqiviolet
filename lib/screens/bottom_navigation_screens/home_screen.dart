@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +8,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/screens/add_review_screen.dart';
-import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
 import 'package:safsofa/screens/display_inspiration_products.dart';
 import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
@@ -62,27 +60,29 @@ bool isPopped=false;
 
   @override
   Widget build(BuildContext context) {
-    print("5" * 20);
     AppCubit cubit = AppCubit.get(context);
     var offerCubit = OfferCubit.get(context);
     // offerCubit.getOfferData();
     // offerCubit.getOfferData2();
     return BlocConsumer<AppCubit, AppStates>(
       listener: (context, state) {
-          if (state is CheckOfferSuccessState&&cubit.offer?.data?.keyOffer==1) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                barrierDismissible: false,
-                  context: context,
-                  builder: (context) {
-                    Future.delayed(
-                      const Duration(seconds: 10),
-                          () {
-                    if(isPopped==false){
-                      print("End 11111111111111111111111111");
-                      print(cubit.offer?.data?.promoCodeName??'');
-                      Navigator.pop(context);
-                    }
+          if(cubit.isShowD==false){
+            if (cubit.offer?.data?.keyOffer==1) {
+              cubit.changeShow();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                showDialog(
+                    barrierDismissible: false,
+
+                    context: context,
+                    builder: (context) {
+                      Future.delayed(
+                        const Duration(seconds: 30),
+                            () {
+                          if(isPopped==false){
+                            print("End 11111111111111111111111111");
+                            print(cubit.offer?.data?.promoCodeName??'');
+                            Navigator.pop(context);
+                          }
                           // if (state is GetConstructionSuccessState&&cubit.constructionLink?.data?.orderId!=null) {
                           //   WidgetsBinding.instance.addPostFrameCallback((_) {
                           //     showDialog(
@@ -160,221 +160,210 @@ bool isPopped=false;
                           //         });
                           //   });
                           // }
-                      },
-                    );
-                    return AlertDialog(
-                      backgroundColor: Colors.transparent,
-                      insetPadding: EdgeInsets.zero,
-                      contentPadding: EdgeInsets.zero,
-                      clipBehavior: Clip.antiAliasWithSaveLayer,
-                      content: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Stack(
-                            children: [
-                              InkWell(
-                                onTap: ()async{
-                                  await Clipboard.setData(ClipboardData(text:cubit.offer?.data?.promoCodeName??'')).then((value) {
-                                    ToastConfig.showToast(msg: "تم نسخ الكود بنجاح", toastStates: ToastStates.success);
-                                    print('vaaaaaaaaaaaaaaaaaaa ${cubit.offer?.data?.promoCodeName}');
+                        },
+                      );
+                      return AlertDialog(
+                        insetPadding: EdgeInsets.all(10),
+                        backgroundColor: Colors.transparent,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        content: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            InkWell(
+                              onTap: ()async{
+                                await Clipboard.setData(ClipboardData(text:cubit.offer?.data?.promoCodeName??'')).then((value) {
+                                  ToastConfig.showToast(msg: "تم نسخ الكود بنجاح", toastStates: ToastStates.success);
+                                  Navigator.pop(context);
+                                  setState(() {
+                                    isPopped=true;
+                                  });
+                                });
+
+                              },
+                              child: CustomNetworkImage(
+                                width: MediaQuery.of(context).size.width,
+                                height: 400.h,
+                                isActive: true,
+                                image: cubit.offer?.data?.offerImage??'',
+                                border: BorderRadius.circular(10.r),
+                              ),
+                            ),
+                            Positioned(
+                                top: 20.h,
+                                left: 38.w,
+                                child: InkWell(
+                                  onTap: (){
                                     Navigator.pop(context);
                                     setState(() {
                                       isPopped=true;
                                     });
-                                  });
+                                    // if(state is GetConstructionSuccessState){
+                                    //   if (cubit.constructionLink?.data?.orderId!=null) {
+                                    //     WidgetsBinding.instance.addPostFrameCallback((_) {
+                                    //       showDialog(
+                                    //           context: context,
+                                    //           builder: (context) {
+                                    //             return AlertDialog(
+                                    //               content: Column(
+                                    //                 mainAxisSize: MainAxisSize.min,
+                                    //                 children: [
+                                    //                   Text(
+                                    //                     "pleaseRateYourPreviousOrder".tr(),
+                                    //                     textAlign: TextAlign.center,
+                                    //                     style: TextStyle(
+                                    //                       color: Colors.black,
+                                    //                       fontSize: 12,
+                                    //                       fontWeight: FontWeight.bold,
+                                    //                     ),
+                                    //                   ),
+                                    //                   SizedBox(
+                                    //                     height: 20,
+                                    //                   ),
+                                    //                   Row(
+                                    //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    //                     children: [
+                                    //                       InkWell(
+                                    //                         onTap: () => Navigator.pop(context),
+                                    //                         child: Container(
+                                    //                           alignment: AlignmentDirectional.center,
+                                    //                           decoration: BoxDecoration(
+                                    //                             color:
+                                    //                             Colors.grey.shade200.withOpacity(0.6),
+                                    //                             borderRadius: BorderRadius.circular(8),
+                                    //                           ),
+                                    //                           child: Padding(
+                                    //                             padding: EdgeInsets.all(12),
+                                    //                             child: Text(
+                                    //                               "cancel".tr(),
+                                    //                               style: TextStyle(
+                                    //                                 color: Colors.red,
+                                    //                                 fontWeight: FontWeight.w500,
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                       InkWell(
+                                    //                         onTap: () => navigateReplacement(
+                                    //                             context,
+                                    //                             AddReviewScreen(
+                                    //                               orderId: cubit.constructionLink?.data?.orderId??0,
+                                    //                             )),
+                                    //                         child: Container(
+                                    //                           alignment: AlignmentDirectional.center,
+                                    //                           decoration: BoxDecoration(
+                                    //                             color: Colors.green.withOpacity(0.6),
+                                    //                             borderRadius: BorderRadius.circular(8),
+                                    //                           ),
+                                    //                           child: Padding(
+                                    //                             padding: EdgeInsets.all(12),
+                                    //                             child: Text(
+                                    //                               "rate".tr(),
+                                    //                               style: TextStyle(
+                                    //                                 color: Colors.white,
+                                    //                                 fontWeight: FontWeight.w500,
+                                    //                               ),
+                                    //                             ),
+                                    //                           ),
+                                    //                         ),
+                                    //                       ),
+                                    //                     ],
+                                    //                   ),
+                                    //                 ],
+                                    //               ),
+                                    //             );
+                                    //           });
+                                    //     });
+                                    //   }
+                                    // }
+                                  },
+                                  child: Icon(Icons.close,color: Colors.white,size: 25.r,),
+                                ))
+                          ],
+                        ),
+                      );
+                    });
+              });
+            }
+            else if (cubit.constructionLink?.data?.orderId!=null) {
+              cubit.changeShow();
+              WidgetsBinding.instance.addPostFrameCallback((_) {
 
-                                },
-                                child: CustomNetworkImage(
-                                  height: 400.h,
-                                  isActive: true,
-                                  image: cubit.offer?.data?.offerImage??'',
-                                  border: BorderRadius.circular(10.r),
-                                ),
+                showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "pleaseRateYourPreviousOrder".tr(),
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
                               ),
-                              Positioned(
-                                  top: 5.h,
-                                  right: 10.w,
-                                  child: InkWell(
-                                    onTap: (){
-                                      Navigator.pop(context);
-                                      setState(() {
-                                        isPopped=true;
-                                      });
-                                      // if(state is GetConstructionSuccessState){
-                                      //   if (cubit.constructionLink?.data?.orderId!=null) {
-                                      //     WidgetsBinding.instance.addPostFrameCallback((_) {
-                                      //       showDialog(
-                                      //           context: context,
-                                      //           builder: (context) {
-                                      //             return AlertDialog(
-                                      //               content: Column(
-                                      //                 mainAxisSize: MainAxisSize.min,
-                                      //                 children: [
-                                      //                   Text(
-                                      //                     "pleaseRateYourPreviousOrder".tr(),
-                                      //                     textAlign: TextAlign.center,
-                                      //                     style: TextStyle(
-                                      //                       color: Colors.black,
-                                      //                       fontSize: 12,
-                                      //                       fontWeight: FontWeight.bold,
-                                      //                     ),
-                                      //                   ),
-                                      //                   SizedBox(
-                                      //                     height: 20,
-                                      //                   ),
-                                      //                   Row(
-                                      //                     mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                      //                     children: [
-                                      //                       InkWell(
-                                      //                         onTap: () => Navigator.pop(context),
-                                      //                         child: Container(
-                                      //                           alignment: AlignmentDirectional.center,
-                                      //                           decoration: BoxDecoration(
-                                      //                             color:
-                                      //                             Colors.grey.shade200.withOpacity(0.6),
-                                      //                             borderRadius: BorderRadius.circular(8),
-                                      //                           ),
-                                      //                           child: Padding(
-                                      //                             padding: EdgeInsets.all(12),
-                                      //                             child: Text(
-                                      //                               "cancel".tr(),
-                                      //                               style: TextStyle(
-                                      //                                 color: Colors.red,
-                                      //                                 fontWeight: FontWeight.w500,
-                                      //                               ),
-                                      //                             ),
-                                      //                           ),
-                                      //                         ),
-                                      //                       ),
-                                      //                       InkWell(
-                                      //                         onTap: () => navigateReplacement(
-                                      //                             context,
-                                      //                             AddReviewScreen(
-                                      //                               orderId: cubit.constructionLink?.data?.orderId??0,
-                                      //                             )),
-                                      //                         child: Container(
-                                      //                           alignment: AlignmentDirectional.center,
-                                      //                           decoration: BoxDecoration(
-                                      //                             color: Colors.green.withOpacity(0.6),
-                                      //                             borderRadius: BorderRadius.circular(8),
-                                      //                           ),
-                                      //                           child: Padding(
-                                      //                             padding: EdgeInsets.all(12),
-                                      //                             child: Text(
-                                      //                               "rate".tr(),
-                                      //                               style: TextStyle(
-                                      //                                 color: Colors.white,
-                                      //                                 fontWeight: FontWeight.w500,
-                                      //                               ),
-                                      //                             ),
-                                      //                           ),
-                                      //                         ),
-                                      //                       ),
-                                      //                     ],
-                                      //                   ),
-                                      //                 ],
-                                      //               ),
-                                      //             );
-                                      //           });
-                                      //     });
-                                      //   }
-                                      // }
-                                    },
-                                    child: Container(
-                                      padding: EdgeInsets.all(2),
-                                      decoration: BoxDecoration(
-                                        color: Colors.red,
-                                        borderRadius: BorderRadius.circular(5)
-                                      ),
-                                      child: Icon(Icons.close,color: Colors.white,size: 20,),
-                                    ),
-                                  ))
-                            ],
-                          ),
-
-                        ],
-                      ),
-                    );
-                  });
-            });
-          }
-          else if (State is GetConstructionSuccessState&&cubit.constructionLink?.data?.orderId!=null&&cubit.offer?.data?.keyOffer!=1) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
-              showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "pleaseRateYourPreviousOrder".tr(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
                             ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              InkWell(
-                                onTap: () => Navigator.pop(context),
-                                child: Container(
-                                  alignment: AlignmentDirectional.center,
-                                  decoration: BoxDecoration(
-                                    color:
-                                    Colors.grey.shade200.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12),
-                                    child: Text(
-                                      "cancel".tr(),
-                                      style: TextStyle(
-                                        color: Colors.red,
-                                        fontWeight: FontWeight.w500,
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                InkWell(
+                                  onTap: () => Navigator.pop(context),
+                                  child: Container(
+                                    alignment: AlignmentDirectional.center,
+                                    decoration: BoxDecoration(
+                                      color:
+                                      Colors.grey.shade200.withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12),
+                                      child: Text(
+                                        "cancel".tr(),
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              InkWell(
-                                onTap: () => navigateReplacement(
-                                    context,
-                                    AddReviewScreen(
-                                      orderId: cubit.constructionLink?.data?.orderId??0,
-                                    )),
-                                child: Container(
-                                  alignment: AlignmentDirectional.center,
-                                  decoration: BoxDecoration(
-                                    color: Colors.green.withOpacity(0.6),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Padding(
-                                    padding: EdgeInsets.all(12),
-                                    child: Text(
-                                      "rate".tr(),
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w500,
+                                InkWell(
+                                  onTap: () => navigateReplacement(
+                                      context,
+                                      AddReviewScreen(
+                                        orderId: cubit.constructionLink?.data?.orderId??0,
+                                      )),
+                                  child: Container(
+                                    alignment: AlignmentDirectional.center,
+                                    decoration: BoxDecoration(
+                                      color: Colors.green.withOpacity(0.6),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.all(12),
+                                      child: Text(
+                                        "rate".tr(),
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w500,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-            });
+                              ],
+                            ),
+                          ],
+                        ),
+                      );
+                    });
+              });
+            }
           }
 
 
@@ -1613,7 +1602,7 @@ bool isPopped=false;
                         //   ),
                         // ),
                         SizedBox(
-                          height: 100.h,
+                          height: 120.h,
                         )
                       ],
                     ),

@@ -1,6 +1,7 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/chat_screen.dart';
 import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
@@ -180,7 +181,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                             height: 20,
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               // Expanded(
                               //   child: IconButton(
@@ -198,7 +199,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                                     await launch(
                                         'whatsapp://send?phone=+966${cubit.contactsData.data?.phone?.substring(5)}');
                                   },
-                                  icon: Image.asset('assets/images/whatsapp.png'),
+                                  icon: Image.asset('assets/images/whatsapp.png',height: 50.h,),
                                 ),
                               ),
                               Expanded(
@@ -207,7 +208,7 @@ class TechnicalSupportScreen extends StatelessWidget {
                                     await launch(
                                         'mailto:${cubit.contactsData.data?.mail}?subject=This is Subject Title&body=This is Body of Email');
                                   },
-                                  icon: Image.asset('assets/images/gmail.png'),
+                                  icon: Image.asset('assets/images/gmail.png',height: 50.h,),
                                 ),
                               ),
                               // Expanded(

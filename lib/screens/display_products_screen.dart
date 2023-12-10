@@ -55,8 +55,6 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print('9' * 100);
-    print(SubCatCubit.get(context).productFromCatList);
     return BlocConsumer<SubCatCubit, SubCatState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -113,8 +111,6 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                             GestureDetector(
                                                               onTap: () {
                                                                 setState(() {});
-
-                                                                log('${cubit.subCatDataList![index].id}');
                                                                 cubit.getProductSubCatData(
                                                                     param:
                                                                         "category_id",
@@ -129,7 +125,6 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                 ProductFromSubCat =
                                                                     false;
 
-                                                                log('${widget.hasDepartments}');
                                                               },
                                                               child: Column(
                                                                 children: [

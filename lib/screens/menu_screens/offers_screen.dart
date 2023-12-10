@@ -49,7 +49,14 @@ class OffersScreen extends StatelessWidget {
                       child: CircularProgressIndicator(
                         color: kDarkGoldColor,
                       ))
-                      : GridView.builder(
+                      :cubit.allOfferNew?.isEmpty??cubit.allOfferNew==[]?Column(
+                    children: [
+                      SizedBox(height: MediaQuery.of(context).size.height/2.5,),
+                      Center(
+                        child: Text('noOffer'.tr()),
+                      )
+                    ],
+                  ) :GridView.builder(
                     shrinkWrap: true,
                     physics:
                     NeverScrollableScrollPhysics(),

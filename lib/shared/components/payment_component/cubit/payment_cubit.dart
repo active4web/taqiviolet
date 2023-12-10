@@ -8,6 +8,8 @@ import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
 import 'package:safsofa/models/update_order_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
+import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_state.dart';
 import 'package:safsofa/shared/constants.dart';
 
@@ -32,7 +34,7 @@ class PaymentCubit extends Cubit<PaymentState> {
     ];
     apms.add(PaymentSdkAPms.AMAN);
     final configuration = PaymentSdkConfigurationDetails(
-        profileId: "105193",
+        profileId: "105601",
         serverKey: "SWJN6WHN6M-JHGZHWGRB9-W2BDN6LZWT",
         clientKey: "CTKMVK-VB9B6H-T9HVTR-9MTQHB",
         cartId: billingDetails.orderId,
@@ -97,6 +99,7 @@ class PaymentCubit extends Cubit<PaymentState> {
         else if (event["status"] == "error") {
           print("Errorrrrrr: ${event["message"]}");
           emit(PaymentErrorState());
+          ToastConfig.showToast(msg: 'حدث خطأ اثناء الدفع', toastStates:ToastStates.error);
           // Handle error here.
         } else if (event["status"] == "event") {
           print("event $event");

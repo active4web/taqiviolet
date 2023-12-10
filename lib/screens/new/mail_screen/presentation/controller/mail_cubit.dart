@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/screens/new/mail_screen/models/message_details_model.dart';

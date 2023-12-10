@@ -3,6 +3,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import 'package:safsofa/cubits/reviews_cubit/cubit/reviews_comments_state.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
@@ -131,8 +132,8 @@ class CommentItem extends StatelessWidget {
                   "${commentAuthorName}",
                   style: TextStyle(
                       color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700),
+                      fontSize: 17.sp,
+                      ),
                 ),
                 Wrap(
                   direction: Axis.vertical,
@@ -164,7 +165,7 @@ class CommentItem extends StatelessWidget {
               direction: Axis.horizontal,
               itemCount: 5,
               rating: double.parse("${ratingValue}"),
-              itemSize: 24,
+              itemSize: 20.r,
               itemBuilder: (context, index) => Icon(
                 Icons.star_purple500_sharp,
                 color: Colors.amber,

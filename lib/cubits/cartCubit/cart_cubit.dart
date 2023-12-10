@@ -25,7 +25,7 @@ class CartCubit extends Cubit<CartState> {
 
   static CartCubit get(context) => BlocProvider.of(context);
 
-  late double total ;
+   double total=0.0 ;
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
 
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////

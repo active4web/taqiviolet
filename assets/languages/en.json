@@ -225,7 +225,7 @@
   "cashback": "Cashback",
   "wallet": "Gift wallet",
   "giftCard": "Gift card",
-  "rial": "RS",
+  "rial": "SR",
   "code2": "gift",
   "noInternet":"Please check your internet and make sure the network is ready to work",
   "internet": "Internet",
@@ -249,7 +249,7 @@
   "sellTheMostGoods": "Sell The Most Goods",
   "theValue": "the value",
   "thePrice": "the price",
-  "rS": "RS",
+  "rS": "SR",
   "electronicGiftCard": "Electronic gift card",
   "theDesign": "the design",
   "theAmount": "the amount",
@@ -342,7 +342,6 @@
   "dontHaveCash": "don't have cash back",
   "searchCountry": "Search country",
   "searchCity": "Search city",
-  "unusedCoupons": "Unused coupons",
   "usedCoupons": "Used coupons",
   "noCoupons": "There are no coupons currently",
   "Apply": "Apply",
@@ -350,7 +349,11 @@
   "old": "Old",
   "noGifts": "There are no gifts",
   "noQuestions": "No questions",
-  "sales": "Sales"
+  "noOffer": "No Offers now",
+  "orderRate": "order rate successfull",
+  "thisFieldIsRequired": "this field is required",
+  "phoneValidation": "the phone shoud start 966"
+
 
 
 

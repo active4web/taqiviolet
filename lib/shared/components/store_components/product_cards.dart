@@ -153,7 +153,7 @@ class VerticalProductCard extends StatelessWidget {
                                     Text(
                                       currentPrice.toString() ?? '',
                                       style: TextStyle(
-                                          color: Color(0xffFE9C8F),
+                                          color: kCustomBlack,
                                           fontSize: 13),maxLines: 1,overflow: TextOverflow.ellipsis,
                                     ),
                                     SizedBox(width: 5.w,),
@@ -169,7 +169,7 @@ class VerticalProductCard extends StatelessWidget {
                                     Text(
                                       "SAR".tr(),
                                       style: TextStyle(
-                                          color: Color(0xffFE9C8F),
+                                          color: kCustomBlack,
                                           fontSize: 13),
                                     )
                                   ],
@@ -180,7 +180,7 @@ class VerticalProductCard extends StatelessWidget {
                                     Text(
                                       currentPrice.toString() ?? '',
                                       style: TextStyle(
-                                          color: Color(0xffFE9C8F),
+                                          color: kCustomBlack,
                                           fontSize: 13),
                                     ),
                                     SizedBox(
@@ -189,7 +189,7 @@ class VerticalProductCard extends StatelessWidget {
                                     Text(
                                       "SAR".tr(),
                                       style: TextStyle(
-                                          color: Color(0xffFE9C8F),
+                                          color: kCustomBlack,
                                           fontSize: 13),
                                     )
                                   ],
@@ -273,8 +273,6 @@ class HorizontalProductCard extends StatelessWidget {
     AppCubit appCubit = AppCubit.get(context);
     return GestureDetector(
       onTap: () {
-        log("99999999999999999999999999999999999999999999");
-        log("99999999999999999999999999999999999999999999     ${relatedProducts.id}");
         appCubit.getProductDetails(
           productId: relatedProducts.id,
         );
@@ -355,7 +353,7 @@ class HorizontalProductCard extends StatelessWidget {
                       child: Text(
                         "${relatedProducts.name}",
                         style: TextStyle(
-                            fontSize: 17, fontWeight: FontWeight.w500),
+                            fontSize: 14.sp, fontWeight: FontWeight.w500),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -366,10 +364,16 @@ class HorizontalProductCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          relatedProducts.currentPrice.toString(),
+                          "${relatedProducts.currentPrice.toString()} ",
                           style: TextStyle(
-                              fontSize: 15, fontWeight: FontWeight.bold),
+                              fontSize: 15,),
                         ),
+                        Text(
+                          "${'rial'.tr()}",
+                          style: TextStyle(
+                              fontSize: 12,),
+                        ),
+
                         SizedBox(
                           width: 10,
                         ),

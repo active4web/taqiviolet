@@ -50,7 +50,7 @@ class AddReviewScreen extends StatelessWidget {
               body: BlocConsumer<OrderDetailsCubit, OrderDetailsState>(
                 listener: (context, state) {
                   if(state is AddReviewForOrderSuccess){
-                    ToastConfig.showToast(msg: 'sucess', toastStates: ToastStates.success);
+                    ToastConfig.showToast(msg: 'orderRate'.tr(), toastStates: ToastStates.success);
                     AppCubit
                         .get(context)
                         .selectedIndex = 0;

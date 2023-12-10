@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/assignment/assignment_cubit.dart';
 import 'package:safsofa/screens/new/image_screen.dart';

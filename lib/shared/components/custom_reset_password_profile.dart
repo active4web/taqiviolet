@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class CustomResetPasswordProfile extends StatelessWidget {
