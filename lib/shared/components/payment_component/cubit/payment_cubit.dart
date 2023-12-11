@@ -58,6 +58,25 @@ class PaymentCubit extends Cubit<PaymentState> {
     return configuration;
   }
 
+  Future<void> apmsPayPressed({required BillingDetails billingDetailsData,
+    required ShippingDetails shippingDetailsData}) async {
+    FlutterPaytabsBridge.startAlternativePaymentMethod(generateConfig(
+        billingDetailsData,shippingDetailsData
+    ),
+            (event) {
+
+          if (event["status"] == "success") {
+            // Handle transaction details here.
+            var transactionDetails = event["data"];
+            print(transactionDetails);
+          } else if (event["status"] == "error") {
+            // Handle error here.
+          } else if (event["status"] == "event") {
+            // Handle events here.
+          }
+        });
+
+  }
   Future<void> payPressed({
     required BillingDetails billingDetailsData,
     required ShippingDetails shippingDetailsData
@@ -116,9 +135,6 @@ UpdateOrderModel? order;
 Future<void> updateOrder({required BillingDetails paymentModel,required PaymentModel paymentModel2})async{
   orderId=int.parse(paymentModel.orderId);
   emit(UpdateOrderLoadingState());
-  print("aaaaaaaaaaaaaaaaaaaa${paymentModel.countryId}");
-  print("aaaaaaaaaaaaaaaaaaaa${paymentModel.orderId}");
-  print("aaaaaaaaaaaaaaaaaaaa${paymentModel.total}");
     final response=await Mhelper.postData(url: 'api/orders/${paymentModel.orderId}',data: {
       "_method":"put",
       "user_name":paymentModel.name,

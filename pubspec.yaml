@@ -46,6 +46,7 @@ dependencies:
   flutter_pw_validator: ^1.6.0
   flutter_paytabs_bridge: ^2.6.3
   change_app_package_name: ^1.1.0
+  geolocator: ^10.1.0
 
 dev_dependencies:
   appinio_video_player: ^1.2.0
@@ -86,7 +87,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/images/launcher_ic.png"
+  image_path: "assets/images/taqi-app-.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

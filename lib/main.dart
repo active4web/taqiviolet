@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/commitments/commitments_cubit.dart';
 import 'package:safsofa/cubits/common_questionCubit/common_question_cubit.dart';
@@ -31,6 +32,7 @@ import 'package:safsofa/screens/splash_and_onboarding/splash_screen.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
+import 'package:safsofa/shared/get_curent_location.dart';
 import 'package:safsofa/shared/router.dart';
 import 'cubits/OrderReceived/order_received_cubit.dart';
 import 'cubits/aboutCubit/about_cubit.dart';
@@ -69,17 +71,13 @@ Future<void> main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
   Mhelper.init();
-  String fireToken=await FirebaseMessaging.instance.getToken().toString();
-  CacheHelper.setData(key: 'FCM', value: fireToken);
-  // await FirebaseMessaging.instance.getToken().then((value) {
-  //   CacheHelper.setData(key: 'FCM', value: value);
-  // }).catchError((error){
-  //   print("errorrrr : $error");
-  // });
-
-
-  //
-  // CacheHelper.setData(key: 'FCM', value: 'value');
+  String? fireToken=await FirebaseMessaging.instance.getToken();
+  CacheHelper.setData(key: 'FCM', value: fireToken.toString());
+  Position? position=await GeolocatorService().determinePosition();
+  if(position!=null){
+    print(position.latitude);
+    print(position.longitude);
+  }
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await PushNotificationManagger.initialize(flutterLocalNotificationsPlugin);
 
@@ -105,13 +103,20 @@ Future<void> main() async {
             path: 'assets/languages',
             // <-- change the path of the translation files
             fallbackLocale: Locale('ar'),
-            child: Phoenix(child: MyApp())),
+            child: Phoenix(child: MyApp(lat:position?.latitude ,
+            long: position?.longitude,))),
       );
 
   Bloc.observer=MyBlocObserver();
 }
 
 class MyApp extends StatelessWidget {
+  final double? long;
+  final double? lat;
+
+
+  MyApp({required this.long,required this.lat});
+
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -188,7 +193,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(
                 create: (context) => TaqiWorkCubit(),
               ),
-              BlocProvider(create: (context) => AppCubit()..getEmptyImages()..getOffers()),
+              BlocProvider(create: (context) => AppCubit()..getEmptyImages()..getOffers()..sendCurrentLocation(latitude: lat, longitude:long)),
               BlocProvider(create: (context) => AuthCubit() /*..getDeviceToken()*/),
               BlocProvider(create: (context) => HomeCubit()),
               BlocProvider(create: (context) => CouponesCubit()),

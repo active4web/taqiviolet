@@ -63,6 +63,18 @@ class AppCubit extends Cubit<AppStates> {
     'للطلبات اكثر من 5000 ريال',
     'يمكنك الاستردار 3 أيام من الشراء',
   ];
+  Future<void>sendCurrentLocation({required double? latitude,required double? longitude})async{
+    final response=await Mhelper.postData(url: 'api/user-coordinate',data: {
+      "firebase_token":CacheHelper.getData('FCM'),
+      "latitude":latitude,
+      "longitude":longitude
+    });
+    if(response.statusCode==200){
+      print("sssssssssssssssssssssss");
+    }else{
+      print("errrrrrrrrrrrrrrrrrrrrr");
+    }
+  }
   bool isShowD=false;
   changeShow(){
     isShowD=true;
@@ -539,7 +551,9 @@ Future<void>getHomeServices()async{
 
   void gethomeMainBanners() {
     emit(HomeMainCatLoading());
-    Mhelper.getData(url: homeMainBannerEndPoint).then((value) {
+    Mhelper.getData(url: homeMainBannerEndPoint,query: {
+      "lang":kLanguage
+    }).then((value) {
       homeScreenMainCatBannerModel =
           HomeScreenMainCatBannerModel.fromJson(value.data);
       homeBannersList = homeScreenMainCatBannerModel?.data;

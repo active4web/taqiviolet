@@ -645,7 +645,7 @@ bool isPopped=false;
                                 ],
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 5.h,
                               ),
                               Row(
                                 children: [
@@ -682,7 +682,7 @@ bool isPopped=false;
                                 ],
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 5.h,
                               ),
                               Row(
                                 children: [
@@ -696,7 +696,7 @@ bool isPopped=false;
                                 ],
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 5.h,
                               ),
                               Row(
                                 children: [
@@ -744,7 +744,7 @@ bool isPopped=false;
                                 ],
                               ),
                               SizedBox(
-                                height: 20,
+                                height: 5.h,
                               ),
 
                               // YoutubePlayer(
@@ -783,7 +783,7 @@ bool isPopped=false;
                                   ?.videoLink,
                             )),
                         SizedBox(
-                          height: 10.h,
+                          height: 5.h,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -1507,7 +1507,7 @@ bool isPopped=false;
                           ),
                         ),
                         SizedBox(
-                          height: 10.h,
+                          height: 5.h,
                         ),
                         Center(
                           child: Text(
@@ -1517,7 +1517,7 @@ bool isPopped=false;
                           ),
                         ),
                         SizedBox(
-                          height: 10.h,
+                          height: 5.h,
                         ),
                         SizedBox(
                           height: 80.h,

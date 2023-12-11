@@ -24,7 +24,7 @@ class PushNotificationManagger {
   static Future<void> initialize(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin)  async{
     AndroidInitializationSettings initializationSettingsAndroid =
-     AndroidInitializationSettings('@mipmap/launcher_icon');
+     AndroidInitializationSettings('@mipmap/ic_launcher');
 
     final DarwinInitializationSettings initializationSettingsDarwin =
     DarwinInitializationSettings(onDidReceiveLocalNotification:
