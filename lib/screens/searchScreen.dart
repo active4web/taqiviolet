@@ -451,7 +451,29 @@ class SearchScreen extends StatelessWidget {
                               ),
                             ],
                           ),
+                          SizedBox(height: 5.h),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: SortItem(title: "الاعلى تقييم",isActive: SearchCubit.get(context).index==6,onTap: (){
+                                  SearchCubit.get(context).changeIndex(value: 6);
+                                },),
+                              ),
+                              SizedBox(width: 5.w,),
+                              Expanded(
+                                child: SortItem(title: 'الاعلى طلب',isActive: SearchCubit.get(context).index==5,onTap: (){
+                                  SearchCubit.get(context).changeIndex(value: 5);
+                                },),
+                              ),
+                              SizedBox(width: 5.w,),
+                              Expanded(
+                                child: SortItem(title: "العروض",isActive: SearchCubit.get(context).index==7,onTap: (){
+                                  SearchCubit.get(context).changeIndex(value:7);
+                                },),
+                              ),
 
+                            ],
+                          ),
                           SizedBox(
                             height: height / 35,
                           ),
@@ -476,7 +498,7 @@ class SearchScreen extends StatelessWidget {
                           ),
 
                           SizedBox(
-                            height: height / 12,
+                            height:20.h,
                           ),
                           SearchCubit.get(context).searchResults != null
                               ? state is SuccessSearchResults

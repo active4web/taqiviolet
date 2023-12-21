@@ -79,7 +79,6 @@ bool isPopped=false;
                         const Duration(seconds: 30),
                             () {
                           if(isPopped==false){
-                            print("End 11111111111111111111111111");
                             print(cubit.offer?.data?.promoCodeName??'');
                             Navigator.pop(context);
                           }
@@ -325,7 +324,7 @@ bool isPopped=false;
                                       child: Text(
                                         "cancel".tr(),
                                         style: TextStyle(
-                                          color: Colors.red,
+                                          color: kCustomBlack,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
@@ -341,7 +340,7 @@ bool isPopped=false;
                                   child: Container(
                                     alignment: AlignmentDirectional.center,
                                     decoration: BoxDecoration(
-                                      color: Colors.green.withOpacity(0.6),
+                                      color: kCustomBlack,
                                       borderRadius: BorderRadius.circular(8),
                                     ),
                                     child: Padding(
@@ -371,10 +370,11 @@ bool isPopped=false;
       builder: (context, state) {
         // state is AppInitial ?? cubit.fetchData();
         return WillPopScope(
+
           onWillPop: () async {
-            displayLogoutDialog(
+             displayLogoutDialog(
                 context, "closeApplication".tr(), "wantExit".tr());
-            return true;
+             return true;
           },
           child: Scaffold(
             backgroundColor: Color(0xfff6f6f6),
@@ -652,8 +652,7 @@ bool isPopped=false;
                                   Expanded(
                                     flex: 220,
                                     child: HomeCard(
-                                      isActive: false,
-                                      isFeature: true,
+
                                       onTap: () {},
                                       index: 3,
                                       cubit: cubit,

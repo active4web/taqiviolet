@@ -32,7 +32,8 @@ class MyListDetailsScreen extends StatelessWidget {
             body: ConditionalBuilder(
               condition: state is! DetailsListLoadingState,
               builder: (context) => cubit
-                      .detailsMyListModel!.data!.listProducts!.isNotEmpty
+                      .detailsMyListModel?.data?.listProducts?.isNotEmpty??cubit
+                  .detailsMyListModel?.data?.listProducts!=null
                   ? ListView.builder(
                       physics: BouncingScrollPhysics(),
                       itemCount:

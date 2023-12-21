@@ -30,7 +30,7 @@ class CartCubit extends Cubit<CartState> {
 
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
   MyCartModel? myCartModel;
-
+  String countryCode='';
   var globalKey = GlobalKey<FormState>();
 
   TextEditingController nameOfReceiver =

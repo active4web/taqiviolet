@@ -8,20 +8,23 @@ import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class InspirationCubit extends Cubit<InspirationStates> {
-  InspirationCubit() : super(InspirationInitialState());
+    InspirationCubit() : super(InspirationInitialState());
   static InspirationCubit get(context) => BlocProvider.of(context);
   InspirationModel? _inspirationModel;
   List<Data> inspirationData = [];
 
   void getInspirationData() async {
+    inspirationData = [];
     emit(GetInspirationLoadingState());
     await Mhelper.getData(
         url: inspiration,
-        query: {'lang': kLanguage})
+        query: {'lang': kLanguage},token: kToken)
         .then((value) async {
       _inspirationModel = InspirationModel.fromJson(value.data);
       inspirationData = _inspirationModel!.data!;
-      log(inspirationData[0].urlLink.toString());
+      print("hhhhhhhhhhhhhhhhhhhhhhhh");
+      log(inspirationData[0].hasFavorites.toString());
+      log(inspirationData[0].productName.toString());
       emit(GetInspirationSuccessState());
     }).catchError((error) {
       print("hhhhhhhhhhhhhhhhhhhhhhhh $error");
@@ -36,7 +39,6 @@ class InspirationCubit extends Cubit<InspirationStates> {
         data: {"product_id": prodId},
         token: kToken,
         query: {'lang': kLanguage}).then((value) {
-      log(value.data.toString());
       if (value.data['status']) {
         for (int i = 0; i < inspirationData.length; i++) {
           if (inspirationData[i].urlLink == prodId) {
@@ -53,6 +55,12 @@ class InspirationCubit extends Cubit<InspirationStates> {
         }
       }
     });
+  }
+
+  bool oneList=false;
+  changeShow(){
+    oneList=!oneList;
+    emit(ChangeShowState());
   }
   // void searchInspirationData({String searchQuery}) {
   //   inspirationData.forEach((element) {

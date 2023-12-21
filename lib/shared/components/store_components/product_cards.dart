@@ -48,17 +48,23 @@ class VerticalProductCard extends StatelessWidget {
 
           () {
         log("i click it prodect   $productId");
+        log("i click it prodect   $isFavourite");
         AppCubit appCubit = AppCubit.get(context);
         appCubit.getProductDetails(productId: productId);
+
         // cubit.getProductDetails(
         //   productId: productId,
         // );
         navigateTo(context, ProductDetailsScreen());
       },
       child: Card(
+        // color: Colors.white,
         elevation: 0,
         child: Container(
-
+          decoration: BoxDecoration(
+            border: Border.all(width: 0.3.w,color: Colors.grey.shade200),
+            borderRadius: BorderRadius.circular(10.r)
+          ),
           child: Stack(
             children: [
               Column(
@@ -69,7 +75,7 @@ class VerticalProductCard extends StatelessWidget {
                           imageUrl: "$image",
                           imageBuilder: (context, imageProvider) => Container(
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
+                              borderRadius: BorderRadius.circular(10.r),
                               image: DecorationImage(
                                 image: imageProvider,
                                 fit: BoxFit.contain,

@@ -12,6 +12,7 @@ import 'package:safsofa/shared/defaults.dart';
 import '../../models/ProductModel.dart';
 import '../../models/search_results_model.dart';
 import '../../network/local/cache_helper.dart';
+import '../inspirationCubit/inspiration_cubit.dart';
 
 part 'sub_cat_state.dart';
 
@@ -61,6 +62,7 @@ class SubCatCubit extends Cubit<SubCatState> {
       print(value.data!);
     }).catchError((err) {
       emit(ProductError());
+      print(err.toString());
     });
   }
 
@@ -73,20 +75,23 @@ class SubCatCubit extends Cubit<SubCatState> {
         query: {'lang': kLanguage}).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-        for (int i = 0; i < productFromCatList!.length; i++) {
-          if (productFromCatList![i].id == prodId) {
-            if (productFromCatList![i].hasFavorites == 0) {
-              productFromCatList![i].hasFavorites = 1;
-              emit(RemoveFromFavoriteSuccess());
-              break;
-            } else {
-              productFromCatList![i].hasFavorites = 0;
-              emit(ProductSuccess());
-              break;
-            }
-          }
-        }
+        emit(RemoveFromFavoriteSuccess());
+        // for (int i = 0; i < (productFromCatList?.length??1); i++) {
+        //   if (productFromCatList?[i].id == prodId) {
+        //     if (productFromCatList?[i].hasFavorites == 0) {
+        //       productFromCatList?[i].hasFavorites = 1;
+        //       emit(RemoveFromFavoriteSuccess());
+        //       break;
+        //     } else {
+        //       productFromCatList?[i].hasFavorites = 0;
+        //       emit(ProductSuccess());
+        //       break;
+        //     }
+        //   }
+        // }
 
+      }else{
+        print('error');
       }
     });
   }
@@ -153,7 +158,7 @@ class SubCatCubit extends Cubit<SubCatState> {
   void addFavProductToFavList(
       {required int listId,
       required int productId,
-      required BuildContext context,required index}) {
+      required BuildContext context,required index,productIndex}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -166,10 +171,13 @@ class SubCatCubit extends Cubit<SubCatState> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-         productFromCatList![index].hasFavorites = 1;
+         productFromCatList?[index].hasFavorites = 1;
+
+
         emit(AddToFavoriteSuccess());
         // getFavListData();
          Navigator.pop(context);
+
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
       }

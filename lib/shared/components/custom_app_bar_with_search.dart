@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../constants.dart';
 import 'custom_search_bar.dart';
@@ -42,9 +43,9 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(60)),
         ),
         title: Text(
-          "${title}",
+          "${title}",maxLines: 2,
           style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.normal, color: colorIcon),
+              fontSize: 16.sp, fontWeight: FontWeight.normal, color: colorIcon),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),

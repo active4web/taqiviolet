@@ -79,7 +79,7 @@ class DataProduct {
   int? id;
   String? name;
   String? nameSearch;
-  int? oldPrice;
+  num? oldPrice;
   dynamic currentPrice;
   String? details;
   String? quantity;

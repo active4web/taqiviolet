@@ -19,7 +19,7 @@ import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-
+import 'package:intl_phone_field/intl_phone_field.dart';
 import '../cubits/cartCubit/cart_cubit.dart';
 import '../network/local/cache_helper.dart';
 import '../shared/components/payment_component/payment_component.dart';
@@ -57,6 +57,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     PaymentMethod paymentMethod = PaymentMethod.onlinePayment;
 
     CartCubit cartCubit = CartCubit.get(context);
+
 
     // cartCubit.getAllLocationsOfCities();
     return BlocConsumer<AppCubit, AppStates>(
@@ -1026,10 +1027,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         SizedBox(width: 5.w,),
                         Expanded(
                           flex: 2,
-                          child: Column(
+                          child:
+                          Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-
                             children: [
+                              SizedBox(height: 0.h,),
                               Text(
                                 "Phone".tr(),
                                 style: TextStyle(
@@ -1038,31 +1040,81 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   fontWeight: FontWeight.w300,
                                 ),
                               ),
-                              CustomTextFormField(
+                              IntlPhoneField(
+                                showDropdownIcon: false,
                                 controller: cartCubit.phoneOfReceiver,
-                                fillColor: Colors.grey.shade500,
-                                hintColor: Colors.black,
-                                textColor: Colors.black,
-                                cursorColor: kDarkGoldColor,
-                                suffix: Container(
-                                  width: 20.w,
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(20.r)
-                                  ),
-                                  
-                                    child: Center(child: Text('966+'))),
+                                textAlign: TextAlign.end,
                                 keyboardType: TextInputType.phone,
-                                validate: (value) {
-                                  if (value!.isEmpty) {
-                                    return "thisFieldIsRequired".tr();
-                                  }
-
-                                  else if(value.length!=9){
-                                    return 'يجب ادخال رقم جوال صحيح';
-                                  }
+                                disableLengthCheck: false,
+                                flagsButtonPadding: EdgeInsets.symmetric(
+                                    vertical: 10.h,
+                                    horizontal:
+                                    8.w),
+                                style: TextStyle(
+                                    color: kCustomBlack, fontFamily: 'Tajawal'),
+                                dropdownDecoration: BoxDecoration(
+                                  color: const Color(0xffE8E8E8),
+                                  borderRadius: kLanguage != 'ar'
+                                      ? BorderRadius.only(
+                                    topLeft: Radius.circular(34),
+                                    bottomLeft: Radius.circular(34),
+                                  )
+                                      : BorderRadius.only(
+                                    topRight: Radius.circular(34),
+                                    bottomRight: Radius.circular(34),
+                                  ),
+                                ),
+                                decoration: InputDecoration(
+                                    contentPadding: EdgeInsets.symmetric(vertical: 15.h,horizontal: 10.w),
+                                    filled: true,
+                                    fillColor: const Color(0xffE8E8E8),
+                                    hintText: '56xxxxxxx',
+                                    enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(34)),
+                                    border: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(34)),
+                                    focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(color: Colors.white),
+                                        borderRadius: BorderRadius.circular(34))),
+                                onChanged: (phone) {
+                                  cartCubit.countryCode = phone.countryCode;
+                                  log('${phone.completeNumber}');
+                                  log('aaaaaaaaaaaaaaa${phone.countryCode}');
                                 },
-                              ),
+                                onSaved: (phone) {
+                                  cartCubit.phoneOfReceiver.text = phone!.completeNumber;
+                                },
+                                invalidNumberMessage:
+                                "pleaseEnterAValidMobileNumber".tr(),
+                                initialCountryCode: 'SA',
+                              )
+                              // CustomTextFormField(
+                              //   controller: cartCubit.phoneOfReceiver,
+                              //   fillColor: Colors.grey.shade500,
+                              //   hintColor: Colors.black,
+                              //   textColor: Colors.black,
+                              //   cursorColor: kDarkGoldColor,
+                              //   suffix: Container(
+                              //     width: 20.w,
+                              //     decoration: BoxDecoration(
+                              //       color: Colors.white,
+                              //       borderRadius: BorderRadius.circular(20.r)
+                              //     ),
+                              //
+                              //       child: Center(child: Text('966+'))),
+                              //   keyboardType: TextInputType.phone,
+                              //   validate: (value) {
+                              //     if (value!.isEmpty) {
+                              //       return "thisFieldIsRequired".tr();
+                              //     }
+                              //
+                              //     else if(value.length!=9){
+                              //       return 'يجب ادخال رقم جوال صحيح';
+                              //     }
+                              //   },
+                              // ),
                             ],
                           ),
                         ),
@@ -1205,7 +1257,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           total:
                               num.parse(cartCubit.newOrder?.data?.total ?? ''),
                           cartId: cartCubit.newOrder?.data?.id ?? '',
-                          phone: '966${cartCubit.phoneOfReceiver.text}',
+                          phone: '${cartCubit.countryCode}${cartCubit.phoneOfReceiver.text}',
                           name: cartCubit.nameOfReceiver.text,
                           address: cartCubit.addressOfReceiver.text,
                           country: cartCubit.selectedCountry,

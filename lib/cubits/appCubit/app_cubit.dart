@@ -419,7 +419,8 @@ Future<void>getHomeServices()async{
 
       productDetailsModel = MyProductsDetailsModel.fromJson(value.data);
       images=productDetailsModel?.data?.productDetails?[0].images;
-      // print("4444   ${productDetailsModel}");
+       print("4444   ${productDetailsModel}");
+      print(productDetailsModel?.data?.productDetails?[0].hasFavorites);
       // if (value.data["status"] == true) {
       //
       //

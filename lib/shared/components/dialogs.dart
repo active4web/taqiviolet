@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 Future<Future> displayLogoutDialog(
   BuildContext context,
   String title,
@@ -28,8 +29,8 @@ Future<Future> displayLogoutDialog(
                       style: TextStyle(fontFamily: "Tajawal", fontSize: 13))),
               CupertinoButton(
                   onPressed: () {
-                   Navigator.of(context).pop(true);
-                  },
+                    Navigator.of(context).pop(true);
+                    },
                   child: Text(
                       currentLanguage.languageCode == 'ar'
                           ? "اغلاق التطبيق"

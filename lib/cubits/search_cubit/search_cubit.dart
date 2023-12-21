@@ -40,7 +40,11 @@ class SearchCubit extends Cubit<SearchStates> {
 
   int? activeCatIndex;
   changeCatIndex({required int index}){
-    activeCatIndex=index;
+    if(activeCatIndex==index){
+      activeCatIndex=null;
+    }
+    else{
+    activeCatIndex=index;}
     emit(ChangeIndex());
   }
   void dropDownChoiceSelection(Data value) {
@@ -101,7 +105,10 @@ class SearchCubit extends Cubit<SearchStates> {
 
 int index=0;
   changeIndex({required int value}){
-    index=value;
+    if(index==value){
+      index=0;
+    }else{
+    index=value;}
     emit(ChangeIndex());
   }
   double? startValue;

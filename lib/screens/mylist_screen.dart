@@ -250,7 +250,7 @@ class _MyListScreenState extends State<MyListScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        cubit.listsModel!.data!.list!.isNotEmpty?
+                        cubit.listsModel?.data?.list?.isNotEmpty??cubit.listsModel?.data?.list!=null?
                         ListView.separated(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
