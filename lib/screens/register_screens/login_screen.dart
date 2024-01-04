@@ -60,14 +60,19 @@ class LoginScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding:EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                   child: Column(
                     children: [
-                      Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height:140.h,
-                        width: 160.w,
-                        fit: BoxFit.fill,
+                      Container(
+                        height: 160.h,
+                        width: 200.w,
+                        decoration: BoxDecoration(
+                        //  color: Color(0xff393846),
+                          image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: AssetImage('assets/images/logo.png',),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 40,

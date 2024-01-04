@@ -151,7 +151,7 @@
   "priceWithTheSmartControlFeature": "السعر خاصيه التحكم الذكي:",
   "chooseTheSmartControlFeature": "اختيار خاصية التحكم الذكي",
   "emptyCart": "ازالة",
-  "SAR": "RS",
+  "SAR": "SR",
   "shoppingCart": "سلة التسوق",
   "chooseAFile": "اختر ملف",
   "fieldNameAndPhoneAreRequired": "حقل الاسم و رقم الجوال مطلوب",
@@ -227,7 +227,7 @@
   "wallet": "المحفظة",
   "thisProductAlreadyInCart": "هذا المنتج موجود الفعل",
   "giftCard": "بطاقة هدية",
-  "rial": "RS",
+  "rial": "SR",
   "noInternet": "برجاء مراجعة شبكة الأنترنت الخاصة بك والتأكد من جاهزية الشبكة للعمل",
   "internet": "إنترنت",
   "noInternetBar": "لا انترنت",
@@ -357,7 +357,8 @@
   "atLeast6Char": "كلمة المرور يجب ان تتكون من ٦ احرف على الاقل",
   "updateTitle": "تحديث جديد",
   "updateDescription": "يجب تحديث التطبيق للاستمتاع ب المميزات الجديدة",
-  "update": "تحديث"
+  "update": "تحديث",
+  "applePay": "دفع عن طريق ابل"
 
 
 

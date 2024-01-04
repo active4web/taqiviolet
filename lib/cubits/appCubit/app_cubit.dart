@@ -85,10 +85,12 @@ class AppCubit extends Cubit<AppStates> {
   OffersModel? offer;
   Future<void>getOffers()async{
     emit(CheckOfferLoadingState());
-    final response=await Mhelper.getData(url: 'api/checkoffer');
+    final response=await Mhelper.getData(url: 'api/checkoffer',query: {
+      "lang":kLanguage
+    });
     if(response.data['status']){
       offer=OffersModel.fromJson(response.data);
-      print("hhhhhhhhhhhhhhhhhh ${offer?.data?.promoCodeName??''}");
+      // print("hhhhhhhhhhhhhhhhhh ${offer?.data?.promoCodeName??''}");
       emit(CheckOfferSuccessState());
 
     }else{

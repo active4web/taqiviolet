@@ -361,7 +361,8 @@
   "atLeast6Char": "The password must be at least 6 characters.",
   "updateTitle": "New Update",
   "updateDescription": "You must update the application to enjoy the new features.",
-  "update": "Update"
+  "update": "Update",
+  "applePay": "Apple Pay"
 
 
 

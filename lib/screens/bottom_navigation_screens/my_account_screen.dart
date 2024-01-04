@@ -15,6 +15,7 @@ import 'package:safsofa/screens/header_my_account/coupones.dart';
 import 'package:safsofa/screens/header_my_account/gift_card.dart';
 import 'package:safsofa/screens/my_profile_screen.dart';
 import 'package:safsofa/screens/register_screens/login_screen.dart';
+import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/dialogs.dart';
@@ -57,87 +58,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       return true;
                     },
                     child: Scaffold(
-                      appBar: PreferredSize(
-                        preferredSize: Size.fromHeight(70.h),
-                        child: AppBar(
-                          // title: Text("${title}"),
-                          backgroundColor: Color(0xff393846),
-                          systemOverlayStyle: SystemUiOverlayStyle(
-                              statusBarColor: Color(0xff393846),
-                              statusBarIconBrightness: Brightness.light),
-
-                          ///Color(),// Colors.white,
-                          elevation: 0,
-                          titleTextStyle: TextStyle(
-                              color: kLightGoldColor,
-                              fontFamily: 'Tajawal',
-                              fontSize: 12.sp),
-                          shape: ContinuousRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                              bottomRight: Radius.circular(60),
-                              bottomLeft: Radius.circular(60),
-                            ),
-                          ),
-                          title: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "${cubit.myAccountData?.data?.userProfile?.name}",
-                                style: TextStyle(
-                                      color: kLightGoldColor, fontSize: 10.sp),
-                              ),
-
-                              cubit.myAccountData?.data?.userProfile?.email !=
-                                      null
-                                  ? Text(
-                                      "${cubit.myAccountData?.data?.userProfile?.email}",
-                                      style: TextStyle(
-                                          color: kLightGoldColor, fontSize: 10.sp),
-                                    )
-                                  : Text(
-                                      cubit.myAccountData?.data?.userProfile
-                                          ?.phone,
-                                      style: TextStyle(
-                                          color: kLightGoldColor, fontSize: 10.sp),
-                                    ),
-                              /*      Row(
-                                children: [
-                                  Text(
-                                    "${cubit.myAccountData?.data?.userProfile?.email}" ??
-                                        '',
-                                    style: TextStyle(
-                                        color: kLightGoldColor,
-                                        fontSize: 12),
-                                  ),
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  Text(
-                                    cubit.myAccountData?.data
-                                        ?.userProfile?.phone ??
-                                        '',
-                                    style: TextStyle(
-                                        color: kLightGoldColor,
-                                        fontSize: 12),
-                                  ),
-                                ],
-                              )*/
-                            ],
-                          ),
-                          iconTheme: IconThemeData(color: kLightGoldColor),
-                          actions: [
-                            Padding(
-                              padding:
-                                   EdgeInsets.symmetric(horizontal: 10.w),
-                              child: Image(
-                                image:
-                                    AssetImage('assets/images/logoheader.png'),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
+                      appBar: CustomAppBar(title: cubit.myAccountData?.data?.userProfile?.name,
+                      title2:cubit.myAccountData?.data?.userProfile?.phone ),
                       body: SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Padding(

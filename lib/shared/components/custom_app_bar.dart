@@ -9,11 +9,13 @@ import '../constants.dart';
 class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
   const CustomAppBar({
     this.title,
+    this.title2,
     this.icon,
 
   }) ;
 
   final String? title;
+  final String? title2;
   final Widget? icon;
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,17 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
       child: AppBar(
         leading: icon,
         toolbarHeight: MediaQuery.of(context).size.height / 10,
-        leadingWidth: 80.w,
-        title: Text("${title}",maxLines: 2,),
+        leadingWidth: 80,
+
+        title: Column(
+          mainAxisSize: MainAxisSize.min,
+
+          children: [
+            Text("${title}",maxLines: 2,),
+            if(title2!=null)
+            Text("${title2}",maxLines: 2,),
+          ],
+        ),
         backgroundColor: Color(0xff393846),
         systemOverlayStyle: SystemUiOverlayStyle(
             statusBarColor: Color(0xff393846),
@@ -45,12 +56,12 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Image(
-              fit: BoxFit.fill,
+              //fit: BoxFit.fill,
               image: AssetImage('assets/images/CjNXMk2j7aZvFbC5k5LbDOoBhYylZTRxrSx4jSVU.png',
 
               ),
-              height: 70.h,
-              width: 70.w,
+              height: 70,
+              width: 70,
             ),
           )
         ],
@@ -61,7 +72,7 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(70.h);
+  Size get preferredSize => Size.fromHeight(70);
 }
 
 class CustomMainAppBar extends StatelessWidget implements  PreferredSizeWidget {

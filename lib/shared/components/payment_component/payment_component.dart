@@ -57,42 +57,15 @@ class PaymentComponent extends StatefulWidget {
 
 class _PaymentComponentState extends State<PaymentComponent> {
 
-  Future<void> applePayPressed() async {
 
-    var configuration = PaymentSdkConfigurationDetails(
-        profileId: "*Profile id*",
-        serverKey: "*server key*",
-        clientKey: "*client key*",
-        cartId: widget.cartId,
-        cartDescription: "Flowers",
-        merchantName: "Flowers Store",
-        amount: widget.total.toDouble(),
-        currencyCode: "AED",
-        merchantCountryCode: "ae",
-        merchantApplePayIndentifier: "merchant.com.bunldeId",
-        simplifyApplePayValidation: true);
-    FlutterPaytabsBridge.startApplePayPayment(configuration, (event) {
-      setState(() {
-        if (event["status"] == "success") {
-          // Handle transaction details here.
-          var transactionDetails = event["data"];
-          print(transactionDetails);
-        } else if (event["status"] == "error") {
-          // Handle error here.
-        } else if (event["status"] == "event") {
-          // Handle events here.
-        }
-      });
-    });
-  }
 
   Widget applePayButton() {
     if (Platform.isIOS) {
       return TextButton(
         onPressed: () {
-          applePayPressed();
+          //applePayPressed();
         },
-        child: Text('Pay with Apple Pay'),
+        child: Text("applePay".tr()),
       );
     }
     return SizedBox(height: 0);
@@ -123,46 +96,133 @@ class _PaymentComponentState extends State<PaymentComponent> {
 
           return AnimatedConditionalBuilder(
               condition: true,
-              builder: (context) => TextButton(
-                    onPressed: () {
-                      CartCubit.get(context).globalKey.currentState?.validate();
-                      print("country: ${widget.country?.refCode}");
-                      print("city  : ${widget.city?.nameCity}");
-                      if(CartCubit.get(context).globalKey.currentState!.validate()){
-                        cubit.payPressed(
-                            billingDetailsData: BillingDetails(
-                                widget.name,
-                                widget.email,
-                                widget.phone,
-                                widget.address,
-                                widget.country?.refCode??'',
-                                widget.city?.nameCity??'ca',
-                                widget.city?.nameCity??'ca',
-                                widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
-                            shippingDetailsData: ShippingDetails(
-                                widget.name,
-                                widget.email,
-                                widget.phone,
-                                widget.address,
-                                widget.country?.refCode??'eg',
-                                widget.city?.nameCity??'ca',
-                                widget.city?.nameCity??'ca',
-                                widget.zipCode));
-                      }
-                    },
-                    child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(vertical: 10.h),
-                        decoration: BoxDecoration(
-                            color: kCustomBlack,
-                            borderRadius: BorderRadius.circular(20.r)),
-                        child: Center(
-                          child:state is PaymentLoadingState? CustomCircularProgress():Text(
-                            'orderNow'.tr(),
-                            style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
-                          ),
-                        )),
-                  ),
+              builder: (context) => Column(
+                children: [
+                  TextButton(
+                        onPressed: () {
+                          CartCubit.get(context).globalKey.currentState?.validate();
+                          print("country: ${widget.country?.refCode}");
+                          print("city  : ${widget.city?.nameCity}");
+                          if(CartCubit.get(context).globalKey.currentState!.validate()){
+                            cubit.payPressed(
+                                billingDetailsData: BillingDetails(
+                                    widget.name,
+                                    widget.email,
+                                    widget.phone,
+                                    widget.address,
+                                    widget.country?.refCode??'',
+                                    widget.city?.nameCity??'ca',
+                                    widget.city?.nameCity??'ca',
+                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
+                                shippingDetailsData: ShippingDetails(
+                                    widget.name,
+                                    widget.email,
+                                    widget.phone,
+                                    widget.address,
+                                    widget.country?.refCode??'eg',
+                                    widget.city?.nameCity??'ca',
+                                    widget.city?.nameCity??'ca',
+                                    widget.zipCode));
+                          }
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            decoration: BoxDecoration(
+                                color: kCustomBlack,
+                                borderRadius: BorderRadius.circular(20.r)),
+                            child: Center(
+                              child:state is PaymentLoadingState? CustomCircularProgress():Text(
+                                'orderNow'.tr(),
+                                style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
+                              ),
+                            )),
+                      ),
+                  TextButton(
+                        onPressed: () {
+                          CartCubit.get(context).globalKey.currentState?.validate();
+                          print("country: ${widget.country?.refCode}");
+                          print("city  : ${widget.city?.nameCity}");
+                          print("phone  : ${ widget.phone}");
+                          if(CartCubit.get(context).globalKey.currentState!.validate()){
+                            cubit.apmsPayPressed(
+                                billingDetailsData: BillingDetails(
+                                    widget.name,
+                                    widget.email,
+                                   "0540402971",
+                                    widget.address,
+                                    widget.country?.refCode??'',
+                                    widget.city?.nameCity??'ca',
+                                    widget.city?.nameCity??'ca',
+                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
+                                shippingDetailsData: ShippingDetails(
+                                    widget.name,
+                                    widget.email,
+                                    "0540402971",
+                                    widget.address,
+                                    widget.country?.refCode??'eg',
+                                    widget.city?.nameCity??'ca',
+                                    widget.city?.nameCity??'ca',
+                                    widget.zipCode));
+                          }
+                        },
+                        child: Container(
+                            width: double.infinity,
+                            padding: EdgeInsets.symmetric(vertical: 10.h),
+                            decoration: BoxDecoration(
+                                color: kCustomBlack,
+                                borderRadius: BorderRadius.circular(20.r)),
+                            child: Center(
+                              child:state is PaymentLoadingState? CustomCircularProgress():Text(
+                                'applePay'.tr(),
+                                style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
+                              ),
+                            )),
+                      ),
+                  // TextButton(
+                  //       onPressed: () {
+                  //         CartCubit.get(context).globalKey.currentState?.validate();
+                  //         print("country: ${widget.country?.refCode}");
+                  //         print("city  : ${widget.city?.nameCity}");
+                  //         print("phone  : ${ widget.phone}");
+                  //         if(CartCubit.get(context).globalKey.currentState!.validate()){
+                  //           cubit.payWithTabby(
+                  //               billingDetailsData: BillingDetails(
+                  //                   widget.name,
+                  //                   widget.email,
+                  //                  "0540402971",
+                  //                   widget.address,
+                  //                   widget.country?.refCode??'',
+                  //                   widget.city?.nameCity??'ca',
+                  //                   widget.city?.nameCity??'ca',
+                  //                   widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
+                  //               shippingDetailsData: ShippingDetails(
+                  //                   widget.name,
+                  //                   widget.email,
+                  //                   "0540402971",
+                  //                   widget.address,
+                  //                   widget.country?.refCode??'eg',
+                  //                   widget.city?.nameCity??'ca',
+                  //                   widget.city?.nameCity??'ca',
+                  //                   widget.zipCode));
+                  //         }
+                  //       },
+                  //       child: Container(
+                  //           width: double.infinity,
+                  //           padding: EdgeInsets.symmetric(vertical: 10.h),
+                  //           decoration: BoxDecoration(
+                  //               color: kCustomBlack,
+                  //               borderRadius: BorderRadius.circular(20.r)),
+                  //           child: Center(
+                  //             child:state is PaymentLoadingState? CustomCircularProgress():Text(
+                  //               'tabby'.tr(),
+                  //               style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
+                  //             ),
+                  //           )),
+                  //     ),
+
+                ],
+              ),
               fallback: (context) => TextButton(
                     onPressed: () {},
                     child: Text("Cancel Payment"),
