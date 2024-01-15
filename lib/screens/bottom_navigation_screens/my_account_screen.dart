@@ -1,7 +1,6 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
@@ -10,7 +9,8 @@ import 'package:safsofa/cubits/gify_cubit/gift_cubit.dart';
 
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/my_orders_screen.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/orders_section/order_details.dart';
-import 'package:safsofa/screens/header_my_account/check_balance_gift_card.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/pending_orders_screen.dart';
+
 import 'package:safsofa/screens/header_my_account/coupones.dart';
 import 'package:safsofa/screens/header_my_account/gift_card.dart';
 import 'package:safsofa/screens/my_profile_screen.dart';
@@ -33,12 +33,12 @@ class MyAccountScreen extends StatefulWidget {
 }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
-
   @override
   void initState() {
-    if(kToken!=null){
-    GiftCubit.get(context).showCouponsData();
-    AppCubit.get(context).getUserAccountData();}
+    if (kToken != null) {
+      GiftCubit.get(context).showCouponsData();
+      AppCubit.get(context).getUserAccountData();
+    }
     super.initState();
   }
 
@@ -49,7 +49,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       builder: (context, state) {
         return kToken == null
             ? LoginScreen()
-            : state is GetAccountDataSuccessState ||
+            : AppCubit.get(context).myAccountData!=null ||
                     state is GetFavoritesListLoading
                 ? WillPopScope(
                     onWillPop: () async {
@@ -58,58 +58,80 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       return true;
                     },
                     child: Scaffold(
-                      appBar: CustomAppBar(title: cubit.myAccountData?.data?.userProfile?.name,
-                      title2:cubit.myAccountData?.data?.userProfile?.phone ),
+                      appBar: CustomAppBar(
+                          title: cubit.myAccountData?.data?.userProfile?.name,
+                          title2:
+                              cubit.myAccountData?.data?.userProfile?.phone),
                       body: SingleChildScrollView(
                         physics: BouncingScrollPhysics(),
                         child: Padding(
-                          padding:  EdgeInsets.symmetric(horizontal: 22.w,vertical: 5.h),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 22.w, vertical: 5.h),
                           child: Column(
                             children: [
                               Row(
                                 children: [
                                   Expanded(
                                     child: InkWell(
-                                      onTap: (){
-                                        navigateTo(
-                                            context, CouponesScreen());
+                                      onTap: () {
+                                        navigateTo(context, CouponesScreen());
                                       },
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
-                                          SizedBox(height: 5.h,),
-                                          Text(GiftCubit.get(context).couponsModel?.data?.couponLists!.length.toString()??'0',
-                                              style: TextStyle(fontSize: 14.sp)),
-                                          SizedBox(height: 5.h,),
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
+                                          Text(
+                                              GiftCubit.get(context)
+                                                      .couponsModel
+                                                      ?.data
+                                                      ?.couponLists!
+                                                      .length
+                                                      .toString() ??
+                                                  '0',
+                                              style:
+                                                  TextStyle(fontSize: 14.sp)),
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
                                           Text('coupons'.tr(),
-                                              style: TextStyle(fontSize: 14.sp)),
+                                              style:
+                                                  TextStyle(fontSize: 14.sp)),
                                         ],
                                       ),
                                     ),
                                   ),
                                   Expanded(
                                     child: InkWell(
-                                      onTap: (){
+                                      onTap: () {
                                         // navigateTo(
                                         //     context, MyCouponsScreen());
                                       },
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
                                             children: [
                                               Text(
-                                                  '${cubit.myAccountData?.data?.bonus=="" ? 0 : cubit.myAccountData?.data?.bonus} ',
-                                                  style: TextStyle(fontSize: 14.sp)),
-                                              Text(
-                                                  '${ "rial".tr()}',
-                                                  style: TextStyle(fontSize: 14.sp)),
+                                                  '${cubit.myAccountData?.data?.bonus == "" ? 0 : cubit.myAccountData?.data?.bonus} ',
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp)),
+                                              Text('${"rial".tr()}',
+                                                  style: TextStyle(
+                                                      fontSize: 14.sp)),
                                             ],
                                           ),
-                                          SizedBox(height: 5.h,),
+                                          SizedBox(
+                                            height: 5.h,
+                                          ),
                                           Text('cashback'.tr(),
-                                              style: TextStyle(fontSize: 14.sp)),
+                                              style:
+                                                  TextStyle(fontSize: 14.sp)),
                                         ],
                                       ),
                                     ),
@@ -142,7 +164,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       },
                                       child: Column(
                                         children: [
-                                          Icon(Icons.credit_card,size: 18.w,),
+                                          Icon(
+                                            Icons.credit_card,
+                                            size: 18.w,
+                                          ),
                                           SizedBox(
                                             height: 5.h,
                                           ),
@@ -202,7 +227,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                     ),
                                   ),
 
-                       /*           Expanded(
+                                  /*           Expanded(
                                     child: TextChip(
                                       text: 'Favourites'.tr(),
                                       onTap: () {
@@ -210,7 +235,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                       },
                                     ),
                                   ),*/
-                            /*      Expanded(
+                                  /*      Expanded(
                                     child: TextChip(
                                       text:
                                           '${'myList'.tr()} (${cubit.myAccountData?.data?.myList?.length})',
@@ -256,25 +281,26 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                               SizedBox(
                                 height: 5.h,
                               ),
-                              if(CacheHelper.getData('type')==0||CacheHelper.getData('type')==2)
-                              Row(
-                                children: [
-
-                                  Expanded(
-                                    child: TextChip(
-                                        text: 'reports'.tr(),
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      PartnerScreen()));
-                                          /*  cubit.getUserAccountData(
+                              if (CacheHelper.getData('type') == 0 ||
+                                  CacheHelper.getData('type') == 2 ||
+                                  CacheHelper.getData('type') == 3)
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextChip(
+                                          text: 'reports'.tr(),
+                                          onTap: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        PartnerScreen()));
+                                            /*  cubit.getUserAccountData(
                                               loading: false);*/
-                                        }),
-                                  ),
-                                ],
-                              ),
+                                          }),
+                                    ),
+                                  ],
+                                ),
                               // Padding(
                               //   padding: EdgeInsets.symmetric(
                               //       horizontal:
@@ -349,150 +375,155 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                                         SizedBox(
                                           height: 10.h,
                                         ),
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 20, vertical: 10),
-                                          decoration: BoxDecoration(
-                                              color: Color(0xfff4f4f4),
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Column(
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  cubit
-                                                              .myAccountData
-                                                              ?.data
-                                                              ?.lastOrder
-                                                              ?.createdAt !=
-                                                          null
-                                                      ? Text(
-                                                          '${cubit.myAccountData?.data?.lastOrder?.createdAt.toString().substring(0, 10)}',
-                                                  style: TextStyle(
-                                                    fontSize: 9.sp
-                                                  ),)
-                                                      : SizedBox(),
-                                                  //TODO : NAVIGATOR TO DETAILS
-                                                  InkWell(
-                                                    onTap: () {
-                                                      print("object");
-                                                      navigateTo(
-                                                          context,
-                                                          OrderDetailsSCR(
-                                                            id: cubit
-                                                                .myAccountData
-                                                                ?.data
-                                                                ?.lastOrder
-                                                                ?.id,
-                                                          ));
-                                                    },
-                                                    child: Container(
-                                                      height: 30.h,
-                                                      decoration: BoxDecoration(
-                                                          color: kCustomBlack,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      15.r)),
-                                                      child: Center(
-                                                        child: Padding(
-                                                          padding:
-                                                               EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      20.r),
-                                                          child: Text(
-                                                            'Details'.tr(),
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white,
-                                                                fontSize: 10.sp,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                              SizedBox(
-                                                height: 20.h,
-                                              ),
-                                              cubit
-                                                          .myAccountData
-                                                          ?.data
-                                                          ?.lastOrder
-                                                          ?.codeOrder !=
-                                                      null
-                                                  ? Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.35,
-                                                          child: Text(
-                                                            'OrderNumber'.tr(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 12.sp),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '#${cubit.myAccountData?.data?.lastOrder?.codeOrder}',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontSize: 12.sp),
-                                                        )
-                                                      ],
-                                                    )
-                                                  : SizedBox(),
-                                              SizedBox(
-                                                height: 10,
-                                              ),
-                                              cubit
-                                                          .myAccountData
-                                                          ?.data
-                                                          ?.lastOrder
-                                                          ?.deliveryDate !=
-                                                      null
-                                                  ? Row(
-                                                      children: [
-                                                        SizedBox(
-                                                          width: MediaQuery.of(
-                                                                      context)
-                                                                  .size
-                                                                  .width *
-                                                              0.35,
-                                                          child: Text(
-                                                            'DeliveryTime'.tr(),
-                                                            style: TextStyle(
-                                                                color:
-                                                                    Colors.grey,
-                                                                fontSize: 12.sp),
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '${cubit.myAccountData?.data?.lastOrder?.deliveryDate}',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey,
-                                                              fontSize: 12),
-                                                        )
-                                                      ],
-                                                    )
-                                                  : SizedBox(),
-                                            ],
-                                          ),
+                                        if(cubit.myAccountData?.data?.lastOrder!=null)
+                                        CustomOrder(
+                                          myOrdersData: cubit.myAccountData!.data!.lastOrder!,
                                         ),
+                                        // Container(
+                                        //   padding: EdgeInsets.symmetric(
+                                        //       horizontal: 20, vertical: 10),
+                                        //   decoration: BoxDecoration(
+                                        //       color: Color(0xfff4f4f4),
+                                        //       borderRadius:
+                                        //           BorderRadius.circular(10)),
+                                        //   child: Column(
+                                        //     children: [
+                                        //       Row(
+                                        //         mainAxisAlignment:
+                                        //             MainAxisAlignment
+                                        //                 .spaceBetween,
+                                        //         children: [
+                                        //           cubit
+                                        //                       .myAccountData
+                                        //                       ?.data
+                                        //                       ?.lastOrder
+                                        //                       ?.createdAt !=
+                                        //                   null
+                                        //               ? Text(
+                                        //                   '${cubit.myAccountData?.data?.lastOrder?.createdAt.toString().substring(0, 10)}',
+                                        //                   style: TextStyle(
+                                        //                       fontSize: 9.sp),
+                                        //                 )
+                                        //               : SizedBox(),
+                                        //           //TODO : NAVIGATOR TO DETAILS
+                                        //           InkWell(
+                                        //             onTap: () {
+                                        //               print("object");
+                                        //               navigateTo(
+                                        //                   context,
+                                        //                   OrderDetailsSCR(
+                                        //                     id: cubit
+                                        //                         .myAccountData
+                                        //                         ?.data
+                                        //                         ?.lastOrder
+                                        //                         ?.id,
+                                        //                   ));
+                                        //             },
+                                        //             child: Container(
+                                        //               height: 30.h,
+                                        //               decoration: BoxDecoration(
+                                        //                   color: kCustomBlack,
+                                        //                   borderRadius:
+                                        //                       BorderRadius
+                                        //                           .circular(
+                                        //                               15.r)),
+                                        //               child: Center(
+                                        //                 child: Padding(
+                                        //                   padding: EdgeInsets
+                                        //                       .symmetric(
+                                        //                           horizontal:
+                                        //                               20.r),
+                                        //                   child: Text(
+                                        //                     'Details'.tr(),
+                                        //                     style: TextStyle(
+                                        //                         color: Colors
+                                        //                             .white,
+                                        //                         fontSize: 10.sp,
+                                        //                         fontWeight:
+                                        //                             FontWeight
+                                        //                                 .bold),
+                                        //                   ),
+                                        //                 ),
+                                        //               ),
+                                        //             ),
+                                        //           )
+                                        //         ],
+                                        //       ),
+                                        //       SizedBox(
+                                        //         height: 20.h,
+                                        //       ),
+                                        //       cubit
+                                        //                   .myAccountData
+                                        //                   ?.data
+                                        //                   ?.lastOrder
+                                        //                   ?.codeOrder !=
+                                        //               null
+                                        //           ? Row(
+                                        //               children: [
+                                        //                 SizedBox(
+                                        //                   width: MediaQuery.of(
+                                        //                               context)
+                                        //                           .size
+                                        //                           .width *
+                                        //                       0.35,
+                                        //                   child: Text(
+                                        //                     'OrderNumber'.tr(),
+                                        //                     style: TextStyle(
+                                        //                         color:
+                                        //                             Colors.grey,
+                                        //                         fontSize:
+                                        //                             12.sp),
+                                        //                   ),
+                                        //                 ),
+                                        //                 Text(
+                                        //                   '#${cubit.myAccountData?.data?.lastOrder?.codeOrder}',
+                                        //                   style: TextStyle(
+                                        //                       color:
+                                        //                           Colors.grey,
+                                        //                       fontSize: 12.sp),
+                                        //                 )
+                                        //               ],
+                                        //             )
+                                        //           : SizedBox(),
+                                        //       SizedBox(
+                                        //         height: 10,
+                                        //       ),
+                                        //       cubit
+                                        //                   .myAccountData
+                                        //                   ?.data
+                                        //                   ?.lastOrder
+                                        //                   ?.deliveryDate !=
+                                        //               null
+                                        //           ? Row(
+                                        //               children: [
+                                        //                 SizedBox(
+                                        //                   width: MediaQuery.of(
+                                        //                               context)
+                                        //                           .size
+                                        //                           .width *
+                                        //                       0.35,
+                                        //                   child: Text(
+                                        //                     'DeliveryTime'.tr(),
+                                        //                     style: TextStyle(
+                                        //                         color:
+                                        //                             Colors.grey,
+                                        //                         fontSize:
+                                        //                             12.sp),
+                                        //                   ),
+                                        //                 ),
+                                        //                 Text(
+                                        //                   '${cubit.myAccountData?.data?.lastOrder?.deliveryDate}',
+                                        //                   style: TextStyle(
+                                        //                       color:
+                                        //                           Colors.grey,
+                                        //                       fontSize: 12),
+                                        //                 )
+                                        //               ],
+                                        //             )
+                                        //           : SizedBox(),
+                                        //     ],
+                                        //   ),
+                                        // ),
                                         SizedBox(
                                           height: 20,
                                         ),

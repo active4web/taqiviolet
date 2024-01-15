@@ -87,15 +87,15 @@ class CurrentOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                cubit.changeStatus(orderId: cubit.currentOrderModel!.data![index].id!, status: cubit.currentOrderModel?.data?[index].status=='1'?2:3);
+                                cubit.changeStatus(orderId: num.parse(cubit.currentOrderModel!.data![index].id!.toString()), status: cubit.currentOrderModel?.data?[index].status=='6'?3:4);
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5.r),
-                                    color:cubit.currentOrderModel?.data?[index].status=='1'? kCustomBlack:Colors.green.shade900),
+                                    color:cubit.currentOrderModel?.data?[index].status=='6'? kCustomBlack:Colors.green.shade900),
                                 child:Text(
-                                 cubit.currentOrderModel?.data?[index].status=='1'? 'جاري التجهيز':'جاري التوصيل',
+                                 cubit.currentOrderModel?.data?[index].status=='6'? 'جاري التجهيز':'جاري التوصيل',
                                   style: TextStyle(color: Colors.white,                                      fontSize: 11.sp,
                                   ),
 

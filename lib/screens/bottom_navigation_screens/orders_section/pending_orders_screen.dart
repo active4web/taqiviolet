@@ -20,7 +20,7 @@ class PendingOrdersScreen extends StatelessWidget {
     return BlocConsumer<MyOrdersCubit, MyOrdersState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return /*cubit.waitingOrders == null &&*/ state is! MyOrdersSuccessState
+        return cubit.waitingOrders == null
             ? Center(
                 child: CircularProgressIndicator(),
               )
@@ -224,7 +224,7 @@ class CustomOrder extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text('رقم الطلب: ',style: TextStyle(
+                    Text('${'OrderNumber'.tr()}: ',style: TextStyle(
                       fontSize: 11.sp,
                         fontWeight: FontWeight.bold
                     ),),
@@ -235,7 +235,7 @@ class CustomOrder extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('اجمالي الطلب: ',style: TextStyle(
+                    Text('${'orderTotal'.tr()}: ',style: TextStyle(
                         fontWeight: FontWeight.bold,
                       fontSize: 11.sp
                     ),),
@@ -246,7 +246,7 @@ class CustomOrder extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('عدد المنتجات: ',style: TextStyle(
+                    Text('${"productsNumber".tr()}: ',style: TextStyle(
                         fontWeight: FontWeight.bold,
                       fontSize: 11.sp
                     ),),
@@ -257,11 +257,11 @@ class CustomOrder extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('تاريخ الطلب: ',style: TextStyle(
+                    Text('${'orderDate'.tr()}: ',style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 11.sp
                     ),),
-                    Expanded(child: Text(myOrdersData?.orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,
+                    Expanded(child: Text(myOrdersData?.date!=null?myOrdersData?.date??'':myOrdersData?.orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 11.sp
                     ),)),
@@ -282,7 +282,7 @@ class CustomOrder extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5.r),
                       color: kCustomBlack),
                   child: Text(
-                   status==1?'جاري تجهيزه' :status==2?'تم توصيله':status==4?"معلق":'قيد التجهيز',
+                   status==1?'جاري تجهيزه' :status==2?'تم توصيله':status==4?"معلق":'preparing'.tr(),
                     style: TextStyle(color: Colors.white),
                   ),
                 ),
@@ -292,10 +292,10 @@ class CustomOrder extends StatelessWidget {
               ),
               TextButton(onPressed: (){
                 navigateTo(context, OrderDetailsSCR(
-                  id: myOrdersData?.id,
+                  id: int.parse(myOrdersData?.id.toString()??''),
                 ));
               }, child: Text(
-                'تفاصيل الطلب',style: TextStyle(
+                'OrderDetails'.tr(),style: TextStyle(
                   color: kCustomBlack,fontWeight: FontWeight.bold,
                   fontSize: 11.sp
               ),

@@ -358,7 +358,12 @@
   "updateTitle": "تحديث جديد",
   "updateDescription": "يجب تحديث التطبيق للاستمتاع ب المميزات الجديدة",
   "update": "تحديث",
-  "applePay": "دفع عن طريق ابل"
+  "applePay": "دفع عن طريق ابل",
+  "previous": "السابقة",
+  "searchResult": "نتيجة البحث",
+  "orderTotal": "اجمالي الطلب",
+  "productsNumber": "عدد المنتجات",
+  "orderDate": "تاريخ الطلب"
 
 
 

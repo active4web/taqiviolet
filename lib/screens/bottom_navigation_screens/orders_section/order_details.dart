@@ -201,6 +201,13 @@ class OrderDetailsSCR extends StatelessWidget {
                         SizedBox(
                           height: 20,
                         ),
+                        Text("deliveryData".tr()),
+                        Text('${'theName'.tr()}: ${cubit.orderDetails?.data?.orderDetails?.username??''}',style: TextStyle(
+                        fontSize:  10.sp
+                        ),),
+                        Text('${'Phone'.tr()}: ${cubit.orderDetails?.data?.orderDetails?.userphone??''}',style: TextStyle(
+                          fontSize: 10.sp
+                        ),),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -219,18 +226,22 @@ class OrderDetailsSCR extends StatelessWidget {
                                 : Wrap(
                                     direction: Axis.horizontal,
                                     children: [
-                                      Image(
-                                        height: 45.h,
-                                        width: 45.w,
-                                        image: AssetImage(
-                                            'assets/images/visa.png'),
-                                      ),
-                                      Image(
-                                        height: 45.h,
-                                        width: 45.w,
-                                        image: AssetImage(
-                                            'assets/images/master_card.png'),
-                                      ),
+
+                                      Text('اونلاين',style: TextStyle(
+                                        fontSize: 10.sp
+                                      ),)
+                                      // Image(
+                                      //   height: 45.h,
+                                      //   width: 45.w,
+                                      //   image: AssetImage(
+                                      //       'assets/images/visa.png'),
+                                      // ),
+                                      // Image(
+                                      //   height: 45.h,
+                                      //   width: 45.w,
+                                      //   image: AssetImage(
+                                      //       'assets/images/master_card.png'),
+                                      // ),
                                     ],
                                   ),
                           ],

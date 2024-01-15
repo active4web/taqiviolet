@@ -7,6 +7,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../shared/components/custom_text_form_field.dart';
 import '../../../shared/constants.dart';
 import 'package:easy_localization/easy_localization.dart';
+
+import '../../new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 class CashBack extends StatelessWidget {
   const CashBack({super.key});
 
@@ -42,6 +44,34 @@ class CashBack extends StatelessWidget {
               ),
               if (cubit.myCartModel!.data!.cashback != 0)
                 CustomTextFormField(
+                  suffix: InkWell(
+                    onTap: () {
+                      if (CartCubit.get(context).cashback.text.isNotEmpty) {
+                        if(cubit.cashFormKey.currentState!.validate())
+                        CartCubit.get(context).checkCachBack();
+                      }
+                    },
+                    child: Container(
+                      width: 90.w,
+
+                      child: Center(
+                        child: state is CheckPromoLoadingState
+                            ? CustomCircularProgress()
+                            : state is CacheBackSuccessState
+                            ? Text(
+                          'تم التفعيل',
+                          style: TextStyle(color: kLightGoldColor),
+                        )
+                            : Text(
+                          'Redeem'.tr(),
+                          style: TextStyle(color: kLightGoldColor),
+                        ),
+                      ),
+                      decoration: BoxDecoration(
+                          color: kCustomBlack,
+                          borderRadius: BorderRadius.circular(30)),
+                    ),
+                  ),
                   controller: cubit.cashback,
                   fillColor: Colors.grey.shade500,
                   hintColor: Colors.black,
@@ -56,8 +86,7 @@ class CashBack extends StatelessWidget {
                     }
                   },
                   onChanged: (value){
-                    if(value.length>0){
-                    cubit.cashFormKey.currentState?.validate();}
+
                   },
                 ),
             ],

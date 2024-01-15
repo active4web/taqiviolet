@@ -23,6 +23,31 @@ class MakeNewOrderModel {
 }
 
 class Data {
+  Order? order;
+  Order? lastOrder;
+
+  Data({this.order, this.lastOrder});
+
+  Data.fromJson(Map<String, dynamic> json) {
+    order = json['order'] != null ? new Order.fromJson(json['order']) : null;
+    lastOrder = json['last_order'] != null
+        ? new Order.fromJson(json['last_order'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.order != null) {
+      data['order'] = this.order!.toJson();
+    }
+    if (this.lastOrder != null) {
+      data['last_order'] = this.lastOrder!.toJson();
+    }
+    return data;
+  }
+}
+
+class Order {
   String? id;
   String? codeOrder;
   String? paymentStatus;
@@ -40,12 +65,18 @@ class Data {
   String? paymentRefCode;
   String? stateName;
   String? rateStatus;
+  String? rateComment;
   String? deliveryDate;
   String? cashBackAmount;
   String? cardId;
+  String? email;
+  String? countryId;
   String? amount;
+  String? createdAt;
+  String? updatedAt;
+  dynamic productsCount;
 
-  Data(
+  Order(
       {this.id,
         this.codeOrder,
         this.paymentStatus,
@@ -63,12 +94,18 @@ class Data {
         this.paymentRefCode,
         this.stateName,
         this.rateStatus,
+        this.rateComment,
         this.deliveryDate,
         this.cashBackAmount,
         this.cardId,
-        this.amount});
+        this.amount,
+        this.createdAt,
+        this.updatedAt,
+        this.productsCount,
+      this.email,
+      this.countryId});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Order.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     codeOrder = json['code_order'];
     paymentStatus = json['payment_status'];
@@ -86,10 +123,16 @@ class Data {
     paymentRefCode = json['payment_ref_code'];
     stateName = json['state_name'];
     rateStatus = json['rate_status'];
+    rateComment = json['rate_comment'];
     deliveryDate = json['delivery_date'];
     cashBackAmount = json['cash_back_amount'];
     cardId = json['card_id'];
     amount = json['amount'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    email = json['user_email'];
+    countryId = json['country_id'];
+    productsCount = json['products_count'];
   }
 
   Map<String, dynamic> toJson() {
@@ -111,10 +154,14 @@ class Data {
     data['payment_ref_code'] = this.paymentRefCode;
     data['state_name'] = this.stateName;
     data['rate_status'] = this.rateStatus;
+    data['rate_comment'] = this.rateComment;
     data['delivery_date'] = this.deliveryDate;
     data['cash_back_amount'] = this.cashBackAmount;
     data['card_id'] = this.cardId;
     data['amount'] = this.amount;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['products_count'] = this.productsCount;
     return data;
   }
 }

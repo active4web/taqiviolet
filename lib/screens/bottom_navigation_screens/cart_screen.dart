@@ -15,7 +15,6 @@ import '../../cubits/cartCubit/cart_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../network/local/cache_helper.dart';
-import '../../shared/components/custom_text_form_field.dart';
 import 'orders_section/select_discount.dart';
 
 class CartScreen extends StatefulWidget {
@@ -27,6 +26,10 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
+    CartCubit.get(context).promoCode.clear();
+    CartCubit.get(context).isCopunValid=null;
+    CartCubit.get(context).promo=false;
+    CartCubit.get(context).cache=false;
     kToken != null && kToken!.isNotEmpty
         ? CartCubit.get(context).getServerCartData()
         : CartCubit.get(context).getLocalCartData();

@@ -92,7 +92,7 @@ class WatingOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                showCustomDialog(context,cubit.watingOrderModel!.data![index].id!,1);
+                                showCustomDialog(context,num.parse(cubit.watingOrderModel!.data![index].id!.toString()),6);
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),
@@ -112,7 +112,7 @@ class WatingOrderListView extends StatelessWidget {
                             ),
                             TextButton(onPressed: (){
                               navigateTo(context, OrderDetailsSCR(
-                                id: cubit.watingOrderModel!.data![index].id!.toInt(),
+                                id: int.parse(cubit.watingOrderModel!.data![index].id!.toString()),
                               ));
                             }, child: Text(
                               'تفاصيل الطلب',style: TextStyle(

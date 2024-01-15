@@ -41,13 +41,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   void initState() {
     CartCubit.get(context)..getAllLocationsOfCities();
-    CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
-    CartCubit.get(context).phoneOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.phone ?? '';
-    CartCubit.get(context).addressOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.address ?? '';
-    CartCubit.get(context).nameOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.name ?? '';
+    // CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
+    // CartCubit.get(context).phoneOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.phone ?? '';
+    // CartCubit.get(context).addressOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.address ?? '';
+    // CartCubit.get(context).nameOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.name ?? '';
     super.initState();
   }
 
@@ -283,7 +283,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               flex: 6,
                                               child:DropdownButtonFormField2<CountryList>(
                                                 validator: (value){
-                                                  if(value==null){
+                                                  if(value==null&& CartCubit.get(context).selectedCountry==null){
                                                     return 'this filed is required';
                                                   }
                                                 },
@@ -359,7 +359,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   }
                                                 },
                                                   hint:  Text(
-                                                          "country".tr(),
+                                                         cartCubit.selectedCountry?.name??"country".tr(),
                                                           style: TextStyle(
                                                             fontSize: 14.sp,
                                                             fontWeight:
@@ -606,7 +606,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 flex: 4,
                                                 child:DropdownButtonFormField2<ListCites>(
                                                   validator: (value){
-                                                    if(value==null){
+                                                    if(value==null&& CartCubit.get(context).selectedCity==null){
                                                       return 'this filed is required';
                                                     }
                                                   },
@@ -683,9 +683,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       textEditingController.clear();
                                                     }
                                                   },
-                                                  value: cartCubit.selectedCity,
+                                                  // value: cartCubit.selectedCity,
                                                   hint:  Text(
-                                                          "city".tr(),
+                                                         cartCubit.selectedCity?.nameCity?? "city".tr(),
                                                           style: TextStyle(
                                                             fontSize: 14.sp,
                                                             fontWeight:
@@ -1081,6 +1081,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                         borderSide: BorderSide(color: Colors.white),
                                         borderRadius: BorderRadius.circular(34))),
                                 onChanged: (phone) {
+                                  setState(() {
+
+                                  });
                                   cartCubit.countryCode = phone.countryCode;
                                   log('${phone.completeNumber}');
                                   log('aaaaaaaaaaaaaaa${phone.countryCode}');
@@ -1245,7 +1248,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           text: 'Total'.tr(),
                         ),
                         Text(
-                          '${cartCubit.newOrder?.data?.total} ${"SAR".tr()}',
+                          '${cartCubit.newOrder?.data?.order?.total} ${"SAR".tr()}',
                           style: TextStyle(
                               fontSize: 12.sp,
                               color: Colors.black54),
@@ -1258,10 +1261,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     BlocConsumer<CartCubit, CartState>(
                       listener: (context, state) {},
                       builder: (context, state) {
+                        print("00000Abdooooo${cartCubit.newOrder?.data?.order?.total}");
                         return PaymentComponent(
                           total:
-                              num.parse(cartCubit.newOrder?.data?.total ?? ''),
-                          cartId: cartCubit.newOrder?.data?.id ?? '',
+                              num.parse(cartCubit.newOrder?.data?.order?.total ?? ''),
+                          cartId: cartCubit.newOrder?.data?.order?.id ?? '',
                           phone: '${cartCubit.countryCode}${cartCubit.phoneOfReceiver.text}',
                           name: cartCubit.nameOfReceiver.text,
                           address: cartCubit.addressOfReceiver.text,

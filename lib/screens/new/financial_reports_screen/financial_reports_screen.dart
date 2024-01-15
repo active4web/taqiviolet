@@ -23,7 +23,11 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
     with TickerProviderStateMixin {
   @override
   void initState() {
-    FinancialReportsCubit.get(context)..getWatingOrders()..getCurrentOrders()..getHoldingOrders()..getOldOrders();
+    if(CacheHelper.getData('type')==3){
+      FinancialReportsCubit.get(context)..getSalesOrder();
+    }else{
+      FinancialReportsCubit.get(context)..getWatingOrders()..getCurrentOrders()..getHoldingOrders()..getOldOrders();
+    }
     super.initState();
   }
   @override
@@ -44,84 +48,85 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if(CacheHelper.getData('type')==0)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("المتبقى"),
-                      Text("200"),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("المتبقى"),
+                            Text("200"),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("الربح"),
+                            Text("200"),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("رأس المال"),
+                            Text("200"),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Text("اجمالي المبيعات"),
+                            Text("200"),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                Expanded(
-                  child: Column(
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("الربح"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text("رأس المال"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text("اجمالي المبيعات"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if(CacheHelper.getData('type')==0)
-            Divider(),
-            if(CacheHelper.getData('type')==0)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Text("الزائرين"),
-                    Text("200"),
-                  ],
-                ),
+                      Column(
+                        children: [
+                          Text("الزائرين"),
+                          Text("200"),
+                        ],
+                      ),
 
-                Column(
-                  children: [
-                    Text("المستخدمين"),
-                    Text("200"),
-                  ],
-                ),
+                      Column(
+                        children: [
+                          Text("المستخدمين"),
+                          Text("200"),
+                        ],
+                      ),
 
-                Column(
-                  children: [
-                    Text("المخزن"),
-                    Text("200"),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text("المصاريف"),
-                    Text("200"),
-                  ],
-                ),
-              ],
-            ),
-            if(CacheHelper.getData('type')==0)
-            Divider(),
-            if(CacheHelper.getData('type')==0)
-            SizedBox(
-              height: 10.h,
-            ),
+                      Column(
+                        children: [
+                          Text("المخزن"),
+                          Text("200"),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text("المصاريف"),
+                          Text("200"),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                ],
+              ),
+
             Container(
               height: height / 20,
               width: width,

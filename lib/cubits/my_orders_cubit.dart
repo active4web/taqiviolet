@@ -25,14 +25,14 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       text: "pendingOrders".tr(),
     ),
     Tab(
-      text: "الحالية".tr(),
+      text: "current".tr(),
     ),
     Tab(
-      text: "المعلقة".tr(),
+      text: "pending".tr(),
     ),
 
     Tab(
-      text: "السابقة".tr(),
+      text: "previous".tr(),
     ),
   ];
 
@@ -133,5 +133,22 @@ class MyOrdersCubit extends Cubit<MyOrdersState> {
       log(error.toString());
       emit(MyOrdersErrorState());
     });
+  }
+
+  var searchController=TextEditingController();
+  MyOrdersModel? searchOrderModel;
+  Future<void>searchOrder()async{
+    emit(SearchOrderLoadingState());
+    final response=await Mhelper.getData(url: 'api/my-orders',query: {
+      "code_order":searchController.text
+    },token: kToken);
+    if(response.data['status']){
+      searchOrderModel=MyOrdersModel.fromJson(response.data);
+      emit(SearchOrderSuccessState());
+      searchController.clear();
+    }else{
+      emit(SearchOrderErrorState());
+
+    }
   }
 }

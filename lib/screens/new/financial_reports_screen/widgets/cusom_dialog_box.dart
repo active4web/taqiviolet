@@ -82,7 +82,7 @@ void showCustomDialog(BuildContext context, num orderId,int status) {
                   ),
                 if(cubit.isHold)
                   CustomButton(onTap: (){
-                    cubit.changeStatus(orderId: orderId, status: 4);
+                    cubit.changeStatus(orderId: orderId, status: 5);
                   },text: 'تعليق الطلب'.tr(),)
 
               ],

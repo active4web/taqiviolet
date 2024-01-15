@@ -85,8 +85,8 @@ class MenuTile extends StatelessWidget {
         onTap!();
       },
       child: Container(
-        padding: EdgeInsets.all(10),
-        height:90.h,
+        padding: EdgeInsets.all(5),
+        height:85.h,
         decoration: BoxDecoration(
             color: Color(0xff393846),
             border: Border.all(color: kLightGoldColor),

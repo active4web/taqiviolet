@@ -26,6 +26,7 @@ class CartCubit extends Cubit<CartState> {
   static CartCubit get(context) => BlocProvider.of(context);
 
    double total=0.0 ;
+   double temptotal=0.0;
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
 
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
@@ -61,6 +62,8 @@ class CartCubit extends Cubit<CartState> {
         // if (myCartModel?.data?.listItem![i].smartPrice == null){
                 total += (myCartModel?.data?.listItem![i].price) *
               (myCartModel?.data?.listItem![i].quantity).toDouble();
+
+                temptotal=total;
        /* }else {
           total += (myCartModel?.data?.listItem![i].price) *
               (myCartModel?.data?.listItem![i].quantity)
@@ -336,6 +339,8 @@ class CartCubit extends Cubit<CartState> {
     );
   if(response.data['status']){
     isCopunValid = true;
+    total=total-(total*response.data['data']["code"]['value']/100);
+    print('${response.data['data']["code"]['value']}');
     emit(CheckPromoSuccessState());
   }else{
     isCopunValid = false;
@@ -353,6 +358,7 @@ class CartCubit extends Cubit<CartState> {
    });
    if(response.data['status']){
      country=CountryModel.fromJson(response.data);
+
      emit(GetCountriesSuccessState());
    }else{
      emit(GetCountriesErrorState());
@@ -367,6 +373,20 @@ class CartCubit extends Cubit<CartState> {
       token: kToken,
     ).then((value) {
       allCitiesLocation = CitiesLocationsModel.fromJson(value.data);
+      allCitiesLocation?.data?.countryList?.forEach((element) {
+        if(newOrder?.data?.lastOrder?.countryId!=null)
+        {
+          if(element.id==int.parse(newOrder?.data?.lastOrder?.countryId??"")){
+            selectedCountry=element;
+            allCities?.addAll(selectedCountry?.listCites as Iterable<ListCites>);
+            allCities?.forEach((element) {
+              if(element.idCity==int.parse(newOrder?.data?.lastOrder?.stateId??"")){
+                selectedCity=element;
+              }
+            });
+          }
+        }
+      });
       log('all Locations data is: ${value.data}');
       emit(CartSuccessState());
     }).catchError((error) {
@@ -419,6 +439,20 @@ class CartCubit extends Cubit<CartState> {
 
   }
 
+  Future<void>checkCachBack()async{
+    emit(CacheBackLoadingState());
+    final response=await Mhelper.postData(url: 'api/check-cashback',data: {
+      'amount':cashback.text
+    },token: kToken);
+    if(response.data['status']){
+      total=temptotal-int.parse(cashback.text);
+      emit(CacheBackSuccessState());
+    }else{
+      emit(CacheBackErrorState());
+    }
+  }
+
+
 MakeNewOrderModel? newOrder;
   Future<void>makeNewOrder()async{
     emit(MakeNewOrderLoadingState());
@@ -428,6 +462,20 @@ MakeNewOrderModel? newOrder;
     });
     if(response.data['status']){
       newOrder=MakeNewOrderModel.fromJson(response.data);
+      // CartCubit.get(context)..getAllLocationsOfCities();
+      // CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
+      // CartCubit.get(context).phoneOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.phone ?? '';
+      // CartCubit.get(context).addressOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.address ?? '';
+      // CartCubit.get(context).nameOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.name ?? '';
+      if(newOrder?.data?.lastOrder?.userPhone!=""){
+        phoneOfReceiver.text=newOrder?.data?.lastOrder?.userPhone?.split('+966')[1]??'';
+      }
+      addressOfReceiver.text=newOrder?.data?.lastOrder?.address??'';
+      nameOfReceiver.text=newOrder?.data?.lastOrder?.userName??'';
+      email.text=newOrder?.data?.lastOrder?.email??'';
       isCopunValid=null;
       emit(MakeNewOrderSuccessState());
     }else{

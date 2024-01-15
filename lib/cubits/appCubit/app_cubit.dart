@@ -565,7 +565,9 @@ Future<void>getHomeServices()async{
 
   void gethomeMainOfferData() {
     emit(HomeMainCatLoading());
-    Mhelper.getData(url: offersEndpoint).then((value) {
+    Mhelper.getData(url: offersEndpoint,query: {
+    "lang":kLanguage
+    }).then((value) {
       offerModel = OfferModel.fromJson(value.data);
       // offerDataList = offerModel.data;
       emit(HomeMainCatSuccess());

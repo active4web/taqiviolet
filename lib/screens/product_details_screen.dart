@@ -18,7 +18,6 @@ import 'package:safsofa/shared/components/custom_text_form_field.dart';
 import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:card_swiper/card_swiper.dart';
 import '../shared/components/comments_component/comments_component.dart';
 
@@ -120,7 +119,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                         PopupMenuItem(
                             child: Text(
-                              'Favourites'.tr(),
+                              'MyList'.tr(),
                             ),
                             value: 'favourite'),
                         // PopupMenuItem(child: Text('Cart'.tr(),),value: 'cart'),
@@ -648,12 +647,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               fontSize: 12.sp,
                                             ),
                                           ),
-                                          Text(
-                                            "${cubit.productDetailsModel?.data?.productDetails![0].deliveryTime}",
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              color: kCustomBlack,
-                                              fontSize: 12.sp,
+                                          Expanded(
+                                            child: Text(
+                                              "${cubit.productDetailsModel?.data?.productDetails![0].deliveryTime}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: kCustomBlack,
+                                                fontSize: 12.sp,
+                                              ),
                                             ),
                                           ),
                                         ],
@@ -1068,7 +1069,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                           );
                                                           // }
                                                         },
-                                                        height: 50.h,
+                                                        height: 45,
                                                         text: 'AddToCart'.tr(),
                                                       ),
                                                     ),

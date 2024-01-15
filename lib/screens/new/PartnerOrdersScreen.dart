@@ -1,17 +1,12 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/request_cubit/request_cubit.dart';
-import 'package:safsofa/screens/menu_screens/technical_support_screen.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_drop_down.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/src/public_ext.dart';
 
-import '../../shared/components/custom_button.dart';
 import '../../shared/constants.dart';
 
 class PartnerOrdersScreen extends StatelessWidget {

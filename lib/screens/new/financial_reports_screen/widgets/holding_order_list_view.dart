@@ -97,7 +97,7 @@ class HoldingOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                cubit.changeStatus(orderId: cubit.holdingOrderModel!.data![index].id!, status: 1);
+                                cubit.changeStatus(orderId: cubit.holdingOrderModel!.data![index].id!, status:int.parse('6') );
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),

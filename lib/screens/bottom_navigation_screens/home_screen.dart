@@ -421,7 +421,7 @@ bool isPopped=false;
             return true;
           },
           child:Scaffold(
-            backgroundColor: Color(0xfff6f6f6),
+            backgroundColor: Colors.white,
             // appBar: CustomAppBar(
             //   title: 'Cart'.tr(),
             // ),
@@ -1641,7 +1641,7 @@ class OffersListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: MediaQuery.of(context).size.height * 0.28,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) => Container(
@@ -1675,21 +1675,24 @@ class OffersListView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 10,
+                      width: 5,
                     ),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
-                          Text(
-                            cubit?.offerModel?.data![index].title ?? '',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
+                          Expanded(
+                            child: Text(
+                              cubit?.offerModel?.data![index].title ?? '',
+                              maxLines: 5,
+                              style: TextStyle(fontSize: 16.sp),
+                              textAlign: TextAlign.center,
+                            ),
                           ),
                           Text(
                             "${cubit?.offerModel?.data![index].content}",
                             style: TextStyle(
-                                fontSize: 8, fontWeight: FontWeight.w500),
+                                fontSize: 16.sp, fontWeight: FontWeight.w500),
                             textAlign: TextAlign.center,
                           ),
                         ],

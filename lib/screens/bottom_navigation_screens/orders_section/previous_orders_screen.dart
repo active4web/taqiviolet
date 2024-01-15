@@ -27,7 +27,7 @@ class PreviousOrdersScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             :
-        MyOrdersCubit.get(context).previousOrders!.data!.length==0 ?
+        MyOrdersCubit.get(context).previousOrders?.data?.length==0 ?
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -57,7 +57,7 @@ class PreviousOrdersScreen extends StatelessWidget {
                       height: 4.h,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).previousOrders!.data!.length);
+                    MyOrdersCubit.get(context).previousOrders?.data?.length??0);
       },
     );
   }

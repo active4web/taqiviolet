@@ -2,7 +2,7 @@ class PartnerWatingOrderModel {
   bool? status;
   String? errNum;
   String? msg;
-  List<Data>? data;
+  List<Order>? data;
 
   PartnerWatingOrderModel({this.status, this.errNum, this.msg, this.data});
 
@@ -11,28 +11,28 @@ class PartnerWatingOrderModel {
     errNum = json['errNum'];
     msg = json['msg'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <Order>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(new Order.fromJson(v));
       });
     }
   }
 
 }
 
-class Data {
-  num? id;
+class Order {
+  dynamic id;
   String? codeOrder;
   dynamic productRate;
-  num? clientId;
+  dynamic clientId;
   dynamic storeId;
   String? address;
-  num? promoCodeId;
-  num? promoCodeValue;
+  dynamic promoCodeId;
+  dynamic promoCodeValue;
   dynamic deliveryType;
-  num? deliveryCost;
-  num? subTotal;
-  num? total;
+  dynamic deliveryCost;
+  dynamic subTotal;
+  dynamic total;
   String? status;
   String? paymentStatus;
   String? paymentType;
@@ -40,7 +40,7 @@ class Data {
   dynamic userphone;
   dynamic orderDate;
 
-  Data(
+  Order(
       {this.id,
         this.codeOrder,
         this.productRate,
@@ -60,7 +60,7 @@ class Data {
         this.userphone,
         this.orderDate});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Order.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     codeOrder = json['code_order'];
     productRate = json['product_rate'];

@@ -362,7 +362,15 @@
   "updateTitle": "New Update",
   "updateDescription": "You must update the application to enjoy the new features.",
   "update": "Update",
-  "applePay": "Apple Pay"
+  "applePay": "Apple Pay",
+  "previous": "Previous",
+  "searchResult": "Search Result",
+  "orderTotal": "Order total",
+  "productsNumber": "Products number",
+  "orderDate": "Order date",
+
+
+
 
 
 
