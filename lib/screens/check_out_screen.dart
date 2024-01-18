@@ -1248,7 +1248,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           text: 'Total'.tr(),
                         ),
                         Text(
-                          '${cartCubit.newOrder?.data?.order?.total} ${"SAR".tr()}',
+                          '${cartCubit.newOrder?.data?.order?.subTotal} ${"SAR".tr()}',
                           style: TextStyle(
                               fontSize: 12.sp,
                               color: Colors.black54),
@@ -1401,8 +1401,10 @@ class PromoCodeTextField extends StatelessWidget {
                       EdgeInsets.symmetric(horizontal: 22.w, vertical: 15.h),
                   suffixIcon: InkWell(
                     onTap: () {
-                      if (CartCubit.get(context).promoCode.text.isNotEmpty) {
+                      if (CartCubit.get(context).promoCode.text.isNotEmpty&&CartCubit.get(context).isCopunValid!=true) {
                         CartCubit.get(context).checkPromoStatus();
+                      }else if(CartCubit.get(context).isCopunValid==true){
+                        CartCubit.get(context).cancelPromoCode();
                       }
                     },
                     child: Container(
@@ -1411,9 +1413,9 @@ class PromoCodeTextField extends StatelessWidget {
                       child: Center(
                         child: state is CheckPromoLoadingState
                             ? CustomCircularProgress()
-                            : state is CheckPromoSuccessState
+                            : CartCubit.get(context).isCopunValid==true
                                 ? Text(
-                                    'تم التفعيل',
+                                    'الغاء التفعيل',
                                     style: TextStyle(color: kLightGoldColor),
                                   )
                                 : Text(

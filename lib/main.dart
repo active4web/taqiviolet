@@ -241,6 +241,7 @@ class MyApp extends StatelessWidget {
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
                   theme: ThemeData(
+                    scaffoldBackgroundColor: Colors.white,
                     tabBarTheme: TabBarTheme(
                        labelColor: kCustomBlack
                     ),

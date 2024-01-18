@@ -15,17 +15,17 @@ class PendingOrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = MyOrdersCubit.get(context);
-    cubit.getMyWaitingOrders();
     return BlocConsumer<MyOrdersCubit, MyOrdersState>(
       listener: (context, state) {},
       builder: (context, state) {
-        return cubit.waitingOrders == null
+        var cubit = MyOrdersCubit.get(context);
+
+        return cubit.clientOrdersModel == null
             ? Center(
                 child: CircularProgressIndicator(),
               )
             :
-        MyOrdersCubit.get(context).waitingOrders!.data!.length==0 ?
+        MyOrdersCubit.get(context).clientOrdersModel!.data!.waiting!.length==0 ?
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class PendingOrdersScreen extends StatelessWidget {
           shrinkWrap: true,
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  return CustomOrder(myOrdersData:cubit.waitingOrders!.data![index],);
+                  return CustomOrder(myOrdersData:cubit.clientOrdersModel!.data!.waiting![index],);
                     // OrderStatusCard(
                     //   myOrdersData: cubit.waitingOrders!.data![index]);
                 },
@@ -54,7 +54,7 @@ class PendingOrdersScreen extends StatelessWidget {
                       height: 4,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).waitingOrders!.data!.length);
+                    MyOrdersCubit.get(context).clientOrdersModel!.data!.waiting!.length);
       },
     );
   }
@@ -282,7 +282,11 @@ class CustomOrder extends StatelessWidget {
                       borderRadius: BorderRadius.circular(5.r),
                       color: kCustomBlack),
                   child: Text(
-                   status==1?'جاري تجهيزه' :status==2?'تم توصيله':status==4?"معلق":'preparing'.tr(),
+                   myOrdersData?.status=='0'?'قيد الانتظار':myOrdersData?.status=='1'?'قيد التجهيز':
+                    myOrdersData?.status=='3'?"قيد التوصيل":myOrdersData?.status=='2'?'مرفوضه':
+                        myOrdersData?.status=='4'?'تم التوصيل':myOrdersData?.status=='5'?"معلق":
+                            "قيد التجهيز"
+                    ,
                     style: TextStyle(color: Colors.white),
                   ),
                 ),

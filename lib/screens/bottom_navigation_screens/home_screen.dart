@@ -1640,8 +1640,8 @@ class OffersListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.28,
+    return AspectRatio(
+      aspectRatio: 2.3,
       child: ListView.separated(
           scrollDirection: Axis.horizontal,
           itemBuilder: (context, index) => Container(
@@ -1657,6 +1657,7 @@ class OffersListView extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
+                      flex: 6,
                       child: Container(
                         child: CustomNetworkImage(
                           image: "${cubit?.offerModel?.data![index].image}",
@@ -1678,22 +1679,22 @@ class OffersListView extends StatelessWidget {
                       width: 5,
                     ),
                     Expanded(
+                      flex: 5,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+                          Text(
+                            cubit?.offerModel?.data![index].title ?? '',
+                            style: TextStyle(fontSize: 16.sp),
+                            textAlign: TextAlign.center,
+                          ),
                           Expanded(
                             child: Text(
-                              cubit?.offerModel?.data![index].title ?? '',
-                              maxLines: 5,
-                              style: TextStyle(fontSize: 16.sp),
+                              "${cubit?.offerModel?.data![index].content}",
+                              style: TextStyle(
+                                  fontSize: 16.sp, fontWeight: FontWeight.w500),
                               textAlign: TextAlign.center,
                             ),
-                          ),
-                          Text(
-                            "${cubit?.offerModel?.data![index].content}",
-                            style: TextStyle(
-                                fontSize: 16.sp, fontWeight: FontWeight.w500),
-                            textAlign: TextAlign.center,
                           ),
                         ],
                       ),

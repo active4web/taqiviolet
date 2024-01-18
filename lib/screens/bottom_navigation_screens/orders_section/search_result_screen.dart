@@ -26,7 +26,7 @@ class SearchResultScreen extends StatelessWidget {
             child: CircularProgressIndicator(),
           )
               :
-          MyOrdersCubit.get(context).previousOrders?.data?.length==0 ?
+          MyOrdersCubit.get(context).searchOrderModel?.data?.length==0 ?
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,

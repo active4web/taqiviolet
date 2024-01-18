@@ -46,9 +46,11 @@ class CashBack extends StatelessWidget {
                 CustomTextFormField(
                   suffix: InkWell(
                     onTap: () {
-                      if (CartCubit.get(context).cashback.text.isNotEmpty) {
+                      if (CartCubit.get(context).cashback.text.isNotEmpty&&cubit.validCashback!=true) {
                         if(cubit.cashFormKey.currentState!.validate())
                         CartCubit.get(context).checkCachBack();
+                      }else if(cubit.cache){
+                        cubit.cancelCashback();
                       }
                     },
                     child: Container(
@@ -57,9 +59,9 @@ class CashBack extends StatelessWidget {
                       child: Center(
                         child: state is CheckPromoLoadingState
                             ? CustomCircularProgress()
-                            : state is CacheBackSuccessState
+                            : cubit.validCashback
                             ? Text(
-                          'تم التفعيل',
+                          'الغاء التفعيل',
                           style: TextStyle(color: kLightGoldColor),
                         )
                             : Text(

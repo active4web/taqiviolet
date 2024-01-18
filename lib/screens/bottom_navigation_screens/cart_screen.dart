@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/screens/check_out_screen.dart';
+import 'package:safsofa/screens/new/financial_reports_screen/widgets/cusom_dialog_box.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -71,6 +72,7 @@ class _CartScreenState extends State<CartScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(height: 10.h,),
                                // TextButton(
                                //    onPressed: () =>
                                //        cubit.emptyCartProductsServer(),
@@ -445,19 +447,71 @@ class _CartScreenState extends State<CartScreen> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      print(cubit
-                                                          .myCartModel!
-                                                          .data!
-                                                          .listItem![index]
-                                                          .cardId!);
-                                                      cubit
-                                                          .delItemFromCartServer(
-                                                        cartId: cubit
-                                                            .myCartModel!
-                                                            .data!
-                                                            .listItem![index]
-                                                            .cardId!,
-                                                      );
+
+                                                      showDialog(context: context, builder: (context){
+                                                        return  BlocListener<CartCubit, CartState>(
+  listener: (context, state) {
+    if(state is DeleteCartSuccessState){
+      Navigator.pop(context);
+    }
+  },
+  child: AlertDialog(
+    alignment: Alignment.center,
+
+                                                          title: Center(child: Text('هل انت متآكد من حذف هذه القطعه؟')),
+                                                          titleTextStyle: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 12.sp,
+                                                            color: Colors.black
+                                                          ),
+                                                          content:Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: Container(
+                                                                    padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 20.w),
+                                                                    decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                        width: .5,color: Colors.grey.shade400
+                                                                      )
+                                                                    ),
+                                                                    child: Text('cancel'.tr(),style: TextStyle(
+                                                                        color: Colors.black
+                                                                    ),)),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  cubit
+                                                                      .delItemFromCartServer(
+                                                                    cartId: cubit
+                                                                        .myCartModel!
+                                                                        .data!
+                                                                        .listItem![index]
+                                                                        .cardId!,
+                                                                  );
+                                                                },
+                                                                child: Container(
+                                                                  padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 20.w),
+                                                                    color: kCustomBlack,
+                                                                    child: Text('delete'.tr(),style: TextStyle(
+                                                                      color: Colors.white
+                                                                    ),)),
+                                                              ),
+
+                                                            ],
+                                                          ),
+                                                        ),
+);
+                                                      });
+                                                      // print(cubit
+                                                      //     .myCartModel!
+                                                      //     .data!
+                                                      //     .listItem![index]
+                                                      //     .cardId!);
+
                                                     },
                                                     icon: Icon(
                                                       Icons.close,
@@ -541,13 +595,63 @@ class _CartScreenState extends State<CartScreen> {
                                     text: 'Total'.tr(),
                                   ),
                                   Text(
-                                    '${cubit.total} ${"SAR".tr()}',
+                                    '${cubit.temptotal} ${"SAR".tr()}',
                                     style: TextStyle(
                                         fontSize: 12.sp,
                                         color: Colors.black54),
                                   )
                                 ],
                               ),
+
+                              if(cubit.isCopunValid??false)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Label(
+                                    text: 'نسبة الخصم',
+                                  ),
+                                  Text(
+                                    '${cubit.discount} ${"%"}',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black54),
+                                  )
+                                ],
+                              ),
+                              if(cubit.isCopunValid??false)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Label(
+                                    text: 'قيمة الخصم',
+                                  ),
+                                  Text(
+                                    '${cubit.discountValue} ${"SAR".tr()}',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black54),
+                                  )
+                                ],
+                              ),
+
+                              if(cubit.temptotal!=cubit.total)
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Label(
+                                      text: 'الاجمالي بعد الخصم',
+                                    ),
+                                    Text(
+                                      '${cubit.total} ${"SAR".tr()}',
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.black54),
+                                    )
+                                  ],
+                                ),
                               SizedBox(
                                 height: 10.h,
                               ),
@@ -903,12 +1007,24 @@ class _CartScreenState extends State<CartScreen> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      cubit.delITemFRomCartLocal(
-                                                          product_id: cubit
-                                                              .myCartlocalModel
-                                                              ?.cartProducts![
-                                                                  index]
-                                                              .productId);
+                                                      showDialog(context: context, builder: (context){
+                                                        return Column(
+                                                          children: [
+                                                            Text('data'),
+                                                            Row(
+                                                              children: [
+
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      });
+                                                      // cubit.delITemFRomCartLocal(
+                                                      //     product_id: cubit
+                                                      //         .myCartlocalModel
+                                                      //         ?.cartProducts![
+                                                      //             index]
+                                                      //         .productId);
                                                     },
                                                     icon: Icon(
                                                       Icons.close,

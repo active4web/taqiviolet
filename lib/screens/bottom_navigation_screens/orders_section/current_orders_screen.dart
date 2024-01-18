@@ -18,7 +18,6 @@ class CurrentOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = MyOrdersCubit.get(context);
-    cubit.getMyCurrentOrders();
     return BlocConsumer<MyOrdersCubit, MyOrdersState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -28,7 +27,7 @@ class CurrentOrdersScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             :
-        MyOrdersCubit.get(context).currentOrders!.data!.length==0 ?
+        MyOrdersCubit.get(context).clientOrdersModel!.data!.current!.length==0 ?
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,9 +47,9 @@ class CurrentOrdersScreen extends StatelessWidget {
         ListView.separated(
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
-                  log("myOrders ${cubit.currentOrders?.data?.length}");
+                  log("myOrders ${cubit.clientOrdersModel?.data?.current?.length}");
 
-                  return CustomOrder( myOrdersData: cubit.currentOrders!.data![index],status: 1,);
+                  return CustomOrder( myOrdersData: cubit.clientOrdersModel!.data!.current![index],status: 1,);
                     // OrderStatusCard(
                     //   myOrdersData: cubit.currentOrders!.data![index]);
                 },
@@ -58,7 +57,7 @@ class CurrentOrdersScreen extends StatelessWidget {
                       height: 4.h,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).currentOrders!.data!.length);
+                    MyOrdersCubit.get(context).clientOrdersModel!.data!.current!.length);
       },
     );
   }

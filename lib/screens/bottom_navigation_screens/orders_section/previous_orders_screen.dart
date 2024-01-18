@@ -17,7 +17,6 @@ class PreviousOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = MyOrdersCubit.get(context);
-    cubit.getMyPreviousOrders();
     return BlocConsumer<MyOrdersCubit, MyOrdersState>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -27,7 +26,7 @@ class PreviousOrdersScreen extends StatelessWidget {
                 child: CircularProgressIndicator(),
               )
             :
-        MyOrdersCubit.get(context).previousOrders?.data?.length==0 ?
+        MyOrdersCubit.get(context).clientOrdersModel?.data?.done?.length==0 ?
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,7 +47,7 @@ class PreviousOrdersScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(22),
                 itemBuilder: (context, index) {
 
-                  return CustomOrder(myOrdersData: cubit.previousOrders!.data![index],
+                  return CustomOrder(myOrdersData: cubit.clientOrdersModel!.data!.done![index],
                   status: 2,);
                     // OrderStatusCard(
                     //   myOrdersData: cubit.previousOrders!.data![index]);
@@ -57,7 +56,7 @@ class PreviousOrdersScreen extends StatelessWidget {
                       height: 4.h,
                     ),
                 itemCount:
-                    MyOrdersCubit.get(context).previousOrders?.data?.length??0);
+                    MyOrdersCubit.get(context).clientOrdersModel?.data?.done?.length??0);
       },
     );
   }
