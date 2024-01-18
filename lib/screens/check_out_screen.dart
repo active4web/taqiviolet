@@ -1255,9 +1255,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                   Divider(),
                     BlocConsumer<CartCubit, CartState>(
                       listener: (context, state) {},
                       builder: (context, state) {

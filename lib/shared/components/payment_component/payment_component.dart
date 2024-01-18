@@ -98,12 +98,36 @@ class _PaymentComponentState extends State<PaymentComponent> {
               condition: true,
               builder: (context) => Column(
                 children: [
+
+                  CustomPaymentButton(image: 'assets/images/apple-pay.png',
+                  onTap: (){
+                    cubit.changePay(1);
+                  },
+                  title: 'Apple pay',isActive: cubit.chosePay==1,),
+                  CustomPaymentButton(
+                    onTap: (){
+                      cubit.changePay(2);
+                    },
+                    isActive: cubit.chosePay==2,
+                    image:"assets/images/credit-card.png",
+                    title: 'بطاقة الائتمان',
+                  ),
+                  CustomPaymentButton(image: "assets/images/Tabby-logo.png",
+                    onTap: (){
+                      cubit.changePay(3);
+                    },
+                  isActive: cubit.chosePay==3,
+                  color: Colors.green.shade200,
+                  title: 'تابي',),
                   TextButton(
                         onPressed: () {
+                          FocusScope.of(context).unfocus();
                           CartCubit.get(context).globalKey.currentState?.validate();
-                          print("country: ${widget.country?.refCode}");
-                          print("city  : ${widget.city?.nameCity}");
                           if(CartCubit.get(context).globalKey.currentState!.validate()){
+                            if(cubit.chosePay==0){
+                              showToast(text: 'يجب تحديد وسيلة الدفع', color: kCustomBlack);
+                            }
+                          else if(cubit.chosePay==2){
                             cubit.payPressed(
                                 billingDetailsData: BillingDetails(
                                     widget.name,
@@ -124,32 +148,12 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                     widget.city?.nameCity??'ca',
                                     widget.zipCode));
                           }
-                        },
-                        child: Container(
-                            width: double.infinity,
-                            padding: EdgeInsets.symmetric(vertical: 10.h),
-                            decoration: BoxDecoration(
-                                color: kCustomBlack,
-                                borderRadius: BorderRadius.circular(20.r)),
-                            child: Center(
-                              child:state is PaymentLoadingState? CustomCircularProgress():Text(
-                                'orderNow'.tr(),
-                                style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
-                              ),
-                            )),
-                      ),
-                  TextButton(
-                        onPressed: () {
-                          CartCubit.get(context).globalKey.currentState?.validate();
-                          print("country: ${widget.country?.refCode}");
-                          print("city  : ${widget.city?.nameCity}");
-                          print("phone  : ${ widget.phone}");
-                          if(CartCubit.get(context).globalKey.currentState!.validate()){
+                          else if(cubit.chosePay==1){
                             cubit.apmsPayPressed(
                                 billingDetailsData: BillingDetails(
                                     widget.name,
                                     widget.email,
-                                   "0540402971",
+                                    "0540402971",
                                     widget.address,
                                     widget.country?.refCode??'',
                                     widget.city?.nameCity??'ca',
@@ -164,7 +168,9 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                     widget.city?.nameCity??'ca',
                                     widget.city?.nameCity??'ca',
                                     widget.zipCode));
+
                           }
+    }
                         },
                         child: Container(
                             width: double.infinity,
@@ -174,11 +180,13 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                 borderRadius: BorderRadius.circular(20.r)),
                             child: Center(
                               child:state is PaymentLoadingState? CustomCircularProgress():Text(
-                                'applePay'.tr(),
+                                'orderNow'.tr(),
                                 style: TextStyle(color: kDarkGoldColor,fontSize: 11.sp),
                               ),
                             )),
                       ),
+
+
                   // TextButton(
                   //       onPressed: () {
                   //         CartCubit.get(context).globalKey.currentState?.validate();
@@ -228,6 +236,47 @@ class _PaymentComponentState extends State<PaymentComponent> {
                     child: Text("Cancel Payment"),
                   ));
         },
+      ),
+    );
+  }
+}
+
+
+class CustomPaymentButton extends StatelessWidget {
+  const CustomPaymentButton({super.key, required this.image, required this.title,  this.color=Colors.white,  this.isActive=false, this.onTap});
+
+  final String image;
+  final String title;
+  final Color color;
+  final bool isActive;
+  final void Function()? onTap;
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            width: 15.w,
+            height: 15.h,
+            decoration: BoxDecoration(
+                color:isActive? kCustomBlack:Colors.white,
+                border: Border.all(color: kCustomBlack),
+                shape: BoxShape.circle
+            ),
+          ),
+          SizedBox(width: 5.w,),
+          Container(
+            padding: EdgeInsets.all(2.r),
+              color: color,
+              child: Image.asset(image,width: 30.w,)),
+          SizedBox(width: 10.w,),
+          Text(title,style: TextStyle(
+            fontSize: 15.sp,
+            fontWeight: FontWeight.w500
+          ),)
+        ],
       ),
     );
   }

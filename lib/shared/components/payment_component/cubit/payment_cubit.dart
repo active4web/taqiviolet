@@ -277,4 +277,15 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
     });
   }
 
+
+  int chosePay=0;
+changePay(int pay){
+  if(pay==chosePay){
+    chosePay=0;
+  }else{
+    chosePay=pay;
+
+  }
+emit(ChangePay());
+}
 }
