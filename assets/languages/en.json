@@ -367,9 +367,13 @@
   "searchResult": "Search Result",
   "orderTotal": "Order total",
   "productsNumber": "Products number",
-  "orderDate": "Order date"
-
-
+  "orderDate": "Order date",
+  "confirm": "Confirm",
+  "noteTabby": "The transfer will be made on the website to follow the payment process through the Tabby service.",
+  "note": "Note",
+  "tabby": "Tabby",
+  "creditCard": "Credit card",
+  "selectPayment": "You must specify a payment method"
 
 
 

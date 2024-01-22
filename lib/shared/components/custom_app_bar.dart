@@ -11,12 +11,14 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
     this.title,
     this.title2,
     this.icon,
+    this.centerTitle
 
   }) ;
 
   final String? title;
   final String? title2;
   final Widget? icon;
+  final centerTitle;
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
@@ -25,7 +27,7 @@ class CustomAppBar extends StatelessWidget implements  PreferredSizeWidget {
         leading: icon,
         toolbarHeight: MediaQuery.of(context).size.height / 10,
         leadingWidth: 80,
-
+        centerTitle: centerTitle,
         title: Column(
           mainAxisSize: MainAxisSize.min,
 

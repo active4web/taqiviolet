@@ -1,4 +1,5 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:safsofa/shared/components/payment_component/web_view_tabby_screen.dart';
@@ -104,7 +105,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
                     },
                     isActive: cubit.chosePay==2,
                     image:"assets/images/credit-card.png",
-                    title: 'بطاقة الائتمان',
+                    title: 'creditCard'.tr(),
                   ),
                   CustomPaymentButton(image: "assets/images/Tabby-logo.png",
                     onTap: (){
@@ -112,14 +113,14 @@ class _PaymentComponentState extends State<PaymentComponent> {
                     },
                   isActive: cubit.chosePay==3,
                   color: Colors.green.shade200,
-                  title: 'تابي',),
+                  title: 'tabby'.tr(),),
                   TextButton(
                         onPressed: () async{
                           FocusScope.of(context).unfocus();
                           CartCubit.get(context).globalKey.currentState?.validate();
                           if(CartCubit.get(context).globalKey.currentState!.validate()){
                             if(cubit.chosePay==0){
-                              showToast(text: 'يجب تحديد وسيلة الدفع', color: kCustomBlack);
+                              showToast(text: 'selectPayment'.tr(), color: kCustomBlack);
                             }
                           else if(cubit.chosePay==2){
                             cubit.payPressed(
@@ -165,9 +166,34 @@ class _PaymentComponentState extends State<PaymentComponent> {
 
                           }
                           else if(cubit.chosePay==3){
-                            navigateTo(context, WebViewTabbyScreen());
-                              // await launch(
-                              //     'https://taqiviolet.com/my-Cart');
+                              AwesomeDialog(
+                                context: context,
+                                animType: AnimType.scale,
+                                dialogType: DialogType.warning,
+                                padding: EdgeInsets.symmetric(vertical: 0,horizontal: 10.w),
+                                body: Center(child: Column(
+                                  children: [
+                                    Text("note".tr(),style: TextStyle(
+                                      fontSize: 14.sp,fontWeight: FontWeight.w500
+                                    ),),
+                                    Text(
+                                      'noteTabby'.tr(),
+                                      style: TextStyle(fontStyle: FontStyle.italic,fontSize: 12.sp),
+                                    ),
+                                  ],
+                                ),),
+                                title: 'This is Ignored',
+                                desc:   'This is also Ignored',
+                                btnOkOnPress: () {
+                                  navigateTo(context, WebViewTabbyScreen());
+                                },
+                                btnCancelOnPress: (){},
+                                  btnCancelColor: Colors.grey,
+                                btnOkColor: kCustomBlack,
+                                customHeader: Icon(Icons.warning,size: 50.r,color: Colors.grey,),
+                                btnCancelText: "cancel".tr(),
+                                btnOkText: "confirm".tr()
+                              )..show();
                             }
     }
                         },

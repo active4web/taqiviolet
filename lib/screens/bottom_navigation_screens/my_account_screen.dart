@@ -59,6 +59,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     },
                     child: Scaffold(
                       appBar: CustomAppBar(
+                        centerTitle: false,
                           title: cubit.myAccountData?.data?.userProfile?.name,
                           title2:
                               cubit.myAccountData?.data?.userProfile?.phone),
