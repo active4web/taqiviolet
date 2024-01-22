@@ -35,12 +35,16 @@ class PaymentCubit extends Cubit<PaymentState> {
       PaymentSdkAPms.APPLE_PAY,
       PaymentSdkAPms.STC_PAY,
       PaymentSdkAPms.VALU,
+      PaymentSdkAPms.TABBY
     ];
     apms.add(PaymentSdkAPms.AMAN);
     final configuration = PaymentSdkConfigurationDetails(
-        profileId: "97745",
-        serverKey: "SHJNGGK6D9-J6B9NZHNWN-ZRN6M9TKRM",
-        clientKey: "CMKMNP-RK696G-2PQ9HQ-HKN9GD",
+        // profileId: "97745", //test
+      profileId: '98609', //live
+        // serverKey: "SHJNGGK6D9-J6B9NZHNWN-ZRN6M9TKRM",//test
+        // clientKey: "CMKMNP-RK696G-2PQ9HQ-HKN9GD",//test
+        serverKey: 'S6JNGGK6ZK-J6DM6GBHDL-NR6JMJLB26',//live
+        clientKey: 'C7KMNP-RK666G-DNGT2H-B7BVBQ',//live
         cartId: billingDetails.orderId,
         cartDescription: "Flowers",
         merchantName: "Flowers Store",
@@ -175,9 +179,12 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
     required ShippingDetails shippingDetailsData
   }) async {
     var configuration = PaymentSdkConfigurationDetails(
-      profileId: "105601",
-      serverKey: "SWJN6WHN6M-JHGZHWGRB9-W2BDN6LZWT",
-      clientKey: "CTKMVK-VB9B6H-T9HVTR-9MTQHB",
+      // profileId: "97745", //test
+      profileId: '98609', //live
+      // serverKey: "SHJNGGK6D9-J6B9NZHNWN-ZRN6M9TKRM",//test
+      // clientKey: "CMKMNP-RK696G-2PQ9HQ-HKN9GD",//test
+      serverKey: 'S6JNGGK6ZK-J6DM6GBHDL-NR6JMJLB26',//live
+      clientKey: 'C7KMNP-RK666G-DNGT2H-B7BVBQ',//live
       cartId:billingDetailsData.orderId,
       cartDescription: "cart desc",
       screentTitle: "Pay with Apple Pay",
@@ -188,6 +195,9 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
       currencyCode: "SAR",
       merchantCountryCode: "SA",
       merchantName: "Taqi Violet Commercial",
+      alternativePaymentMethods: [
+        PaymentSdkAPms.APPLE_PAY,
+      ],
       merchantApplePayIndentifier: "merchant.com.bundleID",
     );
     FlutterPaytabsBridge.startApplePayPayment(configuration, (event) {
@@ -216,6 +226,7 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
           // Handle events here.
           print("event $event");
           emit(PaymentErrorState());
+          ToastConfig.showToast(msg: 'ليس لديك حساب مسجل', toastStates:ToastStates.error);
         }
 
     });
@@ -226,14 +237,20 @@ Future<void> updateOrder({required BillingDetails paymentModel,required PaymentM
     required ShippingDetails shippingDetailsData
   }) async {
     List<PaymentSdkAPms> apms = [
-      PaymentSdkAPms.APPLE_PAY,
+      PaymentSdkAPms.TABBY,
 
     ];
     var configuration = PaymentSdkConfigurationDetails(
-      profileId: "105601",
-      serverKey: "SWJN6WHN6M-JHGZHWGRB9-W2BDN6LZWT",
+      // profileId: "97745", //test
+      profileId: '98608', //live
+      // serverKey: "SHJNGGK6D9-J6B9NZHNWN-ZRN6M9TKRM",//test
+      // clientKey: "CMKMNP-RK696G-2PQ9HQ-HKN9GD",//test
+      serverKey: 'S6JNGGK6ZK-J6DM6GBHDL-NR6JMJLB26',//live
+      clientKey: 'C7KMNP-RK666G-DNGT2H-B7BVBQ',//live
+      // profileId: "105601",
+      // serverKey: "SWJN6WHN6M-JHGZHWGRB9-W2BDN6LZWT",
       alternativePaymentMethods: apms,
-      clientKey: "CTKMVK-VB9B6H-T9HVTR-9MTQHB",
+      // clientKey: "CTKMVK-VB9B6H-T9HVTR-9MTQHB",
       cartId:billingDetailsData.orderId,
       cartDescription: "cart desc",
       screentTitle: "Pay with Apple Pay",
@@ -287,5 +304,29 @@ changePay(int pay){
 
   }
 emit(ChangePay());
+}
+
+String? html;
+  testF()async{
+   final resp=await Mhelper.postData(url: 'https://taqiviolet.com/api/orders/to-paytabs',token: kToken,data: {
+    'address':"dsflmvm",
+    "name":"ahmed",
+    "email":"activ@gmail.com",
+    "phone":"032359358",
+    "state_id":4,
+    "country_id":1,
+    "zip_code":1234
+  }).then((value) => {
+      print("value"),
+       print(value),
+  }).catchError((error){
+
+    print("eeeeeeeeeeeeeeeeee");
+    print(error);
+   });
+
+  // if(response)
+  // html=responseStatu.toString();
+  // print("resssssssssssssssss${html}");
 }
 }

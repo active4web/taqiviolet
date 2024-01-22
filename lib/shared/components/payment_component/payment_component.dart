@@ -1,21 +1,16 @@
 import 'package:animated_conditional_builder/animated_conditional_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
-import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
-import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
-import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
+import 'package:safsofa/shared/components/payment_component/web_view_tabby_screen.dart';
+
+import 'package:url_launcher/url_launcher.dart';
+
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/cartCubit/cart_cubit.dart';
 import 'package:safsofa/models/cities_location_model.dart';
-import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/add_review_screen.dart';
-import 'package:safsofa/screens/check_out_screen.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
-import 'dart:async';
 import 'dart:io' show Platform;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:safsofa/shared/components/payment_component/cubit/payment_state.dart';
@@ -23,7 +18,6 @@ import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../../../main.dart';
 
 class PaymentComponent extends StatefulWidget {
 
@@ -120,7 +114,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
                   color: Colors.green.shade200,
                   title: 'تابي',),
                   TextButton(
-                        onPressed: () {
+                        onPressed: () async{
                           FocusScope.of(context).unfocus();
                           CartCubit.get(context).globalKey.currentState?.validate();
                           if(CartCubit.get(context).globalKey.currentState!.validate()){
@@ -170,6 +164,11 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                     widget.zipCode));
 
                           }
+                          else if(cubit.chosePay==3){
+                            navigateTo(context, WebViewTabbyScreen());
+                              // await launch(
+                              //     'https://taqiviolet.com/my-Cart');
+                            }
     }
                         },
                         child: Container(
@@ -185,7 +184,6 @@ class _PaymentComponentState extends State<PaymentComponent> {
                               ),
                             )),
                       ),
-
 
                   // TextButton(
                   //       onPressed: () {

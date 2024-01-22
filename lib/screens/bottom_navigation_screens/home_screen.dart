@@ -157,12 +157,6 @@ bool isPopped=false;
     if (kToken != null) {
       AppCubit.get(context).getRecommendedProducts();
     }
-
-    print("is avaiable:  ${ Upgrader.sharedInstance.currentAppStoreVersion()}");
-
-
-
-
      checkForUpdate();
     super.initState();
   }
@@ -421,14 +415,6 @@ bool isPopped=false;
             return true;
           },
           child:Scaffold(
-            backgroundColor: Colors.white,
-            // appBar: CustomAppBar(
-            //   title: 'Cart'.tr(),
-            // ),
-
-            /*
-
-             */
             appBar:CustomAppBar(title: 'Home'.tr(),
                 icon: Row(
                   children: [
@@ -458,56 +444,6 @@ bool isPopped=false;
                     ),
                   ],
                 ) ),
-            // appBar: AppBar(
-            //   systemOverlayStyle: SystemUiOverlayStyle(
-            //       statusBarColor: Colors.white70,
-            //       statusBarIconBrightness: Brightness.dark),
-            //   elevation: 0.0,
-            //   backgroundColor: Colors.transparent,
-            //   iconTheme: IconThemeData(color: Colors.white),
-            //   centerTitle: true,
-            //   actions: [
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 8.0),
-            //       child: Container(
-            //         height: 20,
-            //         width: 50,
-            //         decoration: BoxDecoration(
-            //           color: Colors.grey.withOpacity(.4),
-            //           borderRadius: BorderRadius.circular(15),
-            //         ),
-            //         child: IconButton(
-            //           icon: Icon(CupertinoIcons.search, color: Colors.black),
-            //           onPressed: () {
-            //             navigateTo(context, SearchScreen());
-            //           },
-            //         ),
-            //       ),
-            //     ),
-            //     Padding(
-            //       padding: const EdgeInsets.only(right: 8.0),
-            //       child: Container(
-            //         height: 20,
-            //         width: 50,
-            //         decoration: BoxDecoration(
-            //           color: Colors.grey.withOpacity(.4),
-            //           borderRadius: BorderRadius.circular(15),
-            //         ),
-            //         child: IconButton(
-            //           icon: Icon(CupertinoIcons.bell, color: Colors.black),
-            //           onPressed: () {
-            //             if(kToken == null){
-            //               AppCubit.get(context).selectedIndex = 3;
-            //               navigateAndFinish(context, HomeLayout());
-            //             }else
-            //             navigateTo(context, NotificationsScreen());
-            //           },
-            //         ),
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // extendBodyBehindAppBar: true,
             body: cubit.homeScreenMainCatModel == null ||
                 cubit.homeScreenMainCatBannerModel == null ||
                 cubit.offerModel == null ||
@@ -554,66 +490,7 @@ bool isPopped=false;
                             width: 120,
                             border: BorderRadius.circular(20),
                           );
-
-                          Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(
-                                  "${cubit.homeBannersList![index].image}",
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                              border: Border.all(
-                                color: Colors.grey,
-                                width: 1,
-                                style: BorderStyle.solid,
-                              ),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            // child: Text(
-                            //   (cubit.homeSliderModel[index].title!),
-                            //   style: TextStyle(
-                            //       color: AppColor.foreignColor, fontSize: 12.sp),
-                            // ),
-                          );
                         }),
-                    // CarouselSlider(
-                    //   items: List.generate(
-                    //     cubit.homeBannersList!.length,
-                    //         (index) => Image(
-                    //       image: NetworkImage(
-                    //           "${cubit.homeBannersList![index].image}"),
-                    //       fit: BoxFit.cover,
-                    //     ),
-                    //   ),
-                    //   options: CarouselOptions(
-                    //     // height: 1.0,
-                    //     //  initialPage:
-                    //     // cubit.homeBannersList![0].image,
-                    //     enableInfiniteScroll: true,
-                    //     reverse: false,
-                    //     autoPlay: false,
-                    //     autoPlayInterval: const Duration(seconds: 3),
-                    //     autoPlayAnimationDuration: const Duration(seconds: 1),
-                    //     autoPlayCurve: Curves.fastLinearToSlowEaseIn,
-                    //     scrollDirection: Axis.horizontal,
-                    //     viewportFraction: 1.0,
-                    //   ),
-                    // ),
-                    // child: CarouselSlider(
-                    //   images: ,
-                    //   dotSize: 10,
-                    //   dotSpacing: 20.0,
-                    //   dotColor: kLightGoldColor,
-                    //   dotBgColor: Colors.transparent,
-                    //   animationCurve: Curves.easeIn,
-                    //   borderRadius: true,
-                    //   autoplay: true,
-                    //   dotIncreaseSize: 1.2,
-                    //   dotIncreasedColor: kDarkGoldColor,
-                    //   noRadiusForIndicator: true,
-                    //
-                    // ),
                   ),
                   SizedBox(
                     height: 10.h,
@@ -755,29 +632,6 @@ bool isPopped=false;
                           height: 5.h,
                         ),
 
-                        // YoutubePlayer(
-                        //   actionsPadding: EdgeInsets.symmetric(
-                        //       vertical:
-                        //           MediaQuery.of(context).size.height / 60),
-                        //   controller: AppCubit.get(context).videoController,
-                        //   showVideoProgressIndicator: true,
-                        //   // videoProgressIndicatorColor: Colors.amber,
-                        //   progressColors: ProgressBarColors(
-                        //     playedColor: kDarkGoldColor,
-                        //     handleColor: kLightGoldColor,
-                        //   ),
-                        //   bottomActions: [
-                        //     IconButton(
-                        //       onPressed: () => AppCubit.get(context)
-                        //           .muteUnmuteVideo(AppCubit.get(context)
-                        //               .videoController),
-                        //       icon: Icon(
-                        //         AppCubit.get(context).videoSound,
-                        //         color: kDarkGoldColor,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   ),
@@ -1574,45 +1428,6 @@ bool isPopped=false;
                     ),
                   ),
                   SizedBox(height: 8.h,)
-                  // SizedBox(
-                  //   height: 10.h,
-                  // ),
-                  // SizedBox(
-                  //   height: 80.h,
-                  //   child: Padding(
-                  //     padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  //     child: Row(
-                  //       children: [
-                  //         ServicesItem(
-                  //             image: cubit.servicesModel?.data
-                  //                     ?.services?[2].image ??
-                  //                 '',
-                  //             title: cubit.servicesModel?.data
-                  //                     ?.services?[2].title ??
-                  //                 '',
-                  //             subTitle: cubit.servicesModel?.data
-                  //                     ?.services?[2].description ??
-                  //                 ''),
-                  //         SizedBox(
-                  //           width: 20.w,
-                  //         ),
-                  //         ServicesItem(
-                  //             image: cubit.servicesModel?.data
-                  //                     ?.services?[3].image ??
-                  //                 '',
-                  //             title: cubit.servicesModel?.data
-                  //                     ?.services?[3].title ??
-                  //                 '',
-                  //             subTitle: cubit.servicesModel?.data
-                  //                     ?.services?[3].description ??
-                  //                 ''),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // SizedBox(
-                  //   height: 80.h,
-                  // )
                 ],
               ),
             ),

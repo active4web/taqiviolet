@@ -509,7 +509,7 @@ MakeNewOrderModel? newOrder;
       // CartCubit.get(context).nameOfReceiver.text =
       //     AppCubit.get(context).userInfo?.data?.name ?? '';
       if(newOrder?.data?.lastOrder?.userPhone!=""){
-        phoneOfReceiver.text=newOrder?.data?.lastOrder?.userPhone??'';
+        phoneOfReceiver.text=newOrder?.data?.lastOrder?.userPhone?.split('+966')[1]??'';
       }
       addressOfReceiver.text=newOrder?.data?.lastOrder?.address??'';
       nameOfReceiver.text=newOrder?.data?.lastOrder?.userName??'';

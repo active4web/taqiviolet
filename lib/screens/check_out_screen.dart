@@ -1043,6 +1043,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 ),
                               ),
                               IntlPhoneField(
+
                                 showDropdownIcon: false,
                                 controller: cartCubit.phoneOfReceiver,
                                 textAlign: TextAlign.end,
@@ -1056,6 +1057,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     color: kCustomBlack, fontFamily: 'Tajawal'),
                                 dropdownDecoration: BoxDecoration(
                                   color: const Color(0xffE8E8E8),
+
                                   borderRadius: kLanguage != 'ar'
                                       ? BorderRadius.only(
                                     topLeft: Radius.circular(34),
@@ -1067,7 +1069,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   ),
                                 ),
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(vertical: 15.h,horizontal: 10.w),
+
+                                    contentPadding: EdgeInsets.symmetric(vertical: 12.h,horizontal: 10.w),
                                     filled: true,
                                     fillColor: const Color(0xffE8E8E8),
                                     hintText: '56xxxxxxx',
