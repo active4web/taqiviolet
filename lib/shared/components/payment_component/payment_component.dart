@@ -30,10 +30,12 @@ class PaymentComponent extends StatefulWidget {
       required this.cartId,
       required this.total,
       required this.country,
-      required this.city, required this.zipCode, required this.email,
+      required this.city, required this.zipCode, required this.email,required this.distrect
+
       });
 
   final String phone;
+  final String distrect;
   final String name;
   final String address;
   final CountryList? country;
@@ -132,7 +134,9 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                     widget.country?.refCode??'',
                                     widget.city?.nameCity??'ca',
                                     widget.city?.nameCity??'ca',
-                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
+                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId,
+                                widget.distrect
+                                ),
                                 shippingDetailsData: ShippingDetails(
                                     widget.name,
                                     widget.email,
@@ -153,7 +157,7 @@ class _PaymentComponentState extends State<PaymentComponent> {
                                     widget.country?.refCode??'',
                                     widget.city?.nameCity??'ca',
                                     widget.city?.nameCity??'ca',
-                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId),
+                                    widget.zipCode,widget.city?.idCity??0,widget.country?.id??0,widget.total,widget.cartId,widget.distrect),
                                 shippingDetailsData: ShippingDetails(
                                     widget.name,
                                     widget.email,

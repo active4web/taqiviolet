@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:go_router/go_router.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
@@ -28,8 +29,8 @@ class _SplashScreenState extends State<SplashScreen> {
     print(kToken);
     if (CacheHelper.getData("onBoarding") == true && kToken == null ) {
       AppCubit.get(context).selectedIndex=3;
-      navigateAndFinish(context, HomeLayout());
-
+       navigateAndFinish(context, HomeLayout());
+      // context.push('/home');
     }
        else if(CacheHelper.getData("onBoarding") == true && kToken != null) {
       navigateAndFinish(context, HomeLayout());

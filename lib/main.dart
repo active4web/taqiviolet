@@ -10,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:go_router/go_router.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/commitments/commitments_cubit.dart';
 import 'package:safsofa/cubits/common_questionCubit/common_question_cubit.dart';
@@ -24,6 +25,7 @@ import 'package:safsofa/cubits/taqi_work_cubit/cubit/taqi_work_cubit.dart';
 import 'package:safsofa/firebase_options.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/push_notifcation.dart';
+import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/new/financial_reports_screen/cubit/financial_reports_cubit.dart';
 import 'package:safsofa/screens/new/mail_screen/presentation/controller/mail_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
@@ -32,6 +34,7 @@ import 'package:safsofa/screens/new/personel_page/presentation/screens/component
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/receipt_record_screen/controller/receipt_record_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/starting_wotk_from_screen/controller/starting_work_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/vacation_form/controller/vacation_cubit.dart';
+import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/screens/register_screens/forgot_password_screen.dart';
 import 'package:safsofa/screens/splash_and_onboarding/splash_screen.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
@@ -233,8 +236,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => CommitmentsCubit()),
               BlocProvider(create: (context) => MailCubit()),
             ],
-            child:
-                 MaterialApp(
+            child:MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'Taqi Violet',
                   localizationsDelegates: context.localizationDelegates,
@@ -259,12 +261,22 @@ class MyApp extends StatelessWidget {
                     textSelectionTheme:
                     TextSelectionThemeData(cursorColor: Colors.black),
                   ),
+              onGenerateRoute: (settings) {
+                final uri = Uri.parse(settings.name!);
+                if (uri.path == '/details') {
+                  final itemId = uri.queryParameters['itemId'];
+                  return MaterialPageRoute(
+                    builder: (context) => ProductDetailsScreen(productId: int.parse(itemId??'0'),),
+                  );
+                }
+                // Handle other routes here if needed
+                return null;
+              },
                   navigatorKey: navigatorKey,
                   home:SplashScreen(),
-
-
             ));
       }
     );
   }
 }
+

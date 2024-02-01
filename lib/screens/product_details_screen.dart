@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
+import 'package:safsofa/network/dynamic_link_service.dart';
 import 'package:safsofa/screens/bottom_navigation_screens/cart_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
@@ -19,9 +20,13 @@ import 'package:safsofa/shared/components/store_components/product_cards.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
 import 'package:card_swiper/card_swiper.dart';
+import 'package:share_plus/share_plus.dart';
 import '../shared/components/comments_component/comments_component.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
+ProductDetailsScreen({super.key, this.productId=-1});
+   final int productId;
+
   @override
   State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
 }
@@ -42,6 +47,9 @@ Future<void> getFav(context) async {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   void initState() {
+    if(widget.productId!=-1)
+    AppCubit.get(context).getProductDetails(productId: widget.productId);
+
     //getFav(context);
     // setState(() {});
     // CartCubit.get(context).getServerCartData();
@@ -1667,6 +1675,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                                   color: Colors.black26,
                                                 ),
                                         ),
+                                        InkWell(
+                                            onTap: (){
+                                              // DynamicLinkService.instance.createDynamicLink();
+                                              Share.share('https://taqi.com/details?itemId=${cubit.productDetailsModel?.data?.productDetails?[0].id}');
+                                              },
+                                            child: Icon(Icons.share))
                                         // SizedBox(
                                         //   width: 5,
                                         // ),

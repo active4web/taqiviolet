@@ -1462,7 +1462,7 @@ class OffersListView extends StatelessWidget {
           itemBuilder: (context, index) => Container(
                 height: MediaQuery.of(context).size.height * 0.15,
                 width: MediaQuery.of(context).size.width / 1.15,
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
                 margin: EdgeInsets.symmetric(vertical: 10, horizontal: 1),
                 decoration: BoxDecoration(
                   boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 1)],
@@ -1472,11 +1472,11 @@ class OffersListView extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                      flex: 6,
+                      flex: 5,
                       child: Container(
                         child: CustomNetworkImage(
                           image: "${cubit?.offerModel?.data![index].image}",
-                          width: 120,
+                          width: 110.w,
                           border: BorderRadius.circular(20),
                         ),
                         // width: MediaQuery.of(context).size.width / 1.9,
@@ -1490,24 +1490,45 @@ class OffersListView extends StatelessWidget {
                         // ),
                       ),
                     ),
-                    SizedBox(
-                      width: 5,
-                    ),
+
                     Expanded(
                       flex: 5,
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
                             cubit?.offerModel?.data![index].title ?? '',
-                            style: TextStyle(fontSize: 16.sp),
+                            style: TextStyle(fontSize: 13.sp),
                             textAlign: TextAlign.center,
                           ),
-                          Expanded(
+                          if(cubit?.offerModel?.data?[index].title2!='')
+                            Text(
+                            "${cubit?.offerModel?.data![index].title2}",
+                            style: TextStyle(
+                                fontSize: 13.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          ),
+                          if(cubit?.offerModel?.data?[index].title3!='')
+                          Text(
+                            "${cubit?.offerModel?.data![index].title3}",
+                            style: TextStyle(
+                                fontSize: 13.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          ),
+                          if(cubit?.offerModel?.data?[index].title3!='')
+
+                            Text(
+                            "${cubit?.offerModel?.data![index].title4}",
+                            style: TextStyle(
+                                fontSize: 13.sp, fontWeight: FontWeight.w500),
+                            textAlign: TextAlign.center,
+                          ),
+                          if(cubit?.offerModel?.data?[index].title5!='')
+                            Expanded(
                             child: Text(
-                              "${cubit?.offerModel?.data![index].content}",
+                              "${cubit?.offerModel?.data![index].title5}",
                               style: TextStyle(
-                                  fontSize: 16.sp, fontWeight: FontWeight.w500),
+                                  fontSize: 13.sp, fontWeight: FontWeight.w500),
                               textAlign: TextAlign.center,
                             ),
                           ),

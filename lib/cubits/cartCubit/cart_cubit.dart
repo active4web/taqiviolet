@@ -41,6 +41,7 @@ class CartCubit extends Cubit<CartState> {
   TextEditingController phoneOfReceiver = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController addressOfReceiver = TextEditingController();
+  TextEditingController districtOfReceiver = TextEditingController();
   TextEditingController zibCode = TextEditingController();
 
   getServerCartData({bool withLoading = true}) {

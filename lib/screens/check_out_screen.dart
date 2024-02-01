@@ -2,28 +2,21 @@ import 'dart:developer';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/cubits/cartCubit/cart_state.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
-import 'package:safsofa/shared/components/custom_button.dart';
-import 'package:safsofa/shared/components/custom_drop_down.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
-import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:safsofa/shared/defaults.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../cubits/cartCubit/cart_cubit.dart';
 import '../network/local/cache_helper.dart';
 import '../shared/components/payment_component/payment_component.dart';
-import 'new_details_order_after.dart';
 
 int? countryId;
 int? cityId;
@@ -195,6 +188,31 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 CustomTextFormField(
                                   // fontSize: 12.sp,
                                   controller: cartCubit.addressOfReceiver,
+                                  fillColor: Colors.grey.shade500,
+                                  hintColor: Colors.black,
+                                  textColor: Colors.black,
+                                  cursorColor: kDarkGoldColor,
+                                  keyboardType: TextInputType.streetAddress,
+                                  onChanged: (value){
+                                    setState((){});
+                                  },
+                                  validate: (value) {
+                                    if (value!.isEmpty) {
+                                      return "this field is required";
+                                    }
+                                  },
+                                ),
+                                Text(
+                                  "الحي".tr(),
+                                  style: TextStyle(
+                                    color: kCustomBlack,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                CustomTextFormField(
+                                  // fontSize: 12.sp,
+                                  controller: cartCubit.districtOfReceiver,
                                   fillColor: Colors.grey.shade500,
                                   hintColor: Colors.black,
                                   textColor: Colors.black,
@@ -939,7 +957,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ],
                       ),
                     ),
-
                     Text(
                       "FullName".tr(),
                       style: TextStyle(
@@ -1043,7 +1060,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 ),
                               ),
                               IntlPhoneField(
-
                                 showDropdownIcon: false,
                                 controller: cartCubit.phoneOfReceiver,
                                 textAlign: TextAlign.end,
@@ -1274,6 +1290,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           city: cartCubit.selectedCity,
                           zipCode: cartCubit.zibCode.text,
                           email: cartCubit.email.text,
+                          distrect: cartCubit.districtOfReceiver.text,
                         );
                       },
                     ),
