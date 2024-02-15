@@ -1,4 +1,4 @@
-import '../screens/new/financial_reports_screen/models/partner_wating_order_model.dart';
+import 'package:safsofa/models/partner_orders_model.dart';
 
 class OrderSalesModel {
   bool? status;
@@ -13,57 +13,88 @@ class OrderSalesModel {
     data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    data['message'] = this.message;
+    if (this.data != null) {
+      data['data'] = this.data!.toJson();
+    }
+    return data;
+  }
 }
 
 class Data {
-  List<Order>? orders;
-  PromoCode? promoCode;
+  String? promoCode;
+  Orders? orders;
 
-  Data({this.orders, this.promoCode});
+  Data({this.promoCode, this.orders});
 
   Data.fromJson(Map<String, dynamic> json) {
-    if (json['orders'] != null) {
-      orders = <Order>[];
-      json['orders'].forEach((v) {
-        orders!.add(new Order.fromJson(v));
-      });
-    }
-    promoCode = json['promo_code'] != null
-        ? new PromoCode.fromJson(json['promo_code'])
-        : null;
-  }
-
-}
-
-
-class PromoCode {
-  String? id;
-  String? code;
-  String? value;
-  String? startDate;
-  String? end;
-  String? counts;
-
-  PromoCode(
-      {this.id, this.code, this.value, this.startDate, this.end, this.counts});
-
-  PromoCode.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    code = json['code'];
-    value = json['value'];
-    startDate = json['start_date'];
-    end = json['end'];
-    counts = json['counts'];
+    promoCode = json['promo_code'];
+    orders =
+    json['orders'] != null ? new Orders.fromJson(json['orders']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['code'] = this.code;
-    data['value'] = this.value;
-    data['start_date'] = this.startDate;
-    data['end'] = this.end;
-    data['counts'] = this.counts;
+    data['promo_code'] = this.promoCode;
+    if (this.orders != null) {
+      data['orders'] = this.orders!.toJson();
+    }
+    return data;
+  }
+}
+
+class Orders {
+  List<Waiting>? waiting;
+  List<Waiting>? current;
+  List<Waiting>? holding;
+  List<Waiting>? old;
+
+  Orders({this.waiting, this.current, this.holding, this.old});
+
+  Orders.fromJson(Map<String, dynamic> json) {
+    if (json['waiting'] != null) {
+      waiting = <Waiting>[];
+      json['waiting'].forEach((v) {
+        waiting!.add(new Waiting.fromJson(v));
+      });
+    }
+    if (json['current'] != null) {
+      current = <Waiting>[];
+      json['current'].forEach((v) {
+        current!.add(new Waiting.fromJson(v));
+      });
+    }
+    if (json['holding'] != null) {
+      holding = <Waiting>[];
+      json['holding'].forEach((v) {
+        holding!.add(new Waiting.fromJson(v));
+      });
+    }
+    if (json['old'] != null) {
+      old = <Waiting>[];
+      json['old'].forEach((v) {
+        old!.add(new Waiting.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.waiting != null) {
+      data['waiting'] = this.waiting!.map((v) => v.toJson()).toList();
+    }
+    if (this.current != null) {
+      data['current'] = this.current!.map((v) => v.toJson()).toList();
+    }
+    if (this.holding != null) {
+      data['holding'] = this.holding!.map((v) => v.toJson()).toList();
+    }
+    if (this.old != null) {
+      data['old'] = this.old!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

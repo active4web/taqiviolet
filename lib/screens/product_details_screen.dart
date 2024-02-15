@@ -1678,7 +1678,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         InkWell(
                                             onTap: (){
                                               // DynamicLinkService.instance.createDynamicLink();
-                                              Share.share('https://taqi.com/details?itemId=${cubit.productDetailsModel?.data?.productDetails?[0].id}');
+                                              Share.share('https://taqiviolet.com/product-Details/${cubit.productDetailsModel?.data?.productDetails?[0].id}');
                                               },
                                             child: Icon(Icons.share))
                                         // SizedBox(

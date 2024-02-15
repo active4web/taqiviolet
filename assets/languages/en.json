@@ -373,7 +373,11 @@
   "note": "Note",
   "tabby": "Tabby",
   "creditCard": "Credit card",
-  "selectPayment": "You must specify a payment method"
+  "selectPayment": "You must specify a payment method",
+  "neighbourhood": "neighbourhood",
+  "features": "Features"
+
+
 
 
 

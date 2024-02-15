@@ -5,10 +5,11 @@ import 'package:safsofa/screens/new/financial_reports_screen/widgets/current_ord
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/cusom_dialog_box.dart';
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/holding_order_list_view.dart';
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/old_order_list_view.dart';
+import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:safsofa/shared/constants.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../network/local/cache_helper.dart';
 import 'widgets/wating_order_list_view.dart';
 
@@ -26,7 +27,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
     if(CacheHelper.getData('type')==3){
       FinancialReportsCubit.get(context)..getSalesOrder();
     }else{
-      FinancialReportsCubit.get(context)..getWatingOrders()..getCurrentOrders()..getHoldingOrders()..getOldOrders();
+      FinancialReportsCubit.get(context)..getPartnerOrders();
     }
     super.initState();
   }
@@ -44,11 +45,19 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 10.w),
-        child: Column(
+        child: BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
+  builder: (context, state) {
+    var cubit=FinancialReportsCubit.get(context);
+    return cubit.partnerOrdersModel==null?Center(
+      child: CustomCircularProgress(
+        color: kCustomBlack,
+      ),
+    ) :Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if(CacheHelper.getData('type')==0)
-              Column(
+            
+     Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -57,7 +66,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                         child: Column(
                           children: [
                             Text("المتبقى"),
-                            Text("200"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.remain??''),
                           ],
                         ),
                       ),
@@ -65,7 +74,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                         child: Column(
                           children: [
                             Text("الربح"),
-                            Text("200"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.profit??''),
                           ],
                         ),
                       ),
@@ -73,7 +82,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                         child: Column(
                           children: [
                             Text("رأس المال"),
-                            Text("200"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.userCapital??''),
                           ],
                         ),
                       ),
@@ -82,7 +91,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                         child: Column(
                           children: [
                             Text("اجمالي المبيعات"),
-                            Text("200"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.totalOrders??''),
                           ],
                         ),
                       ),
@@ -95,27 +104,27 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                       Column(
                         children: [
                           Text("الزائرين"),
-                          Text("200"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.visiters??''),
                         ],
                       ),
 
                       Column(
                         children: [
                           Text("المستخدمين"),
-                          Text("200"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.usersCount??''),
                         ],
                       ),
 
                       Column(
                         children: [
                           Text("المخزن"),
-                          Text("200"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.productsQuantities??''),
                         ],
                       ),
                       Column(
                         children: [
                           Text("المصاريف"),
-                          Text("200"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.expenses??''),
                         ],
                       ),
                     ],
@@ -126,6 +135,7 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
                   ),
                 ],
               ),
+ 
 
             Container(
               height: height / 20,
@@ -271,7 +281,9 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
             //   ],
             // ),
           ],
-        ),
+        );
+  },
+),
       ),
     );
   }

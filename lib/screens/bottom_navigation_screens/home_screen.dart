@@ -18,6 +18,7 @@ import 'package:safsofa/screens/display_products_screen.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/menu_screens/offers_products_screen.dart';
 import 'package:safsofa/screens/menu_screens/offers_screen.dart';
+import 'package:safsofa/screens/new/pdf_view.dart';
 import 'package:safsofa/screens/new/personel_page/help/toast/toast.dart';
 import 'package:safsofa/screens/new/personel_page/help/toast/toast_states.dart';
 import 'package:safsofa/screens/notifications_screen.dart';

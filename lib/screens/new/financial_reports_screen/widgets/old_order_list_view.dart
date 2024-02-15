@@ -17,8 +17,8 @@ class OldOrderLisView extends StatelessWidget {
     return BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
       builder: (context, state) {
         var cubit=FinancialReportsCubit.get(context);
-        return AnimatedConditionalBuilder(condition: cubit.oldOrderModel!=null, builder: (context)=>
-            AnimatedConditionalBuilder(condition: cubit.oldOrderModel?.data?.isNotEmpty??cubit.oldOrderModel?.data==[], builder: (context)=>
+        return AnimatedConditionalBuilder(condition: cubit.old!=null, builder: (context)=>
+            AnimatedConditionalBuilder(condition: cubit.old?.isNotEmpty??cubit.old==[], builder: (context)=>
                 ListView.separated(
                   itemCount: cubit.oldOrderModel?.data?.length??0,
                   itemBuilder: (context, index) => Container(
@@ -39,7 +39,7 @@ class OldOrderLisView extends StatelessWidget {
                                       fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text(cubit.oldOrderModel?.data?[index].codeOrder.toString()??'',style: TextStyle(
+                                  Text(cubit.old?[index].codeOrder.toString()??'',style: TextStyle(
                                       fontSize: 10.sp
                                   ),),
                                 ],
@@ -50,7 +50,7 @@ class OldOrderLisView extends StatelessWidget {
                                       fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text('${cubit.oldOrderModel?.data?[index].total} ${'rial'.tr()}',style: TextStyle(
+                                  Expanded(child: Text('${cubit.old?[index].total?.toStringAsFixed(2)} ${'rial'.tr()}',style: TextStyle(
                                       fontSize: 10.sp
                                   ),)),
                                 ],
@@ -61,7 +61,7 @@ class OldOrderLisView extends StatelessWidget {
                                       fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text('3',style: TextStyle(
+                                  Text(cubit.old?[index].productsConut.toString()??'',style: TextStyle(
                                       fontSize: 10.sp
                                   ),),
                                 ],
@@ -72,7 +72,7 @@ class OldOrderLisView extends StatelessWidget {
                                       fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text(cubit.oldOrderModel?.data?[index].orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(
+                                  Expanded(child: Text(cubit.old?[index].createdAt??'',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(
                                       fontSize: 10.sp
                                   ),)),
                                 ],
@@ -97,7 +97,7 @@ class OldOrderLisView extends StatelessWidget {
                             ),
                             TextButton(onPressed: (){
                               navigateTo(context, OrderDetailsSCR(
-                                id: cubit.oldOrderModel!.data![index].id!.toInt(),
+                                id: cubit.old![index].id!.toInt(),
                               ));
                             },
                                 child: Text(

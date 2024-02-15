@@ -29,40 +29,41 @@ class InventoryScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6.w),
+                      padding: EdgeInsetsDirectional.only(end: 20.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "basicQuantity".tr(),
-                            style: TextStyle(fontSize: 10.sp),
+                            style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "quantitySold".tr(),
-                            style: TextStyle(fontSize: 10.sp),
+                            style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                           ),
                           Text(
                             "remaining".tr(),
-                            style: TextStyle(fontSize: 10.sp),
+                            style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "productImage".tr(),
-                            style: TextStyle(fontSize: 10.sp),
+                            "المزيد".tr(),
+                            style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
+                    Divider(),
                     SizedBox(
                       height: 4.h,
                     ),
                     Table(
                       columnWidths: {
-                        0: FlexColumnWidth(30.w),
-                        1: FlexColumnWidth(30.w),
-                        2: FlexColumnWidth(22.w),
-                        3: FlexColumnWidth(22.w),
+                        0: FlexColumnWidth(50.w),
+                        1: FlexColumnWidth(40.w),
+                        2: FlexColumnWidth(20.w),
+                        3: FlexColumnWidth(30.w),
                       },
-                      border: TableBorder.symmetric(inside: BorderSide(color: kCustomBlack)),
+                      // border: TableBorder.symmetric(inside: BorderSide(color: kCustomBlack)),
                       defaultVerticalAlignment: TableCellVerticalAlignment.middle,
 
                       children: List.generate(
@@ -72,11 +73,11 @@ class InventoryScreen extends StatelessWidget {
                         //     : cubit.searchData.length,
                         (index) => TableRow(
                           decoration: BoxDecoration(
-                              color:  Colors.white),
+                              color: index%2==0? Colors.white:Colors.grey.shade300),
                           children: [
-                            customInventoryText(text: inventoryCubit.inventoryModel?.data?[index].productQuantityOrignal??''),
+                            customInventoryText(text: inventoryCubit.inventoryModel?.data?[index].productQuantityOrignal.toString()??''),
                             customInventoryText(text: inventoryCubit.inventoryModel?.data?[index].productQuantitySold.toString()??''),
-                            customInventoryText(text:  inventoryCubit.inventoryModel?.data?[index].productQuantity??''
+                            customInventoryText(text:  inventoryCubit.inventoryModel?.data?[index].productQuantity.toString()??''
                             ),
                             InkWell(
                               onTap: (){
@@ -108,6 +109,12 @@ class InventoryScreen extends StatelessWidget {
                                     content: Column(
                                       mainAxisSize: MainAxisSize.min,
                                      children: [
+                                       Image.network(
+                                         inventoryCubit.inventoryModel?.data?[index].image??'',
+                                         height: 100,
+                                         width: 100,
+                                       ),
+                                        SizedBox(height: 10.h,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.start,
                                           children: [
@@ -142,11 +149,7 @@ class InventoryScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              child: Image.network(
-                                inventoryCubit.inventoryModel?.data?[index].image??'',
-                                height: 30,
-                                width: 30,
-                              ),
+                              child: Icon(Icons.push_pin,size: 20,),
                             ),
                           ],
                         ),

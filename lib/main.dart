@@ -6,6 +6,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -58,6 +59,7 @@ import 'cubits/my_orders_cubit.dart';
 import 'cubits/onbordingCubit/onboarding_cubit.dart';
 import 'cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
 import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
+import 'cubits/request_cubit/request_cubit.dart';
 import 'cubits/reviews_cubit/cubit/reviews_comments_cubit.dart';
 import 'cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
@@ -80,6 +82,7 @@ void main() async {
   Position? position;
 try{
   WidgetsFlutterBinding.ensureInitialized();
+  // await FlutterDownloader.initialize();
   await CacheHelper.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
@@ -235,6 +238,7 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => VacationCubit()),
               BlocProvider(create: (context) => CommitmentsCubit()),
               BlocProvider(create: (context) => MailCubit()),
+              BlocProvider( create: (context)=>RequestCubit()..getListRequest()),
             ],
             child:MaterialApp(
                   debugShowCheckedModeBanner: false,

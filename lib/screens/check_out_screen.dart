@@ -203,7 +203,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   },
                                 ),
                                 Text(
-                                  "الحي".tr(),
+                                  "neighbourhood".tr(),
                                   style: TextStyle(
                                     color: kCustomBlack,
                                     fontSize: 13.sp,

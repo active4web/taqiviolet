@@ -19,7 +19,6 @@ InventoryModel? inventoryModel;
       'lang':kLanguage
     }).then((value) {
       print('*********data**********${value.data}');
-
       inventoryModel=InventoryModel.fromJson(value.data);
       emit(GetListInventorySuccess());
     }).catchError((error){
