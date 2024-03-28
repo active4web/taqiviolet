@@ -7,7 +7,7 @@ class PushNotificationManagger {
   // PushNotificationManagger._();
   // factory PushNotificationManagger()=>_instance;
   // static final PushNotificationManagger _instance=PushNotificationManagger._();
-  // final FirebaseMessaging _firebaseMessaging=FirebaseMessaging.instance;
+  // static final FirebaseMessaging _firebaseMessaging=FirebaseMessaging.instance;
   // bool _initialized=false;
   // Future init()async{
   //   if(!_initialized){
@@ -21,8 +21,15 @@ class PushNotificationManagger {
   //     return token;
   //   }
   // }
+  static final _firebaseMessaging=FirebaseMessaging.instance;
+
   static Future<void> initialize(
+
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin)  async{
+
+    await _firebaseMessaging.requestPermission(
+    );
+
     AndroidInitializationSettings initializationSettingsAndroid =
      AndroidInitializationSettings('@mipmap/ic_launcher');
 

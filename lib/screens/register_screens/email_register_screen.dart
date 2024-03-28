@@ -58,509 +58,507 @@ class _EmailRegisterScreenState extends State<EmailRegisterScreen> {
       },
       builder: (context, state) {
         AuthCubit cubit = AuthCubit.get(context);
-        return SafeArea(
-          child: Scaffold(
-            extendBody: true,
-            resizeToAvoidBottomInset: true,
-            extendBodyBehindAppBar: true,
-            backgroundColor: Colors.transparent,
-            body: Stack(
-              alignment: AlignmentDirectional.topStart,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image:
-                            AssetImage('assets/images/background image.png'),
-                        fit: BoxFit.cover),
-                  ),
-                  child: Form(
-                    key: formRegKey,
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(30),
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.04,
+        return Scaffold(
+          extendBody: true,
+          resizeToAvoidBottomInset: true,
+          extendBodyBehindAppBar: true,
+          backgroundColor: Colors.transparent,
+          body: Stack(
+            alignment: AlignmentDirectional.topStart,
+            children: [
+              Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      image:
+                          AssetImage('assets/images/background image.png'),
+                      fit: BoxFit.cover),
+                ),
+                child: Form(
+                  key: formRegKey,
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(30),
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height:
+                                MediaQuery.of(context).size.height * 0.04,
+                          ),
+                          Text(
+                            'SignUp'.tr(),
+                            style: TextStyle(
+                                color: kLightGoldColor, fontSize: 32),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Language'.tr(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 20),
+                                ),
+                                LanguageChip(),
+                              ],
                             ),
-                            Text(
-                              'SignUp'.tr(),
-                              style: TextStyle(
-                                  color: kLightGoldColor, fontSize: 32),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          CustomTextFormField(
+                            hintText: 'FullName'.tr(),
+                            controller: regENameController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'thisFieldCanNotBeEmpty'.tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomTextFormField(
+                            hintText: 'Email'.tr(),
+                            keyboardType: TextInputType.emailAddress,
+                            controller: regEEmailController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'thisFieldCanNotBeEmpty'.tr();
+                              } else if (!RegExp(
+                                      r"^((([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$")
+                                  .hasMatch(value)) {
+                                return 'pleaseEnterValidEmail'.tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomTextFormField(
+                            hintText: 'Address'.tr(),
+                            controller: regEAddressController,
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'thisFieldCanNotBeEmpty'.tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomPasswordFormField(
+                            hintText: 'Password'.tr(),
+                            isPassword: cubit.isPasswordEmailRegisterPassword,
+                            suffixIcon: cubit.suffixEmailRegisterPassword,
+                            suffixOnPressed: (){
+                              cubit.isShowAndHideEmailRegisterPassword();
+                            },
+                            controller: regEPasswordContoller,
+                            validation: (String pass) {
+                              // pass = pass;
+                              if (pass.isEmpty) {
+                                return 'thisFieldCanNotBeEmpty'.tr();
+                              }/* else {
+                                result = cubit.validatePassword(pass);
+                                if (result) {
+                                  return null;
+                                } else {
+                                  return "passwordInvalidMessage".tr();
+                                }
+                               }*/
+                              else{
+                                return null;
+                              }
+                            },
+                          ),
+                          // Padding(
+                          //   padding: const EdgeInsets.all(12.0),
+                          //   child: LinearProgressIndicator(
+                          //     value: cubit.password_strength,
+                          //     backgroundColor: Colors.grey[300],
+                          //     minHeight: 5,
+                          //     color: cubit.password_strength <= 1 / 4
+                          //         ? Colors.red
+                          //         : cubit.password_strength == 2 / 4
+                          //             ? Colors.yellow
+                          //             : cubit.password_strength == 3 / 4
+                          //                 ? Colors.blue
+                          //                 : Colors.green,
+                          //   ),
+                          // ),
+                          Padding(
+                            padding:  EdgeInsets.all(12),
+                            child: FlutterPwValidator(strings:Strings(),
+                              controller:regEPasswordContoller,
+                              minLength: 8,
+                              uppercaseCharCount: 0,
+                              numericCharCount: 1,
+                              specialCharCount: 1,
+                              normalCharCount: 2,
+                              width: 400,
+                              height: 150,
+                              onSuccess: () {
+                                setState(() {
+                                  success = true;
+                                }
+                                );
+                                print("MATCHED");
+                              },
+                              onFail: () {
+                                setState(() {
+                                  success = false;
+                                });
+                                print("NOT MATCHED");
+                              },
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    'Language'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 20),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          // FlutterPwValidator(
+                          //   controller: regEPasswordContoller,
+                          //   minLength: 6,
+                          //   uppercaseCharCount: 1,
+                          //   numericCharCount: 1,
+                          //   specialCharCount: 1,
+                          //   width: MediaQuery.of(context).size.width / 1.2,
+                          //   height: MediaQuery.of(context).size.height / 6,
+                          //   onSuccess: () {
+                          //     passwordValidate = true;
+                          //   },
+                          //   onFail: () {
+                          //     passwordValidate = false;
+                          //   },
+                          // ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomPasswordFormField(
+                            hintText: "confirmPassword".tr(),
+                            controller: confirmRegEPasswordController,
+                            isPassword: cubit.isPasswordEmailRegisterConfirmPassword,
+                            suffixIcon: cubit.suffixEmailRegisterConfirmPassword,
+                            suffixOnPressed: (){
+                              cubit.isShowAndHideEmailRegisterConfirmPassword();
+                            },
+                            validation: (String value) {
+                              if (value == null || value.isEmpty) {
+                                return "thisFieldCanNotBeEmpty".tr();
+                              } else if (value !=
+                                  regEPasswordContoller.text) {
+                                return "passwordDoesNotMatch".tr();
+                              } else {
+                                return null;
+                              }
+                            },
+                          ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: ListTile(
+                          //         contentPadding: EdgeInsets.zero,
+                          //         horizontalTitleGap: 0,
+                          //         leading: Icon(Icons.check,
+                          //             color: AuthCubit.get(context).consistOf6
+                          //                 ? Colors.green
+                          //                 : null),
+                          //         title: Text(
+                          //           '6 charcters',
+                          //           style: TextStyle(
+                          //               color: AuthCubit.get(context).consistOf6
+                          //                   ? Colors.green
+                          //                   : null),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: ListTile(
+                          //         contentPadding: EdgeInsets.zero,
+                          //         horizontalTitleGap: 0,
+                          //         leading: Icon(Icons.check,
+                          //             color: AuthCubit.get(context).consistOf6
+                          //                 ? Colors.green
+                          //                 : null),
+                          //         title: Text(
+                          //           'Capital letters',
+                          //           style: TextStyle(
+                          //               color: AuthCubit.get(context).consistOf6
+                          //                   ? Colors.green
+                          //                   : null),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: ListTile(
+                          //         contentPadding: EdgeInsets.zero,
+                          //         horizontalTitleGap: 0,
+                          //         leading: Icon(Icons.check,
+                          //             color: AuthCubit.get(context).consistOf6
+                          //                 ? Colors.green
+                          //                 : null),
+                          //         title: Text(
+                          //           'Small letters',
+                          //           style: TextStyle(
+                          //               color: AuthCubit.get(context).consistOf6
+                          //                   ? Colors.green
+                          //                   : null),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: ListTile(
+                          //         contentPadding: EdgeInsets.zero,
+                          //         horizontalTitleGap: 0,
+                          //         leading: Icon(Icons.check,
+                          //             color: AuthCubit.get(context).consistOf6
+                          //                 ? Colors.green
+                          //                 : null),
+                          //         title: Text(
+                          //           'Special Characters',
+                          //           style: TextStyle(
+                          //               color: AuthCubit.get(context).consistOf6
+                          //                   ? Colors.green
+                          //                   : null),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //     Expanded(
+                          //       child: ListTile(
+                          //         contentPadding: EdgeInsets.zero,
+                          //         horizontalTitleGap: 0,
+                          //         leading: Icon(Icons.check,
+                          //             color: AuthCubit.get(context).consistOf6
+                          //                 ? Colors.green
+                          //                 : null),
+                          //         title: Text(
+                          //           'Numbers',
+                          //           style: TextStyle(
+                          //               color: AuthCubit.get(context).consistOf6
+                          //                   ? Colors.green
+                          //                   : null),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // Row(
+                          //   children: [
+                          //     Expanded(
+                          //       child: CustomPasswordFormField(
+                          //         hintText: 'Password'.tr(),
+                          //         controller: regEPasswordContoller,
+                          //         validation: (String val) =>
+                          //             AuthCubit.get(context).checkPassword(val),
+                          //         // errorStyle: TextStyle(
+                          //         //     color: AuthCubit.get(context).strength >= 3 / 4
+                          //         //         ? Colors.green
+                          //         //         : null),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 20,
+                          //     ),
+                          //     Expanded(
+                          //       child: Wrap(
+                          //         children: [
+                          //           ListTile(
+                          //             contentPadding: EdgeInsets.zero,
+                          //             horizontalTitleGap: 0,
+                          //             leading: Icon(Icons.check,
+                          //                 color: AuthCubit.get(context).consistOf6
+                          //                     ? Colors.green
+                          //                     : null),
+                          //             title: Text(
+                          //               '6 charcters',
+                          //               style: TextStyle(
+                          //                   color: AuthCubit.get(context).consistOf6
+                          //                       ? Colors.green
+                          //                       : null),
+                          //             ),
+                          //           ),
+                          //           ListTile(
+                          //             contentPadding: EdgeInsets.zero,
+                          //             horizontalTitleGap: 0,
+                          //             leading: Icon(Icons.check,
+                          //                 color: AuthCubit.get(context).consistOf6
+                          //                     ? Colors.green
+                          //                     : null),
+                          //             title: Text(
+                          //               'Capital letters',
+                          //               style: TextStyle(
+                          //                   color: AuthCubit.get(context).consistOf6
+                          //                       ? Colors.green
+                          //                       : null),
+                          //             ),
+                          //           ),
+                          //           ListTile(
+                          //             contentPadding: EdgeInsets.zero,
+                          //             horizontalTitleGap: 0,
+                          //             leading: Icon(Icons.check,
+                          //                 color: AuthCubit.get(context).consistOf6
+                          //                     ? Colors.green
+                          //                     : null),
+                          //             title: Text(
+                          //               'Small letters',
+                          //               style: TextStyle(
+                          //                   color: AuthCubit.get(context).consistOf6
+                          //                       ? Colors.green
+                          //                       : null),
+                          //             ),
+                          //           ),
+                          //           ListTile(
+                          //             contentPadding: EdgeInsets.zero,
+                          //             horizontalTitleGap: 0,
+                          //             leading: Icon(Icons.check,
+                          //                 color: AuthCubit.get(context).consistOf6
+                          //                     ? Colors.green
+                          //                     : null),
+                          //             title: Text(
+                          //               'Special Characters',
+                          //               style: TextStyle(
+                          //                   color: AuthCubit.get(context).consistOf6
+                          //                       ? Colors.green
+                          //                       : null),
+                          //             ),
+                          //           ),
+                          //           ListTile(
+                          //             contentPadding: EdgeInsets.zero,
+                          //             horizontalTitleGap: 0,
+                          //             leading: Icon(Icons.check,
+                          //                 color: AuthCubit.get(context).consistOf6
+                          //                     ? Colors.green
+                          //                     : null),
+                          //             title: Text(
+                          //               'Numbers',
+                          //               style: TextStyle(
+                          //                   color: AuthCubit.get(context).consistOf6
+                          //                       ? Colors.green
+                          //                       : null),
+                          //             ),
+                          //           ),
+                          //         ],
+                          //       ),
+                          //     )
+                          //   ],
+                          // ),
+                          // The strength indicator bar
+                          // LinearProgressIndicator(
+                          //   value: AuthCubit.get(context).strength,
+                          //   backgroundColor: Colors.grey[300],
+                          //   color: AuthCubit.get(context).strength <= 1 / 4
+                          //       ? Colors.red
+                          //       : AuthCubit.get(context).strength == 2 / 4
+                          //           ? Colors.yellow
+                          //           : AuthCubit.get(context).strength == 3 / 4
+                          //               ? Colors.blue
+                          //               : Colors.green,
+                          //   minHeight: 4,
+                          // ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          state is EmailSignupLoadingState
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: kLightGoldColor,
                                   ),
-                                  LanguageChip(),
-                                ],
-                              ),
+                                )
+                              : CustomButton(
+                                  text: 'SignUp'.tr(),
+                                  height: 50,
+                                  gradient: kGoldGradient,
+                                  textColor: Colors.black,
+                                  onTap: () {
+                                    if (formRegKey.currentState!.validate()) {
+                                      cubit.registerWithEmail(
+                                        lang: EasyLocalization.of(context)
+                                            ?.currentLocale
+                                            .toString(),
+                                        name: regENameController.text,
+                                        address: regEAddressController.text,
+                                        email: regEEmailController.text,
+                                        password:
+                                            regEPasswordContoller.text,
+                                        key: '2',
+                                      );
+                                      // AppCubit.get(context).selectedIndex = 3;
+                                      // navigateAndFinish(context, HomeLayout());
+                                      // navigateTo(context, LoginScreen());
+                                    } else {
+                                      print('111111111111111111');
+                                    }
+                                    // if (regENameController.text == '' ||
+                                    //     phoneController.text == '' ||
+                                    //     regEAddressController.text == '' ||
+                                    //     regEEmailController.text == '' ||
+                                    //     !regEEmailController.text.contains("@")) {
+                                    //   showToast(
+                                    //       text: 'تأكد من ملئ البيانات بشكل كامل',
+                                    //       color: Colors.red);
+                                    // } else if (regEPasswordContoller.text.length < 6) {
+                                    //   showToast(
+                                    //       text: 'Password must be longer than 5',
+                                    //       color: Colors.red);
+                                    // } else {
+                                    //
+                                    // }
+                                  },
+                                ),
+                          SizedBox(height: 30),
+                          InkWell(
+                            onTap: () {
+                              // navigateTo(context, LoginScreen());
+                              navigateAndFinish(context, HomeLayout());
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  'HaveAnAccount?'.tr(),
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 12),
+                                ),
+                                Text(
+                                  'Login'.tr(),
+                                  style: TextStyle(
+                                      color: kLightGoldColor, fontSize: 12),
+                                )
+                              ],
                             ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            CustomTextFormField(
-                              hintText: 'FullName'.tr(),
-                              controller: regENameController,
-                              validate: (value) {
-                                if (value!.isEmpty) {
-                                  return 'thisFieldCanNotBeEmpty'.tr();
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomTextFormField(
-                              hintText: 'Email'.tr(),
-                              keyboardType: TextInputType.emailAddress,
-                              controller: regEEmailController,
-                              validate: (value) {
-                                if (value!.isEmpty) {
-                                  return 'thisFieldCanNotBeEmpty'.tr();
-                                } else if (!RegExp(
-                                        r"^((([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+(\.([a-zA-Z]|\d|[!#\$%&'\*\+\-\/=\?\^_`{\|}~]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+)*)|((\x22)((((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(([\x01-\x08\x0b\x0c\x0e-\x1f\x7f]|\x21|[\x23-\x5b]|[\x5d-\x7e]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(\\([\x01-\x09\x0b\x0c\x0d-\x7f]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))))*(((\x20|\x09)*(\x0d\x0a))?(\x20|\x09)+)?(\x22)))@((([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-zA-Z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-zA-Z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))$")
-                                    .hasMatch(value)) {
-                                  return 'pleaseEnterValidEmail'.tr();
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomTextFormField(
-                              hintText: 'Address'.tr(),
-                              controller: regEAddressController,
-                              validate: (value) {
-                                if (value!.isEmpty) {
-                                  return 'thisFieldCanNotBeEmpty'.tr();
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomPasswordFormField(
-                              hintText: 'Password'.tr(),
-                              isPassword: cubit.isPasswordEmailRegisterPassword,
-                              suffixIcon: cubit.suffixEmailRegisterPassword,
-                              suffixOnPressed: (){
-                                cubit.isShowAndHideEmailRegisterPassword();
-                              },
-                              controller: regEPasswordContoller,
-                              validation: (String pass) {
-                                // pass = pass;
-                                if (pass.isEmpty) {
-                                  return 'thisFieldCanNotBeEmpty'.tr();
-                                }/* else {
-                                  result = cubit.validatePassword(pass);
-                                  if (result) {
-                                    return null;
-                                  } else {
-                                    return "passwordInvalidMessage".tr();
-                                  }
-                                 }*/
-                                else{
-                                  return null;
-                                }
-                              },
-                            ),
-                            // Padding(
-                            //   padding: const EdgeInsets.all(12.0),
-                            //   child: LinearProgressIndicator(
-                            //     value: cubit.password_strength,
-                            //     backgroundColor: Colors.grey[300],
-                            //     minHeight: 5,
-                            //     color: cubit.password_strength <= 1 / 4
-                            //         ? Colors.red
-                            //         : cubit.password_strength == 2 / 4
-                            //             ? Colors.yellow
-                            //             : cubit.password_strength == 3 / 4
-                            //                 ? Colors.blue
-                            //                 : Colors.green,
-                            //   ),
-                            // ),
-                            Padding(
-                              padding:  EdgeInsets.all(12),
-                              child: FlutterPwValidator(strings:Strings(),
-                                controller:regEPasswordContoller,
-                                minLength: 8,
-                                uppercaseCharCount: 0,
-                                numericCharCount: 1,
-                                specialCharCount: 1,
-                                normalCharCount: 2,
-                                width: 400,
-                                height: 150,
-                                onSuccess: () {
-                                  setState(() {
-                                    success = true;
-                                  }
-                                  );
-                                  print("MATCHED");
-                                },
-                                onFail: () {
-                                  setState(() {
-                                    success = false;
-                                  });
-                                  print("NOT MATCHED");
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            // FlutterPwValidator(
-                            //   controller: regEPasswordContoller,
-                            //   minLength: 6,
-                            //   uppercaseCharCount: 1,
-                            //   numericCharCount: 1,
-                            //   specialCharCount: 1,
-                            //   width: MediaQuery.of(context).size.width / 1.2,
-                            //   height: MediaQuery.of(context).size.height / 6,
-                            //   onSuccess: () {
-                            //     passwordValidate = true;
-                            //   },
-                            //   onFail: () {
-                            //     passwordValidate = false;
-                            //   },
-                            // ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            CustomPasswordFormField(
-                              hintText: "confirmPassword".tr(),
-                              controller: confirmRegEPasswordController,
-                              isPassword: cubit.isPasswordEmailRegisterConfirmPassword,
-                              suffixIcon: cubit.suffixEmailRegisterConfirmPassword,
-                              suffixOnPressed: (){
-                                cubit.isShowAndHideEmailRegisterConfirmPassword();
-                              },
-                              validation: (String value) {
-                                if (value == null || value.isEmpty) {
-                                  return "thisFieldCanNotBeEmpty".tr();
-                                } else if (value !=
-                                    regEPasswordContoller.text) {
-                                  return "passwordDoesNotMatch".tr();
-                                } else {
-                                  return null;
-                                }
-                              },
-                            ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: ListTile(
-                            //         contentPadding: EdgeInsets.zero,
-                            //         horizontalTitleGap: 0,
-                            //         leading: Icon(Icons.check,
-                            //             color: AuthCubit.get(context).consistOf6
-                            //                 ? Colors.green
-                            //                 : null),
-                            //         title: Text(
-                            //           '6 charcters',
-                            //           style: TextStyle(
-                            //               color: AuthCubit.get(context).consistOf6
-                            //                   ? Colors.green
-                            //                   : null),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Expanded(
-                            //       child: ListTile(
-                            //         contentPadding: EdgeInsets.zero,
-                            //         horizontalTitleGap: 0,
-                            //         leading: Icon(Icons.check,
-                            //             color: AuthCubit.get(context).consistOf6
-                            //                 ? Colors.green
-                            //                 : null),
-                            //         title: Text(
-                            //           'Capital letters',
-                            //           style: TextStyle(
-                            //               color: AuthCubit.get(context).consistOf6
-                            //                   ? Colors.green
-                            //                   : null),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Expanded(
-                            //       child: ListTile(
-                            //         contentPadding: EdgeInsets.zero,
-                            //         horizontalTitleGap: 0,
-                            //         leading: Icon(Icons.check,
-                            //             color: AuthCubit.get(context).consistOf6
-                            //                 ? Colors.green
-                            //                 : null),
-                            //         title: Text(
-                            //           'Small letters',
-                            //           style: TextStyle(
-                            //               color: AuthCubit.get(context).consistOf6
-                            //                   ? Colors.green
-                            //                   : null),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: ListTile(
-                            //         contentPadding: EdgeInsets.zero,
-                            //         horizontalTitleGap: 0,
-                            //         leading: Icon(Icons.check,
-                            //             color: AuthCubit.get(context).consistOf6
-                            //                 ? Colors.green
-                            //                 : null),
-                            //         title: Text(
-                            //           'Special Characters',
-                            //           style: TextStyle(
-                            //               color: AuthCubit.get(context).consistOf6
-                            //                   ? Colors.green
-                            //                   : null),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //     Expanded(
-                            //       child: ListTile(
-                            //         contentPadding: EdgeInsets.zero,
-                            //         horizontalTitleGap: 0,
-                            //         leading: Icon(Icons.check,
-                            //             color: AuthCubit.get(context).consistOf6
-                            //                 ? Colors.green
-                            //                 : null),
-                            //         title: Text(
-                            //           'Numbers',
-                            //           style: TextStyle(
-                            //               color: AuthCubit.get(context).consistOf6
-                            //                   ? Colors.green
-                            //                   : null),
-                            //         ),
-                            //       ),
-                            //     ),
-                            //   ],
-                            // ),
-                            // Row(
-                            //   children: [
-                            //     Expanded(
-                            //       child: CustomPasswordFormField(
-                            //         hintText: 'Password'.tr(),
-                            //         controller: regEPasswordContoller,
-                            //         validation: (String val) =>
-                            //             AuthCubit.get(context).checkPassword(val),
-                            //         // errorStyle: TextStyle(
-                            //         //     color: AuthCubit.get(context).strength >= 3 / 4
-                            //         //         ? Colors.green
-                            //         //         : null),
-                            //       ),
-                            //     ),
-                            //     SizedBox(
-                            //       width: 20,
-                            //     ),
-                            //     Expanded(
-                            //       child: Wrap(
-                            //         children: [
-                            //           ListTile(
-                            //             contentPadding: EdgeInsets.zero,
-                            //             horizontalTitleGap: 0,
-                            //             leading: Icon(Icons.check,
-                            //                 color: AuthCubit.get(context).consistOf6
-                            //                     ? Colors.green
-                            //                     : null),
-                            //             title: Text(
-                            //               '6 charcters',
-                            //               style: TextStyle(
-                            //                   color: AuthCubit.get(context).consistOf6
-                            //                       ? Colors.green
-                            //                       : null),
-                            //             ),
-                            //           ),
-                            //           ListTile(
-                            //             contentPadding: EdgeInsets.zero,
-                            //             horizontalTitleGap: 0,
-                            //             leading: Icon(Icons.check,
-                            //                 color: AuthCubit.get(context).consistOf6
-                            //                     ? Colors.green
-                            //                     : null),
-                            //             title: Text(
-                            //               'Capital letters',
-                            //               style: TextStyle(
-                            //                   color: AuthCubit.get(context).consistOf6
-                            //                       ? Colors.green
-                            //                       : null),
-                            //             ),
-                            //           ),
-                            //           ListTile(
-                            //             contentPadding: EdgeInsets.zero,
-                            //             horizontalTitleGap: 0,
-                            //             leading: Icon(Icons.check,
-                            //                 color: AuthCubit.get(context).consistOf6
-                            //                     ? Colors.green
-                            //                     : null),
-                            //             title: Text(
-                            //               'Small letters',
-                            //               style: TextStyle(
-                            //                   color: AuthCubit.get(context).consistOf6
-                            //                       ? Colors.green
-                            //                       : null),
-                            //             ),
-                            //           ),
-                            //           ListTile(
-                            //             contentPadding: EdgeInsets.zero,
-                            //             horizontalTitleGap: 0,
-                            //             leading: Icon(Icons.check,
-                            //                 color: AuthCubit.get(context).consistOf6
-                            //                     ? Colors.green
-                            //                     : null),
-                            //             title: Text(
-                            //               'Special Characters',
-                            //               style: TextStyle(
-                            //                   color: AuthCubit.get(context).consistOf6
-                            //                       ? Colors.green
-                            //                       : null),
-                            //             ),
-                            //           ),
-                            //           ListTile(
-                            //             contentPadding: EdgeInsets.zero,
-                            //             horizontalTitleGap: 0,
-                            //             leading: Icon(Icons.check,
-                            //                 color: AuthCubit.get(context).consistOf6
-                            //                     ? Colors.green
-                            //                     : null),
-                            //             title: Text(
-                            //               'Numbers',
-                            //               style: TextStyle(
-                            //                   color: AuthCubit.get(context).consistOf6
-                            //                       ? Colors.green
-                            //                       : null),
-                            //             ),
-                            //           ),
-                            //         ],
-                            //       ),
-                            //     )
-                            //   ],
-                            // ),
-                            // The strength indicator bar
-                            // LinearProgressIndicator(
-                            //   value: AuthCubit.get(context).strength,
-                            //   backgroundColor: Colors.grey[300],
-                            //   color: AuthCubit.get(context).strength <= 1 / 4
-                            //       ? Colors.red
-                            //       : AuthCubit.get(context).strength == 2 / 4
-                            //           ? Colors.yellow
-                            //           : AuthCubit.get(context).strength == 3 / 4
-                            //               ? Colors.blue
-                            //               : Colors.green,
-                            //   minHeight: 4,
-                            // ),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            state is EmailSignupLoadingState
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                      color: kLightGoldColor,
-                                    ),
-                                  )
-                                : CustomButton(
-                                    text: 'SignUp'.tr(),
-                                    height: 50,
-                                    gradient: kGoldGradient,
-                                    textColor: Colors.black,
-                                    onTap: () {
-                                      if (formRegKey.currentState!.validate()) {
-                                        cubit.registerWithEmail(
-                                          lang: EasyLocalization.of(context)
-                                              ?.currentLocale
-                                              .toString(),
-                                          name: regENameController.text,
-                                          address: regEAddressController.text,
-                                          email: regEEmailController.text,
-                                          password:
-                                              regEPasswordContoller.text,
-                                          key: '2',
-                                        );
-                                        // AppCubit.get(context).selectedIndex = 3;
-                                        // navigateAndFinish(context, HomeLayout());
-                                        // navigateTo(context, LoginScreen());
-                                      } else {
-                                        print('111111111111111111');
-                                      }
-                                      // if (regENameController.text == '' ||
-                                      //     phoneController.text == '' ||
-                                      //     regEAddressController.text == '' ||
-                                      //     regEEmailController.text == '' ||
-                                      //     !regEEmailController.text.contains("@")) {
-                                      //   showToast(
-                                      //       text: 'تأكد من ملئ البيانات بشكل كامل',
-                                      //       color: Colors.red);
-                                      // } else if (regEPasswordContoller.text.length < 6) {
-                                      //   showToast(
-                                      //       text: 'Password must be longer than 5',
-                                      //       color: Colors.red);
-                                      // } else {
-                                      //
-                                      // }
-                                    },
-                                  ),
-                            SizedBox(height: 30),
-                            InkWell(
-                              onTap: () {
-                                // navigateTo(context, LoginScreen());
-                                navigateAndFinish(context, HomeLayout());
-                              },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    'HaveAnAccount?'.tr(),
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12),
-                                  ),
-                                  Text(
-                                    'Login'.tr(),
-                                    style: TextStyle(
-                                        color: kLightGoldColor, fontSize: 12),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
+                          )
+                        ],
                       ),
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    icon: Icon(
-                      Icons.arrow_back,
-                      color: kLightGoldColor,
-                    ))
-              ],
-            ),
+              ),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(
+                    Icons.arrow_back,
+                    color: kLightGoldColor,
+                  ))
+            ],
           ),
         );
       },

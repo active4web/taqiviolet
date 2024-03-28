@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomFormField extends StatelessWidget {
   const CustomFormField({
@@ -44,7 +45,8 @@ class CustomFormField extends StatelessWidget {
         minLines: minLines,
         maxLines: minLines != 1 ? null : 1,
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 13.h),
             prefix: prefix,
             border: InputBorder.none,
             hintText: label,

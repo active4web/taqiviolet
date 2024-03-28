@@ -8,7 +8,7 @@ import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class InspirationCubit extends Cubit<InspirationStates> {
-    InspirationCubit() : super(InspirationInitialState());
+  InspirationCubit() : super(InspirationInitialState());
   static InspirationCubit get(context) => BlocProvider.of(context);
   InspirationModel? _inspirationModel;
   List<Data> inspirationData = [];
@@ -62,13 +62,13 @@ class InspirationCubit extends Cubit<InspirationStates> {
     oneList=!oneList;
     emit(ChangeShowState());
   }
-  // void searchInspirationData({String searchQuery}) {
-  //   inspirationData.forEach((element) {
-  //     if (element.iD == int.parse(searchQuery)) {
-  //       inspirationSearchResult.add(element);
-  //       print(element.image);
-  //     }
-  //   });
-  //   emit(SearchInspirationSuccessState());
-  // }
+// void searchInspirationData({String searchQuery}) {
+//   inspirationData.forEach((element) {
+//     if (element.iD == int.parse(searchQuery)) {
+//       inspirationSearchResult.add(element);
+//       print(element.image);
+//     }
+//   });
+//   emit(SearchInspirationSuccessState());
+// }
 }

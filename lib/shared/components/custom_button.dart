@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../constants.dart';
 
@@ -11,7 +12,7 @@ class CustomButton extends StatelessWidget {
     // this.gradient = kBlackGradient,
     this.gradient  ,
     this.height = 40,
-    this.textColor = kLightGoldColor,   this.buttonColor,
+    this.textColor = kLightGoldColor,   this.buttonColor=kCustomBlack,
   }) ;
 
   final String? text;
@@ -30,14 +31,15 @@ class CustomButton extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              height: height,
+              height: height?.h,
               decoration: BoxDecoration(
-                color: Color(0xff393846),
-                  gradient: gradient, borderRadius: BorderRadius.circular(35)),
+                color: buttonColor,
+                  gradient: gradient, borderRadius: BorderRadius.circular(35.r)),
               child: Center(
                   child: Text(
                 "${text}",
-                style: TextStyle(color: textColor, fontWeight: FontWeight.w600),
+                style: TextStyle(color: textColor, fontWeight: FontWeight.w600,
+                fontSize: 12.sp),
               )),
             ),
           ),

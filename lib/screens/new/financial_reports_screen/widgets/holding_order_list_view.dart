@@ -17,10 +17,10 @@ class HoldingOrderListView extends StatelessWidget {
     return BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
       builder: (context, state) {
         var cubit=FinancialReportsCubit.get(context);
-        return AnimatedConditionalBuilder(condition: cubit.holdingOrderModel!=null, builder: (context)=>
-            AnimatedConditionalBuilder(condition: cubit.holdingOrderModel?.data?.isNotEmpty??cubit.holdingOrderModel?.data==[], builder: (context)=>
+        return AnimatedConditionalBuilder(condition: cubit.holding!=null, builder: (context)=>
+            AnimatedConditionalBuilder(condition: cubit.holding?.isNotEmpty??cubit.holding==[], builder: (context)=>
                 ListView.separated(
-                  itemCount: cubit.holdingOrderModel?.data?.length??0,
+                  itemCount: cubit.holding?.length??0,
                   itemBuilder: (context, index) => Container(
                     padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
@@ -36,36 +36,48 @@ class HoldingOrderListView extends StatelessWidget {
                               Row(
                                 children: [
                                   Text('رقم الطلب: ',style: TextStyle(
+                                      fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text(cubit.holdingOrderModel?.data?[index].codeOrder.toString()??''),
+                                  Text(cubit.holding?[index].codeOrder.toString()??'',style: TextStyle(
+                                    fontSize: 10.sp
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('اجمالي الطلب: ',style: TextStyle(
+                                      fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text('${cubit.holdingOrderModel?.data?[index].total} ${'rial'.tr()}')),
+                                  Expanded(child: Text('${cubit.holding?[index].total?.toStringAsFixed(2)} ${'rial'.tr()}',style: TextStyle(
+                                      fontSize: 10.sp
+                                  ),)),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('عدد المنتجات: ',style: TextStyle(
+                                      fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text('3'),
+                                  Text(cubit.holding?[index].productsConut.toString()??'',style: TextStyle(
+                                      fontSize: 10.sp
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('تاريخ الطلب: ',style: TextStyle(
+                                      fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text(cubit.holdingOrderModel?.data?[index].orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                                  Expanded(child: Text(cubit.holding?[index].createdAt??'',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(
+                                      fontSize: 10.sp
+                                  ),)),
                                 ],
                               ),
                               //  Row(
@@ -85,7 +97,7 @@ class HoldingOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                cubit.changeStatus(orderId: cubit.holdingOrderModel!.data![index].id!, status: 1);
+                                cubit.changeStatus(orderId: cubit.holding![index].id!, status:int.parse('6') );
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),
@@ -94,7 +106,8 @@ class HoldingOrderListView extends StatelessWidget {
                                     color: kCustomBlack),
                                 child: Text(
                                   'جاري التجهيز',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.white,                                      fontSize: 11.sp,
+                                  ),
                                 ),
                               ),
                             ),
@@ -103,11 +116,13 @@ class HoldingOrderListView extends StatelessWidget {
                             ),
                             TextButton(onPressed: (){
                               navigateTo(context, OrderDetailsSCR(
-                                id: cubit.holdingOrderModel!.data![index].id!.toInt(),
+                                id: cubit.holding![index].id!.toInt(),
                               ));
                             },
                                 child: Text(
                                   'تفاصيل الطلب',style: TextStyle(
+                                    fontSize: 11.sp,
+
                                     color: kCustomBlack,fontWeight: FontWeight.bold
                                 ),
                                 ))
@@ -121,7 +136,10 @@ class HoldingOrderListView extends StatelessWidget {
                   ),
                 ), fallback: (context)=>
                 Center(
-                  child: Text('لا يوجد طلبات حاليا'),
+                  child: Text('لا يوجد طلبات حاليا',style: TextStyle(
+                    fontSize: 11.sp,
+
+                  ),),
                 )
             ), fallback: (context)=>
             Center(

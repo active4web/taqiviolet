@@ -10,10 +10,12 @@ import 'package:safsofa/models/cart_models/country_model.dart';
 
 import 'package:safsofa/models/cart_models/remote_cart_model/cart_product_prices_model.dart';
 import 'package:safsofa/models/cities_location_model.dart';
+import 'package:safsofa/models/order_sales_model.dart';
 import 'package:safsofa/network/remote/dio_Mhelper.dart';
 import '../../models/cart_models/cart_local_model/cart_local_model.dart';
 import '../../models/make_order_model.dart';
 import '../../models/my_cart_model.dart';
+import '../../models/promo_code_model.dart';
 import '../../network/local/cache_helper.dart';
 import '../../screens/success_scr.dart';
 import '../../shared/constants.dart';
@@ -26,11 +28,12 @@ class CartCubit extends Cubit<CartState> {
   static CartCubit get(context) => BlocProvider.of(context);
 
    double total=0.0 ;
+   double temptotal=0.0;
   final GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
 
   ////////////////////////////////////////////////**HANDLE CART PART FROM SERVER**//////////////////////////////////////////////////////////
   MyCartModel? myCartModel;
-  String countryCode='';
+  String countryCode = '';
   var globalKey = GlobalKey<FormState>();
 
   TextEditingController nameOfReceiver =
@@ -38,15 +41,15 @@ class CartCubit extends Cubit<CartState> {
   TextEditingController phoneOfReceiver = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController addressOfReceiver = TextEditingController();
+  TextEditingController districtOfReceiver = TextEditingController();
   TextEditingController zibCode = TextEditingController();
 
   getServerCartData({bool withLoading = true}) {
     myCartModel=null;
     myCartlocalModel=null;
-    // if (withLoading) {
-    //   emit(CartLoadingState());
-    // }
-    emit(CartLoadingState());
+    if (withLoading) {
+      emit(CartLoadingState());
+    }
      total = 0;
     Mhelper.getData(
         url: myCartURL,
@@ -61,6 +64,8 @@ class CartCubit extends Cubit<CartState> {
         // if (myCartModel?.data?.listItem![i].smartPrice == null){
                 total += (myCartModel?.data?.listItem![i].price) *
               (myCartModel?.data?.listItem![i].quantity).toDouble();
+
+                temptotal=total;
        /* }else {
           total += (myCartModel?.data?.listItem![i].price) *
               (myCartModel?.data?.listItem![i].quantity)
@@ -128,12 +133,13 @@ class CartCubit extends Cubit<CartState> {
   }
 
   delItemFromCartServer({required int cartId}) {
-    emit(CartLoadingState());
+    emit(DeleteCartLoadingState());
     Mhelper.postData(data: {
       "key": 1234567890,
     }, url: delItem + "$cartId", token: CacheHelper.getData("token"))
         .then((value) {
       if (value.data['status']) {
+        emit(DeleteCartSuccessState());
         getServerCartData(withLoading: false);
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);
@@ -324,6 +330,9 @@ class CartCubit extends Cubit<CartState> {
  var cashback=TextEditingController();
  var cashFormKey=GlobalKey<FormState>();
 
+ var discountValue;
+ var discount;
+  PromoCodeModel? promoCodeModel;
  Future<void>checkPromoStatus() async{
    emit(CheckPromoLoadingState());
   final response=await  Mhelper.postData(
@@ -336,6 +345,13 @@ class CartCubit extends Cubit<CartState> {
     );
   if(response.data['status']){
     isCopunValid = true;
+    sendPromoCode=promoCode.text;
+    promoCodeModel=PromoCodeModel.fromJson(response.data);
+    total=temptotal-(temptotal*promoCodeModel!.data!.code!.value!/100);
+    discount=promoCodeModel!.data!.code!.value!;
+    discountValue=temptotal*promoCodeModel!.data!.code!.value!/100;
+
+    print('${response.data['data']["code"]['value']}');
     emit(CheckPromoSuccessState());
   }else{
     isCopunValid = false;
@@ -353,6 +369,7 @@ class CartCubit extends Cubit<CartState> {
    });
    if(response.data['status']){
      country=CountryModel.fromJson(response.data);
+
      emit(GetCountriesSuccessState());
    }else{
      emit(GetCountriesErrorState());
@@ -367,6 +384,20 @@ class CartCubit extends Cubit<CartState> {
       token: kToken,
     ).then((value) {
       allCitiesLocation = CitiesLocationsModel.fromJson(value.data);
+      allCitiesLocation?.data?.countryList?.forEach((element) {
+        if(newOrder?.data?.lastOrder?.countryId!=null)
+        {
+          if(element.id==int.parse(newOrder?.data?.lastOrder?.countryId??"")){
+            selectedCountry=element;
+            allCities?.addAll(selectedCountry?.listCites as Iterable<ListCites>);
+            allCities?.forEach((element) {
+              if(element.idCity==int.parse(newOrder?.data?.lastOrder?.stateId??"")){
+                selectedCity=element;
+              }
+            });
+          }
+        }
+      });
       log('all Locations data is: ${value.data}');
       emit(CartSuccessState());
     }).catchError((error) {
@@ -419,15 +450,71 @@ class CartCubit extends Cubit<CartState> {
 
   }
 
+  var sendCachBack;
+  bool validCashback=false;
+  Future<void>checkCachBack()async{
+    emit(CacheBackLoadingState());
+    final response=await Mhelper.postData(url: 'api/check-cashback',data: {
+      'amount':cashback.text
+    },token: kToken);
+    if(response.data['status']){
+      sendCachBack=cashback.text;
+      validCashback=true;
+      total=temptotal-int.parse(cashback.text);
+      emit(CacheBackSuccessState());
+    }else{
+      emit(CacheBackErrorState());
+    }
+  }
+String? sendPromoCode;
+
+
+  void cancelPromoCode(){
+    promoCode.clear();
+    sendPromoCode=null;
+    promo=false;
+    isCopunValid=false;
+    total=temptotal;
+    emit(CancelPromoCode());
+  }
+
+  void cancelCashback(){
+    cache=false;
+    total=temptotal;
+    cashback.clear();
+    sendCachBack=null;
+    validCashback=false;
+    emit(CancelPromoCode());
+  }
+
+
 MakeNewOrderModel? newOrder;
   Future<void>makeNewOrder()async{
     emit(MakeNewOrderLoadingState());
     final response=await Mhelper.postData(url: 'api/orders',token: kToken,data: {
-      "promo_code":promo?isCopunValid??false?promoCode.text:'':'',
-      "cash_back":cache?cashback.text:''
+      "promo_code":promo?isCopunValid??false?sendPromoCode:'':'',
+      "cash_back":cache?sendCachBack:''
     });
     if(response.data['status']){
+      sendPromoCode=null;
+      total=temptotal;
+      promo=false;
+      cache=false;
       newOrder=MakeNewOrderModel.fromJson(response.data);
+      // CartCubit.get(context)..getAllLocationsOfCities();
+      // CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
+      // CartCubit.get(context).phoneOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.phone ?? '';
+      // CartCubit.get(context).addressOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.address ?? '';
+      // CartCubit.get(context).nameOfReceiver.text =
+      //     AppCubit.get(context).userInfo?.data?.name ?? '';
+      if(newOrder?.data?.lastOrder?.userPhone!=null){
+        phoneOfReceiver.text=newOrder?.data?.lastOrder?.userPhone??'';
+      }
+      addressOfReceiver.text=newOrder?.data?.lastOrder?.address??'';
+      nameOfReceiver.text=newOrder?.data?.lastOrder?.userName??'';
+      email.text=newOrder?.data?.lastOrder?.email??'';
       isCopunValid=null;
       emit(MakeNewOrderSuccessState());
     }else{

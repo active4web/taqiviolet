@@ -182,7 +182,9 @@ Widget itemPartner({void Function()? onTap,required String title,required String
         ),
       ),
       SizedBox(height: 10.h,),
-      SizedBox(height:50,width:100.w,child: Text(title,style: TextStyle(),maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,)),
+      SizedBox(height:50,width:100.w,child: Text(title,style: TextStyle(
+        fontSize: 12.sp
+      ),maxLines: 2,overflow: TextOverflow.ellipsis,textAlign: TextAlign.center,)),
     ],
   );
   ;

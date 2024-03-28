@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
@@ -11,7 +10,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../models/my_products_details_model.dart';
 import '../../constants.dart';
-import '../custom_network_image.dart';
 import '../custom_rating_bar.dart';
 
 class VerticalProductCard extends StatelessWidget {
@@ -48,207 +46,200 @@ class VerticalProductCard extends StatelessWidget {
 
           () {
         log("i click it prodect   $productId");
-        log("i click it prodect   $isFavourite");
         AppCubit appCubit = AppCubit.get(context);
         appCubit.getProductDetails(productId: productId);
-
         // cubit.getProductDetails(
         //   productId: productId,
         // );
         navigateTo(context, ProductDetailsScreen());
       },
-      child: Card(
-        // color: Colors.white,
-        elevation: 0,
-        child: Container(
-          decoration: BoxDecoration(
-            border: Border.all(width: 0.3.w,color: Colors.grey.shade200),
-            borderRadius: BorderRadius.circular(10.r)
-          ),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  Expanded(
-                      child: Container(
-                        child: CachedNetworkImage(
-                          imageUrl: "$image",
-                          imageBuilder: (context, imageProvider) => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              image: DecorationImage(
-                                image: imageProvider,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
+      child: Container(
 
-                          ///=== is dark baseColor = grey[800]! & hightLightColor = grey[850]! ===///
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: Colors.grey.shade400,
-                            highlightColor: Colors.grey,
-                            child: Container(
-                              height: 180,
-                              // width: width,
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+        child: Stack(
+          children: [
+            Column(
+              children: [
+                Expanded(
+                    child: Container(
+                      child: CachedNetworkImage(
+                        imageUrl: "$image",
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20.r),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.contain,
                             ),
                           ),
-                          errorWidget: (context, url, error) => const Icon(Icons.error),
-                          height: 180,
-                          fit: BoxFit.cover,
-                          // width: width,
                         ),
-                        // child: CustomNetworkImage(
-                        //
-                        //   image:"$image",
-                        //   // width: 120,
-                        //   border:BorderRadius.circular(20),
-                        //
-                        // ),
-                    // decoration: BoxDecoration(
-                    //   //    color: kBGColor,
-                    //   image: DecorationImage(
-                    //       image: NetworkImage("https://taqiviolet.com/public/images/product/jSJuJfaWrMJMgRQn17ld8ciKqTuKiVB81ZVN29iy.pngs")),
-                    //   borderRadius: BorderRadius.circular(10),
-                    // ),
-                  )),
-                  SizedBox(
-                    height: 5.h,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                productName ?? '',
-                                maxLines: 2,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.w500, fontSize: 12),
-                                overflow: TextOverflow.ellipsis,
-                              ),
 
+                        ///=== is dark baseColor = grey[800]! & hightLightColor = grey[850]! ===///
+                        placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade400,
+                          highlightColor: Colors.grey,
+                          child: Container(
+                            height: 180.h,
+                            // width: width,
+                            decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => const Icon(Icons.error),
+                        height: 180.h,
+                        fit: BoxFit.cover,
+                        // width: width,
+                      ),
+                      // child: CustomNetworkImage(
+                      //
+                      //   image:"$image",
+                      //   // width: 120,
+                      //   border:BorderRadius.circular(20),
+                      //
+                      // ),
+                  // decoration: BoxDecoration(
+                  //   //    color: kBGColor,
+                  //   image: DecorationImage(
+                  //       image: NetworkImage("https://taqiviolet.com/public/images/product/jSJuJfaWrMJMgRQn17ld8ciKqTuKiVB81ZVN29iy.pngs")),
+                  //   borderRadius: BorderRadius.circular(10),
+                  // ),
+                )),
+                SizedBox(
+                  height: 5.h,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              productName ?? '',
+                              maxLines: 1,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500, fontSize: 9.sp),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+
+                            Row(
+                              children: [
+                                CustomRatingBar(
+                                  rating: totalRate!.isNotEmpty
+                                      ? double.parse(totalRate!)
+                                      : 0.0,
+                                  itemSize: 9.sp,
+                                ),
+                                SizedBox(
+                                  width: 20.w,
+                                ),
+                                // Text(
+                                //   '$totalRate',
+                                //   style: TextStyle(fontSize: 14),
+                                // ),
+                              ],
+                            ),
+
+                            if (oldPrice != null && oldPrice != 0)
                               Row(
                                 children: [
-                                  CustomRatingBar(
-                                    rating: totalRate!.isNotEmpty
-                                        ? double.parse(totalRate!)
-                                        : 0.0,
-                                    itemSize: 14,
+                                  Text(
+                                    currentPrice.toString() ?? '',
+                                    style: TextStyle(
+                                        color: kCustomBlack,
+                                        fontSize: 10.sp),maxLines: 1,overflow: TextOverflow.ellipsis,
                                   ),
-                                  SizedBox(
-                                    width: 20,
+                                  SizedBox(width: 5.w,),
+                                  Text(
+                                    oldPrice.toString() ?? '',
+                                    style: TextStyle(
+                                        color: Colors.grey,
+                                        decoration: TextDecoration
+                                            .lineThrough,
+                                        fontSize: 10.sp),
                                   ),
-                                  // Text(
-                                  //   '$totalRate',
-                                  //   style: TextStyle(fontSize: 14),
-                                  // ),
+                                  SizedBox(width: 5.w,),
+                                  Text(
+                                    "SAR".tr(),
+                                    style: TextStyle(
+                                        color: kCustomBlack,
+                                        fontSize: 10.sp),
+                                  )
                                 ],
                               ),
-
-                              if (oldPrice != null && oldPrice != 0)
-                                Row(
-                                  children: [
-                                    Text(
-                                      currentPrice.toString() ?? '',
-                                      style: TextStyle(
-                                          color: kCustomBlack,
-                                          fontSize: 13),maxLines: 1,overflow: TextOverflow.ellipsis,
-                                    ),
-                                    SizedBox(width: 5.w,),
-                                    Text(
-                                      oldPrice.toString() ?? '',
-                                      style: TextStyle(
-                                          color: Colors.grey,
-                                          decoration: TextDecoration
-                                              .lineThrough,
-                                          fontSize: 13),
-                                    ),
-                                    SizedBox(width: 5.w,),
-                                    Text(
-                                      "SAR".tr(),
-                                      style: TextStyle(
-                                          color: kCustomBlack,
-                                          fontSize: 13),
-                                    )
-                                  ],
-                                ),
-                              if (oldPrice == null || oldPrice == 0)
-                                Row(
-                                  children: [
-                                    Text(
-                                      currentPrice.toString() ?? '',
-                                      style: TextStyle(
-                                          color: kCustomBlack,
-                                          fontSize: 13),
-                                    ),
-                                    SizedBox(
-                                      width: 5,
-                                    ),
-                                    Text(
-                                      "SAR".tr(),
-                                      style: TextStyle(
-                                          color: kCustomBlack,
-                                          fontSize: 13),
-                                    )
-                                  ],
-                                )
-                            ],
-                          ),
+                            if (oldPrice == null || oldPrice == 0)
+                              Row(
+                                children: [
+                                  Text(
+                                    currentPrice.toString() ?? '',
+                                    style: TextStyle(
+                                        color: kCustomBlack,
+                                        fontSize: 10.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 5,
+                                  ),
+                                  Text(
+                                    "SAR".tr(),
+                                    style: TextStyle(
+                                        color: kCustomBlack,
+                                        fontSize: 10.sp),
+                                  )
+                                ],
+                              )
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 5.h,)
-                ],
-              ),
-              Positioned(
-                  top: 0,
-                  left: 0,
-                  child: IconButton(
-                    onPressed: onFavPressed,
-                    icon: isFavourite
-                        ? Icon(
-                            Icons.bookmark_add,
-                            color: kDarkGoldColor,
-                          )
-                        : Icon(
-                            Icons.bookmark_add_outlined,
-                            color: Colors.grey,
-                          ),
-                  )),
-              // Positioned(
-              //   top: 0,
-              //   right: 0,
-              //   child: Container(
-              //     width: 35,
-              //     height: 35,
-              //     margin: EdgeInsets.all(10),
-              //     decoration: BoxDecoration(
-              //       color: Colors.black,
-              //       borderRadius: BorderRadius.circular(50),
-              //     ),
-              //     child: Center(
-              //       child: Text(
-              //         '30%',
-              //         style: TextStyle(
-              //             color: Colors.white,
-              //             fontSize: 11,
-              //             fontWeight: FontWeight.bold),
-              //       ),
-              //     ),
-              //   ),
-              // ),
+                ),
+                SizedBox(height: 5.h,)
+              ],
+            ),
+            Positioned(
+                top: 0,
+                left: 0,
+                child: IconButton(
+                  onPressed: onFavPressed,
+                  icon: isFavourite
+                      ? Icon(
+                          Icons.bookmark_add,
+                          color: kDarkGoldColor,
+                    size: 18.sp,
+                        )
+                      : Icon(
+                          Icons.bookmark_add_outlined,
+                          color: Colors.grey,
+                    size: 18.sp,
+                        ),
+                )),
+            // Positioned(
+            //   top: 0,
+            //   right: 0,
+            //   child: Container(
+            //     width: 35,
+            //     height: 35,
+            //     margin: EdgeInsets.all(10),
+            //     decoration: BoxDecoration(
+            //       color: Colors.black,
+            //       borderRadius: BorderRadius.circular(50),
+            //     ),
+            //     child: Center(
+            //       child: Text(
+            //         '30%',
+            //         style: TextStyle(
+            //             color: Colors.white,
+            //             fontSize: 11,
+            //             fontWeight: FontWeight.bold),
+            //       ),
+            //     ),
+            //   ),
+            // ),
 
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -286,22 +277,22 @@ class HorizontalProductCard extends StatelessWidget {
       },
       child: Container(
         // height: MediaQuery.of(context).size.height * 0.22,
-        margin: EdgeInsets.symmetric(vertical: 2, horizontal: 1),
+        margin: EdgeInsets.symmetric(vertical: 2.h, horizontal: 1.h),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 0.5)],
             color: Colors.white,
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(10.r)),
         child: Row(
           children: [
             Flexible(
               flex: 3,
               child: Container(
-                width: 100,
+                width: 100.w,
                 child: CachedNetworkImage(
                   imageUrl: "${relatedProducts.image}",
                   imageBuilder: (context, imageProvider) => Container(
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.contain,
@@ -312,7 +303,7 @@ class HorizontalProductCard extends StatelessWidget {
                     baseColor: Colors.grey.shade400,
                     highlightColor: Colors.grey,
                     child: Container(
-                      height: 180,
+                      height: 180.h,
                       // width: width,
                       decoration: BoxDecoration(
                         color: Colors.black,
@@ -321,7 +312,7 @@ class HorizontalProductCard extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) => const Icon(Icons.error),
-                  height: 180,
+                  height: 180.h,
                   fit: BoxFit.cover,
                   // width: width,
                 ),
@@ -349,46 +340,43 @@ class HorizontalProductCard extends StatelessWidget {
             Flexible(
               flex: 5,
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
+                padding:  EdgeInsets.symmetric(vertical: 20.h),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.45,
-                      child: Text(
-                        "${relatedProducts.name}",
-                        style: TextStyle(
-                            fontSize: 14.sp, fontWeight: FontWeight.w500),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                    Text(
+                      "${relatedProducts.name}",
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.w500),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     SizedBox(
-                      height: 5,
+                      height: 5.h,
                     ),
                     Row(
                       children: [
                         Text(
                           "${relatedProducts.currentPrice.toString()} ",
                           style: TextStyle(
-                              fontSize: 15,),
+                              fontSize: 10.sp,),
                         ),
                         Text(
                           "${'rial'.tr()}",
                           style: TextStyle(
-                              fontSize: 12,),
+                              fontSize: 10.sp,),
                         ),
 
                         SizedBox(
-                          width: 10,
+                          width: 10.w,
                         ),
                         if(relatedProducts.oldPrice!=0)
                         Text(
                           relatedProducts.oldPrice.toString(),
                           style: TextStyle(
                             decoration: TextDecoration.lineThrough ,
-                              fontSize: 12,
+                              fontSize: 10.sp,
                           ),
                         ),
                         // Text(

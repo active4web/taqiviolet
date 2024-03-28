@@ -231,7 +231,7 @@ class _CommentsComponentState extends State<CommentsComponent> {
                   child: Text(
                     'addReview'.tr(),
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: kDarkGoldColor),
+                        fontWeight: FontWeight.bold, color: kDarkGoldColor,fontSize: 12.sp),
                   ),
                 ),
               ),
@@ -239,7 +239,9 @@ class _CommentsComponentState extends State<CommentsComponent> {
             SizedBox(height: 5.h,),
             Label(text: 'ReviewsAndComments'.tr()),
             if (cubit.allReviews?.data?.list?.length == 0)
-              Text('لايوجد تعليقات على هذا المنتج'),
+              Text("dontHaveComments".tr(),style: TextStyle(
+                fontSize: 9.sp
+              ),),
             if (cubit.allReviews != null &&
                 (cubit.allReviews?.data?.list?.isNotEmpty ??
                     cubit.allReviews?.data?.list != []))

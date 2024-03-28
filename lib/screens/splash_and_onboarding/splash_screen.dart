@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
 import 'package:safsofa/screens/splash_and_onboarding/onboarding.dart';
 import 'package:safsofa/shared/constants.dart';
 import 'package:safsofa/shared/defaults.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,8 +26,8 @@ class _SplashScreenState extends State<SplashScreen> {
     print(kToken);
     if (CacheHelper.getData("onBoarding") == true && kToken == null ) {
       AppCubit.get(context).selectedIndex=3;
-      navigateAndFinish(context, HomeLayout());
-
+       navigateAndFinish(context, HomeLayout());
+      // context.push('/home');
     }
        else if(CacheHelper.getData("onBoarding") == true && kToken != null) {
       navigateAndFinish(context, HomeLayout());
@@ -42,22 +40,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
+
     _startDelay();
-    AppCubit.get(context).fetchData();
+   AppCubit.get(context).fetchData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor:Color(0xff393846),
-            statusBarIconBrightness: Brightness.light
-        ) ,
-        toolbarHeight: 0.0,
-        elevation: 0.0,
-      ),
 
       backgroundColor: Color(0xff393846),
       body: Center(child: Image.asset('assets/images/logo.png',

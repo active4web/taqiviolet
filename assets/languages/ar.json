@@ -151,7 +151,7 @@
   "priceWithTheSmartControlFeature": "السعر خاصيه التحكم الذكي:",
   "chooseTheSmartControlFeature": "اختيار خاصية التحكم الذكي",
   "emptyCart": "ازالة",
-  "SAR": "RS",
+  "SAR": "SR",
   "shoppingCart": "سلة التسوق",
   "chooseAFile": "اختر ملف",
   "fieldNameAndPhoneAreRequired": "حقل الاسم و رقم الجوال مطلوب",
@@ -227,7 +227,7 @@
   "wallet": "المحفظة",
   "thisProductAlreadyInCart": "هذا المنتج موجود الفعل",
   "giftCard": "بطاقة هدية",
-  "rial": "RS",
+  "rial": "SR",
   "noInternet": "برجاء مراجعة شبكة الأنترنت الخاصة بك والتأكد من جاهزية الشبكة للعمل",
   "internet": "إنترنت",
   "noInternetBar": "لا انترنت",
@@ -348,7 +348,29 @@
   "noOffer": "لا يوجد عروض حاليا",
   "orderRate": "تم تقييم الطلب بنجاح",
   "thisFieldIsRequired": "هذا الحقل مطلوب",
-  "phoneValidation": "يجب ان يبدأ رقم الهاتف ب 966"
+  "phoneValidation": "يجب ان يبدأ رقم الهاتف ب 966",
+  "dontHaveComments": "لا يوجد تعليقات علي هذا المنتج",
+  "changePassword": "تغيير كلمة المرور",
+  "sendVerifyCodeVia": "طلب ارسال كود التحقق عن طريق؟ ",
+  "whatsapp": "واتساب",
+  "codeSent": "تم ارسال الكود على",
+  "atLeast6Char": "كلمة المرور يجب ان تتكون من ٦ احرف على الاقل",
+  "updateTitle": "تحديث جديد",
+  "updateDescription": "يجب تحديث التطبيق للاستمتاع ب المميزات الجديدة",
+  "update": "تحديث",
+  "applePay": "دفع عن طريق ابل",
+  "previous": "السابقة",
+  "searchResult": "نتيجة البحث",
+  "orderTotal": "اجمالي الطلب",
+  "productsNumber": "عدد المنتجات",
+  "orderDate": "تاريخ الطلب",
+  "confirm": "تأكيد",
+  "noteTabby": "سوف يتم التحويل على الموقع الالكتروني لمتابعة عملية الدفع من خلال خدمة تابي.",
+  "note": "ملاحظة",
+  "tabby": "تابي",
+  "creditCard": "بطاقة الائتمان",
+  "selectPayment": "يجب تحديد وسيلة الدفع"
+
 
 
 

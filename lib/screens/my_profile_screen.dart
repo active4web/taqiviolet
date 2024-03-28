@@ -3,6 +3,7 @@ import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
@@ -134,7 +135,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                         "${cubit.getDataProfileModel!.data!.email}",
                         style: TextStyle(
                             fontWeight: FontWeight.w500,
-                            fontSize: 18,
+                            fontSize: 18.sp,
                             color: Colors.black),
                       )),
                     ],
@@ -149,7 +150,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                             "${cubit.getDataProfileModel!.data!.phone}",
                             style: TextStyle(
                                 fontWeight: FontWeight.w500,
-                                fontSize: 18,
+                                fontSize: 18.sp,
                                 color: Colors.black),
                           )),
                     ],
@@ -204,7 +205,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                       ? Column(
                           children: [
                             SizedBox(
-                              height: 10,
+                              height: 10.h,
                             ),
                             CustomFormField(
                                 controller: cubit.name, validate: (va) {}),
@@ -545,8 +546,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
                                   },
                                   child: Text("deleteAccount".tr(),
-                                      style: TextStyle(color: Colors.black),
-                                      textAlign: TextAlign.start),
+                                      style: TextStyle(color: Colors.black,fontSize: 12.sp),
+                                      textAlign: TextAlign.start,
+                                  ),
                                 ),
                               ],
                             ),

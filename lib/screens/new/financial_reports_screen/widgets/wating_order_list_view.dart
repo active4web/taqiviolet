@@ -17,10 +17,10 @@ class WatingOrderListView extends StatelessWidget {
     return BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
       builder: (context, state) {
         var cubit=FinancialReportsCubit.get(context);
-        return AnimatedConditionalBuilder(condition: cubit.watingOrderModel!=null, builder: (context)=>
-            AnimatedConditionalBuilder(condition: cubit.watingOrderModel?.data?.isNotEmpty??cubit.watingOrderModel?.data==[], builder: (context)=>
+        return AnimatedConditionalBuilder(condition: cubit.waiting!=null, builder: (context)=>
+            AnimatedConditionalBuilder(condition: cubit.waiting?.isNotEmpty??cubit.waiting==[], builder: (context)=>
                 ListView.separated(
-                  itemCount: cubit.watingOrderModel?.data?.length??0,
+                  itemCount: cubit.waiting?.length??0,
                   itemBuilder: (context, index) => Container(
                     padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
@@ -36,34 +36,52 @@ class WatingOrderListView extends StatelessWidget {
                               Row(
                                 children: [
                                   Text('رقم الطلب: ',style: TextStyle(
+                                    fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text(cubit.watingOrderModel?.data?[index].codeOrder.toString()??''),
+                                  Text(cubit.waiting?[index].codeOrder.toString()??'',style: TextStyle(
+                                    fontSize: 10.sp,
+
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('اجمالي الطلب: ',style: TextStyle(
-                                      fontWeight: FontWeight.bold
+                                      fontWeight: FontWeight.bold,
+                                    fontSize: 11.sp,
+
                                   ),),
-                                  Expanded(child: Text('${cubit.watingOrderModel?.data?[index].total} ${'rial'.tr()}')),
+                                  Expanded(child: Text('${cubit.waiting?[index].total?.toStringAsFixed(2)} ${'rial'.tr()}',style: TextStyle(
+                                    fontSize: 10.sp,
+
+                                  ),)),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('عدد المنتجات: ',style: TextStyle(
-                                      fontWeight: FontWeight.bold
+                                      fontWeight: FontWeight.bold,
+                                    fontSize: 11.sp,
                                   ),),
-                                  Text('3'),
+                                  Text(cubit.waiting?[index].productsConut.toString()??'',style: TextStyle(
+                                    fontSize: 10.sp,
+
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('تاريخ الطلب: ',style: TextStyle(
-                                      fontWeight: FontWeight.bold
+                                      fontWeight: FontWeight.bold,
+                                    fontSize: 11.sp,
                                   ),),
-                                  Expanded(child: Text(cubit.watingOrderModel?.data?[index].orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                                  Expanded(child: Text(cubit.waiting?[index].createdAt??'',maxLines: 1,overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 10.sp,
+
+                                  ),)),
                                 ],
                               ),
                             ],
@@ -74,7 +92,7 @@ class WatingOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                showCustomDialog(context,cubit.watingOrderModel!.data![index].id!,1);
+                                showCustomDialog(context,num.parse(cubit.waiting![index].id!.toString()),6);
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),
@@ -83,7 +101,9 @@ class WatingOrderListView extends StatelessWidget {
                                     color: kCustomBlack),
                                 child: Text(
                                   'قيد التجهيز',
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(color: Colors.white,                                    fontSize: 11.sp,
+                                  ),
+
                                 ),
                               ),
                             ),
@@ -92,11 +112,13 @@ class WatingOrderListView extends StatelessWidget {
                             ),
                             TextButton(onPressed: (){
                               navigateTo(context, OrderDetailsSCR(
-                                id: cubit.watingOrderModel!.data![index].id!.toInt(),
+                                id: int.parse(cubit.waiting![index].id!.toString()),
                               ));
                             }, child: Text(
                               'تفاصيل الطلب',style: TextStyle(
-                                color: kCustomBlack,fontWeight: FontWeight.bold
+                                color: kCustomBlack,fontWeight: FontWeight.bold,
+                              fontSize: 11.sp,
+
                             ),
                             ))
                           ],
@@ -109,7 +131,10 @@ class WatingOrderListView extends StatelessWidget {
                   ),
                 ), fallback: (context)=>
             Center(
-              child: Text('لا يوجد طلبات حاليا'),
+              child: Text('لا يوجد طلبات حاليا',style: TextStyle(
+                fontSize: 11.sp,
+
+              ),),
             )
             ), fallback: (context)=>
         Center(

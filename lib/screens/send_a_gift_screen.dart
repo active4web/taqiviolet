@@ -188,7 +188,7 @@ class _SendAGiftScreenState extends State<SendAGiftScreen> {
                         height: 50.h,
                         child: RepaintBoundary(
                           key: qrKey,
-                          child: QrImage(
+                          child: QrImageView(
                             padding: EdgeInsets.zero,
                               data: "${qrData}", version: QrVersions.auto, size: 180),
                         )),

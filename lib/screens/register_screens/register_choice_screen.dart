@@ -18,59 +18,57 @@ class RegisterChoiceScreen extends StatelessWidget {
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
 
-      body: SafeArea(
-        child: Stack(
+      body: Stack(
 alignment: AlignmentDirectional.topStart,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: AssetImage('assets/images/background image.png'),
-                    fit: BoxFit.cover),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image(
-                      image: AssetImage('assets/images/logo.png'),
-                      height: MediaQuery.of(context).size.width / 2,
-                      width: MediaQuery.of(context).size.width / 2,
-                      fit: BoxFit.cover,
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 20,
-                    ),
-                    CustomButton(
-                      text: "registerUsingMobileNumber".tr(),
-                      height: 50,
-                      gradient: kGoldGradient,
-                      textColor: Colors.black,
-                      onTap: () => navigateTo(context, PhoneRegisterScreen()),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 30,
-                    ),
-                    CustomButton(
-                      text: "registerUsingEmail".tr(),
-                      height: 50,
-                      gradient: kGoldGradient,
-                      textColor: Colors.black,
-                      onTap: () => navigateTo(context, EmailRegisterScreen()),
-                    ),
-                  ],
-                ),
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  image: AssetImage('assets/images/background image.png'),
+                  fit: BoxFit.cover),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 12),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Image(
+                    image: AssetImage('assets/images/logo.png'),
+                    height: MediaQuery.of(context).size.width / 2,
+                    width: MediaQuery.of(context).size.width / 2,
+                    fit: BoxFit.cover,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 20,
+                  ),
+                  CustomButton(
+                    text: "registerUsingMobileNumber".tr(),
+                    height: 50,
+                    gradient: kGoldGradient,
+                    textColor: Colors.black,
+                    onTap: () => navigateTo(context, PhoneRegisterScreen()),
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height / 30,
+                  ),
+                  CustomButton(
+                    text: "registerUsingEmail".tr(),
+                    height: 50,
+                    gradient: kGoldGradient,
+                    textColor: Colors.black,
+                    onTap: () => navigateTo(context, EmailRegisterScreen()),
+                  ),
+                ],
               ),
             ),
-            IconButton(onPressed: (){
-              Navigator.pop(context);
-            }, icon: Icon(Icons.arrow_back,color: kLightGoldColor,))
-          ],
-        ),
+          ),
+          IconButton(onPressed: (){
+            Navigator.pop(context);
+          }, icon: Icon(Icons.arrow_back,color: kLightGoldColor,))
+        ],
       ),
     );
   }

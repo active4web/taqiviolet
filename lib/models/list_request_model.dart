@@ -41,7 +41,7 @@ class Data {
   int? status;
   String? image;
   String? productName;
-  int? productOldPrice;
+  num? productOldPrice;
   num? productCurrentPrice;
   String? productQuantity;
   String? productSerialNo;
@@ -82,7 +82,7 @@ class Data {
     productQuantity = json['product_quantity'];
     productSerialNo = json['product_serial_no'];
     featurName = json['featur_name'];
-    featurDescription = json['featur_description'];
+    featurDescription = json['product_features'];
   }
 
   Map<String, dynamic> toJson() {

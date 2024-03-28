@@ -9,6 +9,4 @@ class GetInspirationSuccessState extends InspirationStates {}
 class GetInspirationErrorState extends InspirationStates {}
 
 class SearchInspirationSuccessState extends InspirationStates {}
-
 class ChangeShowState extends InspirationStates {}
-class ChangeFavSuccessState extends InspirationStates {}

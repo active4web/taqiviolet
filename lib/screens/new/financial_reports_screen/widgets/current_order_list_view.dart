@@ -17,10 +17,10 @@ class CurrentOrderListView extends StatelessWidget {
     return BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
       builder: (context, state) {
         var cubit=FinancialReportsCubit.get(context);
-        return AnimatedConditionalBuilder(condition: cubit.currentOrderModel!=null, builder: (context)=>
-            AnimatedConditionalBuilder(condition: cubit.currentOrderModel?.data?.isNotEmpty??cubit.currentOrderModel?.data==[], builder: (context)=>
+        return AnimatedConditionalBuilder(condition: cubit.current!=null, builder: (context)=>
+            AnimatedConditionalBuilder(condition: cubit.current?.isNotEmpty??cubit.current==[], builder: (context)=>
                 ListView.separated(
-                  itemCount: cubit.currentOrderModel?.data?.length??0,
+                  itemCount: cubit.current?.length??0,
                   itemBuilder: (context, index) => Container(
                     padding: EdgeInsets.all(10.r),
                     decoration: BoxDecoration(
@@ -36,36 +36,48 @@ class CurrentOrderListView extends StatelessWidget {
                               Row(
                                 children: [
                                   Text('رقم الطلب: ',style: TextStyle(
-
+                                      fontSize: 11.sp,
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text(cubit.currentOrderModel?.data?[index].codeOrder.toString()??''),
+                                  Text(cubit.current?[index].codeOrder.toString()??'',style: TextStyle(
+                                    fontSize: 10.sp,
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('اجمالي الطلب: ',style: TextStyle(
+                                      fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text('${cubit.currentOrderModel?.data?[index].total} ${'rial'.tr()}')),
+                                  Expanded(child: Text('${cubit.current?[index].total?.toStringAsFixed(2)} ${'rial'.tr()}',style: TextStyle(
+                                    fontSize: 10.sp,
+                                  ),)),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('عدد المنتجات: ',style: TextStyle(
+                                      fontSize: 11.sp,
 
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Text('3'),
+                                  Text(cubit.current?[index].productsConut.toString()??'',style: TextStyle(
+                                    fontSize: 10.sp,
+                                  ),),
                                 ],
                               ),
                               Row(
                                 children: [
                                   Text('تاريخ الطلب: ',style: TextStyle(
+                                      fontSize: 11.sp,
+
                                       fontWeight: FontWeight.bold
                                   ),),
-                                  Expanded(child: Text(cubit.currentOrderModel?.data?[index].orderDate??'',maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                                  Expanded(child: Text(cubit.current?[index].createdAt??'',maxLines: 1,overflow: TextOverflow.ellipsis,style: TextStyle(
+                                    fontSize: 10.sp,
+                                  ),)),
                                 ],
                               ),
                             ],
@@ -75,16 +87,18 @@ class CurrentOrderListView extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: (){
-                                cubit.changeStatus(orderId: cubit.currentOrderModel!.data![index].id!, status: cubit.currentOrderModel?.data?[index].status=='1'?2:3);
+                                cubit.changeStatus(orderId: num.parse(cubit.current![index].id!.toString()), status: cubit.current?[index].status=='6'?3:4);
                               },
                               child: Container(
                                 padding: EdgeInsets.all(5.r),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5.r),
-                                    color:cubit.currentOrderModel?.data?[index].status=='1'? kCustomBlack:Colors.green.shade900),
+                                    color:cubit.current?[index].status=='6'? kCustomBlack:Colors.green.shade900),
                                 child:Text(
-                                 cubit.currentOrderModel?.data?[index].status=='1'? 'جاري التجهيز':'جاري التوصيل',
-                                  style: TextStyle(color: Colors.white),
+                                 cubit.current?[index].status=='6'? 'جاري التجهيز':'جاري التوصيل',
+                                  style: TextStyle(color: Colors.white,                                      fontSize: 11.sp,
+                                  ),
+
                                 ),
                               ),
                             ),
@@ -93,11 +107,13 @@ class CurrentOrderListView extends StatelessWidget {
                             ),
                             TextButton(onPressed: (){
                               navigateTo(context, OrderDetailsSCR(
-                                id: cubit.currentOrderModel!.data![index].id!.toInt(),
+                                id: cubit.current![index].id!.toInt(),
                               ));
                             }, child: Text(
                               'تفاصيل الطلب',style: TextStyle(
-                              color: kCustomBlack,fontWeight: FontWeight.bold
+                                fontSize: 11.sp,
+
+                                color: kCustomBlack,fontWeight: FontWeight.bold
                             ),
                             ))
                           ],
@@ -110,7 +126,10 @@ class CurrentOrderListView extends StatelessWidget {
                   ),
                 ), fallback: (context)=>
                 Center(
-                  child: Text('لا يوجد طلبات حاليا'),
+                  child: Text('لا يوجد طلبات حاليا',style: TextStyle(
+                    fontSize: 11.sp,
+
+                  ),),
                 )
             ), fallback: (context)=>
             Center(

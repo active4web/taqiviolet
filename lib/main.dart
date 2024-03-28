@@ -9,10 +9,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/commitments/commitments_cubit.dart';
 import 'package:safsofa/cubits/common_questionCubit/common_question_cubit.dart';
 import 'package:safsofa/cubits/favorites_cubit/favorites_cubit.dart';
+import 'package:safsofa/cubits/forgot_password/forgot_password_cubit.dart';
 import 'package:safsofa/cubits/gify_cubit/gift_cubit.dart';
 import 'package:safsofa/cubits/homeCubit/home_cubit.dart';
 import 'package:safsofa/cubits/offerCubit/offer_cubit.dart';
@@ -28,6 +30,7 @@ import 'package:safsofa/screens/new/personel_page/presentation/screens/component
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/receipt_record_screen/controller/receipt_record_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/starting_wotk_from_screen/controller/starting_work_cubit.dart';
 import 'package:safsofa/screens/new/personel_page/presentation/screens/components/personel_screens/vacation_form/controller/vacation_cubit.dart';
+import 'package:safsofa/screens/product_details_screen.dart';
 import 'package:safsofa/screens/splash_and_onboarding/splash_screen.dart';
 import 'package:safsofa/shared/bloc_observer.dart';
 import 'package:safsofa/shared/constants.dart';
@@ -49,6 +52,7 @@ import 'cubits/my_orders_cubit.dart';
 import 'cubits/onbordingCubit/onboarding_cubit.dart';
 import 'cubits/orderReceivedItemInList/order_received_item_in_list_cubit.dart';
 import 'cubits/privacy_cubit/privacy_policy_cubit.dart';
+import 'cubits/request_cubit/request_cubit.dart';
 import 'cubits/reviews_cubit/cubit/reviews_comments_cubit.dart';
 import 'cubits/technicalSupporDetailstCubit/technical_suppor_detailst_cubit.dart';
 import 'cubits/technicalSupportCubit/technical_support_cubit.dart';
@@ -56,7 +60,9 @@ import 'models/cart_models/cart_local_model/cart_local_model.dart';
 import 'network/local/cache_helper.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform
+  );
   print("Handling a background message: ${message.messageId}");
 }
 
@@ -65,19 +71,36 @@ FlutterLocalNotificationsPlugin();
 
 
 bool? isPaid;
-Future<void> main() async {
+void main() async {
+  Position? position;
+try{
   WidgetsFlutterBinding.ensureInitialized();
+  // await FlutterDownloader.initialize();
   await CacheHelper.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   await EasyLocalization.ensureInitialized();
-  Mhelper.init();
-  String? fireToken=await FirebaseMessaging.instance.getToken();
-  CacheHelper.setData(key: 'FCM', value: fireToken.toString());
-  Position? position=await GeolocatorService().determinePosition();
-  if(position!=null){
-    print(position.latitude);
-    print(position.longitude);
-  }
+  await Mhelper.init();
+  await Future.delayed(Duration(milliseconds:300));
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
+  await FirebaseMessaging.instance.getToken().then((token) {
+   // ToastConfig.showToast(msg: "tokeeeeen : ${token.toString()}", toastStates: ToastStates.success);
+    assert(token!=null);
+    CacheHelper.setData(key: 'FCM', value: token.toString());
+  }).catchError((onError){
+  //  ToastConfig.showToast(msg: "erorrrrrrrrR: ${onError.toString()}", toastStates: ToastStates.error);
+  });
+
+
+  await GeolocatorService().determinePosition().then((value) {
+    //ToastConfig.showToast(msg: value.toString(), toastStates: ToastStates.success);
+    position=value;
+  }).catchError((onError){
+    //ToastConfig.showToast(msg: onError.toString(), toastStates: ToastStates.error);
+  });
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await PushNotificationManagger.initialize(flutterLocalNotificationsPlugin);
 
@@ -94,6 +117,10 @@ Future<void> main() async {
   } else {
     kLanguage = await CacheHelper.getData('language');
   }
+}catch(e){
+  //ToastConfig.showToast(msg: "catchhh errorrrrr: ${e.toString()}", toastStates: ToastStates.error);
+
+}
 
       runApp(
         EasyLocalization(
@@ -103,8 +130,8 @@ Future<void> main() async {
             path: 'assets/languages',
             // <-- change the path of the translation files
             fallbackLocale: Locale('ar'),
-            child: Phoenix(child: MyApp(lat:position?.latitude ,
-            long: position?.longitude,))),
+            child: Phoenix(child: MyApp(lat:position?.latitude,
+            long:position?.longitude,))),
       );
 
   Bloc.observer=MyBlocObserver();
@@ -131,6 +158,9 @@ class MyApp extends StatelessWidget {
               ),
                BlocProvider(
                 create: (context) => FinancialReportsCubit(),
+              ),
+ BlocProvider(
+                create: (context) => ForgotPasswordCubit.instance,
               ),
 
               BlocProvider(
@@ -206,33 +236,49 @@ class MyApp extends StatelessWidget {
               BlocProvider(create: (context) => VacationCubit()),
               BlocProvider(create: (context) => CommitmentsCubit()),
               BlocProvider(create: (context) => MailCubit()),
+              BlocProvider( create: (context)=>RequestCubit()..getListRequest()),
             ],
-            child:
-                 MaterialApp(
+            child:MaterialApp(
                   debugShowCheckedModeBanner: false,
                   title: 'Taqi Violet',
                   localizationsDelegates: context.localizationDelegates,
                   supportedLocales: context.supportedLocales,
                   locale: context.locale,
                   theme: ThemeData(
+                    scaffoldBackgroundColor: Colors.white,
+                    tabBarTheme: TabBarTheme(
+                       labelColor: kCustomBlack
+                    ),
                     sliderTheme: ThemeData.dark().sliderTheme.copyWith(
                           thumbShape: DropSliderValueIndicatorShape(),
                         valueIndicatorColor: kCustomBlack,
                         valueIndicatorTextStyle: TextStyle(
                             backgroundColor: Colors.transparent
-                        )
+                        ),
+
                     ),
+
                     primarySwatch: Colors.blue,
                     fontFamily: 'arial',
                     textSelectionTheme:
                     TextSelectionThemeData(cursorColor: Colors.black),
                   ),
+              onGenerateRoute: (settings) {
+                final uri = Uri.parse(settings.name!);
+                if (uri.path == '/details') {
+                  final itemId = uri.queryParameters['itemId'];
+                  return MaterialPageRoute(
+                    builder: (context) => ProductDetailsScreen(productId: int.parse(itemId??'0'),),
+                  );
+                }
+                // Handle other routes here if needed
+                return null;
+              },
                   navigatorKey: navigatorKey,
-                  home: SplashScreen(),
-
-
+                  home:SplashScreen(),
             ));
       }
     );
   }
 }
+

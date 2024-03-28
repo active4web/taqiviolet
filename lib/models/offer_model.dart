@@ -33,6 +33,10 @@ class OfferModel {
 class OfferModelData {
   int? iD;
   String? title;
+  String? title2;
+  String? title3;
+  String? title4;
+  String? title5;
   String? content;
   String? image;
   int? discount;
@@ -49,6 +53,10 @@ class OfferModelData {
   OfferModelData.fromJson(Map<String, dynamic> json) {
     iD = json['ID'];
     title = json['Title'];
+    title2 = json['title2'];
+    title3 = json['title3'];
+    title4 = json['title4'];
+    title5 = json['title5'];
     content = json['Content'];
     image = json['Image'];
     discount = json['Discount'];

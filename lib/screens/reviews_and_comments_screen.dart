@@ -116,7 +116,7 @@ class CommentItem extends StatelessWidget {
       decoration: BoxDecoration(
         // color: Colors.grey.shade300,
         shape: BoxShape.rectangle,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -143,7 +143,8 @@ class CommentItem extends StatelessWidget {
                       DateFormat("yyyy-MM-dd", kLanguage)
                           .format(DateTime.parse("${commentCreationDate}"))
                           .toString(),
-                      style: TextStyle(color: Colors.blue),
+                      style: TextStyle(color: Colors.blue,
+                      fontSize: 11.sp),
                     ),
                     // Text(
                     //   DateFormat.jm(kLanguage)
@@ -176,7 +177,7 @@ class CommentItem extends StatelessWidget {
             ),
             Text(
               "${commentText}",
-              style: TextStyle(color: Colors.brown.shade700, fontSize: 14),
+              style: TextStyle(color: Colors.brown.shade700, fontSize: 14.sp),
             ),
             if (imagesUrl!.isNotEmpty)
               Text(

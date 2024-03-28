@@ -8,6 +8,7 @@ import 'package:safsofa/cubits/authCubit/auth_cubit.dart';
 import 'package:safsofa/cubits/authCubit/auth_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
 import 'package:safsofa/screens/home_layout.dart';
+import 'package:safsofa/screens/register_screens/forgot_password_screen.dart';
 import 'package:safsofa/screens/register_screens/register_choice_screen.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
@@ -45,14 +46,6 @@ class LoginScreen extends StatelessWidget {
           // resizeToAvoidBottomInset: false,
            extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
-           appBar: AppBar(
-             systemOverlayStyle: SystemUiOverlayStyle(
-                 statusBarColor:Color(0xff393846),
-                 statusBarIconBrightness: Brightness.light
-             ) ,
-             toolbarHeight: 0.0,
-             elevation: 0.0,
-           ),
            body: Form(
              key: _formKey,
              child: Container(
@@ -67,21 +60,26 @@ class LoginScreen extends StatelessWidget {
               child: SingleChildScrollView(
                 physics: BouncingScrollPhysics(),
                 child: Padding(
-                  padding: const EdgeInsets.all(30),
+                  padding:EdgeInsets.symmetric(horizontal: 30.w, vertical: 15.h),
                   child: Column(
                     children: [
-                      Image(
-                        image: AssetImage('assets/images/logo.png'),
-                        height: MediaQuery.of(context).size.width / 2.3,
-                        width: MediaQuery.of(context).size.width / 2.3,
-                        fit: BoxFit.cover,
+                      Container(
+                        height: 160.h,
+                        width: 200.w,
+                        decoration: BoxDecoration(
+                        //  color: Color(0xff393846),
+                          image: DecorationImage(
+                            fit: BoxFit.contain,
+                            image: AssetImage('assets/images/logo.png',),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.height / 40,
                       ),
                       Text(
                         'Login'.tr(),
-                        style: TextStyle(color: kLightGoldColor, fontSize: 32),
+                        style: TextStyle(color: kLightGoldColor, fontSize: 24.sp),
                       ),
                       SizedBox(
                         height: 30,
@@ -123,11 +121,13 @@ class LoginScreen extends StatelessWidget {
                       Row(
                         children: [
                           TextButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                navigateTo(context, ForgotPasswordScreen());
+                              },
                               child: Text(
                                 'ForgetPassword'.tr(),
                                 style:
-                                    TextStyle(color: Colors.white, fontSize: 12),
+                                    TextStyle(color: Colors.white, fontSize: 12.sp),
                               )),
                         ],
                       ),
@@ -163,7 +163,7 @@ class LoginScreen extends StatelessWidget {
                       Center(
                         child: Text(
                           'DoNotHaveAnAccount?'.tr(),
-                          style: TextStyle(color: Colors.white, fontSize: 12),
+                          style: TextStyle(color: Colors.white, fontSize: 12.sp),
                         ),
                       ),
                       SizedBox(

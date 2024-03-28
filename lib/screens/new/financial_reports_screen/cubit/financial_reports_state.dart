@@ -27,3 +27,10 @@ class ChangeStatusError extends FinancialReportsState {}
 
 class ChangeHoldState extends FinancialReportsState {}
 
+class GetSalesOrdersSuccess extends FinancialReportsState {}
+class GetSalesOrdersLoading extends FinancialReportsState {}
+class GetSalesOrdersError extends FinancialReportsState {}
+
+class GetPartnerOrdersSuccess extends FinancialReportsState {}
+class GetPartnerOrdersLoading extends FinancialReportsState {}
+class GetPartnerOrdersError extends FinancialReportsState {}

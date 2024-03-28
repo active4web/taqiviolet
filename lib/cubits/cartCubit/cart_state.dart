@@ -22,3 +22,13 @@ class ChangeActive extends CartState {}
 class GetCountriesErrorState extends CartState {}
 class GetCountriesSuccessState extends CartState {}
 class GetCountriesLoadingState extends CartState {}
+
+
+class CacheBackErrorState extends CartState {}
+class CacheBackSuccessState extends CartState {}
+class CacheBackLoadingState extends CartState {}
+class CancelPromoCode extends CartState {}
+
+class DeleteCartSuccessState extends CartState{}
+class DeleteCartLoadingState extends CartState{}
+class DeleteCartErrorState extends CartState{}

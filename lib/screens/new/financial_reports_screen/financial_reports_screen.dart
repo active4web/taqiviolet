@@ -5,10 +5,11 @@ import 'package:safsofa/screens/new/financial_reports_screen/widgets/current_ord
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/cusom_dialog_box.dart';
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/holding_order_list_view.dart';
 import 'package:safsofa/screens/new/financial_reports_screen/widgets/old_order_list_view.dart';
+import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:safsofa/shared/constants.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../network/local/cache_helper.dart';
 import 'widgets/wating_order_list_view.dart';
 
@@ -23,7 +24,11 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
     with TickerProviderStateMixin {
   @override
   void initState() {
-    FinancialReportsCubit.get(context)..getWatingOrders()..getCurrentOrders()..getHoldingOrders()..getOldOrders();
+    if(CacheHelper.getData('type')==3){
+      FinancialReportsCubit.get(context)..getSalesOrder();
+    }else{
+      FinancialReportsCubit.get(context)..getPartnerOrders();
+    }
     super.initState();
   }
   @override
@@ -40,93 +45,109 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 20.0.h, horizontal: 10.w),
-        child: Column(
+        child: BlocBuilder<FinancialReportsCubit, FinancialReportsState>(
+  builder: (context, state) {
+    var cubit=FinancialReportsCubit.get(context);
+    return cubit.partnerOrdersModel==null?Center(
+      child: CustomCircularProgress(
+        color: kCustomBlack,
+      ),
+    ) :Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if(CacheHelper.getData('type')==0)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Expanded(
-                  child: Column(
+            
+     Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("المتبقى"),
-                      Text("200"),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("المتبقى"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.remain??''),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("الربح"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.profit??''),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            Text("رأس المال"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.userCapital??''),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: Column(
+                          children: [
+                            Text("اجمالي المبيعات"),
+                            Text(cubit.partnerOrdersModel?.data?.statistics?.totalOrders??''),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
-                Expanded(
-                  child: Column(
+                  Divider(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      Text("الربح"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: Column(
-                    children: [
-                      Text("رأس المال"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Column(
-                    children: [
-                      Text("اجمالي المبيعات"),
-                      Text("200"),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            if(CacheHelper.getData('type')==0)
-            Divider(),
-            if(CacheHelper.getData('type')==0)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                Column(
-                  children: [
-                    Text("الزائرين"),
-                    Text("200"),
-                  ],
-                ),
+                      Column(
+                        children: [
+                          Text("الزائرين"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.visiters??''),
+                        ],
+                      ),
 
-                Column(
-                  children: [
-                    Text("المستخدمين"),
-                    Text("200"),
-                  ],
-                ),
+                      Column(
+                        children: [
+                          Text("المستخدمين"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.usersCount??''),
+                        ],
+                      ),
 
-                Column(
-                  children: [
-                    Text("المخزن"),
-                    Text("200"),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text("المصاريف"),
-                    Text("200"),
-                  ],
-                ),
-              ],
-            ),
-            if(CacheHelper.getData('type')==0)
-            Divider(),
-            if(CacheHelper.getData('type')==0)
-            SizedBox(
-              height: 10.h,
-            ),
+                      Column(
+                        children: [
+                          Text("المخزن"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.productsQuantities??''),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text("المصاريف"),
+                          Text(cubit.partnerOrdersModel?.data?.statistics?.expenses??''),
+                        ],
+                      ),
+                    ],
+                  ),
+                  Divider(),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                ],
+              ),
+ 
+
             Container(
               height: height / 20,
               width: width,
               color: Colors.white,
               child: TabBar(
+                unselectedLabelStyle: TextStyle(
+                  fontSize: 11.sp
+                ),
+                labelStyle: TextStyle(
+                  fontSize: 11.sp
+                ),
                 labelColor: kCustomBlack,
                 isScrollable: true,
                 indicatorColor: kCustomBlack,
@@ -260,7 +281,9 @@ class _FinancialReportsScreenState extends State<FinancialReportsScreen>
             //   ],
             // ),
           ],
-        ),
+        );
+  },
+),
       ),
     );
   }

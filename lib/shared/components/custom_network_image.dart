@@ -2,6 +2,7 @@
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 class CustomNetworkImage extends StatelessWidget {
@@ -29,12 +30,12 @@ class CustomNetworkImage extends StatelessWidget {
           borderRadius: border,
           image: DecorationImage(
             image: imageProvider,
-            fit: BoxFit.cover,
+            fit: BoxFit.fill,
           ),
         ),child: Container(
         decoration: BoxDecoration(
             color:isActive?Colors.transparent:Colors.black.withOpacity(.6),
-          borderRadius: BorderRadius.circular(20)
+          borderRadius: BorderRadius.circular(20.r)
         ),
       ),
       ),
@@ -44,8 +45,8 @@ class CustomNetworkImage extends StatelessWidget {
         baseColor: Colors.grey.shade400,
         highlightColor: Colors.grey,
         child: Container(
-          height: height,
-          width: width,
+          height: height.h,
+          width: width.w,
           decoration: BoxDecoration(
             color: Colors.black,
             borderRadius: border,

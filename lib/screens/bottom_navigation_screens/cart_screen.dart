@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/screens/check_out_screen.dart';
+import 'package:safsofa/screens/new/financial_reports_screen/widgets/cusom_dialog_box.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
 import 'package:safsofa/shared/components/custom_button.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
@@ -15,7 +16,6 @@ import '../../cubits/cartCubit/cart_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../network/local/cache_helper.dart';
-import '../../shared/components/custom_text_form_field.dart';
 import 'orders_section/select_discount.dart';
 
 class CartScreen extends StatefulWidget {
@@ -27,6 +27,10 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
+    CartCubit.get(context).promoCode.clear();
+    CartCubit.get(context).isCopunValid=null;
+    CartCubit.get(context).promo=false;
+    CartCubit.get(context).cache=false;
     kToken != null && kToken!.isNotEmpty
         ? CartCubit.get(context).getServerCartData()
         : CartCubit.get(context).getLocalCartData();
@@ -68,6 +72,7 @@ class _CartScreenState extends State<CartScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
+                              SizedBox(height: 10.h,),
                                // TextButton(
                                //    onPressed: () =>
                                //        cubit.emptyCartProductsServer(),
@@ -145,15 +150,11 @@ class _CartScreenState extends State<CartScreen> {
                                                         CrossAxisAlignment.start,
                                                     children: [
                                                       SizedBox(
-                                                        width:
-                                                            MediaQuery.of(context)
-                                                                    .size
-                                                                    .width *
-                                                                0.45,
+
                                                         child: Text(
                                                           "${cubit.myCartModel?.data?.listItem![index].name}",
                                                           style: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 10.sp,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .w500),
@@ -165,7 +166,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       Text(
                                                         "${"numberOfUnit".tr()} ${cubit.myCartModel?.data?.listItem![index].quantity}",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 10.sp,
                                                             fontWeight:
                                                             FontWeight
                                                                 .w500),
@@ -261,7 +262,7 @@ class _CartScreenState extends State<CartScreen> {
                                                               child: Text(
                                                                 "${"smartPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].smartPrice} ${"SAR".tr()}",
                                                                 style: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 10.sp,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500),
@@ -287,15 +288,11 @@ class _CartScreenState extends State<CartScreen> {
                                                                       .smartPrice !=
                                                                   null
                                                           ? SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.45,
+
                                                               child: Text(
                                                                 "${"finalPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price * cubit.myCartModel?.data?.listItem![index].quantity + double.parse(cubit.myCartModel?.data?.listItem![index].smartPrice) * cubit.myCartModel?.data?.listItem![index].quantity} ${"SAR".tr()}",
                                                                 style: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 10.sp,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500),
@@ -306,15 +303,11 @@ class _CartScreenState extends State<CartScreen> {
                                                               ),
                                                             )
                                                           : SizedBox(
-                                                              width: MediaQuery.of(
-                                                                          context)
-                                                                      .size
-                                                                      .width *
-                                                                  0.45,
+
                                                               child: Text(
                                                                 "${"finalPrice".tr()} ${cubit.myCartModel?.data?.listItem![index].price * cubit.myCartModel?.data?.listItem![index].quantity} ${"SAR".tr()}",
                                                                 style: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 10.sp,
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500),
@@ -454,22 +447,75 @@ class _CartScreenState extends State<CartScreen> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      print(cubit
-                                                          .myCartModel!
-                                                          .data!
-                                                          .listItem![index]
-                                                          .cardId!);
-                                                      cubit
-                                                          .delItemFromCartServer(
-                                                        cartId: cubit
-                                                            .myCartModel!
-                                                            .data!
-                                                            .listItem![index]
-                                                            .cardId!,
-                                                      );
+
+                                                      showDialog(context: context, builder: (context){
+                                                        return  BlocListener<CartCubit, CartState>(
+  listener: (context, state) {
+    if(state is DeleteCartSuccessState){
+      Navigator.pop(context);
+    }
+  },
+  child: AlertDialog(
+    alignment: Alignment.center,
+
+                                                          title: Center(child: Text('هل انت متآكد من حذف هذه القطعه؟')),
+                                                          titleTextStyle: TextStyle(
+                                                            fontWeight: FontWeight.bold,
+                                                            fontSize: 12.sp,
+                                                            color: Colors.black
+                                                          ),
+                                                          content:Row(
+                                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                            children: [
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  Navigator.pop(context);
+                                                                },
+                                                                child: Container(
+                                                                    padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 20.w),
+                                                                    decoration: BoxDecoration(
+                                                                      border: Border.all(
+                                                                        width: .5,color: Colors.grey.shade400
+                                                                      )
+                                                                    ),
+                                                                    child: Text('cancel'.tr(),style: TextStyle(
+                                                                        color: Colors.black
+                                                                    ),)),
+                                                              ),
+                                                              InkWell(
+                                                                onTap: (){
+                                                                  cubit
+                                                                      .delItemFromCartServer(
+                                                                    cartId: cubit
+                                                                        .myCartModel!
+                                                                        .data!
+                                                                        .listItem![index]
+                                                                        .cardId!,
+                                                                  );
+                                                                },
+                                                                child: Container(
+                                                                  padding: EdgeInsets.symmetric(vertical: 5.h,horizontal: 20.w),
+                                                                    color: kCustomBlack,
+                                                                    child: Text('delete'.tr(),style: TextStyle(
+                                                                      color: Colors.white
+                                                                    ),)),
+                                                              ),
+
+                                                            ],
+                                                          ),
+                                                        ),
+);
+                                                      });
+                                                      // print(cubit
+                                                      //     .myCartModel!
+                                                      //     .data!
+                                                      //     .listItem![index]
+                                                      //     .cardId!);
+
                                                     },
                                                     icon: Icon(
                                                       Icons.close,
+                                                      size: 18.w,
                                                       color: Color(0xffFE9C8F),
                                                     ),
                                                   ),
@@ -549,14 +595,63 @@ class _CartScreenState extends State<CartScreen> {
                                     text: 'Total'.tr(),
                                   ),
                                   Text(
-                                    '${cubit.total} ${"SAR".tr()}',
+                                    '${cubit.temptotal} ${"SAR".tr()}',
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 15.sp,
+                                        fontSize: 12.sp,
                                         color: Colors.black54),
                                   )
                                 ],
                               ),
+
+                              if(cubit.isCopunValid??false)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Label(
+                                    text: 'نسبة الخصم',
+                                  ),
+                                  Text(
+                                    '${cubit.discount} ${"%"}',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black54),
+                                  )
+                                ],
+                              ),
+                              if(cubit.isCopunValid??false)
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Label(
+                                    text: 'قيمة الخصم',
+                                  ),
+                                  Text(
+                                    '${cubit.discountValue} ${"SAR".tr()}',
+                                    style: TextStyle(
+                                        fontSize: 12.sp,
+                                        color: Colors.black54),
+                                  )
+                                ],
+                              ),
+
+                              if(cubit.temptotal!=cubit.total)
+                                Row(
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Label(
+                                      text: 'الاجمالي بعد الخصم',
+                                    ),
+                                    Text(
+                                      '${cubit.total} ${"SAR".tr()}',
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: Colors.black54),
+                                    )
+                                  ],
+                                ),
                               SizedBox(
                                 height: 10.h,
                               ),
@@ -680,7 +775,7 @@ class _CartScreenState extends State<CartScreen> {
                                                       child: Text(
                                                         "${cubit.myCartlocalModel?.cartProducts![index].productName}",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 10.sp,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -720,15 +815,11 @@ class _CartScreenState extends State<CartScreen> {
                                                     //   ],
                                                     // ),
                                                     SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.45,
+
                                                       child: Text(
                                                         "${"unitPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].oneProdctPrice} ${"SAR".tr()}",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize:10.sp,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -739,15 +830,11 @@ class _CartScreenState extends State<CartScreen> {
                                                     ),
                                                     SizedBox(height: 5.h,),
                                                     SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.45,
+
                                                       child: Text(
                                                         "${"numberOfUnit".tr()} ${cubit.myCartlocalModel?.cartProducts![index].quantity}",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 10.sp,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -770,15 +857,11 @@ class _CartScreenState extends State<CartScreen> {
                                                                     .smartPrice !=
                                                                 null
                                                         ? SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.45,
+
                                                             child: Text(
                                                               "${"smartPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].smartPrice} ${"SAR".tr()}",
                                                               style: TextStyle(
-                                                                  fontSize: 14,
+                                                                  fontSize: 10.sp,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500),
@@ -791,15 +874,15 @@ class _CartScreenState extends State<CartScreen> {
                                                         : SizedBox(),
 
                                                     SizedBox(
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .width *
-                                                              0.45,
+                                                      // width:
+                                                      //     MediaQuery.of(context)
+                                                      //             .size
+                                                      //             .width *
+                                                      //         0.45,
                                                       child: Text(
                                                         "${"finalPrice".tr()} ${cubit.myCartlocalModel?.cartProducts![index].onePiecePrice * cubit.myCartlocalModel?.cartProducts![index].quantity} ${"SAR".tr()}",
                                                         style: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 10.sp,
                                                             fontWeight:
                                                                 FontWeight
                                                                     .w500),
@@ -821,15 +904,11 @@ class _CartScreenState extends State<CartScreen> {
                                                                     .smartPrice !=
                                                                 null
                                                         ? SizedBox(
-                                                            width: MediaQuery.of(
-                                                                        context)
-                                                                    .size
-                                                                    .width *
-                                                                0.45,
+
                                                             child: Text(
                                                               "${"containSmartPrice".tr()}",
                                                               style: TextStyle(
-                                                                  fontSize: 14,
+                                                                  fontSize: 10.sp,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500),
@@ -865,6 +944,7 @@ class _CartScreenState extends State<CartScreen> {
                                                     //   ],
                                                     // ),
                                                     CounterRow(
+                                                    //  containerSize: 20,
                                                         quantity:
                                                             "${cubit.myCartlocalModel?.cartProducts![index].quantity.toString()}",
                                                         onAdd: () {
@@ -927,12 +1007,24 @@ class _CartScreenState extends State<CartScreen> {
                                                 children: [
                                                   IconButton(
                                                     onPressed: () {
-                                                      cubit.delITemFRomCartLocal(
-                                                          product_id: cubit
-                                                              .myCartlocalModel
-                                                              ?.cartProducts![
-                                                                  index]
-                                                              .productId);
+                                                      showDialog(context: context, builder: (context){
+                                                        return Column(
+                                                          children: [
+                                                            Text('data'),
+                                                            Row(
+                                                              children: [
+
+                                                              ],
+                                                            )
+                                                          ],
+                                                        );
+                                                      });
+                                                      // cubit.delITemFRomCartLocal(
+                                                      //     product_id: cubit
+                                                      //         .myCartlocalModel
+                                                      //         ?.cartProducts![
+                                                      //             index]
+                                                      //         .productId);
                                                     },
                                                     icon: Icon(
                                                       Icons.close,
@@ -964,8 +1056,7 @@ class _CartScreenState extends State<CartScreen> {
                                   Text(
                                     "${cubit.total.toStringAsFixed(2)} ${'rial'.tr()}",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18.sp,
+                                        fontSize: 12.sp,
                                         color: Colors.black54),
                                   )
                                 ],
@@ -1031,7 +1122,7 @@ class _CartScreenState extends State<CartScreen> {
 
 class CounterRow extends StatelessWidget {
   const CounterRow({
-    this.containerSize = 25,
+    this.containerSize = 30,
     this.fontSize = 14,
     this.quantity = "",
     this.onAdd,
@@ -1054,8 +1145,8 @@ class CounterRow extends StatelessWidget {
             onAdd!();
           },
           child: Container(
-            width: containerSize,
-            height: containerSize,
+            width: (containerSize-2).w,
+            height: containerSize.h,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.black26),
@@ -1064,7 +1155,7 @@ class CounterRow extends StatelessWidget {
               child: Icon(
                 Icons.add,
                 color: Colors.black54,
-                size: fontSize,
+                size: fontSize.w,
               ),
             ),
           ),
@@ -1077,21 +1168,22 @@ class CounterRow extends StatelessWidget {
           child: Center(
             child: Text(quantity.toString(),
                 style: TextStyle(
-                    fontSize: fontSize,
+                    fontSize: fontSize.sp,
                     fontWeight: FontWeight.w500,
                     color: Colors.black54)),
           ),
         ),
         SizedBox(
-          width: 20,
+          width: 20.w,
         ),
         GestureDetector(
           onTap: () {
             onRemove!();
           },
           child: Container(
-            width: containerSize,
-            height: containerSize,
+
+            width: (containerSize-2).w,
+            height: containerSize.h,
             decoration: BoxDecoration(
                 color: Colors.white,
                 border: Border.all(color: Colors.black26),
@@ -1100,7 +1192,7 @@ class CounterRow extends StatelessWidget {
               child: Icon(
                 Icons.remove,
                 color: Colors.black54,
-                size: fontSize,
+                size: fontSize.w,
               ),
             ),
           ),

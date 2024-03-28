@@ -132,9 +132,9 @@ class SubCatCubit extends Cubit<SubCatState> {
 
   void createNewFavList(
       {required String listName,
-      required BuildContext context,
-      int? productId,
-      required int index}) {
+        required BuildContext context,
+        int? productId,
+        required int index}) {
     Mhelper.postData(
       url: 'api/addfavlist',
       data: {
@@ -157,8 +157,8 @@ class SubCatCubit extends Cubit<SubCatState> {
 
   void addFavProductToFavList(
       {required int listId,
-      required int productId,
-      required BuildContext context,required index,productIndex}) {
+        required int productId,
+        required BuildContext context,required index,productIndex}) {
     Mhelper.postData(
         url: '/api/FavProduct',
         data: {
@@ -171,12 +171,12 @@ class SubCatCubit extends Cubit<SubCatState> {
         }).then((value) {
       log(value.data.toString());
       if (value.data['status']) {
-         productFromCatList?[index].hasFavorites = 1;
+        productFromCatList?[index].hasFavorites = 1;
 
 
         emit(AddToFavoriteSuccess());
         // getFavListData();
-         Navigator.pop(context);
+        Navigator.pop(context);
 
       } else {
         showToast(text: "somethingWentWrong".tr(), color: Colors.red);

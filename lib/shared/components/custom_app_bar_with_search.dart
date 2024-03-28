@@ -30,7 +30,7 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
   @override
   Widget build(BuildContext context) {
     return PreferredSize(
-      preferredSize: Size.fromHeight(MediaQuery.of(context).size.height * 0.15),
+      preferredSize: Size.fromHeight(160.h),
       child: AppBar(
         elevation: 0,
         backgroundColor: Color(0xff393846), //
@@ -40,12 +40,12 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
         ) ,
 // colorAB,
         shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.vertical(bottom: Radius.circular(60)),
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(60.r)),
         ),
         title: Text(
-          "${title}",maxLines: 2,
+          "${title}",
           style: TextStyle(
-              fontSize: 16.sp, fontWeight: FontWeight.normal, color: colorIcon),
+              fontSize: 14.sp, fontWeight: FontWeight.normal, color: colorIcon),
         ),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
@@ -56,17 +56,18 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
         ),
         actions: [
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+            padding:  EdgeInsets.symmetric(horizontal: 10.w),
             child: Image(
+              height: 65.h,
               image: AssetImage('assets/images/logoheader.png'),
             ),
           )
         ],
         centerTitle: true,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50),
+          preferredSize: Size.fromHeight(65.h),
           child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+            padding:  EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),
             child: Row(
               children: [
                 withFilter
@@ -75,11 +76,11 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
                     function!();
                   },
                       child: Container(
-                          width: 40,
-                          height: 40,
+                          width: 40.w,
+                          height: 40.h,
                           decoration: BoxDecoration(
                               color: colorIcon, //Colors.grey,
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(10.r)),
                           child: Icon(CupertinoIcons.line_horizontal_3_decrease,
                               color: Colors.black // Colors.white,
                               ),
@@ -91,6 +92,7 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
                 ),
                 Expanded(
                     child: CustomSearchBar(
+
                   border: colorIcon,
                   controller: controller,
                   onChange: onChange,
@@ -107,5 +109,5 @@ class CustomAppBarWithSearch extends StatelessWidget implements  PreferredSizeWi
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => Size.fromHeight(110);
+  Size get preferredSize => Size.fromHeight(90.h);
 }

@@ -36,6 +36,7 @@ class Data {
   String? totalMoney;
   String? paymentMethod;
   int? annualDues;
+  String? file;
   int? status;
   String? date;
 
@@ -56,6 +57,7 @@ class Data {
     annualDues = json['annual_dues'];
     status = json['status'];
     date = json['date'];
+    file=json['file'];
   }
 
   Map<String, dynamic> toJson() {

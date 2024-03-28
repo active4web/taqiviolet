@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/network/local/cache_helper.dart';
@@ -28,7 +29,7 @@ class LanguageScreen extends StatelessWidget {
                 text: 'ChooseYourLanguage'.tr(),
               ),
               SizedBox(
-                height: 20,
+                height: 20.h,
               ),
               Expanded(
                 child: ListView(
@@ -77,8 +78,8 @@ class LanguageTile extends StatelessWidget {
     return ListTile(
       title: Text(language!),
       leading: Container(
-        width: 40,
-        height: 30,
+        width: 40.w,
+        height: 30.h,
         decoration: BoxDecoration(
           color: Colors.grey,
           borderRadius: BorderRadius.circular(5),

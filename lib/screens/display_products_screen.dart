@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/search_cubit/search_cubit.dart';
 import 'package:safsofa/cubits/subCategory/sub_cat_cubit.dart';
 import 'package:safsofa/screens/product_details_screen.dart';
@@ -164,6 +165,7 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                                     "${cubit.subCatDataList![index].name}",
                                                                     style: TextStyle(
 
+                                                                      fontSize: 26.sp,
                                                                         color:
                                                                             // cubit.currentDepIndex ==
                                                                             //     index
@@ -205,8 +207,8 @@ class _DisplayProductsScreenState extends State<DisplayProductsScreen> {
                                                         crossAxisCount: 2,
                                                         childAspectRatio:
                                                         15 / 20,
-                                                        mainAxisSpacing: 10,
-                                                        crossAxisSpacing: 10),
+                                                        mainAxisSpacing: 10.h,
+                                                        crossAxisSpacing: 10.w),
                                                 itemBuilder: (context, indexProduct) =>
                                                     VerticalProductCard(
                                                   cubit: cubit,

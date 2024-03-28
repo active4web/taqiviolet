@@ -36,8 +36,8 @@ class Data {
   String? productName;
   num? productOldPrice;
   num? productCurrentPrice;
-  String? productQuantity;
-  String? productQuantityOrignal;
+  int? productQuantity;
+  int? productQuantityOrignal;
   num? productSerialNo;
   num? productQuantitySold;
 
@@ -61,7 +61,7 @@ class Data {
     productQuantity = json['product_quantity'];
     productSerialNo = json['product_serial_no'];
     productQuantitySold = json['product_quantity_sold'];
-    productQuantityOrignal = json['product_quantity_orignal'];
+    productQuantityOrignal = json['product_quantity_original'];
   }
 
   Map<String, dynamic> toJson() {

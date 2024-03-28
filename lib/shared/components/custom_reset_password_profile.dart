@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/shared/constants.dart';
 
 class CustomResetPasswordProfile extends StatelessWidget {
@@ -42,7 +43,7 @@ class CustomResetPasswordProfile extends StatelessWidget {
         AutovalidateMode.onUserInteraction,
         // style: TextStyle(color: Colors.white),
         decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(horizontal: 20),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 12.h),
             border: InputBorder.none,
             hintText: hintText,
             suffixIcon: suffixIcon != null

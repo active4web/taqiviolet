@@ -83,13 +83,13 @@ class TechnicalSupportScreen extends StatelessWidget {
                           SizedBox(
                             height: 20,
                           ),
-                          Label(text: 'name'.tr()),
+                          Label(text: 'theName'.tr()),
                           SizedBox(
                             height: 10,
                           ),
                           CustomFormField(
                             controller: name,
-                            label: "name".tr(),
+                            label: "theName".tr(),
                               validate: (va){
                                 if(va!.trim().isEmpty){
                                   return 'The name is required';

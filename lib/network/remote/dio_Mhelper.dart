@@ -11,7 +11,6 @@ class Mhelper {
         baseUrl: MBaseUrl,
         receiveDataWhenStatusError: true,
         followRedirects: false,
-        validateStatus:  (status) => true,
    /*     responseType: ResponseType.plain,*/
       ),
     );

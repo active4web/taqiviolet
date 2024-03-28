@@ -2,28 +2,21 @@ import 'dart:developer';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:safsofa/cubits/appCubit/app_cubit.dart';
 import 'package:safsofa/cubits/appCubit/app_states.dart';
 import 'package:safsofa/cubits/cartCubit/cart_state.dart';
 import 'package:safsofa/models/cities_location_model.dart';
 import 'package:safsofa/screens/new/personel_page/help/custom_circular_progress/custom_circular_progress.dart';
 import 'package:safsofa/shared/components/custom_app_bar.dart';
-import 'package:safsofa/shared/components/custom_button.dart';
-import 'package:safsofa/shared/components/custom_drop_down.dart';
 import 'package:safsofa/shared/components/custom_label.dart';
 import 'package:safsofa/shared/components/custom_text_form_field.dart';
-import 'package:safsofa/shared/components/payment_component/cubit/payment_cubit.dart';
 import 'package:safsofa/shared/constants.dart';
-import 'package:safsofa/shared/defaults.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import '../cubits/cartCubit/cart_cubit.dart';
 import '../network/local/cache_helper.dart';
 import '../shared/components/payment_component/payment_component.dart';
-import 'new_details_order_after.dart';
 
 int? countryId;
 int? cityId;
@@ -41,13 +34,13 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
   @override
   void initState() {
     CartCubit.get(context)..getAllLocationsOfCities();
-    CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
-    CartCubit.get(context).phoneOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.phone ?? '';
-    CartCubit.get(context).addressOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.address ?? '';
-    CartCubit.get(context).nameOfReceiver.text =
-        AppCubit.get(context).userInfo?.data?.name ?? '';
+    // CartCubit.get(context).email.text = AppCubit.get(context).userInfo?.data?.email ?? '';
+    // CartCubit.get(context).phoneOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.phone ?? '';
+    // CartCubit.get(context).addressOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.address ?? '';
+    // CartCubit.get(context).nameOfReceiver.text =
+    //     AppCubit.get(context).userInfo?.data?.name ?? '';
     super.initState();
   }
 
@@ -57,7 +50,6 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
     PaymentMethod paymentMethod = PaymentMethod.onlinePayment;
 
     CartCubit cartCubit = CartCubit.get(context);
-
 
     // cartCubit.getAllLocationsOfCities();
     return BlocConsumer<AppCubit, AppStates>(
@@ -84,7 +76,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         style: TextStyle(
                           color: kCustomBlack,
                           fontWeight: FontWeight.w500,
-                          fontSize: 20,
+                          fontSize: 16.sp,
                         ),
                       ),
                     ),
@@ -123,7 +115,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                     Visibility(
                       visible: false,
                       child: SizedBox(
-                        height: 10,
+                        height: 10.h,
                       ),
                     ),
                     StatefulBuilder(
@@ -153,7 +145,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     SizedBox(
                                       width: 16,
                                     ),
-                                    Text('DeliverToHome'.tr()),
+                                    Text('DeliverToHome'.tr(),style: TextStyle(
+                                      fontSize: 10.sp
+                                    ),),
                                   ],
                                 ),
                                 // Row(
@@ -187,13 +181,38 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   "Address".tr(),
                                   style: TextStyle(
                                     color: kCustomBlack,
-                                    fontSize: 16,
+                                    fontSize: 13.sp,
                                     fontWeight: FontWeight.w300,
                                   ),
                                 ),
                                 CustomTextFormField(
                                   // fontSize: 12.sp,
                                   controller: cartCubit.addressOfReceiver,
+                                  fillColor: Colors.grey.shade500,
+                                  hintColor: Colors.black,
+                                  textColor: Colors.black,
+                                  cursorColor: kDarkGoldColor,
+                                  keyboardType: TextInputType.streetAddress,
+                                  onChanged: (value){
+                                    setState((){});
+                                  },
+                                  validate: (value) {
+                                    if (value!.isEmpty) {
+                                      return "this field is required";
+                                    }
+                                  },
+                                ),
+                                Text(
+                                  "neighbourhood".tr(),
+                                  style: TextStyle(
+                                    color: kCustomBlack,
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w300,
+                                  ),
+                                ),
+                                CustomTextFormField(
+                                  // fontSize: 12.sp,
+                                  controller: cartCubit.districtOfReceiver,
                                   fillColor: Colors.grey.shade500,
                                   hintColor: Colors.black,
                                   textColor: Colors.black,
@@ -282,7 +301,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                               flex: 6,
                                               child:DropdownButtonFormField2<CountryList>(
                                                 validator: (value){
-                                                  if(value==null){
+                                                  if(value==null&& CartCubit.get(context).selectedCountry==null){
                                                     return 'this filed is required';
                                                   }
                                                 },
@@ -358,7 +377,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                   }
                                                 },
                                                   hint:  Text(
-                                                          "country".tr(),
+                                                         cartCubit.selectedCountry?.name??"country".tr(),
                                                           style: TextStyle(
                                                             fontSize: 14.sp,
                                                             fontWeight:
@@ -605,7 +624,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                 flex: 4,
                                                 child:DropdownButtonFormField2<ListCites>(
                                                   validator: (value){
-                                                    if(value==null){
+                                                    if(value==null&& CartCubit.get(context).selectedCity==null){
                                                       return 'this filed is required';
                                                     }
                                                   },
@@ -626,14 +645,14 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                     45,
                                                     searchInnerWidget:
                                                     Container(
-                                                      height: 50,
+                                                      height: 50.h,
                                                       padding:
-                                                      const EdgeInsets
+                                                       EdgeInsets
                                                           .only(
-                                                        top: 8,
-                                                        bottom: 4,
-                                                        right: 8,
-                                                        left: 8,
+                                                        top: 8.r,
+                                                        bottom: 4.r,
+                                                        right: 8.r,
+                                                        left: 8.r,
                                                       ),
                                                       child:
                                                       TextFormField(
@@ -682,9 +701,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                                       textEditingController.clear();
                                                     }
                                                   },
-                                                  value: cartCubit.selectedCity,
+                                                  // value: cartCubit.selectedCity,
                                                   hint:  Text(
-                                                          "city".tr(),
+                                                         cartCubit.selectedCity?.nameCity?? "city".tr(),
                                                           style: TextStyle(
                                                             fontSize: 14.sp,
                                                             fontWeight:
@@ -938,12 +957,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                         ],
                       ),
                     ),
-
                     Text(
                       "FullName".tr(),
                       style: TextStyle(
                         color: kCustomBlack,
-                        fontSize: 16,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -969,7 +987,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       "Email".tr(),
                       style: TextStyle(
                         color: kCustomBlack,
-                        fontSize: 16,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w300,
                       ),
                     ),
@@ -992,6 +1010,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                       },
                     ),
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
                           child: Column(
@@ -1001,7 +1020,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 "postNumber".tr(),
                                 style: TextStyle(
                                   color: kCustomBlack,
-                                  fontSize: 14.sp,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w300,
                                 ),
                               ),
@@ -1036,7 +1055,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 "Phone".tr(),
                                 style: TextStyle(
                                   color: kCustomBlack,
-                                  fontSize: 16,
+                                  fontSize: 13.sp,
                                   fontWeight: FontWeight.w300,
                                 ),
                               ),
@@ -1054,6 +1073,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                     color: kCustomBlack, fontFamily: 'Tajawal'),
                                 dropdownDecoration: BoxDecoration(
                                   color: const Color(0xffE8E8E8),
+
                                   borderRadius: kLanguage != 'ar'
                                       ? BorderRadius.only(
                                     topLeft: Radius.circular(34),
@@ -1065,7 +1085,8 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                   ),
                                 ),
                                 decoration: InputDecoration(
-                                    contentPadding: EdgeInsets.symmetric(vertical: 15.h,horizontal: 10.w),
+
+                                    contentPadding: EdgeInsets.symmetric(vertical: 12.h,horizontal: 10.w),
                                     filled: true,
                                     fillColor: const Color(0xffE8E8E8),
                                     hintText: '56xxxxxxx',
@@ -1079,6 +1100,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                         borderSide: BorderSide(color: Colors.white),
                                         borderRadius: BorderRadius.circular(34))),
                                 onChanged: (phone) {
+                                  setState(() {
+
+                                  });
                                   cartCubit.countryCode = phone.countryCode;
                                   log('${phone.completeNumber}');
                                   log('aaaaaaaaaaaaaaa${phone.countryCode}');
@@ -1148,7 +1172,9 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                 SizedBox(
                                   width: 16,
                                 ),
-                                Text('PayWhenReceive'.tr()),
+                                Text('PayWhenReceive'.tr(),style: TextStyle(
+                                  fontSize: 10.sp
+                                ),),
                               ],
                             ),
                             Row(
@@ -1171,9 +1197,11 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                                       kDarkGoldColor),
                                 ),
                                 SizedBox(
-                                  width: 16,
+                                  width: 16.w,
                                 ),
-                                Text('PayOnline'.tr()),
+                                Text('PayOnline'.tr(),style: TextStyle(
+                                  fontSize: 13.sp
+                                ),),
                               ],
                             ),
                           ],
@@ -1239,24 +1267,22 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           text: 'Total'.tr(),
                         ),
                         Text(
-                          '${cartCubit.newOrder?.data?.total} ${"SAR".tr()}',
+                          '${cartCubit.newOrder?.data?.order?.subTotal} ${"SAR".tr()}',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.sp,
+                              fontSize: 12.sp,
                               color: Colors.black54),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 20,
-                    ),
+                   Divider(),
                     BlocConsumer<CartCubit, CartState>(
                       listener: (context, state) {},
                       builder: (context, state) {
+                        print("00000Abdooooo${cartCubit.newOrder?.data?.order?.total}");
                         return PaymentComponent(
                           total:
-                              num.parse(cartCubit.newOrder?.data?.total ?? ''),
-                          cartId: cartCubit.newOrder?.data?.id ?? '',
+                              num.parse(cartCubit.newOrder?.data?.order?.total ?? ''),
+                          cartId: cartCubit.newOrder?.data?.order?.id ?? '',
                           phone: '${cartCubit.countryCode}${cartCubit.phoneOfReceiver.text}',
                           name: cartCubit.nameOfReceiver.text,
                           address: cartCubit.addressOfReceiver.text,
@@ -1264,6 +1290,7 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
                           city: cartCubit.selectedCity,
                           zipCode: cartCubit.zibCode.text,
                           email: cartCubit.email.text,
+                          distrect: cartCubit.districtOfReceiver.text,
                         );
                       },
                     ),
@@ -1389,21 +1416,24 @@ class PromoCodeTextField extends StatelessWidget {
                 controller: CartCubit.get(context).promoCode,
                 decoration: InputDecoration(
                   contentPadding:
-                      EdgeInsets.symmetric(horizontal: 22, vertical: 0),
+                      EdgeInsets.symmetric(horizontal: 22.w, vertical: 15.h),
                   suffixIcon: InkWell(
                     onTap: () {
-                      if (CartCubit.get(context).promoCode.text.isNotEmpty) {
+                      if (CartCubit.get(context).promoCode.text.isNotEmpty&&CartCubit.get(context).isCopunValid!=true) {
                         CartCubit.get(context).checkPromoStatus();
+                      }else if(CartCubit.get(context).isCopunValid==true){
+                        CartCubit.get(context).cancelPromoCode();
                       }
                     },
                     child: Container(
-                      width: 100,
+                      width: 90.w,
+
                       child: Center(
                         child: state is CheckPromoLoadingState
                             ? CustomCircularProgress()
-                            : state is CheckPromoSuccessState
+                            : CartCubit.get(context).isCopunValid==true
                                 ? Text(
-                                    'تم التفعيل',
+                                    'الغاء التفعيل',
                                     style: TextStyle(color: kLightGoldColor),
                                   )
                                 : Text(
@@ -1428,7 +1458,7 @@ class PromoCodeTextField extends StatelessWidget {
                   fillColor: Color(0xfff3f3f3),
                   hintText: 'EnterPromoCode'.tr(),
                 ),
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: Colors.black,fontSize: 10.sp),
               ),
             ),
             if (CartCubit.get(context).isCopunValid != null)
@@ -1437,6 +1467,7 @@ class PromoCodeTextField extends StatelessWidget {
                     ? "validCoupon".tr()
                     : "invalidCoupon".tr(),
                 style: TextStyle(
+                  fontSize: 12.sp,
                     color: CartCubit.get(context).isCopunValid!
                         ? Colors.green
                         : Colors.red),

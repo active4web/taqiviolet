@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import '../../../../../shared/constants.dart';
 
 class CustomCircularProgress extends StatelessWidget {
-  const CustomCircularProgress({Key? key}) : super(key: key);
+  const CustomCircularProgress({Key? key,  this.color=kDarkGoldColor}) : super(key: key);
 
+final Color color;
   @override
   Widget build(BuildContext context) {
-    return const Center(
+    return  Center(
       child: CircularProgressIndicator.adaptive(
-        backgroundColor: kDarkGoldColor,
+        backgroundColor: color,
         valueColor:AlwaysStoppedAnimation(kCustomBlack),
       ),
     );

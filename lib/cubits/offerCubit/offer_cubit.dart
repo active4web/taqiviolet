@@ -50,6 +50,7 @@ class OfferCubit extends Cubit<OfferState> {
       print("222222222222222mostafa --------------------------------");
       newOfferModel = NewOfferModel.fromJson(value.data);
       allOfferNew = newOfferModel?.data;
+      print("2222222222222mostafa --------------------------------");
       emit(GetOfferSuccessState2());
     }).catchError((error) {
       emit(GetOfferErrorState2());
@@ -64,8 +65,7 @@ class OfferCubit extends Cubit<OfferState> {
       'lang': kLanguage,
     }).then((value) {
       productOffers = OfferProductsModel.fromJson(value.data);
-      print('ahmed');
-      log(productOffers?.data?[0].hasFavorites.toString()??'');
+      log(value.data.toString());
       emit(GetProductsOfferSuccessState());
     }).catchError((error) {
       log('Error in getting offers products: ${error.toString()}');

@@ -36,7 +36,7 @@ Future<void> showToast({
 }) {
   return Fluttertoast.showToast(
       msg: text,
-      toastLength: Toast.LENGTH_LONG,
+      toastLength: Toast.LENGTH_SHORT,
       gravity: location,
       timeInSecForIosWeb: 5,
       backgroundColor: color,

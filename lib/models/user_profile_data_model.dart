@@ -1,3 +1,6 @@
+import 'package:safsofa/models/my_orders_model.dart';
+import 'package:safsofa/screens/new/financial_reports_screen/models/partner_wating_order_model.dart';
+
 class UserProfileDataModel {
   bool? status;
   dynamic errNum;
@@ -17,7 +20,7 @@ class UserProfileDataModel {
 class Data {
   UserProfile? userProfile;
   dynamic myOrder;
-  LastOrder? lastOrder;
+  MyOrdersData? lastOrder;
   dynamic bonus;
   List<MyList>? myList;
   List<Suggestion>? suggestion;
@@ -36,7 +39,7 @@ class Data {
         : null;
     myOrder = json['MyOrder'];
     lastOrder = json['lastOrder'] != null
-        ? new LastOrder.fromJson(json['lastOrder'])
+        ? new MyOrdersData.fromJson(json['lastOrder'])
         : null;
     bonus = json['bonus'];
     if (json['myList'] != null) {

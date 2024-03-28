@@ -1,8 +1,11 @@
 import 'package:easy_localization/src/public_ext.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:safsofa/cubits/my_orders_cubit.dart';
-import 'package:safsofa/shared/components/custom_app_bar.dart';
+import 'package:safsofa/screens/bottom_navigation_screens/orders_section/search_result_screen.dart';
+import 'package:safsofa/shared/components/custom_app_bar_with_search.dart';
 import 'package:safsofa/shared/constants.dart';
+import 'package:safsofa/shared/defaults.dart';
 
 class MyOrdersScreen extends StatefulWidget {
 
@@ -13,6 +16,11 @@ class MyOrdersScreen extends StatefulWidget {
 class _MyOrdersScreenState extends State<MyOrdersScreen>
     with TickerProviderStateMixin {
   @override
+  void initState() {
+    MyOrdersCubit.get(context).getAllOrders();
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -22,18 +30,27 @@ class _MyOrdersScreenState extends State<MyOrdersScreen>
         vsync: this);
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: CustomAppBar(
+      appBar: CustomAppBarWithSearch(
         title: 'Orders'.tr(),
+        controller: MyOrdersCubit.get(context).searchController,
+        onSaved: (value){
+          MyOrdersCubit.get(context).searchOrder();
+          navigateTo(context, SearchResultScreen());
+        },
       ),
       body: Column(
         children: [
           Container(
             height: height / 15,
-            width: width,
             color: Colors.white,
             child: TabBar(
+              isScrollable: true,
               labelColor: kCustomBlack,
-               isScrollable: true,
+              labelPadding: EdgeInsets.symmetric(horizontal: 10.w),
+              tabAlignment: TabAlignment.start,
+              labelStyle: TextStyle(
+                fontSize: 12.sp
+              ),
               indicatorColor: kCustomBlack,
               unselectedLabelColor: Colors.black,
               controller: _tabController,
@@ -41,9 +58,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen>
             ),
           ),
           Expanded(
-            child: TabBarView(
-              controller: _tabController,
-              children: MyOrdersCubit.get(context).tabBarsContent,
+            child: Container(
+              child: TabBarView(
+                controller: _tabController,
+                children: MyOrdersCubit.get(context).tabBarsContent,
+              ),
             ),
           ),
         ],

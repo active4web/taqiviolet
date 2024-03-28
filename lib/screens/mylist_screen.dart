@@ -68,7 +68,7 @@ class _MyListScreenState extends State<MyListScreen> {
                         Row(children: [
                           Text("myList".tr(),
                               style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                                  fontWeight: FontWeight.bold, fontSize: 16.sp)),
                           Spacer(),
                           TextButton(
                               onPressed: () {
@@ -108,13 +108,13 @@ class _MyListScreenState extends State<MyListScreen> {
                                                     controller:
                                                         _textEditingController,
                                                     decoration:
-                                                        const InputDecoration(
+                                                         InputDecoration(
                                                       border: OutlineInputBorder(
                                                           //Outline border type for TextFeild
                                                           borderRadius:
                                                               BorderRadius.all(
                                                                   Radius.circular(
-                                                                      20)),
+                                                                      20.r)),
                                                           borderSide: BorderSide(
                                                             color:
                                                                 Colors.redAccent,
@@ -131,7 +131,9 @@ class _MyListScreenState extends State<MyListScreen> {
                                                       "استخدم القوائم لحفظ المنتجات لاحقا جميع القوائم خاصة الا اذا قمت بمشاركتها مع الاخرين"),
                                                 ),
                                                 ElevatedButton(
-                                                  child: const Text('انشي قائمة'),
+                                                  child:  Text('انشي قائمة',style: TextStyle(
+                                                    fontSize: 10.sp
+                                                  ),),
                                                   onPressed: () {
                                                     cubit.postlistsData(
                                                         listName:
@@ -160,11 +162,11 @@ class _MyListScreenState extends State<MyListScreen> {
                                   Text("createList".tr(),
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
+                                          fontSize: 12.sp)),
                                   Text(" +",
                                       style: TextStyle(
                                           fontWeight: FontWeight.bold,
-                                          fontSize: 16)),
+                                          fontSize: 12.sp)),
                                 ],
                               )),
                         ]),
@@ -174,7 +176,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                     border: Border.all(
                                         color: Colors.grey.shade300)),
                                 child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
+                                  padding:  EdgeInsets.all(8.r),
                                   child: Column(
                                     children: [
                                       Row(
@@ -184,18 +186,18 @@ class _MyListScreenState extends State<MyListScreen> {
                                             color: Colors.blue,
                                           ),
                                           SizedBox(
-                                            width: 2,
+                                            width: 2.w,
                                           ),
                                           Text(
                                             "introList".tr(),
                                             style: TextStyle(
-                                              fontSize: 14.sp,
+                                              fontSize: 12.sp,
                                               fontWeight: FontWeight.bold,
                                               color: Colors.blue,
                                             ),
                                           ),
                                           SizedBox(
-                                            width: 3,
+                                            width: 3.w,
                                           ),
                                           Container(
                                               decoration: BoxDecoration(
@@ -204,13 +206,13 @@ class _MyListScreenState extends State<MyListScreen> {
                                               ),
                                               child: Padding(
                                                 padding: EdgeInsets.symmetric(
-                                                  horizontal: 5,
+                                                  horizontal: 5.w,
                                                 ),
                                                 child: Text(
                                                   'new'.tr(),
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15,
+                                                    fontSize: 12.sp,
                                                     fontWeight: FontWeight.w300,
                                                   ),
                                                 ),
@@ -228,6 +230,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                             icon: Icon(
                                               Icons.close,
                                               color: Colors.black,
+
                                             ),
                                           ),
                                         ],
@@ -238,7 +241,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                       Text(
                                         'introductionList'.tr(),
                                         style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: 9.sp,
                                           fontWeight: FontWeight.w200,
                                         ),
                                       ),
@@ -250,7 +253,7 @@ class _MyListScreenState extends State<MyListScreen> {
                         SizedBox(
                           height: 10,
                         ),
-                        cubit.listsModel?.data?.list?.isNotEmpty??cubit.listsModel?.data?.list!=null?
+                        cubit.listsModel!.data!.list!.isNotEmpty?
                         ListView.separated(
                           shrinkWrap: true,
                           physics: BouncingScrollPhysics(),
@@ -272,7 +275,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                           cubit.listsModel!.data!.list![index].listName.toString(),
                                           style: TextStyle(
                                             color: Colors.black,
-                                            fontSize: 15,
+                                            fontSize: 11.sp,
                                             fontWeight: FontWeight.bold,
                                           ),
                                           textAlign: TextAlign.start),
@@ -282,7 +285,7 @@ class _MyListScreenState extends State<MyListScreen> {
                                       cubit.deleteRosterlistsData(
                                        id: cubit.listsModel!.data!.list![index].listId
                                       );
-                                    }, icon: Icon(Icons.delete))
+                                    }, icon: Icon(Icons.delete,size: 12.w,))
                                   ],
                                 ),
                                 SizedBox(

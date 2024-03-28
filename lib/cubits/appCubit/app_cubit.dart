@@ -65,10 +65,11 @@ class AppCubit extends Cubit<AppStates> {
   ];
   Future<void>sendCurrentLocation({required double? latitude,required double? longitude})async{
     final response=await Mhelper.postData(url: 'api/user-coordinate',data: {
-      "firebase_token":CacheHelper.getData('FCM'),
+      "firebase_token": await CacheHelper.getData('FCM'),
       "latitude":latitude,
       "longitude":longitude
-    });
+    },
+    token:await CacheHelper.getData("token"));
     if(response.statusCode==200){
       print("sssssssssssssssssssssss");
     }else{
@@ -84,10 +85,12 @@ class AppCubit extends Cubit<AppStates> {
   OffersModel? offer;
   Future<void>getOffers()async{
     emit(CheckOfferLoadingState());
-    final response=await Mhelper.getData(url: 'api/checkoffer');
+    final response=await Mhelper.getData(url: 'api/checkoffer',query: {
+      "lang":kLanguage
+    });
     if(response.data['status']){
       offer=OffersModel.fromJson(response.data);
-      print("hhhhhhhhhhhhhhhhhh ${offer?.data?.promoCodeName??''}");
+      // print("hhhhhhhhhhhhhhhhhh ${offer?.data?.promoCodeName??''}");
       emit(CheckOfferSuccessState());
 
     }else{
@@ -152,21 +155,11 @@ Future<void>getHomeServices()async{
     if (loading) {
       emit(GetAccountDataLoadingState());
     }
-    print('555555555551111');
     Mhelper.getData(
         url: userProfileDataURL,
-        token: kToken,
+        token: CacheHelper.getData('token'),
         query: {'lang': kLanguage}).then((value) {
-      log('55555555555 ${value.data['lastOrder']}');
-      log('55555555555 ${myAccountData?.data?.lastOrder}');
-
       myAccountData = UserProfileDataModel.fromJson(value.data);
-      print(myAccountData?.data?.bonus);
-      print("mostafa");
-/*      print(myAccountData?.data?.myOrder);
-      print("LastOrder ${myAccountData?.data?.lastOrder?.createdAt.toString().substring(0,11)}");*/
-      // print(myAccountData?.data?.userProfile);
-      print('55555555555');
       emit(GetAccountDataSuccessState());
     }).catchError((error) {
       log('Error on loading account data:: ${error.toString()}');
@@ -417,10 +410,10 @@ Future<void>getHomeServices()async{
         token: CacheHelper.getData("token"),
         query: {"product_id": productId, 'lang': kLanguage}).then((value) {
 
+          print("dsataaaa: ${value.data}");
       productDetailsModel = MyProductsDetailsModel.fromJson(value.data);
       images=productDetailsModel?.data?.productDetails?[0].images;
-       print("4444   ${productDetailsModel}");
-      print(productDetailsModel?.data?.productDetails?[0].hasFavorites);
+      // print("4444   ${productDetailsModel}");
       // if (value.data["status"] == true) {
       //
       //
@@ -572,7 +565,9 @@ Future<void>getHomeServices()async{
 
   void gethomeMainOfferData() {
     emit(HomeMainCatLoading());
-    Mhelper.getData(url: offersEndpoint).then((value) {
+    Mhelper.getData(url: offersEndpoint,query: {
+    "lang":kLanguage
+    }).then((value) {
       offerModel = OfferModel.fromJson(value.data);
       // offerDataList = offerModel.data;
       emit(HomeMainCatSuccess());
@@ -1100,4 +1095,14 @@ Future<void>getHomeServices()async{
       emit(GetRecommendedErrorState());
     }
   }
+  
+  // Future<void>  checkUserAuthState()async{
+  //   final response=await Mhelper.postData(url: "api/user-coordinate",
+  //   data: {
+  //     'firebase_token':await CacheHelper.getData("FCM"),
+  //     "latitude":""
+  //   });
+  // }
+  
+  
 }

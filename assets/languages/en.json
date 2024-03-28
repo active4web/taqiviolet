@@ -150,7 +150,7 @@
   "priceWithTheSmartControlFeature": "Price with smart control feature:",
   "chooseTheSmartControlFeature": "Choose the smart control feature",
   "emptyCart": "Empty cart",
-  "SAR": "SR",
+  "SAR": "SAR",
   "shoppingCart": "Shopping Cart",
   "chooseAFile": "Choose a file",
   "fieldNameAndPhoneAreRequired": "Field name and phone are required",
@@ -352,7 +352,33 @@
   "noOffer": "No Offers now",
   "orderRate": "order rate successfull",
   "thisFieldIsRequired": "this field is required",
-  "phoneValidation": "the phone shoud start 966"
+  "phoneValidation": "the phone shoud start 966",
+  "dontHaveComments": "Non ci sono commenti su questo prodotto",
+  "changePassword": "Change password",
+  "sendVerifyCodeVia": "Request to send verification code via?",
+  "whatsapp": "Whatsapp",
+  "codeSent": "The code has been sent",
+  "atLeast6Char": "The password must be at least 6 characters.",
+  "updateTitle": "New Update",
+  "updateDescription": "You must update the application to enjoy the new features.",
+  "update": "Update",
+  "applePay": "Apple Pay",
+  "previous": "Previous",
+  "searchResult": "Search Result",
+  "orderTotal": "Order total",
+  "productsNumber": "Products number",
+  "orderDate": "Order date",
+  "confirm": "Confirm",
+  "noteTabby": "The transfer will be made on the website to follow the payment process through the Tabby service.",
+  "note": "Note",
+  "tabby": "Tabby",
+  "creditCard": "Credit card",
+  "selectPayment": "You must specify a payment method"
+
+
+
+
+
 
 
 

@@ -72,7 +72,6 @@ class OffersScreen extends StatelessWidget {
                         VerticalProductCard(
                           onclick: () {
                             log("000000000000000000000000");
-
                             log("000000000000000000000000  ${cubit.allOfferNew![index].id}");
                             appCubit.getProductDetails(
                               productId: cubit.allOfferNew![index].id,

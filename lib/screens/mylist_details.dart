@@ -32,8 +32,7 @@ class MyListDetailsScreen extends StatelessWidget {
             body: ConditionalBuilder(
               condition: state is! DetailsListLoadingState,
               builder: (context) => cubit
-                      .detailsMyListModel?.data?.listProducts?.isNotEmpty??cubit
-                  .detailsMyListModel?.data?.listProducts!=null
+                      .detailsMyListModel!.data!.listProducts!.isNotEmpty
                   ? ListView.builder(
                       physics: BouncingScrollPhysics(),
                       itemCount:
@@ -84,9 +83,12 @@ class MyListDetailsScreen extends StatelessWidget {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                    "${cubit.detailsMyListModel!.data!.listProducts![index].name}"),
+                                                    "${cubit.detailsMyListModel!.data!.listProducts![index].name}",
+                                                style: TextStyle(
+                                                  fontSize: 9.sp
+                                                ),),
                                                 SizedBox(
-                                                  height: 3,
+                                                  height: 3.h,
                                                 ),
 
                                                 Row(
@@ -95,7 +97,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                       '${cubit.detailsMyListModel!.data!.listProducts![index].currentPrice}',
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 15,
+                                                          fontSize: 11.sp,
                                                           fontWeight:
                                                               FontWeight.bold),
                                                     ),
@@ -110,7 +112,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                         '${cubit.detailsMyListModel!.data!.listProducts![index].oldPrice} ',
                                                         style: TextStyle(
                                                           color: Colors.grey,
-                                                          fontSize: 15,
+                                                          fontSize: 10.sp,
                                                           decoration:
                                                               TextDecoration
                                                                   .lineThrough,
@@ -120,7 +122,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                       '${"rS".tr()} ',
                                                       style: TextStyle(
                                                           color: Colors.black,
-                                                          fontSize: 15,
+                                                          fontSize: 9.sp,
                                                           fontWeight:
                                                           FontWeight.bold),
                                                     ),
@@ -198,7 +200,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                         'outOfStock'.tr(),
                                                         style: TextStyle(
                                                             color: Colors.green,
-                                                            fontSize: 17,
+                                                            fontSize: 12.sp,
                                                             fontWeight:
                                                                 FontWeight.w300),
                                                       )
@@ -225,7 +227,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                             style: TextStyle(
                                                                 color:
                                                                     Colors.red,
-                                                                fontSize: 16)),
+                                                                fontSize: 11.w)),
                                                       ),
                                                       Spacer(),
                                                       TextButton(
@@ -247,7 +249,7 @@ class MyListDetailsScreen extends StatelessWidget {
                                                             style: TextStyle(
                                                                 color:
                                                                     Colors.blue,
-                                                                fontSize: 16)),
+                                                                fontSize: 9.sp)),
                                                       ),
                                                     ]),
                                               ],
@@ -279,7 +281,7 @@ class MyListDetailsScreen extends StatelessWidget {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black87,
-                              fontSize: MediaQuery.of(context).size.width / 22,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w400,
                             ),
                           ),

@@ -7,10 +7,10 @@ class GeolocatorService {
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
       if (permission == LocationPermission.deniedForever) {
-        return null;
+        permission = await Geolocator.requestPermission();
       }
     }else{
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
     return null;}
 }

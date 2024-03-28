@@ -26,14 +26,14 @@ class AssignmentScreen extends StatelessWidget {
             listener: (context, state) {},
             builder: (context, state) {
               var assignmentCubit = AssignmentCubit.get(context);
-              total(int index){
-                return (assignmentCubit.assignmentModel!.data![index].productCurrentPrice!)+(assignmentCubit.assignmentModel!.data![index].insurance!)
-                +(assignmentCubit.assignmentModel!.data![index].tax!)+(assignmentCubit.assignmentModel!.data![index].profitProduct!);
-              }
-              profit(int index){
-                return total(index)-((assignmentCubit.assignmentModel!.data![index].developement!)+(assignmentCubit.assignmentModel!.data![index].advertising!)
-                    +(assignmentCubit.assignmentModel!.data![index].zakat!)+(assignmentCubit.assignmentModel!.data![index].visaPercentage!));
-              }
+              // total(int index){
+              //   return (assignmentCubit.assignmentModel!.data![index].productCurrentPrice!)+(assignmentCubit.assignmentModel!.data![index].insurance!)
+              //   +(assignmentCubit.assignmentModel!.data![index].tax!)+(assignmentCubit.assignmentModel!.data![index].profitProduct!);
+              // }
+              // profit(int index){
+              //   return total(index)-((assignmentCubit.assignmentModel!.data![index].developement!)+(assignmentCubit.assignmentModel!.data![index].advertising!)
+              //       +(assignmentCubit.assignmentModel!.data![index].zakat!)+(assignmentCubit.assignmentModel!.data![index].visaPercentage!));
+              // }
               return assignmentCubit.assignmentModel == null
                   ? CustomCircularProgress()
                   : Padding(
@@ -42,51 +42,41 @@ class AssignmentScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        padding: EdgeInsetsDirectional.only(end: 20.w,start: 10.w),
                         child: Row(
                           mainAxisAlignment:
                           MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               "theName".tr(),
-                              style: TextStyle(fontSize: 10),
+                              style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(width: 10,),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 30.0.w),
-                              child: Text(
-                                "price".tr(),
-                                style: TextStyle(fontSize: 10.sp),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                              child: Text(
-                                "image".tr(),
-                                style: TextStyle(fontSize: 10.sp),
-                              ),
+                            SizedBox(),
+                            Text(
+                              "price".tr(),
+                              style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                             ),
                             Text(
                               "More".tr(),
-                              style: TextStyle(fontSize: 10.sp),
+                              style: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.bold),
                             ),
                           ],
                         ),
                       ),
+                      Divider(),
                       SizedBox(
                         height: 4,
                       ),
                       Table(
                         columnWidths: {
-                          0: FlexColumnWidth(40.w),
-                          1: FlexColumnWidth(25.w),
-                          2: FlexColumnWidth(30.w),
-                          3: FlexColumnWidth(15.w),
+                          0: FlexColumnWidth(60.w),
+                          1: FlexColumnWidth(30.w),
+                          2: FlexColumnWidth(20.w),
                         },
                         defaultVerticalAlignment:
                         TableCellVerticalAlignment.middle,
-                        border: TableBorder.symmetric(inside: BorderSide(
-                            color: kCustomBlack)),
+                        // border: TableBorder.symmetric(inside: BorderSide(
+                        //     color: kCustomBlack)),
 
                         children: List.generate(
                           assignmentCubit.assignmentModel?.data?.length ??
@@ -97,7 +87,7 @@ class AssignmentScreen extends StatelessWidget {
                               (index) =>
                               TableRow(
                                 decoration: BoxDecoration(
-                                    color: Colors.white),
+                                    color:index%2==0? Colors.grey.shade300:Colors.white),
                                 children: [
                                   Padding(
                                     padding: EdgeInsets.only(right: 8.0.w),
@@ -105,7 +95,7 @@ class AssignmentScreen extends StatelessWidget {
                                       assignmentCubit.assignmentModel
                                           ?.data?[index].productName ??
                                           '',
-                                      style: TextStyle(fontSize: 10.sp),
+                                      style: TextStyle(fontSize: 8.sp),
                                     ),
                                   ),
                                   Padding(
@@ -115,26 +105,7 @@ class AssignmentScreen extends StatelessWidget {
                                           ?.data?[index].productCurrentPrice
                                           .toString() ??
                                           '',
-                                      style: TextStyle(fontSize: 10.sp),
-                                    ),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      navigateTo(
-                                          context,
-                                          ImageScreen(
-                                              image: assignmentCubit
-                                                  .assignmentModel
-                                                  ?.data?[index]
-                                                  .image ??
-                                                  ''));
-                                    },
-                                    child: Image.network(
-                                      assignmentCubit.assignmentModel
-                                          ?.data?[index].image ??
-                                          '',
-                                      height: 30.h,
-                                      width: 30.w,
+                                      style: TextStyle(fontSize: 8.sp),
                                     ),
                                   ),
                                   InkWell(
@@ -236,18 +207,15 @@ class AssignmentScreen extends StatelessWidget {
                                                         ),
                                                          CustomItemDialog(
                                                           label:'الاجمالي',
-                                                          price:total(index).toString()
+                                                          price:assignmentCubit.assignmentModel?.data?[index].total.toString()??''
                                                         ),
 
                                                         Divider(),
                                                         Text('الخصومات:'),
+
                                                         CustomItemDialog(
-                                                            label:'نسبة التطوير',
-                                                            price: assignmentCubit.assignmentModel?.data?[index].developement.toString()??''
-                                                        ),
-                                                        CustomItemDialog(
-                                                            label:'نسبة الدعايا',
-                                                            price: assignmentCubit.assignmentModel?.data?[index].advertising.toString()??''
+                                                            label:' نسبة الدعايا والتطوير',
+                                                            price: assignmentCubit.assignmentModel?.data?[index].advertisingAndDevelopment.toString()??''
                                                         ),
                                                         CustomItemDialog(
                                                             label:'نسبة الزكاه',
@@ -261,7 +229,7 @@ class AssignmentScreen extends StatelessWidget {
                                                         Divider(),
                                                         CustomItemDialog(
                                                             label:'ًصافي الربح',
-                                                            price: profit(index).toString()
+                                                            price: assignmentCubit.assignmentModel?.data?[index].netProfit.toString()??'0'
                                                         ),
                                                       ],
                                                     ),
